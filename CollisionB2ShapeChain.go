@@ -7,7 +7,7 @@ package box2d
 /// Connectivity information is used to create smooth collisions.
 /// WARNING: The chain will not collide properly if there are self-intersections.
 
-/// A circle shape.
+// A circle shape.
 type B2ChainShape struct {
 	B2Shape
 
@@ -69,9 +69,7 @@ func (chain *B2ChainShape) CreateLoop(vertices []B2Vec2, count int) {
 
 	chain.M_count = count + 1
 	chain.M_vertices = make([]B2Vec2, chain.M_count)
-	for i, vertice := range vertices {
-		chain.M_vertices[i] = vertice
-	}
+	copy(chain.M_vertices, vertices)
 
 	chain.M_vertices[count] = chain.M_vertices[0]
 	chain.M_prevVertex = chain.M_vertices[chain.M_count-2]
@@ -90,9 +88,7 @@ func (chain *B2ChainShape) CreateChain(vertices []B2Vec2, count int) {
 
 	chain.M_count = count
 	chain.M_vertices = make([]B2Vec2, count)
-	for i, vertice := range vertices {
-		chain.M_vertices[i] = vertice
-	}
+	copy(chain.M_vertices, vertices)
 
 	chain.M_hasPrevVertex = false
 	chain.M_hasNextVertex = false

@@ -49,13 +49,9 @@ func (poly B2PolygonShape) Clone() B2ShapeInterface {
 	clone.M_centroid = poly.M_centroid
 	clone.M_count = poly.M_count
 
-	for i := range poly.M_vertices {
-		clone.M_vertices[i] = poly.M_vertices[i]
-	}
-
-	for i := range poly.M_normals {
-		clone.M_normals[i] = poly.M_normals[i]
-	}
+	// These are arrays, not slices so we can safely copy via assigment.
+	clone.M_vertices = poly.M_vertices
+	clone.M_normals = poly.M_normals
 
 	return clone
 }

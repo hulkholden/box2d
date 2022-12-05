@@ -2,8 +2,8 @@ package box2d
 
 import "time"
 
-/// Timer for profiling. This has platform specific code and may
-/// not work on every platform.
+// Timer for profiling. This has platform specific code and may
+// not work on every platform.
 type B2Timer struct {
 	m_start time.Time
 }
@@ -27,5 +27,5 @@ func (timer *B2Timer) Reset() {
 }
 
 func (timer B2Timer) GetMilliseconds() float64 {
-	return time.Now().Sub(timer.m_start).Seconds() * 1000
+	return time.Since(timer.m_start).Seconds() * 1000
 }

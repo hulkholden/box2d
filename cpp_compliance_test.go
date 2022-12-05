@@ -240,7 +240,7 @@ func TestCPPCompliance(t *testing.T) {
 	output := ""
 
 	characterNames := make([]string, 0)
-	for k, _ := range characters {
+	for k := range characters {
 		characterNames = append(characterNames, k)
 	}
 

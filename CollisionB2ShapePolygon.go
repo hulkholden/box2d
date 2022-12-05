@@ -49,11 +49,11 @@ func (poly B2PolygonShape) Clone() B2ShapeInterface {
 	clone.M_centroid = poly.M_centroid
 	clone.M_count = poly.M_count
 
-	for i, _ := range poly.M_vertices {
+	for i := range poly.M_vertices {
 		clone.M_vertices[i] = poly.M_vertices[i]
 	}
 
-	for i, _ := range poly.M_normals {
+	for i := range poly.M_normals {
 		clone.M_normals[i] = poly.M_normals[i]
 	}
 

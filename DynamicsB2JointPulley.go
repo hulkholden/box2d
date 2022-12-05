@@ -5,10 +5,10 @@ import (
 	"math"
 )
 
-const b2_minPulleyLength = 2.0
+const B2MinPulleyLength = 2.0
 
-/// Pulley joint definition. This requires two ground anchors,
-/// two dynamic body anchor points, and a pulley ratio.
+// Pulley joint definition. This requires two ground anchors,
+// two dynamic body anchor points, and a pulley ratio.
 type B2PulleyJointDef struct {
 	B2JointDef
 
@@ -52,14 +52,14 @@ func MakeB2PulleyJointDef() B2PulleyJointDef {
 	return res
 }
 
-/// The pulley joint is connected to two bodies and two fixed ground points.
-/// The pulley supports a ratio such that:
-/// length1 + ratio * length2 <= constant
-/// Yes, the force transmitted is scaled by the ratio.
-/// Warning: the pulley joint can get a bit squirrelly by itself. They often
-/// work better when combined with prismatic joints. You should also cover the
-/// the anchor points with static shapes to prevent one side from going to
-/// zero length.
+// The pulley joint is connected to two bodies and two fixed ground points.
+// The pulley supports a ratio such that:
+// length1 + ratio * length2 <= constant
+// Yes, the force transmitted is scaled by the ratio.
+// Warning: the pulley joint can get a bit squirrelly by itself. They often
+// work better when combined with prismatic joints. You should also cover the
+// the anchor points with static shapes to prevent one side from going to
+// zero length.
 type B2PulleyJoint struct {
 	*B2Joint
 

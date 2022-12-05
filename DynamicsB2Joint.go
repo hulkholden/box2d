@@ -46,11 +46,11 @@ type B2Jacobian struct {
 	AngularB float64
 }
 
-/// A joint edge is used to connect bodies and joints together
-/// in a joint graph where each body is a node and each joint
-/// is an edge. A joint edge belongs to a doubly linked list
-/// maintained in each attached body. Each joint has two joint
-/// nodes, one for each attached body.
+// A joint edge is used to connect bodies and joints together
+// in a joint graph where each body is a node and each joint
+// is an edge. A joint edge belongs to a doubly linked list
+// maintained in each attached body. Each joint has two joint
+// nodes, one for each attached body.
 type B2JointEdge struct {
 	Other *B2Body          ///< provides quick access to the other body attached.
 	Joint B2JointInterface ///< the joint; backed by pointer
@@ -58,7 +58,7 @@ type B2JointEdge struct {
 	Next  *B2JointEdge     ///< the next joint edge in the body's joint list
 }
 
-/// Joint definitions are used to construct joints.
+// Joint definitions are used to construct joints.
 type B2JointDef struct {
 
 	/// The joint type is set automatically for concrete joint types.
@@ -142,8 +142,8 @@ func MakeB2JointDef() B2JointDef {
 	return res
 }
 
-/// The base joint class. Joints are used to constraint two bodies together in
-/// various fashions. Some joints also feature limits and motors.
+// The base joint class. Joints are used to constraint two bodies together in
+// various fashions. Some joints also feature limits and motors.
 type B2Joint struct {
 	M_type             uint8
 	M_prev             B2JointInterface // has to be backed by pointer
@@ -158,17 +158,17 @@ type B2Joint struct {
 	M_userData         interface{}
 }
 
-/// Dump this joint to the log file.
+// Dump this joint to the log file.
 func (j B2Joint) Dump() {}
 
-/// Shift the origin for any points stored in world coordinates.
+// Shift the origin for any points stored in world coordinates.
 func (j B2Joint) ShiftOrigin(newOrigin B2Vec2) {}
 
 func (j B2Joint) GetType() uint8 {
 	return j.M_type
 }
 
-//@goadd
+// @goadd
 func (j *B2Joint) SetType(t uint8) {
 	j.M_type = t
 }
@@ -177,7 +177,7 @@ func (j B2Joint) GetBodyA() *B2Body {
 	return j.M_bodyA
 }
 
-//@goadd
+// @goadd
 func (j *B2Joint) SetBodyA(body *B2Body) {
 	j.M_bodyA = body
 }
@@ -186,7 +186,7 @@ func (j B2Joint) GetBodyB() *B2Body {
 	return j.M_bodyB
 }
 
-//@goadd
+// @goadd
 func (j *B2Joint) SetBodyB(body *B2Body) {
 	j.M_bodyB = body
 }
@@ -195,7 +195,7 @@ func (j B2Joint) GetNext() B2JointInterface { // returns pointer
 	return j.M_next
 }
 
-//@goadd
+// @goadd
 func (j *B2Joint) SetNext(next B2JointInterface) { // has to be backed by pointer
 	j.M_next = next
 }
@@ -204,7 +204,7 @@ func (j B2Joint) GetPrev() B2JointInterface { // returns pointer
 	return j.M_prev
 }
 
-//@goadd
+// @goadd
 func (j *B2Joint) SetPrev(prev B2JointInterface) { // prev has to be backed by pointer
 	j.M_prev = prev
 }
@@ -221,27 +221,27 @@ func (j B2Joint) IsCollideConnected() bool {
 	return j.M_collideConnected
 }
 
-//@goadd
+// @goadd
 func (j *B2Joint) SetCollideConnected(flag bool) {
 	j.M_collideConnected = flag
 }
 
-//@goadd
+// @goadd
 func (j B2Joint) GetEdgeA() *B2JointEdge {
 	return j.M_edgeA
 }
 
-//@goadd
+// @goadd
 func (j *B2Joint) SetEdgeA(edge *B2JointEdge) {
 	j.M_edgeA = edge
 }
 
-//@goadd
+// @goadd
 func (j B2Joint) GetEdgeB() *B2JointEdge {
 	return j.M_edgeB
 }
 
-//@goadd
+// @goadd
 func (j *B2Joint) SetEdgeB(edge *B2JointEdge) {
 	j.M_edgeB = edge
 }
@@ -252,107 +252,73 @@ func B2JointCreate(def B2JointDefInterface) B2JointInterface { // def should be 
 
 	switch def.GetType() {
 	case B2JointType.E_distanceJoint:
-		{
-			if typeddef, ok := def.(*B2DistanceJointDef); ok {
-				return MakeB2DistanceJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2DistanceJointDef); ok {
+			return MakeB2DistanceJoint(typeddef)
 		}
+		B2Assert(false)
 
 	case B2JointType.E_mouseJoint:
-		{
-			if typeddef, ok := def.(*B2MouseJointDef); ok {
-				return MakeB2MouseJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2MouseJointDef); ok {
+			return MakeB2MouseJoint(typeddef)
 		}
+		B2Assert(false)
 
 	case B2JointType.E_prismaticJoint:
-		{
-			if typeddef, ok := def.(*B2PrismaticJointDef); ok {
-				return MakeB2PrismaticJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2PrismaticJointDef); ok {
+			return MakeB2PrismaticJoint(typeddef)
 		}
+		B2Assert(false)
 
 	case B2JointType.E_revoluteJoint:
-		{
-			if typeddef, ok := def.(*B2RevoluteJointDef); ok {
-				return MakeB2RevoluteJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2RevoluteJointDef); ok {
+			return MakeB2RevoluteJoint(typeddef)
 		}
+		B2Assert(false)
 
 	case B2JointType.E_pulleyJoint:
-		{
-			if typeddef, ok := def.(*B2PulleyJointDef); ok {
-				return MakeB2PulleyJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2PulleyJointDef); ok {
+			return MakeB2PulleyJoint(typeddef)
 		}
+		B2Assert(false)
 
 	case B2JointType.E_gearJoint:
-		{
-			if typeddef, ok := def.(*B2GearJointDef); ok {
-				return MakeB2GearJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2GearJointDef); ok {
+			return MakeB2GearJoint(typeddef)
 		}
+		B2Assert(false)
 
 	case B2JointType.E_wheelJoint:
-		{
-			if typeddef, ok := def.(*B2WheelJointDef); ok {
-				return MakeB2WheelJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2WheelJointDef); ok {
+			return MakeB2WheelJoint(typeddef)
 		}
+		B2Assert(false)
 
 	case B2JointType.E_weldJoint:
-		{
-			if typeddef, ok := def.(*B2WeldJointDef); ok {
-				return MakeB2WeldJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2WeldJointDef); ok {
+			return MakeB2WeldJoint(typeddef)
 		}
+		B2Assert(false)
 
 	case B2JointType.E_frictionJoint:
-		{
-			if typeddef, ok := def.(*B2FrictionJointDef); ok {
-				return MakeB2FrictionJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2FrictionJointDef); ok {
+			return MakeB2FrictionJoint(typeddef)
 		}
+		B2Assert(false)
 
 	case B2JointType.E_ropeJoint:
-		{
-			if typeddef, ok := def.(*B2RopeJointDef); ok {
-				return MakeB2RopeJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2RopeJointDef); ok {
+			return MakeB2RopeJoint(typeddef)
 		}
+		B2Assert(false)
 
 	case B2JointType.E_motorJoint:
-		{
-			if typeddef, ok := def.(*B2MotorJointDef); ok {
-				return MakeB2MotorJoint(typeddef)
-			}
-
-			B2Assert(false)
+		if typeddef, ok := def.(*B2MotorJointDef); ok {
+			return MakeB2MotorJoint(typeddef)
 		}
+		B2Assert(false)
 
 	default:
 		B2Assert(false)
-		break
 	}
 
 	return joint
@@ -387,12 +353,12 @@ func (j B2Joint) IsActive() bool {
 	return j.M_bodyA.IsActive() && j.M_bodyB.IsActive()
 }
 
-//@goadd
+// @goadd
 func (j *B2Joint) Destroy() {
 
 }
 
-//@goadd
+// @goadd
 func (j B2Joint) GetIndex() int {
 	return j.M_index
 }

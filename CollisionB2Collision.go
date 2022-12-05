@@ -22,8 +22,8 @@ var B2ContactFeature_Type = struct {
 	E_face:   1,
 }
 
-/// The features that intersect to form the contact point
-/// This must be 4 bytes or less.
+// The features that intersect to form the contact point
+// This must be 4 bytes or less.
 type B2ContactFeature struct {
 	IndexA uint8 ///< Feature index on shapeA
 	IndexB uint8 ///< Feature index on shapeB
@@ -37,8 +37,8 @@ func MakeB2ContactFeature() B2ContactFeature {
 
 type B2ContactID B2ContactFeature
 
-/// Contact ids to facilitate warm starting.
-///< Used to quickly compare contact ids.
+// Contact ids to facilitate warm starting.
+// < Used to quickly compare contact ids.
 func (v B2ContactID) Key() uint32 {
 	var key uint32 = 0
 	key |= uint32(v.IndexA)
@@ -55,16 +55,16 @@ func (v *B2ContactID) SetKey(key uint32) {
 	(*v).TypeB = byte(key >> 24 & 0xFF)
 }
 
-/// A manifold point is a contact point belonging to a contact
-/// manifold. It holds details related to the geometry and dynamics
-/// of the contact points.
-/// The local point usage depends on the manifold type:
-/// -e_circles: the local center of circleB
-/// -e_faceA: the local center of cirlceB or the clip point of polygonB
-/// -e_faceB: the clip point of polygonA
-/// This structure is stored across time steps, so we keep it small.
-/// Note: the impulses are used for internal caching and may not
-/// provide reliable contact forces, especially for high speed collisions.
+// A manifold point is a contact point belonging to a contact
+// manifold. It holds details related to the geometry and dynamics
+// of the contact points.
+// The local point usage depends on the manifold type:
+// -e_circles: the local center of circleB
+// -e_faceA: the local center of cirlceB or the clip point of polygonB
+// -e_faceB: the clip point of polygonA
+// This structure is stored across time steps, so we keep it small.
+// Note: the impulses are used for internal caching and may not
+// provide reliable contact forces, especially for high speed collisions.
 type B2ManifoldPoint struct {
 	LocalPoint     B2Vec2      ///< usage depends on manifold type
 	NormalImpulse  float64     ///< the non-penetration impulse
@@ -111,7 +111,7 @@ func NewB2Manifold() *B2Manifold {
 	return &B2Manifold{}
 }
 
-/// This is used to compute the current state of a contact manifold.
+// This is used to compute the current state of a contact manifold.
 type B2WorldManifold struct {
 	Normal      B2Vec2                        ///< world vector pointing from A to B
 	Points      [B2_maxManifoldPoints]B2Vec2  ///< world contact point (point of intersection)
@@ -134,13 +134,13 @@ var B2PointState = struct {
 	B2_removeState:  3,
 }
 
-/// Used for computing contact manifolds.
+// Used for computing contact manifolds.
 type B2ClipVertex struct {
 	V  B2Vec2
 	Id B2ContactID
 }
 
-/// Ray-cast input data. The ray extends from p1 to p1 + maxFraction * (p2 - p1).
+// Ray-cast input data. The ray extends from p1 to p1 + maxFraction * (p2 - p1).
 type B2RayCastInput struct {
 	P1, P2      B2Vec2
 	MaxFraction float64
@@ -159,8 +159,8 @@ func NewB2RayCastInput() *B2RayCastInput {
 	return &res
 }
 
-/// Ray-cast output data. The ray hits at p1 + fraction * (p2 - p1), where p1 and p2
-/// come from b2RayCastInput.
+// Ray-cast output data. The ray hits at p1 + fraction * (p2 - p1), where p1 and p2
+// come from b2RayCastInput.
 type B2RayCastOutput struct {
 	Normal   B2Vec2
 	Fraction float64
@@ -173,7 +173,7 @@ func MakeB2RayCastOutput() B2RayCastOutput {
 	}
 }
 
-/// An axis aligned bounding box.
+// An axis aligned bounding box.
 type B2AABB struct {
 	LowerBound B2Vec2 ///< the lower vertex
 	UpperBound B2Vec2 ///< the upper vertex
@@ -191,7 +191,7 @@ func NewB2AABB() *B2AABB {
 	return &res
 }
 
-/// Get the center of the AABB.
+// Get the center of the AABB.
 func (bb B2AABB) GetCenter() B2Vec2 {
 	return B2Vec2MulScalar(
 		0.5,
@@ -199,7 +199,7 @@ func (bb B2AABB) GetCenter() B2Vec2 {
 	)
 }
 
-/// Get the extents of the AABB (half-widths).
+// Get the extents of the AABB (half-widths).
 func (bb B2AABB) GetExtents() B2Vec2 {
 	return B2Vec2MulScalar(
 		0.5,
@@ -207,26 +207,26 @@ func (bb B2AABB) GetExtents() B2Vec2 {
 	)
 }
 
-/// Get the perimeter length
+// Get the perimeter length
 func (bb B2AABB) GetPerimeter() float64 {
 	wx := bb.UpperBound.X - bb.LowerBound.X
 	wy := bb.UpperBound.Y - bb.LowerBound.Y
 	return 2.0 * (wx + wy)
 }
 
-/// Combine an AABB into this one.
+// Combine an AABB into this one.
 func (bb *B2AABB) CombineInPlace(aabb B2AABB) {
 	bb.LowerBound = B2Vec2Min(bb.LowerBound, aabb.LowerBound)
 	bb.UpperBound = B2Vec2Max(bb.UpperBound, aabb.UpperBound)
 }
 
-/// Combine two AABBs into this one.
+// Combine two AABBs into this one.
 func (bb *B2AABB) CombineTwoInPlace(aabb1, aabb2 B2AABB) {
 	bb.LowerBound = B2Vec2Min(aabb1.LowerBound, aabb2.LowerBound)
 	bb.UpperBound = B2Vec2Max(aabb1.UpperBound, aabb2.UpperBound)
 }
 
-/// Does this aabb contain the provided AABB.
+// Does this aabb contain the provided AABB.
 func (bb B2AABB) Contains(aabb B2AABB) bool {
 
 	return (bb.LowerBound.X <= aabb.LowerBound.X &&
@@ -296,7 +296,6 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 			wm.Points[0] = B2Vec2MulScalar(0.5, B2Vec2Add(cA, cB))
 			wm.Separations[0] = B2Vec2Dot(B2Vec2Sub(cB, cA), wm.Normal)
 		}
-		break
 
 	case B2Manifold_Type.E_faceA:
 		{
@@ -323,7 +322,6 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 				)
 			}
 		}
-		break
 
 	case B2Manifold_Type.E_faceB:
 		{
@@ -349,7 +347,6 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 			// Ensure normal points from A to B.
 			wm.Normal = wm.Normal.OperatorNegate()
 		}
-		break
 	}
 }
 

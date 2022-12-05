@@ -8,8 +8,8 @@ package box2d
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-/// A distance proxy is used by the GJK algorithm.
-/// It encapsulates any shape.
+// A distance proxy is used by the GJK algorithm.
+// It encapsulates any shape.
 type B2DistanceProxy struct {
 	M_buffer   [2]B2Vec2
 	M_vertices []B2Vec2 // is a memory blob using pointer arithmetic in original implementation
@@ -30,8 +30,8 @@ func NewB2DistanceProxy() *B2DistanceProxy {
 	return &res
 }
 
-/// Used to warm start b2Distance.
-/// Set count to zero on first call.
+// Used to warm start b2Distance.
+// Set count to zero on first call.
 type B2SimplexCache struct {
 	Metric float64 ///< length or area
 	Count  int
@@ -53,9 +53,9 @@ func NewB2SimplexCache() *B2SimplexCache {
 	return &res
 }
 
-/// Input for b2Distance.
-/// You have to option to use the shape radii
-/// in the computation. Even
+// Input for b2Distance.
+// You have to option to use the shape radii
+// in the computation. Even
 type B2DistanceInput struct {
 	ProxyA     B2DistanceProxy
 	ProxyB     B2DistanceProxy
@@ -79,7 +79,7 @@ func NewB2DistanceInput() *B2DistanceInput {
 	return &res
 }
 
-/// Output for b2Distance.
+// Output for b2Distance.
 type B2DistanceOutput struct {
 	PointA     B2Vec2 ///< closest point on shapeA
 	PointB     B2Vec2 ///< closest point on shapeB
@@ -155,49 +155,37 @@ var b2_gjkCalls, b2_gjkIters, b2_gjkMaxIters int
 func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 	switch shape.GetType() {
 	case B2Shape_Type.E_circle:
-		{
-			circle := (shape).(*B2CircleShape)
-			p.M_vertices = []B2Vec2{circle.M_p}
-			p.M_count = 1
-			p.M_radius = circle.M_radius
-		}
-		break
+		circle := (shape).(*B2CircleShape)
+		p.M_vertices = []B2Vec2{circle.M_p}
+		p.M_count = 1
+		p.M_radius = circle.M_radius
 
 	case B2Shape_Type.E_polygon:
-		{
-			polygon := shape.(*B2PolygonShape)
-			p.M_vertices = polygon.M_vertices[:]
-			p.M_count = polygon.M_count
-			p.M_radius = polygon.M_radius
-		}
-		break
+		polygon := shape.(*B2PolygonShape)
+		p.M_vertices = polygon.M_vertices[:]
+		p.M_count = polygon.M_count
+		p.M_radius = polygon.M_radius
 
 	case B2Shape_Type.E_chain:
-		{
-			chain := shape.(*B2ChainShape)
-			B2Assert(0 <= index && index < chain.M_count)
+		chain := shape.(*B2ChainShape)
+		B2Assert(0 <= index && index < chain.M_count)
 
-			p.M_buffer[0] = chain.M_vertices[index]
-			if index+1 < chain.M_count {
-				p.M_buffer[1] = chain.M_vertices[index+1]
-			} else {
-				p.M_buffer[1] = chain.M_vertices[0]
-			}
-
-			p.M_vertices = p.M_buffer[:]
-			p.M_count = 2
-			p.M_radius = chain.M_radius
+		p.M_buffer[0] = chain.M_vertices[index]
+		if index+1 < chain.M_count {
+			p.M_buffer[1] = chain.M_vertices[index+1]
+		} else {
+			p.M_buffer[1] = chain.M_vertices[0]
 		}
-		break
+
+		p.M_vertices = p.M_buffer[:]
+		p.M_count = 2
+		p.M_radius = chain.M_radius
 
 	case B2Shape_Type.E_edge:
-		{
-			edge := shape.(*B2EdgeShape)
-			p.M_vertices = []B2Vec2{edge.M_vertex1, edge.M_vertex2}
-			p.M_count = 2
-			p.M_radius = edge.M_radius
-		}
-		break
+		edge := shape.(*B2EdgeShape)
+		p.M_vertices = []B2Vec2{edge.M_vertex1, edge.M_vertex2}
+		p.M_count = 2
+		p.M_radius = edge.M_radius
 
 	default:
 		B2Assert(false)
@@ -362,12 +350,10 @@ func (simplex B2Simplex) GetWitnessPoints(pA *B2Vec2, pB *B2Vec2) {
 	switch simplex.M_count {
 	case 0:
 		B2Assert(false)
-		break
 
 	case 1:
 		*pA = simplex.M_vs[0].WA
 		*pB = simplex.M_vs[0].WB
-		break
 
 	case 2:
 		*pA = B2Vec2Add(
@@ -378,7 +364,6 @@ func (simplex B2Simplex) GetWitnessPoints(pA *B2Vec2, pB *B2Vec2) {
 			B2Vec2MulScalar(simplex.M_vs[0].A, simplex.M_vs[0].WB),
 			B2Vec2MulScalar(simplex.M_vs[1].A, simplex.M_vs[1].WB),
 		)
-		break
 
 	case 3:
 		*pA = B2Vec2Add(
@@ -389,11 +374,9 @@ func (simplex B2Simplex) GetWitnessPoints(pA *B2Vec2, pB *B2Vec2) {
 			B2Vec2MulScalar(simplex.M_vs[2].A, simplex.M_vs[2].WA),
 		)
 		*pB = *pA
-		break
 
 	default:
 		B2Assert(false)
-		break
 	}
 }
 
@@ -598,16 +581,10 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 
 		switch simplex.M_count {
 		case 1:
-			break
-
 		case 2:
 			simplex.Solve2()
-			break
-
 		case 3:
 			simplex.Solve3()
-			break
-
 		default:
 			B2Assert(false)
 		}

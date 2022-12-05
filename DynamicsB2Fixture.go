@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-/// This holds contact filtering data.
+// This holds contact filtering data.
 type B2Filter struct {
 	/// The collision category bits. Normally you would just set one bit.
 	CategoryBits uint16
@@ -27,8 +27,8 @@ func MakeB2Filter() B2Filter {
 	}
 }
 
-/// A fixture definition is used to create a fixture. This class defines an
-/// abstract fixture definition. You can reuse fixture definitions safely.
+// A fixture definition is used to create a fixture. This class defines an
+// abstract fixture definition. You can reuse fixture definitions safely.
 type B2FixtureDef struct {
 
 	/// The shape, this must be set. The shape will be cloned, so you
@@ -55,7 +55,7 @@ type B2FixtureDef struct {
 	Filter B2Filter
 }
 
-/// The constructor sets the default fixture definition values.
+// The constructor sets the default fixture definition values.
 func MakeB2FixtureDef() B2FixtureDef {
 	return B2FixtureDef{
 		Shape:       nil,
@@ -67,7 +67,7 @@ func MakeB2FixtureDef() B2FixtureDef {
 	}
 }
 
-/// This proxy is used internally to connect fixtures to the broad-phase.
+// This proxy is used internally to connect fixtures to the broad-phase.
 type B2FixtureProxy struct {
 	Aabb       B2AABB
 	Fixture    *B2Fixture
@@ -241,36 +241,23 @@ func (fix *B2Fixture) Destroy() {
 	// Free the child shape.
 	switch fix.M_shape.GetType() {
 	case B2Shape_Type.E_circle:
-		{
-			s := fix.M_shape.(*B2CircleShape)
-			s.Destroy()
-		}
-		break
+		s := fix.M_shape.(*B2CircleShape)
+		s.Destroy()
 
 	case B2Shape_Type.E_edge:
-		{
-			s := fix.M_shape.(*B2EdgeShape)
-			s.Destroy()
-		}
-		break
+		s := fix.M_shape.(*B2EdgeShape)
+		s.Destroy()
 
 	case B2Shape_Type.E_polygon:
-		{
-			s := fix.M_shape.(*B2PolygonShape)
-			s.Destroy()
-		}
-		break
+		s := fix.M_shape.(*B2PolygonShape)
+		s.Destroy()
 
 	case B2Shape_Type.E_chain:
-		{
-			s := fix.M_shape.(*B2ChainShape)
-			s.Destroy()
-		}
-		break
+		s := fix.M_shape.(*B2ChainShape)
+		s.Destroy()
 
 	default:
 		B2Assert(false)
-		break
 	}
 
 	fix.M_shape = nil
@@ -382,55 +369,43 @@ func (fix *B2Fixture) Dump(bodyIndex int) {
 
 	switch fix.M_shape.GetType() {
 	case B2Shape_Type.E_circle:
-		{
-			s := fix.M_shape.(*B2CircleShape)
-			fmt.Print(fmt.Printf("    b2CircleShape shape;\n"))
-			fmt.Print(fmt.Printf("    shape.m_radius = %.15f;\n", s.M_radius))
-			fmt.Print(fmt.Printf("    shape.m_p.Set(%.15f, %.15f);\n", s.M_p.X, s.M_p.Y))
-		}
-		break
+		s := fix.M_shape.(*B2CircleShape)
+		fmt.Print(fmt.Printf("    b2CircleShape shape;\n"))
+		fmt.Print(fmt.Printf("    shape.m_radius = %.15f;\n", s.M_radius))
+		fmt.Print(fmt.Printf("    shape.m_p.Set(%.15f, %.15f);\n", s.M_p.X, s.M_p.Y))
 
 	case B2Shape_Type.E_edge:
-		{
-			s := fix.M_shape.(*B2EdgeShape)
-			fmt.Print(fmt.Printf("    b2EdgeShape shape;\n"))
-			fmt.Print(fmt.Printf("    shape.m_radius = %.15f;\n", s.M_radius))
-			fmt.Print(fmt.Printf("    shape.m_vertex0.Set(%.15f, %.15f);\n", s.M_vertex0.X, s.M_vertex0.Y))
-			fmt.Print(fmt.Printf("    shape.m_vertex1.Set(%.15f, %.15f);\n", s.M_vertex1.X, s.M_vertex1.Y))
-			fmt.Print(fmt.Printf("    shape.m_vertex2.Set(%.15f, %.15f);\n", s.M_vertex2.X, s.M_vertex2.Y))
-			fmt.Print(fmt.Printf("    shape.m_vertex3.Set(%.15f, %.15f);\n", s.M_vertex3.X, s.M_vertex3.Y))
-			fmt.Print(fmt.Printf("    shape.m_hasVertex0 = bool(%v);\n", s.M_hasVertex0))
-			fmt.Print(fmt.Printf("    shape.m_hasVertex3 = bool(%v);\n", s.M_hasVertex3))
-		}
-		break
+		s := fix.M_shape.(*B2EdgeShape)
+		fmt.Print(fmt.Printf("    b2EdgeShape shape;\n"))
+		fmt.Print(fmt.Printf("    shape.m_radius = %.15f;\n", s.M_radius))
+		fmt.Print(fmt.Printf("    shape.m_vertex0.Set(%.15f, %.15f);\n", s.M_vertex0.X, s.M_vertex0.Y))
+		fmt.Print(fmt.Printf("    shape.m_vertex1.Set(%.15f, %.15f);\n", s.M_vertex1.X, s.M_vertex1.Y))
+		fmt.Print(fmt.Printf("    shape.m_vertex2.Set(%.15f, %.15f);\n", s.M_vertex2.X, s.M_vertex2.Y))
+		fmt.Print(fmt.Printf("    shape.m_vertex3.Set(%.15f, %.15f);\n", s.M_vertex3.X, s.M_vertex3.Y))
+		fmt.Print(fmt.Printf("    shape.m_hasVertex0 = bool(%v);\n", s.M_hasVertex0))
+		fmt.Print(fmt.Printf("    shape.m_hasVertex3 = bool(%v);\n", s.M_hasVertex3))
 
 	case B2Shape_Type.E_polygon:
-		{
-			s := fix.M_shape.(*B2PolygonShape)
-			fmt.Print(fmt.Printf("    b2PolygonShape shape;\n"))
-			fmt.Print(fmt.Printf("    b2Vec2 vs[%d];\n", B2_maxPolygonVertices))
-			for i := 0; i < s.M_count; i++ {
-				fmt.Print(fmt.Printf("    vs[%d].Set(%.15f, %.15f);\n", i, s.M_vertices[i].X, s.M_vertices[i].Y))
-			}
-			fmt.Print(fmt.Printf("    shape.Set(vs, %d);\n", s.M_count))
+		s := fix.M_shape.(*B2PolygonShape)
+		fmt.Print(fmt.Printf("    b2PolygonShape shape;\n"))
+		fmt.Print(fmt.Printf("    b2Vec2 vs[%d];\n", B2_maxPolygonVertices))
+		for i := 0; i < s.M_count; i++ {
+			fmt.Print(fmt.Printf("    vs[%d].Set(%.15f, %.15f);\n", i, s.M_vertices[i].X, s.M_vertices[i].Y))
 		}
-		break
+		fmt.Print(fmt.Printf("    shape.Set(vs, %d);\n", s.M_count))
 
 	case B2Shape_Type.E_chain:
-		{
-			s := fix.M_shape.(*B2ChainShape)
-			fmt.Print(fmt.Printf("    b2ChainShape shape;\n"))
-			fmt.Print(fmt.Printf("    b2Vec2 vs[%d];\n", s.M_count))
-			for i := 0; i < s.M_count; i++ {
-				fmt.Print(fmt.Printf("    vs[%d].Set(%.15f, %.15f);\n", i, s.M_vertices[i].X, s.M_vertices[i].Y))
-			}
-			fmt.Print(fmt.Printf("    shape.CreateChain(vs, %d);\n", s.M_count))
-			fmt.Print(fmt.Printf("    shape.m_prevVertex.Set(%.15f, %.15f);\n", s.M_prevVertex.X, s.M_prevVertex.Y))
-			fmt.Print(fmt.Printf("    shape.m_nextVertex.Set(%.15f, %.15f);\n", s.M_nextVertex.X, s.M_nextVertex.Y))
-			fmt.Print(fmt.Printf("    shape.m_hasPrevVertex = bool(%v);\n", s.M_hasPrevVertex))
-			fmt.Print(fmt.Printf("    shape.m_hasNextVertex = bool(%v);\n", s.M_hasNextVertex))
+		s := fix.M_shape.(*B2ChainShape)
+		fmt.Print(fmt.Printf("    b2ChainShape shape;\n"))
+		fmt.Print(fmt.Printf("    b2Vec2 vs[%d];\n", s.M_count))
+		for i := 0; i < s.M_count; i++ {
+			fmt.Print(fmt.Printf("    vs[%d].Set(%.15f, %.15f);\n", i, s.M_vertices[i].X, s.M_vertices[i].Y))
 		}
-		break
+		fmt.Print(fmt.Printf("    shape.CreateChain(vs, %d);\n", s.M_count))
+		fmt.Print(fmt.Printf("    shape.m_prevVertex.Set(%.15f, %.15f);\n", s.M_prevVertex.X, s.M_prevVertex.Y))
+		fmt.Print(fmt.Printf("    shape.m_nextVertex.Set(%.15f, %.15f);\n", s.M_nextVertex.X, s.M_nextVertex.Y))
+		fmt.Print(fmt.Printf("    shape.m_hasPrevVertex = bool(%v);\n", s.M_hasPrevVertex))
+		fmt.Print(fmt.Printf("    shape.m_hasNextVertex = bool(%v);\n", s.M_hasNextVertex))
 
 	default:
 		return

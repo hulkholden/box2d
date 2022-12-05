@@ -107,8 +107,7 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA B2Transf
 	var poly1 *B2PolygonShape // reference polygon
 	var poly2 *B2PolygonShape // incident polygon
 
-	xf1 := MakeB2Transform()
-	xf2 := MakeB2Transform()
+	var xf1, xf2 B2Transform
 
 	edge1 := 0 // reference edge
 	var flip uint8

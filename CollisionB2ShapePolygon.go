@@ -121,7 +121,7 @@ func ComputeCentroid(vs []B2Vec2, count int) B2Vec2 {
 		// Triangle vertices.
 		p1 := pRef
 		p2 := vs[i]
-		p3 := MakeB2Vec2(0, 0)
+		var p3 B2Vec2
 		if i+1 < count {
 			p3 = vs[i+1]
 		} else {

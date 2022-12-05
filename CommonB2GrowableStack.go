@@ -1,42 +1,33 @@
 package box2d
 
-// Adapted from https://gist.github.com/bemasher/1777766
-
-type B2GrowableStack struct {
-	top  *StackElement
-	size int
+type B2GrowableStack[T any] struct {
+	data []T
 }
 
-func NewB2GrowableStack() *B2GrowableStack {
-	return &B2GrowableStack{
-		top:  nil,
-		size: 0,
+func NewB2GrowableStack[T any](initialCap int) *B2GrowableStack[T] {
+	return &B2GrowableStack[T]{
+		data: make([]T, 0, initialCap),
 	}
-}
-
-type StackElement struct {
-	value interface{} // All types satisfy the empty interface, so we can store anything here.
-	next  *StackElement
 }
 
 // Return the stack's length
-func (s B2GrowableStack) GetCount() int {
-	return s.size
+func (s B2GrowableStack[T]) GetCount() int {
+	return len(s.data)
 }
 
 // Push a new element onto the stack
-func (s *B2GrowableStack) Push(value interface{}) {
-	s.top = &StackElement{value, s.top}
-	s.size++
+func (s *B2GrowableStack[T]) Push(value T) {
+	s.data = append(s.data, value)
 }
 
 // Remove the top element from the stack and return it's value
-// If the stack is empty, return nil
-func (s *B2GrowableStack) Pop() (value interface{}) {
-	if s.size > 0 {
-		value, s.top = s.top.value, s.top.next
-		s.size--
-		return
+// If the stack is empty, return zero type.
+func (s *B2GrowableStack[T]) Pop() T {
+	if len(s.data) == 0 {
+		panic("stack is empty")
 	}
-	return nil
+
+	value := s.data[len(s.data)-1]
+	s.data = s.data[:len(s.data)-1]
+	return value
 }

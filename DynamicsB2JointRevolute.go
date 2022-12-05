@@ -5,17 +5,17 @@ import (
 	"math"
 )
 
-/// Revolute joint definition. This requires defining an
-/// anchor point where the bodies are joined. The definition
-/// uses local anchor points so that the initial configuration
-/// can violate the constraint slightly. You also need to
-/// specify the initial relative angle for joint limits. This
-/// helps when saving and loading a game.
-/// The local anchor points are measured from the body's origin
-/// rather than the center of mass because:
-/// 1. you might not know where the center of mass will be.
-/// 2. if you add/remove shapes from a body and recompute the mass,
-///    the joints will be broken.
+// Revolute joint definition. This requires defining an
+// anchor point where the bodies are joined. The definition
+// uses local anchor points so that the initial configuration
+// can violate the constraint slightly. You also need to
+// specify the initial relative angle for joint limits. This
+// helps when saving and loading a game.
+// The local anchor points are measured from the body's origin
+// rather than the center of mass because:
+//  1. you might not know where the center of mass will be.
+//  2. if you add/remove shapes from a body and recompute the mass,
+//     the joints will be broken.
 type B2RevoluteJointDef struct {
 	B2JointDef
 
@@ -67,12 +67,12 @@ func MakeB2RevoluteJointDef() B2RevoluteJointDef {
 	return res
 }
 
-/// A revolute joint constrains two bodies to share a common point while they
-/// are free to rotate about the point. The relative rotation about the shared
-/// point is the joint angle. You can limit the relative rotation with
-/// a joint limit that specifies a lower and upper angle. You can use a motor
-/// to drive the relative rotation about the shared point. A maximum motor torque
-/// is provided so that infinite forces are not generated.
+// A revolute joint constrains two bodies to share a common point while they
+// are free to rotate about the point. The relative rotation about the shared
+// point is the joint angle. You can limit the relative rotation with
+// a joint limit that specifies a lower and upper angle. You can use a motor
+// to drive the relative rotation about the shared point. A maximum motor torque
+// is provided so that infinite forces are not generated.
 type B2RevoluteJoint struct {
 	*B2Joint
 
@@ -107,17 +107,17 @@ type B2RevoluteJoint struct {
 	M_limitState   uint8
 }
 
-/// The local anchor point relative to bodyA's origin.
+// The local anchor point relative to bodyA's origin.
 func (joint B2RevoluteJoint) GetLocalAnchorA() B2Vec2 {
 	return joint.M_localAnchorA
 }
 
-/// The local anchor point relative to bodyB's origin.
+// The local anchor point relative to bodyB's origin.
 func (joint B2RevoluteJoint) GetLocalAnchorB() B2Vec2 {
 	return joint.M_localAnchorB
 }
 
-/// Get the reference angle.
+// Get the reference angle.
 func (joint B2RevoluteJoint) GetReferenceAngle() float64 {
 	return joint.M_referenceAngle
 }
@@ -229,11 +229,11 @@ func (joint *B2RevoluteJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_motorMass = 1.0 / joint.M_motorMass
 	}
 
-	if joint.M_enableMotor == false || fixedRotation {
+	if !joint.M_enableMotor || fixedRotation {
 		joint.M_motorImpulse = 0.0
 	}
 
-	if joint.M_enableLimit && fixedRotation == false {
+	if joint.M_enableLimit && !fixedRotation {
 		jointAngle := aB - aA - joint.M_referenceAngle
 		if math.Abs(joint.M_upperAngle-joint.M_lowerAngle) < 2.0*B2_angularSlop {
 			joint.M_limitState = B2LimitState.E_equalLimits
@@ -292,7 +292,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 	fixedRotation := (iA+iB == 0.0)
 
 	// Solve motor constraint.
-	if joint.M_enableMotor && joint.M_limitState != B2LimitState.E_equalLimits && fixedRotation == false {
+	if joint.M_enableMotor && joint.M_limitState != B2LimitState.E_equalLimits && !fixedRotation {
 		Cdot := wB - wA - joint.M_motorSpeed
 		impulse := -joint.M_motorMass * Cdot
 		oldImpulse := joint.M_motorImpulse
@@ -305,7 +305,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 	}
 
 	// Solve limit constraint.
-	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit && fixedRotation == false {
+	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit && !fixedRotation {
 		Cdot1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, joint.M_rB)), vA), B2Vec2CrossScalarVector(wA, joint.M_rA))
 		Cdot2 := wB - wA
 		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
@@ -387,7 +387,7 @@ func (joint *B2RevoluteJoint) SolvePositionConstraints(data B2SolverData) bool {
 	fixedRotation := (joint.M_invIA+joint.M_invIB == 0.0)
 
 	// Solve angular limit constraint.
-	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit && fixedRotation == false {
+	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit && !fixedRotation {
 		angle := aB - aA - joint.M_referenceAngle
 		limitImpulse := 0.0
 

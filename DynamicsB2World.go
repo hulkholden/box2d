@@ -97,7 +97,7 @@ func (world *B2World) SetAutoClearForces(flag bool) {
 	}
 }
 
-/// Get the flag that controls automatic clearing of forces after each time step.
+// Get the flag that controls automatic clearing of forces after each time step.
 func (world B2World) GetAutoClearForces() bool {
 	return (world.M_flags & B2World_Flags.E_clearForces) == B2World_Flags.E_clearForces
 }
@@ -186,7 +186,7 @@ func (world *B2World) SetContactListener(listener B2ContactListenerInterface) {
 // }
 
 func (world *B2World) CreateBody(def *B2BodyDef) *B2Body {
-	B2Assert(world.IsLocked() == false)
+	B2Assert(!world.IsLocked())
 
 	if world.IsLocked() {
 		return nil
@@ -208,7 +208,7 @@ func (world *B2World) CreateBody(def *B2BodyDef) *B2Body {
 
 func (world *B2World) DestroyBody(b *B2Body) {
 	B2Assert(world.M_bodyCount > 0)
-	B2Assert(world.IsLocked() == false)
+	B2Assert(!world.IsLocked())
 
 	if world.IsLocked() {
 		return
@@ -276,7 +276,7 @@ func (world *B2World) DestroyBody(b *B2Body) {
 }
 
 func (world *B2World) CreateJoint(def B2JointDefInterface) B2JointInterface {
-	B2Assert(world.IsLocked() == false)
+	B2Assert(!world.IsLocked())
 	if world.IsLocked() {
 		return nil
 	}
@@ -316,7 +316,7 @@ func (world *B2World) CreateJoint(def B2JointDefInterface) B2JointInterface {
 	bodyB := def.GetBodyB()
 
 	// If the joint prevents collisions, then flag any contacts for filtering.
-	if def.IsCollideConnected() == false {
+	if !def.IsCollideConnected() {
 		edge := bodyB.GetContactList()
 		for edge != nil {
 			if edge.Other == bodyA {
@@ -335,7 +335,7 @@ func (world *B2World) CreateJoint(def B2JointDefInterface) B2JointInterface {
 }
 
 func (world *B2World) DestroyJoint(j B2JointInterface) { // j backed by pointer
-	B2Assert(world.IsLocked() == false)
+	B2Assert(!world.IsLocked())
 	if world.IsLocked() {
 		return
 	}
@@ -401,7 +401,7 @@ func (world *B2World) DestroyJoint(j B2JointInterface) { // j backed by pointer
 	world.M_jointCount--
 
 	// If the joint prevents collisions, then flag any contacts for filtering.
-	if collideConnected == false {
+	if !collideConnected {
 		edge := bodyB.GetContactList()
 		for edge != nil {
 			if edge.Other == bodyA {
@@ -421,7 +421,7 @@ func (world *B2World) SetAllowSleeping(flag bool) {
 	}
 
 	world.M_allowSleep = flag
-	if world.M_allowSleep == false {
+	if !world.M_allowSleep {
 		for b := world.M_bodyList; b != nil; b = b.M_next {
 			b.SetAwake(true)
 		}
@@ -463,7 +463,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 			continue
 		}
 
-		if seed.IsAwake() == false || seed.IsActive() == false {
+		if !seed.IsAwake() || !seed.IsActive() {
 			continue
 		}
 
@@ -484,7 +484,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 			// Grab the next body off the stack and add it to the island.
 			stackCount--
 			b := stack[stackCount]
-			B2Assert(b.IsActive() == true)
+			B2Assert(b.IsActive())
 			island.AddBody(b)
 
 			// Make sure the body is awake (without resetting sleep timer).
@@ -506,7 +506,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 				}
 
 				// Is this contact solid and touching?
-				if contact.IsEnabled() == false || contact.IsTouching() == false {
+				if !contact.IsEnabled() || !contact.IsTouching() {
 					continue
 				}
 
@@ -537,14 +537,14 @@ func (world *B2World) Solve(step B2TimeStep) {
 			// Search all joints connect to this body.
 			for je := b.M_jointList; je != nil; je = je.Next {
 
-				if je.Joint.GetIslandFlag() == true {
+				if je.Joint.GetIslandFlag() {
 					continue
 				}
 
 				other := je.Other
 
 				// Don't simulate joints connected to inactive bodies.
-				if other.IsActive() == false {
+				if !other.IsActive() {
 					continue
 				}
 
@@ -632,7 +632,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 		for c := world.M_contactManager.M_contactList; c != nil; c = c.GetNext() {
 
 			// Is this contact disabled?
-			if c.IsEnabled() == false {
+			if !c.IsEnabled() {
 				continue
 			}
 
@@ -665,7 +665,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 				activeB := bB.IsAwake() && typeB != B2BodyType.B2_staticBody
 
 				// Is at least one body active (awake and dynamic or kinematic)?
-				if activeA == false && activeB == false {
+				if !activeA && !activeB {
 					continue
 				}
 
@@ -673,7 +673,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 				collideB := bB.IsBullet() || typeB != B2BodyType.B2_dynamicBody
 
 				// Are these two non-bullet dynamic bodies?
-				if collideA == false && collideB == false {
+				if !collideA && !collideB {
 					continue
 				}
 
@@ -748,7 +748,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 		minContact.SetTOICount(minContact.GetTOICount() + 1)
 
 		// Is the contact solid?
-		if minContact.IsEnabled() == false || minContact.IsTouching() == false {
+		if !minContact.IsEnabled() || !minContact.IsTouching() {
 			// Restore the sweeps.
 			minContact.SetEnabled(false)
 			bA.M_sweep = backup1
@@ -795,7 +795,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 					// Only add static, kinematic, or bullet bodies.
 					other := ce.Other
-					if other.M_type == B2BodyType.B2_dynamicBody && body.IsBullet() == false && other.IsBullet() == false {
+					if other.M_type == B2BodyType.B2_dynamicBody && !body.IsBullet() && !other.IsBullet() {
 						continue
 					}
 
@@ -816,14 +816,14 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 					B2ContactUpdate(contact, world.M_contactManager.M_contactListener)
 
 					// Was the contact disabled by the user?
-					if contact.IsEnabled() == false {
+					if !contact.IsEnabled() {
 						other.M_sweep = backup
 						other.SynchronizeTransform()
 						continue
 					}
 
 					// Are there contact points?
-					if contact.IsTouching() == false {
+					if !contact.IsTouching() {
 						other.M_sweep = backup
 						other.SynchronizeTransform()
 						continue
@@ -1140,7 +1140,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 B2Vec2, point2 
 // 			const b2Transform& xf = b.GetTransform();
 // 			for (b2Fixture* f = b.GetFixtureList(); f; f = f.GetNext())
 // 			{
-// 				if (b.IsActive() == false)
+// 				if (!b.IsActive())
 // 				{
 // 					DrawShape(f, xf, b2Color(0.5f, 0.5f, 0.3f));
 // 				}
@@ -1152,7 +1152,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 B2Vec2, point2 
 // 				{
 // 					DrawShape(f, xf, b2Color(0.5f, 0.5f, 0.9f));
 // 				}
-// 				else if (b.IsAwake() == false)
+// 				else if (!b.IsAwake())
 // 				{
 // 					DrawShape(f, xf, b2Color(0.6f, 0.6f, 0.6f));
 // 				}
@@ -1194,7 +1194,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 B2Vec2, point2 
 
 // 		for (b2Body* b = m_bodyList; b; b = b.GetNext())
 // 		{
-// 			if (b.IsActive() == false)
+// 			if (!b.IsActive())
 // 			{
 // 				continue;
 // 			}

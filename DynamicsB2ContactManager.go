@@ -98,7 +98,7 @@ func (mgr *B2ContactManager) Collide() {
 		// Is this contact flagged for filtering?
 		if (c.GetFlags() & B2Contact_Flag.E_filterFlag) != 0x0000 {
 			// Should these bodies collide?
-			if bodyB.ShouldCollide(bodyA) == false {
+			if !bodyB.ShouldCollide(bodyA) {
 				cNuke := c
 				c = cNuke.GetNext()
 				mgr.Destroy(cNuke)
@@ -106,7 +106,7 @@ func (mgr *B2ContactManager) Collide() {
 			}
 
 			// Check user filtering.
-			if mgr.M_contactFilter != nil && mgr.M_contactFilter.ShouldCollide(fixtureA, fixtureB) == false {
+			if mgr.M_contactFilter != nil && !mgr.M_contactFilter.ShouldCollide(fixtureA, fixtureB) {
 				cNuke := c
 				c = cNuke.GetNext()
 				mgr.Destroy(cNuke)
@@ -121,7 +121,7 @@ func (mgr *B2ContactManager) Collide() {
 		activeB := bodyB.IsAwake() && bodyB.M_type != B2BodyType.B2_staticBody
 
 		// At least one body must be awake and it must be dynamic or kinematic.
-		if activeA == false && activeB == false {
+		if !activeA && !activeB {
 			c = c.GetNext()
 			continue
 		}
@@ -131,7 +131,7 @@ func (mgr *B2ContactManager) Collide() {
 		overlap := mgr.M_broadPhase.TestOverlap(proxyIdA, proxyIdB)
 
 		// Here we destroy contacts that cease to overlap in the broad-phase.
-		if overlap == false {
+		if !overlap {
 			cNuke := c
 			c = cNuke.GetNext()
 			mgr.Destroy(cNuke)
@@ -193,12 +193,12 @@ func (mgr *B2ContactManager) AddPair(proxyUserDataA interface{}, proxyUserDataB 
 	}
 
 	// Does a joint override collision? Is at least one body dynamic?
-	if bodyB.ShouldCollide(bodyA) == false {
+	if !bodyB.ShouldCollide(bodyA) {
 		return
 	}
 
 	// Check user filtering.
-	if mgr.M_contactFilter != nil && mgr.M_contactFilter.ShouldCollide(fixtureA, fixtureB) == false {
+	if mgr.M_contactFilter != nil && !mgr.M_contactFilter.ShouldCollide(fixtureA, fixtureB) {
 		return
 	}
 
@@ -253,7 +253,7 @@ func (mgr *B2ContactManager) AddPair(proxyUserDataA interface{}, proxyUserDataB 
 	bodyB.M_contactList = c.GetNodeB()
 
 	// Wake up the bodies
-	if fixtureA.IsSensor() == false && fixtureB.IsSensor() == false {
+	if !fixtureA.IsSensor() && !fixtureB.IsSensor() {
 		bodyA.SetAwake(true)
 		bodyB.SetAwake(true)
 	}

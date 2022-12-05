@@ -392,7 +392,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 		}
 
 		// Solve normal constraints
-		if pointCount == 1 || g_blockSolve == false {
+		if pointCount == 1 || !g_blockSolve {
 			for j := 0; j < pointCount; j++ {
 				vcp := &vc.Points[j]
 

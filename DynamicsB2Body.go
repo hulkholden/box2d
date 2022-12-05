@@ -19,8 +19,8 @@ var B2BodyType = struct {
 	B2_dynamicBody:   2,
 }
 
-/// A body definition holds all the data needed to construct a rigid body.
-/// You can safely re-use body definitions. Shapes are added to a body after construction.
+// A body definition holds all the data needed to construct a rigid body.
+// You can safely re-use body definitions. Shapes are added to a body after construction.
 type B2BodyDef struct {
 
 	/// The body type: static, kinematic, or dynamic.
@@ -78,7 +78,7 @@ type B2BodyDef struct {
 	GravityScale float64
 }
 
-/// This constructor sets the body definition default values.
+// This constructor sets the body definition default values.
 func MakeB2BodyDef() B2BodyDef {
 	return B2BodyDef{
 		UserData:        nil,
@@ -562,8 +562,8 @@ func NewB2Body(bd *B2BodyDef, world *B2World) *B2Body {
 
 func (body *B2Body) SetType(bodytype uint8) {
 
-	B2Assert(body.M_world.IsLocked() == false)
-	if body.M_world.IsLocked() == true {
+	B2Assert(!body.M_world.IsLocked())
+	if body.M_world.IsLocked() {
 		return
 	}
 
@@ -610,8 +610,8 @@ func (body *B2Body) SetType(bodytype uint8) {
 
 func (body *B2Body) CreateFixtureFromDef(def *B2FixtureDef) *B2Fixture {
 
-	B2Assert(body.M_world.IsLocked() == false)
-	if body.M_world.IsLocked() == true {
+	B2Assert(!body.M_world.IsLocked())
+	if body.M_world.IsLocked() {
 		return nil
 	}
 
@@ -656,8 +656,8 @@ func (body *B2Body) DestroyFixture(fixture *B2Fixture) {
 		return
 	}
 
-	B2Assert(body.M_world.IsLocked() == false)
-	if body.M_world.IsLocked() == true {
+	B2Assert(!body.M_world.IsLocked())
+	if body.M_world.IsLocked() {
 		return
 	}
 
@@ -780,8 +780,8 @@ func (body *B2Body) ResetMassData() {
 
 func (body *B2Body) SetMassData(massData *B2MassData) {
 
-	B2Assert(body.M_world.IsLocked() == false)
-	if body.M_world.IsLocked() == true {
+	B2Assert(!body.M_world.IsLocked())
+	if body.M_world.IsLocked() {
 		return
 	}
 
@@ -831,7 +831,7 @@ func (body B2Body) ShouldCollide(other *B2Body) bool {
 	// Does a joint prevent collision?
 	for jn := body.M_jointList; jn != nil; jn = jn.Next {
 		if jn.Other == other {
-			if jn.Joint.IsCollideConnected() == false {
+			if !jn.Joint.IsCollideConnected() {
 				return false
 			}
 		}
@@ -841,9 +841,9 @@ func (body B2Body) ShouldCollide(other *B2Body) bool {
 }
 
 func (body *B2Body) SetTransform(position B2Vec2, angle float64) {
-	B2Assert(body.M_world.IsLocked() == false)
+	B2Assert(!body.M_world.IsLocked())
 
-	if body.M_world.IsLocked() == true {
+	if body.M_world.IsLocked() {
 		return
 	}
 
@@ -875,7 +875,7 @@ func (body *B2Body) SynchronizeFixtures() {
 
 func (body *B2Body) SetActive(flag bool) {
 
-	B2Assert(body.M_world.IsLocked() == false)
+	B2Assert(!body.M_world.IsLocked())
 
 	if flag == body.IsActive() {
 		return

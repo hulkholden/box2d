@@ -87,7 +87,7 @@ func (tree *B2DynamicTree) Query(queryCallback B2TreeQueryCallback, aabb B2AABB)
 		if B2TestOverlapBoundingBoxes(node.Aabb, aabb) {
 			if node.IsLeaf() {
 				proceed := queryCallback(nodeId)
-				if proceed == false {
+				if !proceed {
 					return
 				}
 			} else {
@@ -134,7 +134,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 
 		node := &tree.M_nodes[nodeId]
 
-		if B2TestOverlapBoundingBoxes(node.Aabb, segmentAABB) == false {
+		if !B2TestOverlapBoundingBoxes(node.Aabb, segmentAABB) {
 			continue
 		}
 
@@ -339,7 +339,7 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 	// Find the best sibling for this node
 	leafAABB := tree.M_nodes[leaf].Aabb
 	index := tree.M_root
-	for tree.M_nodes[index].IsLeaf() == false {
+	for !tree.M_nodes[index].IsLeaf() {
 		child1 := tree.M_nodes[index].Child1
 		child2 := tree.M_nodes[index].Child2
 
@@ -757,7 +757,7 @@ func (tree B2DynamicTree) GetMaxBalance() int {
 			continue
 		}
 
-		B2Assert(node.IsLeaf() == false)
+		B2Assert(!node.IsLeaf())
 
 		child1 := node.Child1
 		child2 := node.Child2

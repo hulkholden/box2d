@@ -4,14 +4,14 @@ import (
 	"math"
 )
 
-/// Friction mixing law. The idea is to allow either fixture to drive the friction to zero.
-/// For example, anything slides on ice.
+// Friction mixing law. The idea is to allow either fixture to drive the friction to zero.
+// For example, anything slides on ice.
 func B2MixFriction(friction1, friction2 float64) float64 {
 	return math.Sqrt(friction1 * friction2)
 }
 
-/// Restitution mixing law. The idea is allow for anything to bounce off an inelastic surface.
-/// For example, a superball bounces on anything.
+// Restitution mixing law. The idea is allow for anything to bounce off an inelastic surface.
+// For example, a superball bounces on anything.
 func B2MixRestitution(restitution1, restitution2 float64) float64 {
 	if restitution1 > restitution2 {
 		return restitution1
@@ -29,11 +29,11 @@ type B2ContactRegister struct {
 	Primary    bool
 }
 
-/// A contact edge is used to connect bodies and contacts together
-/// in a contact graph where each body is a node and each contact
-/// is an edge. A contact edge belongs to a doubly linked list
-/// maintained in each attached body. Each contact has two contact
-/// nodes, one for each attached body.
+// A contact edge is used to connect bodies and contacts together
+// in a contact graph where each body is a node and each contact
+// is an edge. A contact edge belongs to a doubly linked list
+// maintained in each attached body. Each contact has two contact
+// nodes, one for each attached body.
 type B2ContactEdge struct {
 	Other   *B2Body            ///< provides quick access to the other body attached.
 	Contact B2ContactInterface ///< the contact
@@ -360,7 +360,7 @@ func AddType(createFcn B2ContactCreateFcn, destroyFcn B2ContactDestroyFcn, type1
 
 func B2ContactFactory(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) B2ContactInterface { // returned contact should be a pointer
 
-	if s_initialized == false {
+	if !s_initialized {
 		B2ContactInitializeRegisters()
 		s_initialized = true
 	}
@@ -384,12 +384,12 @@ func B2ContactFactory(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, inde
 }
 
 func B2ContactDestroy(contact B2ContactInterface) {
-	B2Assert(s_initialized == true)
+	B2Assert(s_initialized)
 
 	fixtureA := contact.GetFixtureA()
 	fixtureB := contact.GetFixtureB()
 
-	if contact.GetManifold().PointCount > 0 && fixtureA.IsSensor() == false && fixtureB.IsSensor() == false {
+	if contact.GetManifold().PointCount > 0 && !fixtureA.IsSensor() && !fixtureB.IsSensor() {
 		fixtureA.GetBody().SetAwake(true)
 		fixtureB.GetBody().SetAwake(true)
 	}
@@ -511,15 +511,15 @@ func B2ContactUpdate(contact B2ContactInterface, listener B2ContactListenerInter
 		contact.SetFlags(contact.GetFlags() & ^B2Contact_Flag.E_touchingFlag)
 	}
 
-	if wasTouching == false && touching == true && listener != nil {
+	if !wasTouching && touching && listener != nil {
 		listener.BeginContact(contact)
 	}
 
-	if wasTouching == true && touching == false && listener != nil {
+	if wasTouching && !touching && listener != nil {
 		listener.EndContact(contact)
 	}
 
-	if sensor == false && touching && listener != nil {
+	if !sensor && touching && listener != nil {
 		listener.PreSolve(contact, oldManifold)
 	}
 }

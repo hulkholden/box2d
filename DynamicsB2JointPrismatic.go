@@ -5,12 +5,12 @@ import (
 	"math"
 )
 
-/// Prismatic joint definition. This requires defining a line of
-/// motion using an axis and an anchor point. The definition uses local
-/// anchor points and a local axis so that the initial configuration
-/// can violate the constraint slightly. The joint translation is zero
-/// when the local anchor points coincide in world space. Using local
-/// anchors and a local axis helps when saving and loading a game.
+// Prismatic joint definition. This requires defining a line of
+// motion using an axis and an anchor point. The definition uses local
+// anchor points and a local axis so that the initial configuration
+// can violate the constraint slightly. The joint translation is zero
+// when the local anchor points coincide in world space. Using local
+// anchors and a local axis helps when saving and loading a game.
 type B2PrismaticJointDef struct {
 	B2JointDef
 
@@ -65,10 +65,10 @@ func MakeB2PrismaticJointDef() B2PrismaticJointDef {
 	return res
 }
 
-/// A prismatic joint. This joint provides one degree of freedom: translation
-/// along an axis fixed in bodyA. Relative rotation is prevented. You can
-/// use a joint limit to restrict the range of motion and a joint motor to
-/// drive the motion or to model joint friction.
+// A prismatic joint. This joint provides one degree of freedom: translation
+// along an axis fixed in bodyA. Relative rotation is prevented. You can
+// use a joint limit to restrict the range of motion and a joint motor to
+// drive the motion or to model joint friction.
 type B2PrismaticJoint struct {
 	*B2Joint
 
@@ -104,22 +104,22 @@ type B2PrismaticJoint struct {
 	M_motorMass    float64
 }
 
-/// The local anchor point relative to bodyA's origin.
+// The local anchor point relative to bodyA's origin.
 func (joint B2PrismaticJoint) GetLocalAnchorA() B2Vec2 {
 	return joint.M_localAnchorA
 }
 
-/// The local anchor point relative to bodyB's origin.
+// The local anchor point relative to bodyB's origin.
 func (joint B2PrismaticJoint) GetLocalAnchorB() B2Vec2 {
 	return joint.M_localAnchorB
 }
 
-/// The local joint axis relative to bodyA.
+// The local joint axis relative to bodyA.
 func (joint B2PrismaticJoint) GetLocalAxisA() B2Vec2 {
 	return joint.M_localXAxisA
 }
 
-/// Get the reference angle.
+// Get the reference angle.
 func (joint B2PrismaticJoint) GetReferenceAngle() float64 {
 	return joint.M_referenceAngle
 }
@@ -329,7 +329,7 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_impulse.Z = 0.0
 	}
 
-	if joint.M_enableMotor == false {
+	if !joint.M_enableMotor {
 		joint.M_motorImpulse = 0.0
 	}
 

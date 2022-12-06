@@ -239,11 +239,10 @@ func TestCPPCompliance(t *testing.T) {
 
 	output := ""
 
-	characterNames := make([]string, 0)
+	var characterNames []string
 	for k := range characters {
 		characterNames = append(characterNames, k)
 	}
-
 	sort.Strings(characterNames)
 
 	// This is our little game loop.

@@ -39,11 +39,7 @@ type B2ContactSolverDef struct {
 }
 
 func MakeB2ContactSolverDef() B2ContactSolverDef {
-	return B2ContactSolverDef{
-		Contacts:   make([]B2ContactInterface, 0),
-		Positions:  make([]B2Position, 0),
-		Velocities: make([]B2Velocity, 0),
-	}
+	return B2ContactSolverDef{}
 }
 
 type B2ContactSolver struct {

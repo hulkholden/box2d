@@ -17,18 +17,8 @@ type B2DistanceProxy struct {
 	M_radius   float64
 }
 
-func MakeB2DistanceProxy() B2DistanceProxy {
-	return B2DistanceProxy{
-		M_vertices: make([]B2Vec2, 0),
-		M_count:    0,
-		M_radius:   0.0,
-	}
-}
-
-func NewB2DistanceProxy() *B2DistanceProxy {
-	res := MakeB2DistanceProxy()
-	return &res
-}
+func MakeB2DistanceProxy() B2DistanceProxy { return B2DistanceProxy{} }
+func NewB2DistanceProxy() *B2DistanceProxy { return &B2DistanceProxy{} }
 
 // Used to warm start b2Distance.
 // Set count to zero on first call.
@@ -39,19 +29,8 @@ type B2SimplexCache struct {
 	IndexB [3]int ///< vertices on shape B
 }
 
-func MakeB2SimplexCache() B2SimplexCache {
-	return B2SimplexCache{
-		Metric: 0,
-		Count:  0,
-		IndexA: [3]int{}, ///< vertices on shape A
-		IndexB: [3]int{}, ///< vertices on shape B
-	}
-}
-
-func NewB2SimplexCache() *B2SimplexCache {
-	res := MakeB2SimplexCache()
-	return &res
-}
+func MakeB2SimplexCache() B2SimplexCache { return B2SimplexCache{} }
+func NewB2SimplexCache() *B2SimplexCache { return &B2SimplexCache{} }
 
 // Input for b2Distance.
 // You have to option to use the shape radii
@@ -64,20 +43,8 @@ type B2DistanceInput struct {
 	UseRadii   bool
 }
 
-func MakeB2DistanceInput() B2DistanceInput {
-	return B2DistanceInput{
-		ProxyA:     MakeB2DistanceProxy(),
-		ProxyB:     MakeB2DistanceProxy(),
-		TransformA: MakeB2Transform(),
-		TransformB: MakeB2Transform(),
-		UseRadii:   false,
-	}
-}
-
-func NewB2DistanceInput() *B2DistanceInput {
-	res := MakeB2DistanceInput()
-	return &res
-}
+func MakeB2DistanceInput() B2DistanceInput { return B2DistanceInput{} }
+func NewB2DistanceInput() *B2DistanceInput { return &B2DistanceInput{} }
 
 // Output for b2Distance.
 type B2DistanceOutput struct {
@@ -87,21 +54,8 @@ type B2DistanceOutput struct {
 	Iterations int ///< number of GJK iterations used
 }
 
-func MakeB2DistanceOutput() B2DistanceOutput {
-	return B2DistanceOutput{
-		PointA:     MakeB2Vec2(0, 0),
-		PointB:     MakeB2Vec2(0, 0),
-		Distance:   0,
-		Iterations: 0,
-	}
-}
-
-func NewB2DistanceOutput() *B2DistanceOutput {
-	res := MakeB2DistanceOutput()
-	return &res
-}
-
-// //////////////////////////////////////////////////////////////////////////
+func MakeB2DistanceOutput() B2DistanceOutput { return B2DistanceOutput{} }
+func NewB2DistanceOutput() *B2DistanceOutput { return &B2DistanceOutput{} }
 
 func (p B2DistanceProxy) GetVertexCount() int {
 	return p.M_count
@@ -201,21 +155,8 @@ type B2SimplexVertex struct {
 	IndexB int     // wB index
 }
 
-func MakeB2SimplexVertex() B2SimplexVertex {
-	return B2SimplexVertex{
-		WA:     MakeB2Vec2(0, 0),
-		WB:     MakeB2Vec2(0, 0),
-		W:      MakeB2Vec2(0, 0),
-		A:      0,
-		IndexA: 0,
-		IndexB: 0,
-	}
-}
-
-func NewB2SimplexVertex() *B2SimplexVertex {
-	res := MakeB2SimplexVertex()
-	return &res
-}
+func MakeB2SimplexVertex() B2SimplexVertex { return B2SimplexVertex{} }
+func NewB2SimplexVertex() *B2SimplexVertex { return &B2SimplexVertex{} }
 
 type B2Simplex struct {
 	//M_v1, M_v2, M_v3 *B2SimplexVertex
@@ -223,20 +164,8 @@ type B2Simplex struct {
 	M_count int
 }
 
-func MakeB2Simplex() B2Simplex {
-	return B2Simplex{
-		M_vs: [3]B2SimplexVertex{
-			MakeB2SimplexVertex(),
-			MakeB2SimplexVertex(),
-			MakeB2SimplexVertex(),
-		},
-	}
-}
-
-func NewB2Simplex() *B2Simplex {
-	res := MakeB2Simplex()
-	return &res
-}
+func MakeB2Simplex() B2Simplex { return B2Simplex{} }
+func NewB2Simplex() *B2Simplex { return &B2Simplex{} }
 
 func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *B2DistanceProxy, transformA B2Transform, proxyB *B2DistanceProxy, transformB B2Transform) {
 	B2Assert(cache.Count <= 3)

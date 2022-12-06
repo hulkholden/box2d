@@ -31,9 +31,7 @@ type B2ContactFeature struct {
 	TypeB  uint8 ///< The feature type on shapeB
 }
 
-func MakeB2ContactFeature() B2ContactFeature {
-	return B2ContactFeature{}
-}
+func MakeB2ContactFeature() B2ContactFeature { return B2ContactFeature{} }
 
 type B2ContactID B2ContactFeature
 
@@ -107,9 +105,7 @@ type B2Manifold struct {
 	PointCount  int                                   ///< the number of manifold points
 }
 
-func NewB2Manifold() *B2Manifold {
-	return &B2Manifold{}
-}
+func NewB2Manifold() *B2Manifold { return &B2Manifold{} }
 
 // This is used to compute the current state of a contact manifold.
 type B2WorldManifold struct {
@@ -118,9 +114,7 @@ type B2WorldManifold struct {
 	Separations [B2_maxManifoldPoints]float64 ///< a negative value indicates overlap, in meters
 }
 
-func MakeB2WorldManifold() B2WorldManifold {
-	return B2WorldManifold{}
-}
+func MakeB2WorldManifold() B2WorldManifold { return B2WorldManifold{} }
 
 var B2PointState = struct {
 	B2_nullState    uint8 ///< point does not exist
@@ -146,18 +140,7 @@ type B2RayCastInput struct {
 	MaxFraction float64
 }
 
-func MakeB2RayCastInput() B2RayCastInput {
-	return B2RayCastInput{
-		P1:          MakeB2Vec2(0, 0),
-		P2:          MakeB2Vec2(0, 0),
-		MaxFraction: 0,
-	}
-}
-
-func NewB2RayCastInput() *B2RayCastInput {
-	res := MakeB2RayCastInput()
-	return &res
-}
+func MakeB2RayCastInput() B2RayCastInput { return B2RayCastInput{} }
 
 // Ray-cast output data. The ray hits at p1 + fraction * (p2 - p1), where p1 and p2
 // come from b2RayCastInput.
@@ -166,12 +149,7 @@ type B2RayCastOutput struct {
 	Fraction float64
 }
 
-func MakeB2RayCastOutput() B2RayCastOutput {
-	return B2RayCastOutput{
-		Normal:   MakeB2Vec2(0, 0),
-		Fraction: 0,
-	}
-}
+func MakeB2RayCastOutput() B2RayCastOutput { return B2RayCastOutput{} }
 
 // An axis aligned bounding box.
 type B2AABB struct {
@@ -179,17 +157,8 @@ type B2AABB struct {
 	UpperBound B2Vec2 ///< the upper vertex
 }
 
-func MakeB2AABB() B2AABB {
-	return B2AABB{
-		LowerBound: MakeB2Vec2(0, 0),
-		UpperBound: MakeB2Vec2(0, 0),
-	}
-}
-
-func NewB2AABB() *B2AABB {
-	res := MakeB2AABB()
-	return &res
-}
+func MakeB2AABB() B2AABB { return B2AABB{} }
+func NewB2AABB() *B2AABB { return &B2AABB{} }
 
 // Get the center of the AABB.
 func (bb B2AABB) GetCenter() B2Vec2 {

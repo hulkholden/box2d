@@ -214,13 +214,8 @@ type B2Mat22 struct {
 }
 
 // The default constructor does nothing
-func MakeB2Mat22() B2Mat22 {
-	return B2Mat22{}
-}
-
-func NewB2Mat22() *B2Mat22 {
-	return &B2Mat22{}
-}
+func MakeB2Mat22() B2Mat22 { return B2Mat22{} }
+func NewB2Mat22() *B2Mat22 { return &B2Mat22{} }
 
 // Construct this matrix using columns.
 func MakeB2Mat22FromColumns(c1, c2 B2Vec2) B2Mat22 {
@@ -318,13 +313,8 @@ type B2Mat33 struct {
 }
 
 // The default constructor does nothing (for performance).
-func MakeB2Mat33() B2Mat33 {
-	return B2Mat33{}
-}
-
-func NewB2Mat33() *B2Mat33 {
-	return &B2Mat33{}
-}
+func MakeB2Mat33() B2Mat33 { return B2Mat33{} }
+func NewB2Mat33() *B2Mat33 { return &B2Mat33{} }
 
 // Construct this matrix using columns.
 func MakeB2Mat33FromColumns(c1, c2, c3 B2Vec3) B2Mat33 {
@@ -353,13 +343,8 @@ type B2Rot struct {
 	S, C float64
 }
 
-func MakeB2Rot() B2Rot {
-	return B2Rot{}
-}
-
-func NewB2Rot() *B2Rot {
-	return &B2Rot{}
-}
+func MakeB2Rot() B2Rot { return B2Rot{} }
+func NewB2Rot() *B2Rot { return &B2Rot{} }
 
 // Initialize from an angle in radians
 func MakeB2RotFromAngle(anglerad float64) B2Rot {
@@ -409,14 +394,8 @@ type B2Transform struct {
 }
 
 // The default constructor does nothing.
-func MakeB2Transform() B2Transform {
-	return B2Transform{}
-}
-
-func NewB2Transform() *B2Transform {
-	res := MakeB2Transform()
-	return &res
-}
+func MakeB2Transform() B2Transform { return B2Transform{} }
+func NewB2Transform() *B2Transform { return &B2Transform{} }
 
 // Initialize using a position vector and a rotation.
 func MakeB2TransformByPositionAndRotation(position B2Vec2, rotation B2Rot) B2Transform {

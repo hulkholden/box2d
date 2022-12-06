@@ -258,9 +258,7 @@ func TestCPPCompliance(t *testing.T) {
 			character := characters[name]
 			position := character.GetPosition()
 			angle := character.GetAngle()
-			msg := fmt.Sprintf("%v(%s): %4.3f %4.3f %4.3f\n", i, name, position.X, position.Y, angle)
-			fmt.Print(msg)
-			output += msg
+			output += fmt.Sprintf("%v(%s): %4.3f %4.3f %4.3f\n", i, name, position.X, position.Y, angle)
 		}
 	}
 

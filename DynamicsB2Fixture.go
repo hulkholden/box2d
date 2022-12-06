@@ -64,6 +64,7 @@ func MakeB2FixtureDef() B2FixtureDef {
 		Restitution: 0.0,
 		Density:     0.0,
 		IsSensor:    false,
+		Filter:      MakeB2Filter(),
 	}
 }
 
@@ -101,12 +102,15 @@ type B2Fixture struct {
 	M_userData interface{}
 }
 
-func NewB2Fixture() *B2Fixture {
-	return &B2Fixture{
-		M_next:   nil,
-		M_body:   nil,
+func MakeB2Fixture() B2Fixture {
+	return B2Fixture{
 		M_filter: MakeB2Filter(),
 	}
+}
+
+func NewB2Fixture() *B2Fixture {
+	res := MakeB2Fixture()
+	return &res
 }
 
 func (fix B2Fixture) GetType() uint8 {
@@ -190,18 +194,6 @@ func (fix B2Fixture) GetAABB(childIndex int) B2AABB {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-
-func MakeB2Fixture() B2Fixture {
-	return B2Fixture{
-		M_userData:   nil,
-		M_body:       nil,
-		M_next:       nil,
-		M_proxies:    nil,
-		M_proxyCount: 0,
-		M_shape:      nil,
-		M_density:    0.0,
-	}
-}
 
 func (fix *B2Fixture) Create(body *B2Body, def *B2FixtureDef) {
 	fix.M_userData = def.UserData

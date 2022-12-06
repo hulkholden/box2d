@@ -58,13 +58,8 @@ type B2FixtureDef struct {
 // The constructor sets the default fixture definition values.
 func MakeB2FixtureDef() B2FixtureDef {
 	return B2FixtureDef{
-		Shape:       nil,
-		UserData:    nil,
-		Friction:    0.2,
-		Restitution: 0.0,
-		Density:     0.0,
-		IsSensor:    false,
-		Filter:      MakeB2Filter(),
+		Friction: 0.2,
+		Filter:   MakeB2Filter(),
 	}
 }
 

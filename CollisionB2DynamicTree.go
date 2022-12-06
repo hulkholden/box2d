@@ -345,7 +345,7 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 
 		area := tree.M_nodes[index].Aabb.GetPerimeter()
 
-		combinedAABB := NewB2AABB()
+		combinedAABB := MakeB2AABB()
 		combinedAABB.CombineTwoInPlace(tree.M_nodes[index].Aabb, leafAABB)
 		combinedArea := combinedAABB.GetPerimeter()
 
@@ -358,11 +358,11 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 		// Cost of descending into child1
 		cost1 := 0.0
 		if tree.M_nodes[child1].IsLeaf() {
-			aabb := NewB2AABB()
+			aabb := MakeB2AABB()
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child1].Aabb)
 			cost1 = aabb.GetPerimeter() + inheritanceCost
 		} else {
-			aabb := NewB2AABB()
+			aabb := MakeB2AABB()
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child1].Aabb)
 			oldArea := tree.M_nodes[child1].Aabb.GetPerimeter()
 			newArea := aabb.GetPerimeter()
@@ -372,11 +372,11 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 		// Cost of descending into child2
 		cost2 := 0.0
 		if tree.M_nodes[child2].IsLeaf() {
-			aabb := NewB2AABB()
+			aabb := MakeB2AABB()
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child2].Aabb)
 			cost2 = aabb.GetPerimeter() + inheritanceCost
 		} else {
-			aabb := NewB2AABB()
+			aabb := MakeB2AABB()
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child2].Aabb)
 			oldArea := tree.M_nodes[child2].Aabb.GetPerimeter()
 			newArea := aabb.GetPerimeter()
@@ -722,7 +722,7 @@ func (tree B2DynamicTree) ValidateMetrics(index int) {
 	height := 1 + MaxInt(height1, height2)
 	B2Assert(node.Height == height)
 
-	aabb := NewB2AABB()
+	aabb := MakeB2AABB()
 	aabb.CombineTwoInPlace(tree.M_nodes[child1].Aabb, tree.M_nodes[child2].Aabb)
 
 	B2Assert(aabb.LowerBound == node.Aabb.LowerBound)
@@ -799,7 +799,7 @@ func (tree *B2DynamicTree) RebuildBottomUp() {
 
 			for j := i + 1; j < count; j++ {
 				aabbj := tree.M_nodes[nodes[j]].Aabb
-				b := NewB2AABB()
+				b := MakeB2AABB()
 				b.CombineTwoInPlace(aabbi, aabbj)
 				cost := b.GetPerimeter()
 				if cost < minCost {

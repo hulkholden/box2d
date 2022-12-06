@@ -78,6 +78,7 @@ func (v B2Vec2) OperatorIndexGet(i int) float64 {
 func (v *B2Vec2) OperatorIndexSet(i int, value float64) {
 	if i == 0 {
 		v.X = value
+		return
 	}
 
 	v.Y = value

@@ -1269,12 +1269,12 @@ func (world *B2World) Dump() {
 		return
 	}
 
-	fmt.Print(fmt.Printf("b2Vec2 g(%.15f, %.15f);\n", world.M_gravity.X, world.M_gravity.Y))
+	fmt.Printf("b2Vec2 g(%.15f, %.15f);\n", world.M_gravity.X, world.M_gravity.Y)
 	fmt.Print("m_world.SetGravity(g);\n")
 
-	fmt.Print(fmt.Printf("b2Body** bodies = (b2Body**)b2Alloc(%d * sizeof(b2Body*));\n", world.M_bodyCount))
+	fmt.Printf("b2Body** bodies = (b2Body**)b2Alloc(%d * sizeof(b2Body*));\n", world.M_bodyCount)
 	//fmt.Print("b2Joint** joints = (b2Joint**)b2Alloc(%d * sizeof(b2Joint*));\n", m_jointCount)
-	fmt.Print(fmt.Printf("b2Joint** joints = (b2Joint**)b2Alloc(%d * sizeof(b2Joint*));\n", world.M_jointCount))
+	fmt.Printf("b2Joint** joints = (b2Joint**)b2Alloc(%d * sizeof(b2Joint*));\n", world.M_jointCount)
 
 	i := 0
 	for b := world.M_bodyList; b != nil; b = b.M_next {

@@ -227,10 +227,6 @@ func (mgr *B2ContactManager) AddPair(proxyUserDataA interface{}, proxyUserDataB 
 	// Connect to island graph.
 
 	// Connect to body A
-	// fmt.Printf("getNode(): %p\n", c.GetNodeA())
-	// fmt.Printf("getNode(): %p\n", c.GetNodeA())
-	// fmt.Printf("getNode(): %p\n", c.GetNodeA())
-
 	c.GetNodeA().Contact = c
 	c.GetNodeA().Other = bodyB
 

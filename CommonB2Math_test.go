@@ -75,3 +75,50 @@ func TestB2Vec(t *testing.T) {
 		t.Errorf("v after Normalize() = %f; want %f", got, want)
 	}
 }
+
+func TestB2SweepGetTransform(t *testing.T) {
+	tests := map[string]struct {
+		sweep box2d.B2Sweep
+		beta  float64
+		want  box2d.B2Transform
+	}{
+		"at 0.0": {
+			sweep: box2d.B2Sweep{
+				C0:     box2d.MakeB2Vec2(-2.0, 4.0),
+				C:      box2d.MakeB2Vec2(3.0, 8.0),
+				A0:     0.5,
+				A:      5.0,
+				Alpha0: 0.0,
+			},
+			beta: 0.0,
+			want: box2d.B2Transform{
+				P: box2d.MakeB2Vec2(-2.0, 4.0),
+				Q: box2d.MakeB2RotFromAngle(0.5),
+			},
+		},
+		"at 1.0": {
+			sweep: box2d.B2Sweep{
+				C0:     box2d.MakeB2Vec2(-2.0, 4.0),
+				C:      box2d.MakeB2Vec2(3.0, 8.0),
+				A0:     0.5,
+				A:      5.0,
+				Alpha0: 0.0,
+			},
+			beta: 1.0,
+			want: box2d.B2Transform{
+				P: box2d.MakeB2Vec2(3.0, 8.0),
+				Q: box2d.MakeB2RotFromAngle(5.0),
+			},
+		},
+	}
+
+	for tn, tc := range tests {
+		t.Run(tn, func(t *testing.T) {
+			var got box2d.B2Transform
+			tc.sweep.GetTransform(&got, tc.beta)
+			if !cmp.Equal(got, tc.want, closeEnough) {
+				t.Errorf("GetTransform() = %+v; want %+v", got, tc.want)
+			}
+		})
+	}
+}

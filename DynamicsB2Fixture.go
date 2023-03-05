@@ -173,8 +173,8 @@ func (fix B2Fixture) RayCast(output *B2RayCastOutput, input B2RayCastInput, chil
 	return fix.M_shape.RayCast(output, input, fix.M_body.GetTransform(), childIndex)
 }
 
-func (fix B2Fixture) GetMassData(massData *B2MassData) {
-	fix.M_shape.ComputeMass(massData, fix.M_density)
+func (fix B2Fixture) GetMassData() B2MassData {
+	return fix.M_shape.ComputeMass(fix.M_density)
 }
 
 func (fix B2Fixture) GetAABB(childIndex int) B2AABB {

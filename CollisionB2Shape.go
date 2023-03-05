@@ -80,9 +80,9 @@ type B2ShapeInterface interface {
 
 	/// Compute the mass properties of this shape using its dimensions and density.
 	/// The inertia tensor is computed about the local origin.
-	/// @param massData returns the mass data for this shape.
 	/// @param density the density in kilograms per meter squared.
-	ComputeMass(massData *B2MassData, density float64)
+	/// @return the mass data for this shape.
+	ComputeMass(density float64) B2MassData
 }
 
 type B2Shape struct {

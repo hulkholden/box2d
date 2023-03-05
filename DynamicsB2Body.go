@@ -225,10 +225,12 @@ func (body B2Body) GetInertia() float64 {
 	return body.M_I + body.M_mass*B2Vec2Dot(body.M_sweep.LocalCenter, body.M_sweep.LocalCenter)
 }
 
-func (body B2Body) GetMassData(data *B2MassData) {
+func (body B2Body) GetMassData() B2MassData {
+	data := MakeMassData()
 	data.Mass = body.M_mass
 	data.I = body.M_I + body.M_mass*B2Vec2Dot(body.M_sweep.LocalCenter, body.M_sweep.LocalCenter)
 	data.Center = body.M_sweep.LocalCenter
+	return data
 }
 
 func (body B2Body) GetWorldPoint(localPoint B2Vec2) B2Vec2 {
@@ -737,8 +739,7 @@ func (body *B2Body) ResetMassData() {
 			continue
 		}
 
-		massData := NewMassData()
-		f.GetMassData(massData)
+		massData := f.GetMassData()
 		body.M_mass += massData.Mass
 		localCenter.OperatorPlusInplace(B2Vec2MulScalar(massData.Mass, massData.Center))
 		body.M_I += massData.I

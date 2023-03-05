@@ -356,7 +356,7 @@ func (poly B2PolygonShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 	return MakeB2AABB(lowerBound, upperBound)
 }
 
-func (poly B2PolygonShape) ComputeMass(massData *B2MassData, density float64) {
+func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 	// Polygon mass, centroid, and inertia.
 	// Let rho be the polygon density in mass per unit area.
 	// Then:
@@ -431,6 +431,8 @@ func (poly B2PolygonShape) ComputeMass(massData *B2MassData, density float64) {
 		I += (0.25 * k_inv3 * D) * (intx2 + inty2)
 	}
 
+	massData := MakeMassData()
+
 	// Total mass
 	massData.Mass = density * area
 
@@ -444,6 +446,7 @@ func (poly B2PolygonShape) ComputeMass(massData *B2MassData, density float64) {
 
 	// Shift to center of mass then to original body origin.
 	massData.I += massData.Mass * (B2Vec2Dot(massData.Center, massData.Center) - B2Vec2Dot(center, center))
+	return massData
 }
 
 func (poly B2PolygonShape) Validate() bool {

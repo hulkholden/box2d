@@ -186,8 +186,10 @@ func (chain B2ChainShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 	return MakeB2AABB(B2Vec2Min(v1, v2), B2Vec2Max(v1, v2))
 }
 
-func (chain B2ChainShape) ComputeMass(massData *B2MassData, density float64) {
+func (chain B2ChainShape) ComputeMass(density float64) B2MassData {
+	massData := MakeMassData()
 	massData.Mass = 0.0
 	massData.Center.SetZero()
 	massData.I = 0.0
+	return massData
 }

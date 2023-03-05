@@ -139,8 +139,10 @@ func (edge B2EdgeShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 	return MakeB2AABB(lowerBound, upperBound)
 }
 
-func (edge B2EdgeShape) ComputeMass(massData *B2MassData, density float64) {
+func (edge B2EdgeShape) ComputeMass(density float64) B2MassData {
+	massData := MakeMassData()
 	massData.Mass = 0.0
 	massData.Center = B2Vec2MulScalar(0.5, B2Vec2Add(edge.M_vertex1, edge.M_vertex2))
 	massData.I = 0.0
+	return massData
 }

@@ -300,7 +300,7 @@ func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb B2AABB, displacement B2Ve
 	tree.RemoveLeaf(proxyId)
 
 	// Extend AABB.
-	b := aabb.Clone()
+	b := aabb
 	r := MakeB2Vec2(B2_aabbExtension, B2_aabbExtension)
 	b.LowerBound = B2Vec2Sub(b.LowerBound, r)
 	b.UpperBound = B2Vec2Add(b.UpperBound, r)

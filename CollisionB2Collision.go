@@ -211,14 +211,6 @@ func (bb B2AABB) IsValid() bool {
 	return valid
 }
 
-func (bb B2AABB) Clone() B2AABB {
-	clone := MakeB2AABB()
-	clone.LowerBound = bb.LowerBound.Clone()
-	clone.UpperBound = bb.UpperBound.Clone()
-
-	return clone
-}
-
 func B2TestOverlapBoundingBoxes(a, b B2AABB) bool {
 
 	d1 := B2Vec2Sub(b.LowerBound, a.UpperBound)

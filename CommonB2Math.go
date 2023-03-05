@@ -139,11 +139,6 @@ func (v B2Vec2) Skew() B2Vec2 {
 	return MakeB2Vec2(-v.Y, v.X)
 }
 
-// Clone clonets this vector.
-func (v B2Vec2) Clone() B2Vec2 {
-	return MakeB2Vec2(v.X, v.Y)
-}
-
 // B2Vec3 is 2D column vector with 3 elements.
 type B2Vec3 struct {
 	X, Y, Z float64

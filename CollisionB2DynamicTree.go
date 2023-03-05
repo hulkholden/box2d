@@ -116,11 +116,10 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 	maxFraction := input.MaxFraction
 
 	// Build a bounding box for the segment.
-	segmentAABB := MakeB2AABB()
+	var segmentAABB B2AABB
 	{
 		t := B2Vec2Add(p1, B2Vec2MulScalar(maxFraction, B2Vec2Sub(p2, p1)))
-		segmentAABB.LowerBound = B2Vec2Min(p1, t)
-		segmentAABB.UpperBound = B2Vec2Max(p1, t)
+		segmentAABB = MakeB2AABB(B2Vec2Min(p1, t), B2Vec2Max(p1, t))
 	}
 
 	stack := NewB2GrowableStack[int](256)
@@ -345,7 +344,7 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 
 		area := tree.M_nodes[index].Aabb.GetPerimeter()
 
-		combinedAABB := MakeB2AABB()
+		var combinedAABB B2AABB
 		combinedAABB.CombineTwoInPlace(tree.M_nodes[index].Aabb, leafAABB)
 		combinedArea := combinedAABB.GetPerimeter()
 
@@ -358,11 +357,11 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 		// Cost of descending into child1
 		cost1 := 0.0
 		if tree.M_nodes[child1].IsLeaf() {
-			aabb := MakeB2AABB()
+			var aabb B2AABB
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child1].Aabb)
 			cost1 = aabb.GetPerimeter() + inheritanceCost
 		} else {
-			aabb := MakeB2AABB()
+			var aabb B2AABB
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child1].Aabb)
 			oldArea := tree.M_nodes[child1].Aabb.GetPerimeter()
 			newArea := aabb.GetPerimeter()
@@ -372,11 +371,11 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 		// Cost of descending into child2
 		cost2 := 0.0
 		if tree.M_nodes[child2].IsLeaf() {
-			aabb := MakeB2AABB()
+			var aabb B2AABB
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child2].Aabb)
 			cost2 = aabb.GetPerimeter() + inheritanceCost
 		} else {
-			aabb := MakeB2AABB()
+			var aabb B2AABB
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child2].Aabb)
 			oldArea := tree.M_nodes[child2].Aabb.GetPerimeter()
 			newArea := aabb.GetPerimeter()
@@ -722,7 +721,7 @@ func (tree B2DynamicTree) ValidateMetrics(index int) {
 	height := 1 + MaxInt(height1, height2)
 	B2Assert(node.Height == height)
 
-	aabb := MakeB2AABB()
+	var aabb B2AABB
 	aabb.CombineTwoInPlace(tree.M_nodes[child1].Aabb, tree.M_nodes[child2].Aabb)
 
 	B2Assert(aabb.LowerBound == node.Aabb.LowerBound)
@@ -799,7 +798,7 @@ func (tree *B2DynamicTree) RebuildBottomUp() {
 
 			for j := i + 1; j < count; j++ {
 				aabbj := tree.M_nodes[nodes[j]].Aabb
-				b := MakeB2AABB()
+				var b B2AABB
 				b.CombineTwoInPlace(aabbi, aabbj)
 				cost := b.GetPerimeter()
 				if cost < minCost {

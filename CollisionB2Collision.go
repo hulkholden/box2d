@@ -157,7 +157,12 @@ type B2AABB struct {
 	UpperBound B2Vec2 ///< the upper vertex
 }
 
-func MakeB2AABB() B2AABB { return B2AABB{} }
+func MakeB2AABB(lower, upper B2Vec2) B2AABB {
+	return B2AABB{
+		LowerBound: lower,
+		UpperBound: upper,
+	}
+}
 func NewB2AABB() *B2AABB { return &B2AABB{} }
 
 // Get the center of the AABB.

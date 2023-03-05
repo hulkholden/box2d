@@ -339,7 +339,7 @@ func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 	return false
 }
 
-func (poly B2PolygonShape) ComputeAABB(aabb *B2AABB, xf B2Transform, childIndex int) {
+func (poly B2PolygonShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 
 	lower := B2TransformVec2Mul(xf, poly.M_vertices[0])
 	upper := lower
@@ -351,8 +351,9 @@ func (poly B2PolygonShape) ComputeAABB(aabb *B2AABB, xf B2Transform, childIndex 
 	}
 
 	r := MakeB2Vec2(poly.M_radius, poly.M_radius)
-	aabb.LowerBound = B2Vec2Sub(lower, r)
-	aabb.UpperBound = B2Vec2Sub(upper, r)
+	lowerBound := B2Vec2Sub(lower, r)
+	upperBound := B2Vec2Sub(upper, r)
+	return MakeB2AABB(lowerBound, upperBound)
 }
 
 func (poly B2PolygonShape) ComputeMass(massData *B2MassData, density float64) {

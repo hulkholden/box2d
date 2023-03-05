@@ -258,7 +258,7 @@ func (fix *B2Fixture) CreateProxies(broadPhase *B2BroadPhase, xf B2Transform) {
 
 	for i := 0; i < fix.M_proxyCount; i++ {
 		proxy := &fix.M_proxies[i]
-		fix.M_shape.ComputeAABB(&proxy.Aabb, xf, i)
+		proxy.Aabb = fix.M_shape.ComputeAABB(xf, i)
 		proxy.ProxyId = broadPhase.CreateProxy(proxy.Aabb, proxy)
 		proxy.Fixture = fix
 		proxy.ChildIndex = i
@@ -287,10 +287,8 @@ func (fix *B2Fixture) Synchronize(broadPhase *B2BroadPhase, transform1 B2Transfo
 		proxy := &fix.M_proxies[i]
 
 		// Compute an AABB that covers the swept shape (may miss some rotation effect).
-		aabb1 := MakeB2AABB()
-		aabb2 := MakeB2AABB()
-		fix.M_shape.ComputeAABB(&aabb1, transform1, proxy.ChildIndex)
-		fix.M_shape.ComputeAABB(&aabb2, transform2, proxy.ChildIndex)
+		aabb1 := fix.M_shape.ComputeAABB(transform1, proxy.ChildIndex)
+		aabb2 := fix.M_shape.ComputeAABB(transform2, proxy.ChildIndex)
 
 		proxy.Aabb.CombineTwoInPlace(aabb1, aabb2)
 

@@ -73,10 +73,10 @@ type B2ShapeInterface interface {
 	RayCast(output *B2RayCastOutput, input B2RayCastInput, transform B2Transform, childIndex int) bool
 
 	/// Given a transform, compute the associated axis aligned bounding box for a child shape.
-	/// @param aabb returns the axis aligned box.
 	/// @param xf the world transform of the shape.
 	/// @param childIndex the child shape
-	ComputeAABB(aabb *B2AABB, xf B2Transform, childIndex int)
+	/// @return the axis aligned box.
+	ComputeAABB(xf B2Transform, childIndex int) B2AABB
 
 	/// Compute the mass properties of this shape using its dimensions and density.
 	/// The inertia tensor is computed about the local origin.

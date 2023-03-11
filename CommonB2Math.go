@@ -115,7 +115,6 @@ func (v B2Vec2) LengthSquared() float64 {
 
 // Normalize converts this vector into a unit vector. Returns the length.
 func (v *B2Vec2) Normalize() float64 {
-
 	length := v.Length()
 
 	if length < B2_epsilon {
@@ -261,7 +260,6 @@ func (m *B2Mat22) SetZero() {
 }
 
 func (m B2Mat22) GetInverse() B2Mat22 {
-
 	a := m.Ex.X
 	b := m.Ey.X
 	c := m.Ex.Y
@@ -285,7 +283,6 @@ func (m B2Mat22) GetInverse() B2Mat22 {
 // Solve A * x = b, where b is a column vector. This is more efficient
 // than computing the inverse in one-shot cases.
 func (m B2Mat22) Solve(b B2Vec2) B2Vec2 {
-
 	a11 := m.Ex.X
 	a12 := m.Ey.X
 	a21 := m.Ex.Y
@@ -663,8 +660,10 @@ func B2ProjectPointOnLine(v1 B2Vec2, v2 B2Vec2, p B2Vec2) B2Vec2 {
 	e2 := B2Vec2{p.X - v1.X, p.Y - v1.Y}
 	valDp := B2Vec2Dot(e1, e2)
 	len2 := e1.X*e1.X + e1.Y*e1.Y
-	p1 := B2Vec2{v1.X + (valDp*e1.X)/len2,
-		v1.Y + (valDp*e1.Y)/len2}
+	p1 := B2Vec2{
+		v1.X + (valDp*e1.X)/len2,
+		v1.Y + (valDp*e1.Y)/len2,
+	}
 	return p1
 }
 
@@ -681,15 +680,15 @@ func B2Mat22Abs(A B2Mat22) B2Mat22 {
 
 func B2Vec2Min(a, b B2Vec2) B2Vec2 {
 	return MakeB2Vec2(
-		math.Min(a.X, b.X),
-		math.Min(a.Y, b.Y),
+		fastMin(a.X, b.X),
+		fastMin(a.Y, b.Y),
 	)
 }
 
 func B2Vec2Max(a, b B2Vec2) B2Vec2 {
 	return MakeB2Vec2(
-		math.Max(a.X, b.X),
-		math.Max(a.Y, b.Y),
+		fastMax(a.X, b.X),
+		fastMax(a.Y, b.Y),
 	)
 }
 
@@ -854,4 +853,18 @@ func (mat B2Mat33) GetSymInverse33(M *B2Mat33) {
 	M.Ez.X = M.Ex.Z
 	M.Ez.Y = M.Ey.Z
 	M.Ez.Z = det * (a11*a22 - a12*a12)
+}
+
+func fastMin(a, b float64) float64 {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func fastMax(a, b float64) float64 {
+	if a > b {
+		return a
+	}
+	return b
 }

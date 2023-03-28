@@ -1018,7 +1018,7 @@ func (world *B2World) DrawShape(fixture *B2Fixture, xf B2Transform, color B2Colo
 		count := chain.M_count
 		vertices := chain.M_vertices
 
-		ghostColor := MakeB2ColorRGBA(0.75*color.r, 0.75*color.g, 0.75*color.b, color.a)
+		ghostColor := MakeB2ColorRGBA(0.75*color.R, 0.75*color.G, 0.75*color.B, color.A)
 
 		v1 := B2TransformVec2Mul(xf, vertices[0])
 		world.G_debugDraw.DrawPoint(v1, 4.0, color)

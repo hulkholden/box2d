@@ -2,7 +2,7 @@ package box2d
 
 // Color for debug drawing. Each value has the range [0,1].
 type B2Color struct {
-	r, g, b, a float32
+	R, G, B, A float32
 }
 
 func MakeB2Color() B2Color {
@@ -22,10 +22,10 @@ func (c *B2Color) SetRGB(r, g, b float32) {
 }
 
 func (c *B2Color) SetRGBA(r, g, b, a float32) {
-	c.r = r
-	c.g = g
-	c.b = b
-	c.a = a
+	c.R = r
+	c.G = g
+	c.B = b
+	c.A = a
 }
 
 var B2Draw_Flags = struct {

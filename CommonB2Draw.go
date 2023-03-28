@@ -10,7 +10,7 @@ func MakeB2Color() B2Color {
 }
 
 func MakeB2ColorRGB(r, g, b float32) B2Color {
-	return MakeB2ColorRGBA(0, 0, 0, 1)
+	return MakeB2ColorRGBA(r, g, b, 1)
 }
 
 func MakeB2ColorRGBA(r, g, b, a float32) B2Color {

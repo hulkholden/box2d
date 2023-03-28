@@ -37,7 +37,7 @@ type B2World struct {
 	M_allowSleep bool
 
 	M_destructionListener B2DestructionListenerInterface
-	//G_debugDraw           *B2Draw
+	G_debugDraw           B2Draw
 
 	// This is used to compute the time step ratio to
 	// support a variable time step.
@@ -119,11 +119,10 @@ func (world B2World) GetProfile() B2Profile {
 ///////////////////////////////////////////////////////////////////////////////
 
 func MakeB2World(gravity B2Vec2) B2World {
-
 	world := B2World{}
 
 	world.M_destructionListener = nil
-	//world.G_debugDraw = nil
+	world.G_debugDraw = nil
 
 	world.M_bodyList = nil
 	world.M_jointList = nil
@@ -150,7 +149,6 @@ func MakeB2World(gravity B2Vec2) B2World {
 }
 
 func (world *B2World) Destroy() {
-
 	// Some shapes allocate using b2Alloc.
 	b := world.M_bodyList
 	for b != nil {
@@ -180,10 +178,9 @@ func (world *B2World) SetContactListener(listener B2ContactListenerInterface) {
 	world.M_contactManager.M_contactListener = listener
 }
 
-// void (world *B2World) SetDebugDraw(b2Draw* debugDraw)
-// {
-// 	g_debugDraw = debugDraw;
-// }
+func (world *B2World) SetDebugDraw(debugDraw B2Draw) {
+	world.G_debugDraw = debugDraw
+}
 
 func (world *B2World) CreateBody(def *B2BodyDef) *B2Body {
 	B2Assert(!world.IsLocked())
@@ -606,7 +603,6 @@ func (world *B2World) Solve(step B2TimeStep) {
 
 // Find TOI contacts and solve them.
 func (world *B2World) SolveTOI(step B2TimeStep) {
-
 	island := MakeB2Island(2*B2_maxTOIContacts, B2_maxTOIContacts, 0, world.M_contactManager.M_contactListener)
 
 	if world.M_stepComplete {
@@ -975,10 +971,8 @@ func (world *B2World) QueryAABB(callback B2BroadPhaseQueryCallback, aabb B2AABB)
 }
 
 func (world *B2World) RayCast(callback B2RaycastCallback, point1 B2Vec2, point2 B2Vec2) {
-
 	// B2TreeRayCastCallback
 	wrapper := func(input B2RayCastInput, nodeId int) float64 {
-
 		userData := world.M_contactManager.M_broadPhase.GetUserData(nodeId)
 		proxy := userData.(*B2FixtureProxy)
 		fixture := proxy.Fixture
@@ -1002,231 +996,189 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 B2Vec2, point2 
 	world.M_contactManager.M_broadPhase.RayCast(wrapper, input)
 }
 
-// void (world *B2World) DrawShape(b2Fixture* fixture, const b2Transform& xf, const b2Color& color)
-// {
-// 	switch (fixture.GetType())
-// 	{
-// 	case b2Shape::e_circle:
-// 		{
-// 			b2CircleShape* circle = (b2CircleShape*)fixture.GetShape();
+func (world *B2World) DrawShape(fixture *B2Fixture, xf B2Transform, color B2Color) {
+	switch fixture.GetType() {
+	case B2Shape_Type.E_circle:
+		circle := fixture.GetShape().(*B2CircleShape)
 
-// 			b2Vec2 center = b2Mul(xf, circle.m_p);
-// 			float64 radius = circle.m_radius;
-// 			b2Vec2 axis = b2Mul(xf.q, b2Vec2(1.0, 0.0));
+		center := B2TransformVec2Mul(xf, circle.M_p)
+		radius := circle.M_radius
+		axis := B2RotVec2Mul(xf.Q, MakeB2Vec2(1.0, 0.0))
 
-// 			g_debugDraw.DrawSolidCircle(center, radius, axis, color);
-// 		}
-// 		break;
+		world.G_debugDraw.DrawSolidCircle(center, radius, axis, color)
 
-// 	case b2Shape::e_edge:
-// 		{
-// 			b2EdgeShape* edge = (b2EdgeShape*)fixture.GetShape();
-// 			b2Vec2 v1 = b2Mul(xf, edge.m_vertex1);
-// 			b2Vec2 v2 = b2Mul(xf, edge.m_vertex2);
-// 			g_debugDraw.DrawSegment(v1, v2, color);
-// 		}
-// 		break;
+	case B2Shape_Type.E_edge:
+		edge := fixture.GetShape().(*B2EdgeShape)
+		v1 := B2TransformVec2Mul(xf, edge.M_vertex1)
+		v2 := B2TransformVec2Mul(xf, edge.M_vertex2)
+		world.G_debugDraw.DrawSegment(v1, v2, color)
 
-// 	case b2Shape::e_chain:
-// 		{
-// 			b2ChainShape* chain = (b2ChainShape*)fixture.GetShape();
-// 			int count = chain.m_count;
-// 			const b2Vec2* vertices = chain.m_vertices;
+	case B2Shape_Type.E_chain:
+		chain := fixture.GetShape().(*B2ChainShape)
+		count := chain.M_count
+		vertices := chain.M_vertices
 
-// 			b2Color ghostColor(0.75f * color.r, 0.75f * color.g, 0.75f * color.b, color.a);
+		ghostColor := MakeB2ColorRGBA(0.75*color.r, 0.75*color.g, 0.75*color.b, color.a)
 
-// 			b2Vec2 v1 = b2Mul(xf, vertices[0]);
-// 			g_debugDraw.DrawPoint(v1, 4.0, color);
+		v1 := B2TransformVec2Mul(xf, vertices[0])
+		world.G_debugDraw.DrawPoint(v1, 4.0, color)
 
-// 			if (chain.m_hasPrevVertex)
-// 			{
-// 				b2Vec2 vp = b2Mul(xf, chain.m_prevVertex);
-// 				g_debugDraw.DrawSegment(vp, v1, ghostColor);
-// 				g_debugDraw.DrawCircle(vp, 0.1f, ghostColor);
-// 			}
+		if chain.M_hasPrevVertex {
+			vp := B2TransformVec2Mul(xf, chain.M_prevVertex)
+			world.G_debugDraw.DrawSegment(vp, v1, ghostColor)
+			world.G_debugDraw.DrawCircle(vp, 0.1, ghostColor)
+		}
 
-// 			for (int i = 1; i < count; ++i)
-// 			{
-// 				b2Vec2 v2 = b2Mul(xf, vertices[i]);
-// 				g_debugDraw.DrawSegment(v1, v2, color);
-// 				g_debugDraw.DrawPoint(v2, 4.0, color);
-// 				v1 = v2;
-// 			}
+		for i := 1; i < count; i++ {
+			v2 := B2TransformVec2Mul(xf, vertices[i])
+			world.G_debugDraw.DrawSegment(v1, v2, color)
+			world.G_debugDraw.DrawPoint(v2, 4.0, color)
+			v1 = v2
+		}
 
-// 			if (chain.m_hasNextVertex)
-// 			{
-// 				b2Vec2 vn = b2Mul(xf, chain.m_nextVertex);
-// 				g_debugDraw.DrawSegment(v1, vn, ghostColor);
-// 				g_debugDraw.DrawCircle(vn, 0.1f, ghostColor);
-// 			}
-// 		}
-// 		break;
+		if chain.M_hasNextVertex {
+			vn := B2TransformVec2Mul(xf, chain.M_nextVertex)
+			world.G_debugDraw.DrawSegment(v1, vn, ghostColor)
+			world.G_debugDraw.DrawCircle(vn, 0.1, ghostColor)
+		}
 
-// 	case b2Shape::e_polygon:
-// 		{
-// 			b2PolygonShape* poly = (b2PolygonShape*)fixture.GetShape();
-// 			int vertexCount = poly.m_count;
-// 			b2Assert(vertexCount <= b2_maxPolygonVertices);
-// 			b2Vec2 vertices[b2_maxPolygonVertices];
+	case B2Shape_Type.E_polygon:
+		poly := fixture.GetShape().(*B2PolygonShape)
+		vertexCount := poly.M_count
+		B2Assert(vertexCount <= B2_maxPolygonVertices)
+		var vertices [B2_maxPolygonVertices]B2Vec2
 
-// 			for (int i = 0; i < vertexCount; ++i)
-// 			{
-// 				vertices[i] = b2Mul(xf, poly.m_vertices[i]);
-// 			}
+		for i := 0; i < vertexCount; i++ {
+			vertices[i] = B2TransformVec2Mul(xf, poly.M_vertices[i])
+		}
 
-// 			g_debugDraw.DrawSolidPolygon(vertices, vertexCount, color);
-// 		}
-// 		break;
+		world.G_debugDraw.DrawSolidPolygon(vertices[:vertexCount], color)
 
-//     default:
-//         break;
-// 	}
-// }
+	default:
+	}
+}
 
-// void (world *B2World) DrawJoint(b2Joint* joint)
-// {
-// 	b2Body* bodyA = joint.GetBodyA();
-// 	b2Body* bodyB = joint.GetBodyB();
-// 	const b2Transform& xf1 = bodyA.GetTransform();
-// 	const b2Transform& xf2 = bodyB.GetTransform();
-// 	b2Vec2 x1 = xf1.p;
-// 	b2Vec2 x2 = xf2.p;
-// 	b2Vec2 p1 = joint.GetAnchorA();
-// 	b2Vec2 p2 = joint.GetAnchorB();
+/*
+// TODO: Figure out how to cast B2Joint to the derived type.
+func (world *B2World) DrawJoint(joint *B2Joint) {
+	bodyA := joint.GetBodyA()
+	bodyB := joint.GetBodyB()
+	xf1 := bodyA.GetTransform()
+	xf2 := bodyB.GetTransform()
+	x1 := xf1.P
+	x2 := xf2.P
 
-// 	b2Color color(0.5f, 0.8f, 0.8f);
+	color := MakeB2ColorRGB(0.5, 0.8, 0.8)
 
-// 	switch (joint.GetType())
-// 	{
-// 	case e_distanceJoint:
-// 		g_debugDraw.DrawSegment(p1, p2, color);
-// 		break;
+	switch joint.GetType() {
+	case B2JointType.E_distanceJoint:
+		distance := joint.(*B2DistanceJoint)
+		p1 := distance.GetAnchorA()
+		p2 := distance.GetAnchorB()
 
-// 	case e_pulleyJoint:
-// 		{
-// 			b2PulleyJoint* pulley = (b2PulleyJoint*)joint;
-// 			b2Vec2 s1 = pulley.GetGroundAnchorA();
-// 			b2Vec2 s2 = pulley.GetGroundAnchorB();
-// 			g_debugDraw.DrawSegment(s1, p1, color);
-// 			g_debugDraw.DrawSegment(s2, p2, color);
-// 			g_debugDraw.DrawSegment(s1, s2, color);
-// 		}
-// 		break;
+		world.G_debugDraw.DrawSegment(p1, p2, color)
 
-// 	case e_mouseJoint:
-// 		// don't draw this
-// 		break;
+	case B2JointType.E_pulleyJoint:
 
-// 	default:
-// 		g_debugDraw.DrawSegment(x1, p1, color);
-// 		g_debugDraw.DrawSegment(p1, p2, color);
-// 		g_debugDraw.DrawSegment(x2, p2, color);
-// 	}
-// }
+		pulley := joint.(*B2PulleyJoint)
+		p1 := pulley.GetAnchorA()
+		p2 := pulley.GetAnchorB()
 
-// void (world *B2World) DrawDebugData()
-// {
-// 	if (g_debugDraw == nullptr)
-// 	{
-// 		return;
-// 	}
+		s1 := pulley.GetGroundAnchorA()
+		s2 := pulley.GetGroundAnchorB()
+		world.G_debugDraw.DrawSegment(s1, p1, color)
+		world.G_debugDraw.DrawSegment(s2, p2, color)
+		world.G_debugDraw.DrawSegment(s1, s2, color)
 
-// 	uint flags = g_debugDraw.GetFlags();
+	case B2JointType.E_mouseJoint:
+		// Don't draw this
 
-// 	if (flags & b2Draw::e_shapeBit)
-// 	{
-// 		for (b2Body* b = m_bodyList; b; b = b.GetNext())
-// 		{
-// 			const b2Transform& xf = b.GetTransform();
-// 			for (b2Fixture* f = b.GetFixtureList(); f; f = f.GetNext())
-// 			{
-// 				if (!b.IsActive())
-// 				{
-// 					DrawShape(f, xf, b2Color(0.5f, 0.5f, 0.3f));
-// 				}
-// 				else if (b.GetType() == b2_staticBody)
-// 				{
-// 					DrawShape(f, xf, b2Color(0.5f, 0.9f, 0.5f));
-// 				}
-// 				else if (b.GetType() == b2_kinematicBody)
-// 				{
-// 					DrawShape(f, xf, b2Color(0.5f, 0.5f, 0.9f));
-// 				}
-// 				else if (!b.IsAwake())
-// 				{
-// 					DrawShape(f, xf, b2Color(0.6f, 0.6f, 0.6f));
-// 				}
-// 				else
-// 				{
-// 					DrawShape(f, xf, b2Color(0.9f, 0.7f, 0.7f));
-// 				}
-// 			}
-// 		}
-// 	}
+	default:
+		world.G_debugDraw.DrawSegment(x1, p1, color)
+		world.G_debugDraw.DrawSegment(p1, p2, color)
+		world.G_debugDraw.DrawSegment(x2, p2, color)
+	}
+}
+*/
 
-// 	if (flags & b2Draw::e_jointBit)
-// 	{
-// 		for (b2Joint* j = m_jointList; j; j = j.GetNext())
-// 		{
-// 			DrawJoint(j);
-// 		}
-// 	}
+func (world *B2World) DrawDebugData() {
+	if world.G_debugDraw == nil {
+		return
+	}
 
-// 	if (flags & b2Draw::e_pairBit)
-// 	{
-// 		b2Color color(0.3f, 0.9f, 0.9f);
-// 		for (b2Contact* c = m_contactManager.m_contactList; c; c = c.GetNext())
-// 		{
-// 			//b2Fixture* fixtureA = c.GetFixtureA();
-// 			//b2Fixture* fixtureB = c.GetFixtureB();
+	flags := world.G_debugDraw.GetFlags()
 
-// 			//b2Vec2 cA = fixtureA.GetAABB().GetCenter();
-// 			//b2Vec2 cB = fixtureB.GetAABB().GetCenter();
+	if (flags & B2Draw_Flags.E_shapeBit) != 0 {
+		for b := world.M_bodyList; b != nil; b = b.GetNext() {
+			xf := b.GetTransform()
+			for f := b.GetFixtureList(); f != nil; f = f.GetNext() {
+				if !b.IsActive() {
+					world.DrawShape(f, xf, MakeB2ColorRGB(0.5, 0.5, 0.3))
+				} else if b.GetType() == B2BodyType.B2_staticBody {
+					world.DrawShape(f, xf, MakeB2ColorRGB(0.5, 0.9, 0.5))
+				} else if b.GetType() == B2BodyType.B2_kinematicBody {
+					world.DrawShape(f, xf, MakeB2ColorRGB(0.5, 0.5, 0.9))
+				} else if !b.IsAwake() {
+					world.DrawShape(f, xf, MakeB2ColorRGB(0.6, 0.6, 0.6))
+				} else {
+					world.DrawShape(f, xf, MakeB2ColorRGB(0.9, 0.7, 0.7))
+				}
+			}
+		}
+	}
 
-// 			//g_debugDraw.DrawSegment(cA, cB, color);
-// 		}
-// 	}
+	if (flags & B2Draw_Flags.E_jointBit) != 0 {
+		for j := world.M_jointList; j != nil; j = j.GetNext() {
+			// world.DrawJoint(j)
+		}
+	}
 
-// 	if (flags & b2Draw::e_aabbBit)
-// 	{
-// 		b2Color color(0.9f, 0.3f, 0.9f);
-// 		b2BroadPhase* bp = &m_contactManager.m_broadPhase;
+	if (flags & B2Draw_Flags.E_pairBit) != 0 {
+		// color := MakeB2ColorRGB(0.3, 0.9, 0.9)
+		for c := world.M_contactManager.M_contactList; c != nil; c = c.GetNext() {
+			// fixtureA := c.GetFixtureA()
+			// fixtureB := c.GetFixtureB()
 
-// 		for (b2Body* b = m_bodyList; b; b = b.GetNext())
-// 		{
-// 			if (!b.IsActive())
-// 			{
-// 				continue;
-// 			}
+			// cA := fixtureA.GetAABB().GetCenter()
+			// cB := fixtureB.GetAABB().GetCenter()
 
-// 			for (b2Fixture* f = b.GetFixtureList(); f; f = f.GetNext())
-// 			{
-// 				for (int i = 0; i < f.m_proxyCount; ++i)
-// 				{
-// 					b2FixtureProxy* proxy = f.m_proxies + i;
-// 					b2AABB aabb = bp.GetFatAABB(proxy.proxyId);
-// 					b2Vec2 vs[4];
-// 					vs[0].Set(aabb.lowerBound.x, aabb.lowerBound.y);
-// 					vs[1].Set(aabb.upperBound.x, aabb.lowerBound.y);
-// 					vs[2].Set(aabb.upperBound.x, aabb.upperBound.y);
-// 					vs[3].Set(aabb.lowerBound.x, aabb.upperBound.y);
+			// world.G_debugDraw.DrawSegment(cA, cB, color)
+		}
+	}
 
-// 					g_debugDraw.DrawPolygon(vs, 4, color);
-// 				}
-// 			}
-// 		}
-// 	}
+	if (flags & B2Draw_Flags.E_aabbBit) != 0 {
+		color := MakeB2ColorRGB(0.9, 0.3, 0.9)
+		bp := &world.M_contactManager.M_broadPhase
 
-// 	if (flags & b2Draw::e_centerOfMassBit)
-// 	{
-// 		for (b2Body* b = m_bodyList; b; b = b.GetNext())
-// 		{
-// 			b2Transform xf = b.GetTransform();
-// 			xf.p = b.GetWorldCenter();
-// 			g_debugDraw.DrawTransform(xf);
-// 		}
-// 	}
-// }
+		for b := world.M_bodyList; b != nil; b = b.GetNext() {
+			if !b.IsActive() {
+				continue
+			}
+
+			for f := b.GetFixtureList(); f != nil; f = f.GetNext() {
+				for i := 0; i < f.M_proxyCount; i++ {
+					proxy := f.M_proxies[i]
+					aabb := bp.GetFatAABB(proxy.ProxyId)
+					var vs [4]B2Vec2
+					vs[0].Set(aabb.LowerBound.X, aabb.LowerBound.Y)
+					vs[1].Set(aabb.UpperBound.X, aabb.LowerBound.Y)
+					vs[2].Set(aabb.UpperBound.X, aabb.UpperBound.Y)
+					vs[3].Set(aabb.LowerBound.X, aabb.UpperBound.Y)
+
+					world.G_debugDraw.DrawPolygon(vs[:4], color)
+				}
+			}
+		}
+	}
+
+	if (flags & B2Draw_Flags.E_centerOfMassBit) != 0 {
+		for b := world.M_bodyList; b != nil; b = b.GetNext() {
+			xf := b.GetTransform()
+			xf.P = b.GetWorldCenter()
+			world.G_debugDraw.DrawTransform(xf)
+		}
+	}
+}
 
 func (world B2World) GetProxyCount() int {
 	return world.M_contactManager.M_broadPhase.GetProxyCount()
@@ -1245,7 +1197,6 @@ func (world B2World) GetTreeQuality() float64 {
 }
 
 func (world *B2World) ShiftOrigin(newOrigin B2Vec2) {
-
 	B2Assert((world.M_flags & B2World_Flags.E_locked) == 0)
 	if (world.M_flags & B2World_Flags.E_locked) == B2World_Flags.E_locked {
 		return
@@ -1273,7 +1224,7 @@ func (world *B2World) Dump() {
 	fmt.Print("m_world.SetGravity(g);\n")
 
 	fmt.Printf("b2Body** bodies = (b2Body**)b2Alloc(%d * sizeof(b2Body*));\n", world.M_bodyCount)
-	//fmt.Print("b2Joint** joints = (b2Joint**)b2Alloc(%d * sizeof(b2Joint*));\n", m_jointCount)
+	// fmt.Print("b2Joint** joints = (b2Joint**)b2Alloc(%d * sizeof(b2Joint*));\n", m_jointCount)
 	fmt.Printf("b2Joint** joints = (b2Joint**)b2Alloc(%d * sizeof(b2Joint*));\n", world.M_jointCount)
 
 	i := 0

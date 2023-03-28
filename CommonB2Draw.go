@@ -45,17 +45,8 @@ var B2Draw_Flags = struct {
 // Implement and register this class with a b2World to provide debug drawing of physics
 // entities in your game.
 type B2Draw interface {
-	// Set the drawing flags.
-	SetFlags(flags uint32)
-
 	// Get the drawing flags.
 	GetFlags() uint32
-
-	// Append flags to the current flags.
-	AppendFlags(flags uint32)
-
-	// Clear flags from the current flags.
-	ClearFlags(flags uint32)
 
 	// Draw a closed polygon provided in CCW order.
 	DrawPolygon(vertices []B2Vec2, color B2Color)

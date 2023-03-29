@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-/// This is an internal class.
+// This is an internal class.
 type B2Island struct {
 	M_listener B2ContactListenerInterface
 
@@ -176,7 +176,6 @@ However, we can compute sin+cos of the same angle fast.
 */
 
 func MakeB2Island(bodyCapacity int, contactCapacity int, jointCapacity int, listener B2ContactListenerInterface) B2Island {
-
 	island := B2Island{}
 
 	island.M_bodyCapacity = bodyCapacity
@@ -199,11 +198,9 @@ func MakeB2Island(bodyCapacity int, contactCapacity int, jointCapacity int, list
 }
 
 func (island *B2Island) Destroy() {
-
 }
 
 func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec2, allowSleep bool) {
-
 	timer := MakeB2Timer()
 
 	h := step.Dt
@@ -390,7 +387,6 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec
 }
 
 func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB int) {
-
 	B2Assert(toiIndexA < island.M_bodyCount)
 	B2Assert(toiIndexB < island.M_bodyCount)
 

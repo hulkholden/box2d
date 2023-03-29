@@ -20,8 +20,10 @@ func B2MixRestitution(restitution1, restitution2 float64) float64 {
 	return restitution2
 }
 
-type B2ContactCreateFcn func(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) B2ContactInterface // returned contact should be a pointer
-type B2ContactDestroyFcn func(contact B2ContactInterface)                                                         // contact should be a pointer
+type (
+	B2ContactCreateFcn  func(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) B2ContactInterface // returned contact should be a pointer
+	B2ContactDestroyFcn func(contact B2ContactInterface)                                                          // contact should be a pointer
+)
 
 type B2ContactRegister struct {
 	CreateFcn  B2ContactCreateFcn
@@ -72,11 +74,13 @@ var B2Contact_Flag = struct {
 	E_toiFlag:       0x0020,
 }
 
-// /// The class manages contact between two shapes. A contact exists for each overlapping
-// /// AABB in the broad-phase (except if filtered). Therefore a contact object may exist
-// /// that has no contact points.
-var s_registers [][]B2ContactRegister
-var s_initialized = false
+// The class manages contact between two shapes. A contact exists for each overlapping
+// AABB in the broad-phase (except if filtered). Therefore a contact object may exist
+// that has no contact points.
+var (
+	s_registers   [][]B2ContactRegister
+	s_initialized = false
+)
 
 type B2ContactInterface interface {
 	GetFlags() uint32
@@ -141,8 +145,8 @@ type B2Contact struct {
 	M_flags uint32
 
 	// World pool and list pointers.
-	M_prev B2ContactInterface //should be backed by a pointer
-	M_next B2ContactInterface //should be backed by a pointer
+	M_prev B2ContactInterface // should be backed by a pointer
+	M_next B2ContactInterface // should be backed by a pointer
 
 	// Nodes for connecting bodies.
 	M_nodeA *B2ContactEdge
@@ -405,7 +409,6 @@ func B2ContactDestroy(contact B2ContactInterface) {
 }
 
 func MakeB2Contact(fA *B2Fixture, indexA int, fB *B2Fixture, indexB int) B2Contact {
-
 	contact := B2Contact{}
 	contact.M_flags = B2Contact_Flag.E_enabledFlag
 
@@ -476,9 +479,9 @@ func B2ContactUpdate(contact B2ContactInterface, listener B2ContactListenerInter
 	} else {
 		// *B2Contact is extended by specialized contact structs and mentionned by B2ContactInterface but not implemented on specialized structs
 		// Thus when
-		//spew.Dump("AVANT", contact.GetManifold())
+		// spew.Dump("AVANT", contact.GetManifold())
 		contact.Evaluate(contact.GetManifold(), xfA, xfB) // should be evaluated on specialisations of contact (like CircleContact)
-		//spew.Dump("APRES", contact.GetManifold())
+		// spew.Dump("APRES", contact.GetManifold())
 		touching = contact.GetManifold().PointCount > 0
 
 		// Match old contact ids to new contact ids and copy the

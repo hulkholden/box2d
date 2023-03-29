@@ -11,7 +11,6 @@ type B2TreeRayCastCallback func(input B2RayCastInput, nodeId int) float64
 const B2_nullNode = -1
 
 type B2TreeNode struct {
-
 	/// Enlarged AABB
 	Aabb B2AABB
 
@@ -43,7 +42,6 @@ func (node B2TreeNode) IsLeaf() bool {
 //
 // Nodes are pooled and relocatable, so we use node indices rather than pointers.
 type B2DynamicTree struct {
-
 	// Public members:
 	// None
 
@@ -99,7 +97,6 @@ func (tree *B2DynamicTree) Query(queryCallback B2TreeQueryCallback, aabb B2AABB)
 }
 
 func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B2RayCastInput) {
-
 	p1 := input.P1
 	p2 := input.P2
 	r := B2Vec2Sub(p2, p1)
@@ -183,7 +180,6 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 ///////////////////////////////////////////////////////////////////////////////
 
 func MakeB2DynamicTree() B2DynamicTree {
-
 	tree := B2DynamicTree{}
 	tree.M_root = B2_nullNode
 
@@ -215,7 +211,6 @@ func MakeB2DynamicTree() B2DynamicTree {
 
 // Allocate a node from the pool. Grow the pool if necessary.
 func (tree *B2DynamicTree) AllocateNode() int {
-
 	// Expand the node pool as needed.
 	if tree.M_freeList == B2_nullNode {
 		B2Assert(tree.M_nodeCount == tree.M_nodeCapacity)
@@ -263,7 +258,6 @@ func (tree *B2DynamicTree) FreeNode(nodeId int) {
 // of the node instead of a pointer so that we can grow
 // the node pool.
 func (tree *B2DynamicTree) CreateProxy(aabb B2AABB, userData interface{}) int {
-
 	proxyId := tree.AllocateNode()
 
 	// Fatten the aabb.
@@ -287,7 +281,6 @@ func (tree *B2DynamicTree) DestroyProxy(proxyId int) {
 }
 
 func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb B2AABB, displacement B2Vec2) bool {
-
 	B2Assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 
 	B2Assert(tree.M_nodes[proxyId].IsLeaf())
@@ -443,7 +436,7 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 		index = tree.M_nodes[index].Parent
 	}
 
-	//Validate();
+	// Validate();
 }
 
 func (tree *B2DynamicTree) RemoveLeaf(leaf int) {
@@ -490,7 +483,7 @@ func (tree *B2DynamicTree) RemoveLeaf(leaf int) {
 		tree.FreeNode(parent)
 	}
 
-	// //Validate();
+	// Validate();
 }
 
 // Perform a left or right rotation if node A is imbalanced.
@@ -768,7 +761,7 @@ func (tree B2DynamicTree) GetMaxBalance() int {
 }
 
 func (tree *B2DynamicTree) RebuildBottomUp() {
-	//int* nodes = (int*)b2Alloc(m_nodeCount * sizeof(int));
+	// int* nodes = (int*)b2Alloc(m_nodeCount * sizeof(int));
 	nodes := make([]int, tree.M_nodeCount)
 	count := 0
 
@@ -831,7 +824,7 @@ func (tree *B2DynamicTree) RebuildBottomUp() {
 	}
 
 	tree.M_root = nodes[0]
-	//b2Free(nodes)
+	// b2Free(nodes)
 
 	tree.Validate()
 }

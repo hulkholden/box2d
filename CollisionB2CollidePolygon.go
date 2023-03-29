@@ -37,7 +37,6 @@ func B2FindMaxSeparation(edgeIndex *int, poly1 *B2PolygonShape, xf1 B2Transform,
 }
 
 func B2FindIncidentEdge(c []B2ClipVertex, poly1 *B2PolygonShape, xf1 B2Transform, edge1 int, poly2 *B2PolygonShape, xf2 B2Transform) {
-
 	normals1 := poly1.M_normals
 
 	count2 := poly2.M_count
@@ -88,7 +87,6 @@ func B2FindIncidentEdge(c []B2ClipVertex, poly1 *B2PolygonShape, xf1 B2Transform
 
 // The normal points from 1 to 2
 func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA B2Transform, polyB *B2PolygonShape, xfB B2Transform) {
-
 	manifold.PointCount = 0
 	totalRadius := polyA.M_radius + polyB.M_radius
 

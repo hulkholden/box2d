@@ -30,7 +30,6 @@ func MakeB2Filter() B2Filter {
 // A fixture definition is used to create a fixture. This class defines an
 // abstract fixture definition. You can reuse fixture definitions safely.
 type B2FixtureDef struct {
-
 	/// The shape, this must be set. The shape will be cloned, so you
 	/// can create the shape on the stack.
 	Shape B2ShapeInterface
@@ -71,11 +70,11 @@ type B2FixtureProxy struct {
 	ProxyId    int
 }
 
-// /// A fixture is used to attach a shape to a body for collision detection. A fixture
-// /// inherits its transform from its parent. Fixtures hold additional non-geometric data
-// /// such as friction, collision filters, etc.
-// /// Fixtures are created via b2Body::CreateFixture.
-// /// @warning you cannot reuse fixtures.
+// A fixture is used to attach a shape to a body for collision detection. A fixture
+// inherits its transform from its parent. Fixtures hold additional non-geometric data
+// such as friction, collision filters, etc.
+// Fixtures are created via b2Body::CreateFixture.
+// @warning you cannot reuse fixtures.
 type B2Fixture struct {
 	M_density float64
 
@@ -218,7 +217,6 @@ func (fix *B2Fixture) Create(body *B2Body, def *B2FixtureDef) {
 }
 
 func (fix *B2Fixture) Destroy() {
-
 	// The proxies must be destroyed before calling this.
 	B2Assert(fix.M_proxyCount == 0)
 
@@ -277,7 +275,6 @@ func (fix *B2Fixture) DestroyProxies(broadPhase *B2BroadPhase) {
 }
 
 func (fix *B2Fixture) Synchronize(broadPhase *B2BroadPhase, transform1 B2Transform, transform2 B2Transform) {
-
 	if fix.M_proxyCount == 0 {
 		return
 	}
@@ -304,7 +301,6 @@ func (fix *B2Fixture) SetFilterData(filter B2Filter) {
 }
 
 func (fix *B2Fixture) Refilter() {
-
 	if fix.M_body == nil {
 		return
 	}

@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-/// Motor joint definition.
+// Motor joint definition.
 type B2MotorJointDef struct {
 	B2JointDef
 
@@ -35,9 +35,9 @@ func MakeB2MotorJointDef() B2MotorJointDef {
 	return res
 }
 
-/// A motor joint is used to control the relative motion
-/// between two bodies. A typical usage is to control the movement
-/// of a dynamic body with respect to the ground.
+// A motor joint is used to control the relative motion
+// between two bodies. A typical usage is to control the movement
+// of a dynamic body with respect to the ground.
 type B2MotorJoint struct {
 	*B2Joint
 
@@ -94,7 +94,6 @@ func (def *B2MotorJointDef) Initialize(bA *B2Body, bB *B2Body) {
 }
 
 func MakeB2MotorJoint(def *B2MotorJointDef) *B2MotorJoint {
-
 	res := B2MotorJoint{
 		B2Joint: MakeB2Joint(def),
 	}

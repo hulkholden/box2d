@@ -5,12 +5,12 @@ import (
 	"math"
 )
 
-/// Wheel joint definition. This requires defining a line of
-/// motion using an axis and an anchor point. The definition uses local
-/// anchor points and a local axis so that the initial configuration
-/// can violate the constraint slightly. The joint translation is zero
-/// when the local anchor points coincide in world space. Using local
-/// anchors and a local axis helps when saving and loading a game.
+// Wheel joint definition. This requires defining a line of
+// motion using an axis and an anchor point. The definition uses local
+// anchor points and a local axis so that the initial configuration
+// can violate the constraint slightly. The joint translation is zero
+// when the local anchor points coincide in world space. Using local
+// anchors and a local axis helps when saving and loading a game.
 type B2WheelJointDef struct {
 	B2JointDef
 
@@ -57,10 +57,10 @@ func MakeB2WheelJointDef() B2WheelJointDef {
 	return res
 }
 
-/// A wheel joint. This joint provides two degrees of freedom: translation
-/// along an axis fixed in bodyA and rotation in the plane. In other words, it is a point to
-/// line constraint with a rotational motor and a linear spring/damper.
-/// This joint is designed for vehicle suspensions.
+// A wheel joint. This joint provides two degrees of freedom: translation
+// along an axis fixed in bodyA and rotation in the plane. In other words, it is a point to
+// line constraint with a rotational motor and a linear spring/damper.
+// This joint is designed for vehicle suspensions.
 type B2WheelJoint struct {
 	*B2Joint
 
@@ -106,17 +106,17 @@ type B2WheelJoint struct {
 	M_gamma float64
 }
 
-/// The local anchor point relative to bodyA's origin.
+// The local anchor point relative to bodyA's origin.
 func (joint B2WheelJoint) GetLocalAnchorA() B2Vec2 {
 	return joint.M_localAnchorA
 }
 
-/// The local anchor point relative to bodyB's origin.
+// The local anchor point relative to bodyB's origin.
 func (joint B2WheelJoint) GetLocalAnchorB() B2Vec2 {
 	return joint.M_localAnchorB
 }
 
-/// The local joint axis relative to bodyA.
+// The local joint axis relative to bodyA.
 func (joint B2WheelJoint) GetLocalAxisA() B2Vec2 {
 	return joint.M_localXAxisA
 }
@@ -203,7 +203,6 @@ func MakeB2WheelJoint(def *B2WheelJointDef) *B2WheelJoint {
 }
 
 func (joint *B2WheelJoint) InitVelocityConstraints(data B2SolverData) {
-
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter

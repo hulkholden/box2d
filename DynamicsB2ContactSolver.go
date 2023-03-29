@@ -60,7 +60,7 @@ type B2ContactSolver struct {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-// // Solver debugging is normally disabled because the block solver sometimes has to deal with a poorly conditioned effective mass matrix.
+// Solver debugging is normally disabled because the block solver sometimes has to deal with a poorly conditioned effective mass matrix.
 const B2_DEBUG_SOLVER = 0
 
 var g_blockSolve = true
@@ -686,7 +686,6 @@ func MakeB2PositionSolverManifold() B2PositionSolverManifold {
 }
 
 func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPositionConstraint, xfA B2Transform, xfB B2Transform, index int) {
-
 	B2Assert(pc.PointCount > 0)
 
 	switch pc.Type {
@@ -721,7 +720,6 @@ func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPosition
 
 // Sequential solver.
 func (solver *B2ContactSolver) SolvePositionConstraints() bool {
-
 	minSeparation := 0.0
 
 	for i := 0; i < solver.M_count; i++ {
@@ -803,7 +801,6 @@ func (solver *B2ContactSolver) SolvePositionConstraints() bool {
 
 // Sequential position solver for position constraints.
 func (solver *B2ContactSolver) SolveTOIPositionConstraints(toiIndexA int, toiIndexB int) bool {
-
 	minSeparation := 0.0
 
 	for i := 0; i < solver.M_count; i++ {

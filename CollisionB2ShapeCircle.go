@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-/// A circle shape.
+// A circle shape.
 type B2CircleShape struct {
 	B2Shape
 	/// Position
@@ -83,7 +83,7 @@ func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 }
 
 func (shape B2CircleShape) ComputeAABB(transform B2Transform, childIndex int) B2AABB {
-	//B2_NOT_USED(childIndex);
+	// B2_NOT_USED(childIndex);
 
 	p := B2Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
 	lowerBound := MakeB2Vec2(p.X-shape.M_radius, p.Y-shape.M_radius)

@@ -5,10 +5,10 @@ import (
 	"math"
 )
 
-/// Rope joint definition. This requires two body anchor points and
-/// a maximum lengths.
-/// Note: by default the connected objects will not collide.
-/// see collideConnected in b2JointDef.
+// Rope joint definition. This requires two body anchor points and
+// a maximum lengths.
+// Note: by default the connected objects will not collide.
+// see collideConnected in b2JointDef.
 type B2RopeJointDef struct {
 	B2JointDef
 
@@ -35,14 +35,14 @@ func MakeB2RopeJointDef() B2RopeJointDef {
 	return res
 }
 
-/// A rope joint enforces a maximum distance between two points
-/// on two bodies. It has no other effect.
-/// Warning: if you attempt to change the maximum length during
-/// the simulation you will get some non-physical behavior.
-/// A model that would allow you to dynamically modify the length
-/// would have some sponginess, so I chose not to implement it
-/// that way. See b2DistanceJoint if you want to dynamically
-/// control length.
+// A rope joint enforces a maximum distance between two points
+// on two bodies. It has no other effect.
+// Warning: if you attempt to change the maximum length during
+// the simulation you will get some non-physical behavior.
+// A model that would allow you to dynamically modify the length
+// would have some sponginess, so I chose not to implement it
+// that way. See b2DistanceJoint if you want to dynamically
+// control length.
 type B2RopeJoint struct {
 	*B2Joint
 
@@ -69,28 +69,28 @@ type B2RopeJoint struct {
 	M_state        uint8
 }
 
-/// The local anchor point relative to bodyA's origin.
+// The local anchor point relative to bodyA's origin.
 func (joint B2RopeJoint) GetLocalAnchorA() B2Vec2 {
 	return joint.M_localAnchorA
 }
 
-/// The local anchor point relative to bodyB's origin.
+// The local anchor point relative to bodyB's origin.
 func (joint B2RopeJoint) GetLocalAnchorB() B2Vec2 {
 	return joint.M_localAnchorB
 }
 
-/// Set/Get the maximum length of the rope.
+// Set/Get the maximum length of the rope.
 func (joint *B2RopeJoint) SetMaxLength(length float64) {
 	joint.M_maxLength = length
 }
 
-// // Limit:
-// // C = norm(pB - pA) - L
-// // u = (pB - pA) / norm(pB - pA)
-// // Cdot = dot(u, vB + cross(wB, rB) - vA - cross(wA, rA))
-// // J = [-u -cross(rA, u) u cross(rB, u)]
-// // K = J * invM * JT
-// //   = invMassA + invIA * cross(rA, u)^2 + invMassB + invIB * cross(rB, u)^2
+/// Limit:
+/// C = norm(pB - pA) - L
+/// u = (pB - pA) / norm(pB - pA)
+/// Cdot = dot(u, vB + cross(wB, rB) - vA - cross(wA, rA))
+/// J = [-u -cross(rA, u) u cross(rB, u)]
+/// K = J * invM * JT
+///   = invMassA + invIA * cross(rA, u)^2 + invMassB + invIB * cross(rB, u)^2
 
 func MakeB2RopeJoint(def *B2RopeJointDef) *B2RopeJoint {
 	res := B2RopeJoint{
@@ -220,7 +220,6 @@ func (joint *B2RopeJoint) SolveVelocityConstraints(data B2SolverData) {
 }
 
 func (joint *B2RopeJoint) SolvePositionConstraints(data B2SolverData) bool {
-
 	cA := data.Positions[joint.M_indexA].C
 	aA := data.Positions[joint.M_indexA].A
 	cB := data.Positions[joint.M_indexB].C

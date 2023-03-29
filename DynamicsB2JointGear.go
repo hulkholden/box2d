@@ -4,8 +4,8 @@ import (
 	"fmt"
 )
 
-/// Gear joint definition. This definition requires two existing
-/// revolute or prismatic joints (any combination will work).
+// Gear joint definition. This definition requires two existing
+// revolute or prismatic joints (any combination will work).
 type B2GearJointDef struct {
 	B2JointDef
 
@@ -33,15 +33,15 @@ func MakeB2GearJointDef() B2GearJointDef {
 	return res
 }
 
-/// A gear joint is used to connect two joints together. Either joint
-/// can be a revolute or prismatic joint. You specify a gear ratio
-/// to bind the motions together:
-/// coordinate1 + ratio * coordinate2 = constant
-/// The ratio can be negative or positive. If one joint is a revolute joint
-/// and the other joint is a prismatic joint, then the ratio will have units
-/// of length or units of 1/length.
-/// @warning You have to manually destroy the gear joint if joint1 or joint2
-/// is destroyed.
+// A gear joint is used to connect two joints together. Either joint
+// can be a revolute or prismatic joint. You specify a gear ratio
+// to bind the motions together:
+// coordinate1 + ratio * coordinate2 = constant
+// The ratio can be negative or positive. If one joint is a revolute joint
+// and the other joint is a prismatic joint, then the ratio will have units
+// of length or units of 1/length.
+// @warning You have to manually destroy the gear joint if joint1 or joint2
+// is destroyed.
 type B2GearJoint struct {
 	*B2Joint
 
@@ -83,12 +83,12 @@ type B2GearJoint struct {
 	M_mass                                 float64
 }
 
-/// Get the first joint.
+// Get the first joint.
 func (joint B2GearJoint) GetJoint1() B2JointInterface { // returns a pointer
 	return joint.M_joint1
 }
 
-/// Get the second joint.
+// Get the second joint.
 func (joint B2GearJoint) GetJoint2() B2JointInterface { // returns a pointer
 	return joint.M_joint2
 }

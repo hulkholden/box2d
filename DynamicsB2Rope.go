@@ -4,9 +4,7 @@ import (
 	"math"
 )
 
-///
 type B2RopeDef struct {
-
 	///
 	Vertices []B2Vec2
 
@@ -43,7 +41,6 @@ func MakeB2RopeDef() B2RopeDef {
 	return res
 }
 
-///
 type B2Rope struct {
 	M_count int
 	M_ps    []B2Vec2
@@ -62,18 +59,15 @@ type B2Rope struct {
 	M_k3 float64
 }
 
-///
 func (rope B2Rope) GetVertexCount() int {
 	return rope.M_count
 }
 
-///
 func (rope B2Rope) GetVertices() []B2Vec2 {
 	return rope.M_ps
 }
 
 func MakeB2Rope() B2Rope {
-
 	res := B2Rope{}
 
 	res.M_count = 0

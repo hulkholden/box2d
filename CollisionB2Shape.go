@@ -1,6 +1,6 @@
 package box2d
 
-/// This holds the mass data computed for a shape.
+// This holds the mass data computed for a shape.
 type B2MassData struct {
 	/// The mass of the shape, usually in kilograms.
 	Mass float64
@@ -101,7 +101,7 @@ func (shape B2Shape) GetRadius() float64 {
 	return shape.M_radius
 }
 
-//@addedgo
+// @addedgo
 func (shape *B2Shape) SetRadius(r float64) {
 	shape.M_radius = r
 }

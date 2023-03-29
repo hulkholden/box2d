@@ -1,8 +1,8 @@
 package box2d
 
-/// A line segment (edge) shape. These can be connected in chains or loops
-/// to other edge shapes. The connectivity information is used to ensure
-/// correct contact normals.
+// A line segment (edge) shape. These can be connected in chains or loops
+// to other edge shapes. The connectivity information is used to ensure
+// correct contact normals.
 type B2EdgeShape struct {
 	B2Shape
 	/// These are the edge vertices
@@ -73,7 +73,6 @@ func (edge B2EdgeShape) TestPoint(xf B2Transform, p B2Vec2) bool {
 // p1 + t * d = v1 + s * e
 // s * e - t * d = p1 - v1
 func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf B2Transform, childIndex int) bool {
-
 	// Put the ray into the edge's frame of reference.
 	p1 := B2RotVec2MulT(xf.Q, B2Vec2Sub(input.P1, xf.P))
 	p2 := B2RotVec2MulT(xf.Q, B2Vec2Sub(input.P2, xf.P))
@@ -126,7 +125,6 @@ func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, x
 }
 
 func (edge B2EdgeShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
-
 	v1 := B2TransformVec2Mul(xf, edge.M_vertex1)
 	v2 := B2TransformVec2Mul(xf, edge.M_vertex2)
 

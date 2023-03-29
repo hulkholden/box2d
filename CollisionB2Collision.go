@@ -202,7 +202,6 @@ func (bb *B2AABB) CombineTwoInPlace(aabb1, aabb2 B2AABB) {
 
 // Does this aabb contain the provided AABB.
 func (bb B2AABB) Contains(aabb B2AABB) bool {
-
 	return (bb.LowerBound.X <= aabb.LowerBound.X &&
 		bb.LowerBound.Y <= aabb.LowerBound.Y &&
 		aabb.UpperBound.X <= bb.UpperBound.X &&
@@ -217,7 +216,6 @@ func (bb B2AABB) IsValid() bool {
 }
 
 func B2TestOverlapBoundingBoxes(a, b B2AABB) bool {
-
 	d1 := B2Vec2Sub(b.LowerBound, a.UpperBound)
 	d2 := B2Vec2Sub(a.LowerBound, b.UpperBound)
 
@@ -317,7 +315,6 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 }
 
 func B2GetPointStates(state1 *[B2_maxManifoldPoints]uint8, state2 *[B2_maxManifoldPoints]uint8, manifold1 B2Manifold, manifold2 B2Manifold) {
-
 	for i := 0; i < B2_maxManifoldPoints; i++ {
 		state1[i] = B2PointState.B2_nullState
 		state2[i] = B2PointState.B2_nullState
@@ -412,7 +409,6 @@ func (bb B2AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
 
 // Sutherland-Hodgman clipping.
 func B2ClipSegmentToLine(vOut []B2ClipVertex, vIn []B2ClipVertex, normal B2Vec2, offset float64, vertexIndexA int) int {
-
 	// Start with no output points
 	numOut := 0
 

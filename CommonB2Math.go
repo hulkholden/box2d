@@ -17,7 +17,7 @@ func B2IsValid(x float64) bool {
 	return !math.IsNaN(x) && !math.IsInf(x, 0)
 }
 
-// / This is a approximate yet fast inverse square-root.
+// This is a approximate yet fast inverse square-root.
 func B2InvSqrt(x float64) float64 {
 	// https://groups.google.com/forum/#!topic/golang-nuts/8vaZ1ERYIQ0
 	// Faster with math.Sqrt
@@ -483,7 +483,7 @@ func B2Vec2Add(a, b B2Vec2) B2Vec2 {
 	return MakeB2Vec2(a.X+b.X, a.Y+b.Y)
 }
 
-// // Subtract two vectors component-wise.
+// Subtract two vectors component-wise.
 func B2Vec2Sub(a, b B2Vec2) B2Vec2 {
 	return MakeB2Vec2(a.X-b.X, a.Y-b.Y)
 }

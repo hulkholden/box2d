@@ -4,8 +4,8 @@ import (
 	"fmt"
 )
 
-/// Mouse joint definition. This requires a world target point,
-/// tuning parameters, and the time step.
+// Mouse joint definition. This requires a world target point,
+// tuning parameters, and the time step.
 type B2MouseJointDef struct {
 	B2JointDef
 
@@ -39,13 +39,13 @@ func MakeB2MouseJointDef() B2MouseJointDef {
 	return res
 }
 
-/// A mouse joint is used to make a point on a body track a
-/// specified world point. This a soft constraint with a maximum
-/// force. This allows the constraint to stretch and without
-/// applying huge forces.
-/// NOTE: this joint is not documented in the manual because it was
-/// developed to be used in the testbed. If you want to learn how to
-/// use the mouse joint, look at the testbed.
+// A mouse joint is used to make a point on a body track a
+// specified world point. This a soft constraint with a maximum
+// force. This allows the constraint to stretch and without
+// applying huge forces.
+// NOTE: this joint is not documented in the manual because it was
+// developed to be used in the testbed. If you want to learn how to
+// use the mouse joint, look at the testbed.
 type B2MouseJoint struct {
 	*B2Joint
 
@@ -71,7 +71,7 @@ type B2MouseJoint struct {
 	M_C            B2Vec2
 }
 
-/// The mouse joint does not support dumping.
+// The mouse joint does not support dumping.
 func (def *B2MouseJoint) Dump() {
 	fmt.Printf("Mouse joint dumping is not supported.\n")
 }
@@ -212,7 +212,6 @@ func (joint *B2MouseJoint) InitVelocityConstraints(data B2SolverData) {
 }
 
 func (joint *B2MouseJoint) SolveVelocityConstraints(data B2SolverData) {
-
 	vB := data.Velocities[joint.M_indexB].V
 	wB := data.Velocities[joint.M_indexB].W
 

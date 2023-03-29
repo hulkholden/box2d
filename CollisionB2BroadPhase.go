@@ -37,7 +37,7 @@ func (a PairByLessThan) Less(i, j int) bool {
 	return B2PairLessThan(a[i], a[j])
 }
 
-/// This is used to sort pairs.
+// This is used to sort pairs.
 func B2PairLessThan(pair1 B2Pair, pair2 B2Pair) bool {
 	if pair1.ProxyIdA < pair2.ProxyIdA {
 		return true
@@ -126,8 +126,8 @@ func (bp *B2BroadPhase) UpdatePairs(addPairCallback B2BroadPhaseAddPairCallback)
 		}
 	}
 
-	// // Try to keep the tree balanced.
-	// //m_tree.Rebalance(4);
+	// Try to keep the tree balanced.
+	// m_tree.Rebalance(4);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -139,7 +139,6 @@ func (bp *B2BroadPhase) UpdatePairs(addPairCallback B2BroadPhaseAddPairCallback)
 ///////////////////////////////////////////////////////////////////////////////
 
 func MakeB2BroadPhase() B2BroadPhase {
-
 	pairCapacity := 16
 	moveCapacity := 16
 
@@ -203,7 +202,6 @@ func (bp *B2BroadPhase) UnBufferMove(proxyId int) {
 
 // This is called from b2DynamicTree::Query when we are gathering pairs.
 func (bp *B2BroadPhase) QueryCallback(proxyId int) bool {
-
 	// A proxy cannot form a pair with itself.
 	if proxyId == bp.M_queryProxyId {
 		return true

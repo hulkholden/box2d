@@ -159,7 +159,7 @@ func MakeB2SimplexVertex() B2SimplexVertex { return B2SimplexVertex{} }
 func NewB2SimplexVertex() *B2SimplexVertex { return &B2SimplexVertex{} }
 
 type B2Simplex struct {
-	//M_v1, M_v2, M_v3 *B2SimplexVertex
+	// M_v1, M_v2, M_v3 *B2SimplexVertex
 	M_vs    [3]B2SimplexVertex
 	M_count int
 }
@@ -367,13 +367,12 @@ func (simplex *B2Simplex) Solve2() {
 	simplex.M_count = 2
 }
 
-// // Possible regions:
-// // - points[2]
-// // - edge points[0]-points[2]
-// // - edge points[1]-points[2]
-// // - inside the triangle
+// Possible regions:
+// - points[2]
+// - edge points[0]-points[2]
+// - edge points[1]-points[2]
+// - inside the triangle
 func (simplex *B2Simplex) Solve3() {
-
 	w1 := simplex.M_vs[0].W
 	w2 := simplex.M_vs[1].W
 	w3 := simplex.M_vs[2].W
@@ -579,10 +578,10 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 	output.Distance = B2Vec2Distance(output.PointA, output.PointB)
 	output.Iterations = iter
 
-	// // Cache the simplex.
+	// Cache the simplex.
 	simplex.WriteCache(cache)
 
-	// // Apply radii if requested.
+	// Apply radii if requested.
 	if input.UseRadii {
 		rA := proxyA.M_radius
 		rB := proxyB.M_radius

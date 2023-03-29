@@ -19,9 +19,9 @@ var B2World_Flags = struct {
 	E_clearForces: 0x0004,
 }
 
-// /// The world class manages all physics entities, dynamic simulation,
-// /// and asynchronous queries. The world also contains efficient memory
-// /// management facilities.
+// The world class manages all physics entities, dynamic simulation,
+// and asynchronous queries. The world also contains efficient memory
+// management facilities.
 type B2World struct {
 	M_flags int
 

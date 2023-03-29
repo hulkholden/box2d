@@ -5,12 +5,12 @@ import (
 	"math"
 )
 
-/// Distance joint definition. This requires defining an
-/// anchor point on both bodies and the non-zero length of the
-/// distance joint. The definition uses local anchor points
-/// so that the initial configuration can violate the constraint
-/// slightly. This helps when saving and loading a game.
-/// @warning Do not use a zero or short length.
+// Distance joint definition. This requires defining an
+// anchor point on both bodies and the non-zero length of the
+// distance joint. The definition uses local anchor points
+// so that the initial configuration can violate the constraint
+// slightly. This helps when saving and loading a game.
+// @warning Do not use a zero or short length.
 type B2DistanceJointDef struct {
 	B2JointDef
 
@@ -46,9 +46,9 @@ func MakeB2DistanceJointDef() B2DistanceJointDef {
 	return res
 }
 
-/// A distance joint constrains two points on two bodies
-/// to remain at a fixed distance from each other. You can view
-/// this as a massless, rigid rod.
+// A distance joint constrains two points on two bodies
+// to remain at a fixed distance from each other. You can view
+// this as a massless, rigid rod.
 type B2DistanceJoint struct {
 	*B2Joint
 
@@ -78,12 +78,12 @@ type B2DistanceJoint struct {
 	M_mass         float64
 }
 
-/// The local anchor point relative to bodyA's origin.
+// The local anchor point relative to bodyA's origin.
 func (joint B2DistanceJoint) GetLocalAnchorA() B2Vec2 {
 	return joint.M_localAnchorA
 }
 
-/// The local anchor point relative to bodyB's origin.
+// The local anchor point relative to bodyB's origin.
 func (joint B2DistanceJoint) GetLocalAnchorB() B2Vec2 {
 	return joint.M_localAnchorB
 }

@@ -3,9 +3,9 @@ package box2d_test
 import (
 	"testing"
 
-	"github.com/ByteArena/box2d"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/hulkholden/box2d"
 )
 
 var closeEnough = cmpopts.EquateApprox(0, 1e-5)

@@ -1,4 +1,4 @@
-module github.com/ByteArena/box2d
+module github.com/hulkholden/box2d
 
 go 1.19
 

@@ -3,7 +3,7 @@ package box2d_test
 import (
 	"testing"
 
-	"github.com/ByteArena/box2d"
+	"github.com/hulkholden/box2d"
 )
 
 func TestB2GrowableStack(t *testing.T) {

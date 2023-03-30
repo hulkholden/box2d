@@ -6,12 +6,11 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/ByteArena/box2d"
+	"github.com/hulkholden/box2d"
 	"github.com/pmezard/go-difflib/difflib"
 )
 
 func TestCPPCompliance(t *testing.T) {
-
 	// Define the gravity vector.
 	gravity := box2d.MakeB2Vec2(0.0, -10.0)
 
@@ -249,7 +248,7 @@ func TestCPPCompliance(t *testing.T) {
 	for i := 0; i < 60; i++ {
 		// Instruct the world to perform a single step of simulation.
 		// It is generally best to keep the time step and iterations fixed.
-		//runtime.Breakpoint()
+		// runtime.Breakpoint()
 		world.Step(timeStep, velocityIterations, positionIterations)
 
 		// Now print the position and angle of the body.

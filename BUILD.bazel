@@ -53,7 +53,7 @@ go_library(
         "DynamicsB2World.go",
         "DynamicsB2WorldCallbacks.go",
     ],
-    importpath = "github.com/ByteArena/box2d",
+    importpath = "github.com/hulkholden/box2d",
     visibility = ["//visibility:public"],
 )
 
@@ -74,7 +74,7 @@ go_test(
     ],
 )
 
-# gazelle:prefix github.com/ByteArena/box2d
+# gazelle:prefix github.com/hulkholden/box2d
 gazelle(name = "gazelle")
 
 gazelle(

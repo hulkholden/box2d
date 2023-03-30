@@ -8,8 +8,10 @@ type B2ContactManager struct {
 	M_contactListener B2ContactListenerInterface
 }
 
-var b2_defaultFilter = &B2ContactFilter{}
-var b2_defaultListener B2ContactListenerInterface
+var (
+	b2_defaultFilter   = &B2ContactFilter{}
+	b2_defaultListener B2ContactListenerInterface
+)
 
 func MakeB2ContactManager() B2ContactManager {
 	return B2ContactManager{
@@ -149,7 +151,6 @@ func (mgr *B2ContactManager) FindNewContacts() {
 }
 
 func (mgr *B2ContactManager) AddPair(proxyUserDataA interface{}, proxyUserDataB interface{}) {
-
 	proxyA := proxyUserDataA.(*B2FixtureProxy)
 	proxyB := proxyUserDataB.(*B2FixtureProxy)
 
@@ -211,8 +212,8 @@ func (mgr *B2ContactManager) AddPair(proxyUserDataA interface{}, proxyUserDataB 
 	// Contact creation may swap fixtures.
 	fixtureA = c.GetFixtureA()
 	fixtureB = c.GetFixtureB()
-	indexA = c.GetChildIndexA()
-	indexB = c.GetChildIndexB()
+	// indexA = c.GetChildIndexA()
+	// indexB = c.GetChildIndexB()
 	bodyA = fixtureA.GetBody()
 	bodyB = fixtureB.GetBody()
 

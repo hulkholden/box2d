@@ -1,0 +1,87 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+go_library(
+    name = "box2d",
+    srcs = [
+        "CollisionB2BroadPhase.go",
+        "CollisionB2CollideCircle.go",
+        "CollisionB2CollideEdge.go",
+        "CollisionB2CollidePolygon.go",
+        "CollisionB2Collision.go",
+        "CollisionB2Distance.go",
+        "CollisionB2DynamicTree.go",
+        "CollisionB2Shape.go",
+        "CollisionB2ShapeChain.go",
+        "CollisionB2ShapeCircle.go",
+        "CollisionB2ShapeEdge.go",
+        "CollisionB2ShapePolygon.go",
+        "CollisionB2TimeOfImpact.go",
+        "CommonB2Draw.go",
+        "CommonB2GrowableStack.go",
+        "CommonB2Math.go",
+        "CommonB2Settings.go",
+        "CommonB2Timer.go",
+        "CommonUtils.go",
+        "DynamicsB2Body.go",
+        "DynamicsB2Contact.go",
+        "DynamicsB2ContactChainAndCircle.go",
+        "DynamicsB2ContactChainAndPolygon.go",
+        "DynamicsB2ContactCircle.go",
+        "DynamicsB2ContactEdgeAndCircle.go",
+        "DynamicsB2ContactEdgeAndPolygon.go",
+        "DynamicsB2ContactManager.go",
+        "DynamicsB2ContactPolygon.go",
+        "DynamicsB2ContactPolygonAndCircle.go",
+        "DynamicsB2ContactSolver.go",
+        "DynamicsB2Fixture.go",
+        "DynamicsB2Island.go",
+        "DynamicsB2Joint.go",
+        "DynamicsB2JointDistance.go",
+        "DynamicsB2JointFriction.go",
+        "DynamicsB2JointGear.go",
+        "DynamicsB2JointMotor.go",
+        "DynamicsB2JointMouse.go",
+        "DynamicsB2JointPrismatic.go",
+        "DynamicsB2JointPulley.go",
+        "DynamicsB2JointRevolute.go",
+        "DynamicsB2JointRope.go",
+        "DynamicsB2JointWeld.go",
+        "DynamicsB2JointWheel.go",
+        "DynamicsB2Rope.go",
+        "DynamicsB2TimeStep.go",
+        "DynamicsB2World.go",
+        "DynamicsB2WorldCallbacks.go",
+    ],
+    importpath = "github.com/ByteArena/box2d",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "box2d_test",
+    srcs = [
+        "CollisionB2ShapePolygon_test.go",
+        "CommonB2GrowableStack_test.go",
+        "CommonB2Math_test.go",
+        "cpp_compliance_expected_test.go",
+        "cpp_compliance_test.go",
+    ],
+    embed = [":box2d"],
+    deps = [
+        "@com_github_google_go_cmp//cmp",
+        "@com_github_google_go_cmp//cmp/cmpopts",
+        "@com_github_pmezard_go_difflib//difflib",
+    ],
+)
+
+# gazelle:prefix github.com/ByteArena/box2d
+gazelle(name = "gazelle")
+
+gazelle(
+    name = "gazelle-update-repos",
+    args = [
+        "-from_file=go.mod",
+        "-prune",
+    ],
+    command = "update-repos",
+)

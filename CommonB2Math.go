@@ -24,49 +24,49 @@ func B2InvSqrt(x float64) float64 {
 	return 1.0 / math.Sqrt(x)
 }
 
-// B2Vec2 is a 2D column vector.
-type B2Vec2 struct {
+// Vec2 is a 2D column vector.
+type Vec2 struct {
 	X, Y float64
 }
 
-// MakeB2Vec2 constructs a B2Vec2 using the provided coordinates.
-func MakeB2Vec2(xIn, yIn float64) B2Vec2 {
-	return B2Vec2{
+// MakeVec2 constructs a Vec2 using the provided coordinates.
+func MakeVec2(xIn, yIn float64) Vec2 {
+	return Vec2{
 		X: xIn,
 		Y: yIn,
 	}
 }
 
-// NewB2Vec2 constructs a new B2Vec2 using the provided coordinates.
-func NewB2Vec2(xIn, yIn float64) *B2Vec2 {
-	return &B2Vec2{
+// NewVec2 constructs a new Vec2 using the provided coordinates.
+func NewVec2(xIn, yIn float64) *Vec2 {
+	return &Vec2{
 		X: xIn,
 		Y: yIn,
 	}
 }
 
 // SetZero sets the vector to all zeros.
-func (v *B2Vec2) SetZero() {
+func (v *Vec2) SetZero() {
 	v.X = 0.0
 	v.Y = 0.0
 }
 
 // Set sets this vector to some specified coordinates.
-func (v *B2Vec2) Set(x, y float64) {
+func (v *Vec2) Set(x, y float64) {
 	v.X = x
 	v.Y = y
 }
 
 // OperatorNegate negates this vector.
-func (v B2Vec2) OperatorNegate() B2Vec2 {
-	return MakeB2Vec2(
+func (v Vec2) OperatorNegate() Vec2 {
+	return MakeVec2(
 		-v.X,
 		-v.Y,
 	)
 }
 
 // OperatorIndexGet returns an indexed element.
-func (v B2Vec2) OperatorIndexGet(i int) float64 {
+func (v Vec2) OperatorIndexGet(i int) float64 {
 	if i == 0 {
 		return v.X
 	}
@@ -75,7 +75,7 @@ func (v B2Vec2) OperatorIndexGet(i int) float64 {
 }
 
 // OperatorIndexSet sets an indexed element.
-func (v *B2Vec2) OperatorIndexSet(i int, value float64) {
+func (v *Vec2) OperatorIndexSet(i int, value float64) {
 	if i == 0 {
 		v.X = value
 		return
@@ -85,36 +85,36 @@ func (v *B2Vec2) OperatorIndexSet(i int, value float64) {
 }
 
 // OperatorPlusInplace adds a vector to this vector.
-func (v *B2Vec2) OperatorPlusInplace(other B2Vec2) {
+func (v *Vec2) OperatorPlusInplace(other Vec2) {
 	v.X += other.X
 	v.Y += other.Y
 }
 
 // OperatorMinusInplace subtracts a vector from this vector.
-func (v *B2Vec2) OperatorMinusInplace(other B2Vec2) {
+func (v *Vec2) OperatorMinusInplace(other Vec2) {
 	v.X -= other.X
 	v.Y -= other.Y
 }
 
 // OperatorScalarMulInplace multiplies this vector by a scalar.
-func (v *B2Vec2) OperatorScalarMulInplace(a float64) {
+func (v *Vec2) OperatorScalarMulInplace(a float64) {
 	v.X *= a
 	v.Y *= a
 }
 
 // Length returns length of this vector (the norm).
-func (v B2Vec2) Length() float64 {
+func (v Vec2) Length() float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 
 // LengthSquared returns the length squared.
-// For performance, use this instead of b2Vec2::Length (if possible).
-func (v B2Vec2) LengthSquared() float64 {
+// For performance, use this instead of Vec2::Length (if possible).
+func (v Vec2) LengthSquared() float64 {
 	return v.X*v.X + v.Y*v.Y
 }
 
 // Normalize converts this vector into a unit vector. Returns the length.
-func (v *B2Vec2) Normalize() float64 {
+func (v *Vec2) Normalize() float64 {
 	length := v.Length()
 
 	if length < B2_epsilon {
@@ -129,13 +129,13 @@ func (v *B2Vec2) Normalize() float64 {
 }
 
 // IsValid returns whether this vector contain finite coordinates.
-func (v B2Vec2) IsValid() bool {
+func (v Vec2) IsValid() bool {
 	return B2IsValid(v.X) && B2IsValid(v.Y)
 }
 
 // Skew returns skew vector such that dot(skew_vec, other) == cross(vec, other)
-func (v B2Vec2) Skew() B2Vec2 {
-	return MakeB2Vec2(-v.Y, v.X)
+func (v Vec2) Skew() Vec2 {
+	return MakeVec2(-v.Y, v.X)
 }
 
 // B2Vec3 is 2D column vector with 3 elements.
@@ -204,7 +204,7 @@ func (v *B2Vec3) OperatorScalarMultInplace(a float64) {
 
 // B2Mat22 is a 2-by-2 matrix. Stored in column-major order.
 type B2Mat22 struct {
-	Ex, Ey B2Vec2
+	Ex, Ey Vec2
 }
 
 // The default constructor does nothing
@@ -212,14 +212,14 @@ func MakeB2Mat22() B2Mat22 { return B2Mat22{} }
 func NewB2Mat22() *B2Mat22 { return &B2Mat22{} }
 
 // Construct this matrix using columns.
-func MakeB2Mat22FromColumns(c1, c2 B2Vec2) B2Mat22 {
+func MakeB2Mat22FromColumns(c1, c2 Vec2) B2Mat22 {
 	return B2Mat22{
 		Ex: c1,
 		Ey: c2,
 	}
 }
 
-func NewB2Mat22FromColumns(c1, c2 B2Vec2) *B2Mat22 {
+func NewB2Mat22FromColumns(c1, c2 Vec2) *B2Mat22 {
 	res := MakeB2Mat22FromColumns(c1, c2)
 	return &res
 }
@@ -227,8 +227,8 @@ func NewB2Mat22FromColumns(c1, c2 B2Vec2) *B2Mat22 {
 // Construct this matrix using scalars.
 func MakeB2Mat22FromScalars(a11, a12, a21, a22 float64) B2Mat22 {
 	return B2Mat22{
-		Ex: MakeB2Vec2(a11, a21),
-		Ey: MakeB2Vec2(a12, a22),
+		Ex: MakeVec2(a11, a21),
+		Ey: MakeVec2(a12, a22),
 	}
 }
 
@@ -238,7 +238,7 @@ func NewB2Mat22FromScalars(a11, a12, a21, a22 float64) *B2Mat22 {
 }
 
 // Initialize this matrix using columns.
-func (m *B2Mat22) Set(c1 B2Vec2, c2 B2Vec2) {
+func (m *B2Mat22) Set(c1 Vec2, c2 Vec2) {
 	m.Ex = c1
 	m.Ey = c2
 }
@@ -282,7 +282,7 @@ func (m B2Mat22) GetInverse() B2Mat22 {
 
 // Solve A * x = b, where b is a column vector. This is more efficient
 // than computing the inverse in one-shot cases.
-func (m B2Mat22) Solve(b B2Vec2) B2Vec2 {
+func (m B2Mat22) Solve(b Vec2) Vec2 {
 	a11 := m.Ex.X
 	a12 := m.Ey.X
 	a21 := m.Ex.Y
@@ -293,7 +293,7 @@ func (m B2Mat22) Solve(b B2Vec2) B2Vec2 {
 		det = 1.0 / det
 	}
 
-	return MakeB2Vec2(
+	return MakeVec2(
 		det*(a22*b.X-a12*b.Y),
 		det*(a11*b.Y-a21*b.X),
 	)
@@ -369,19 +369,19 @@ func (r B2Rot) GetAngle() float64 {
 }
 
 // Get the x-axis
-func (r B2Rot) GetXAxis() B2Vec2 {
-	return MakeB2Vec2(r.C, r.S)
+func (r B2Rot) GetXAxis() Vec2 {
+	return MakeVec2(r.C, r.S)
 }
 
 // Get the u-axis
-func (r B2Rot) GetYAxis() B2Vec2 {
-	return MakeB2Vec2(-r.S, r.C)
+func (r B2Rot) GetYAxis() Vec2 {
+	return MakeVec2(-r.S, r.C)
 }
 
 // B2Transform contains translation and rotation. It is used to represent
 // the position and orientation of rigid frames.
 type B2Transform struct {
-	P B2Vec2
+	P Vec2
 	Q B2Rot
 }
 
@@ -390,14 +390,14 @@ func MakeB2Transform() B2Transform { return B2Transform{} }
 func NewB2Transform() *B2Transform { return &B2Transform{} }
 
 // Initialize using a position vector and a rotation.
-func MakeB2TransformByPositionAndRotation(position B2Vec2, rotation B2Rot) B2Transform {
+func MakeB2TransformByPositionAndRotation(position Vec2, rotation B2Rot) B2Transform {
 	return B2Transform{
 		P: position,
 		Q: rotation,
 	}
 }
 
-func NewB2TransformByPositionAndRotation(position B2Vec2, rotation B2Rot) *B2Transform {
+func NewB2TransformByPositionAndRotation(position Vec2, rotation B2Rot) *B2Transform {
 	res := MakeB2TransformByPositionAndRotation(position, rotation)
 	return &res
 }
@@ -409,7 +409,7 @@ func (t *B2Transform) SetIdentity() {
 }
 
 // Set this based on the position and angle.
-func (t *B2Transform) Set(position B2Vec2, anglerad float64) {
+func (t *B2Transform) Set(position Vec2, anglerad float64) {
 	t.P = position
 	t.Q.Set(anglerad)
 }
@@ -422,8 +422,8 @@ func (t *B2Transform) Set(position B2Vec2, anglerad float64) {
 ///////////////////////////////////////////////////////////////////////////////
 
 type B2Sweep struct {
-	LocalCenter B2Vec2  ///< local center of mass position
-	C0, C       B2Vec2  ///< center world positions
+	LocalCenter Vec2    ///< local center of mass position
+	C0, C       Vec2    ///< center world positions
 	A0, A       float64 ///< world angles
 
 	/// Fraction of the current time step in the range [0,1]
@@ -441,72 +441,69 @@ type B2Sweep struct {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-// Useful constant
-var B2Vec2_zero = MakeB2Vec2(0, 0)
-
 // Perform the dot product on two vectors.
-func B2Vec2Dot(a, b B2Vec2) float64 {
+func Vec2Dot(a, b Vec2) float64 {
 	return a.X*b.X + a.Y*b.Y
 }
 
 // Perform the cross product on two vectors. In 2D this produces a scalar.
-func B2Vec2Cross(a, b B2Vec2) float64 {
+func Vec2Cross(a, b Vec2) float64 {
 	return a.X*b.Y - a.Y*b.X
 }
 
 // Perform the cross product on a vector and a scalar. In 2D this produces
 // a vector.
-func B2Vec2CrossVectorScalar(a B2Vec2, s float64) B2Vec2 {
-	return MakeB2Vec2(s*a.Y, -s*a.X)
+func Vec2CrossVectorScalar(a Vec2, s float64) Vec2 {
+	return MakeVec2(s*a.Y, -s*a.X)
 }
 
 // Perform the cross product on a scalar and a vector. In 2D this produces
 // a vector.
-func B2Vec2CrossScalarVector(s float64, a B2Vec2) B2Vec2 {
-	return MakeB2Vec2(-s*a.Y, s*a.X)
+func Vec2CrossScalarVector(s float64, a Vec2) Vec2 {
+	return MakeVec2(-s*a.Y, s*a.X)
 }
 
 // Multiply a matrix times a vector. If a rotation matrix is provided,
 // then this transforms the vector from one frame to another.
-func B2Vec2Mat22Mul(A B2Mat22, v B2Vec2) B2Vec2 {
-	return MakeB2Vec2(A.Ex.X*v.X+A.Ey.X*v.Y, A.Ex.Y*v.X+A.Ey.Y*v.Y)
+func Vec2Mat22Mul(A B2Mat22, v Vec2) Vec2 {
+	return MakeVec2(A.Ex.X*v.X+A.Ey.X*v.Y, A.Ex.Y*v.X+A.Ey.Y*v.Y)
 }
 
 // Multiply a matrix transpose times a vector. If a rotation matrix is provided,
 // then this transforms the vector from one frame to another (inverse transform).
-func B2Vec2Mat22MulT(A B2Mat22, v B2Vec2) B2Vec2 {
-	return MakeB2Vec2(B2Vec2Dot(v, A.Ex), B2Vec2Dot(v, A.Ey))
+func Vec2Mat22MulT(A B2Mat22, v Vec2) Vec2 {
+	return MakeVec2(Vec2Dot(v, A.Ex), Vec2Dot(v, A.Ey))
 }
 
 // Add two vectors component-wise.
-func B2Vec2Add(a, b B2Vec2) B2Vec2 {
-	return MakeB2Vec2(a.X+b.X, a.Y+b.Y)
+func Vec2Add(a, b Vec2) Vec2 {
+	return MakeVec2(a.X+b.X, a.Y+b.Y)
 }
 
 // Subtract two vectors component-wise.
-func B2Vec2Sub(a, b B2Vec2) B2Vec2 {
-	return MakeB2Vec2(a.X-b.X, a.Y-b.Y)
+func Vec2Sub(a, b Vec2) Vec2 {
+	return MakeVec2(a.X-b.X, a.Y-b.Y)
 }
 
-func B2Vec2MulScalar(s float64, a B2Vec2) B2Vec2 {
-	return MakeB2Vec2(s*a.X, s*a.Y)
+func Vec2MulScalar(s float64, a Vec2) Vec2 {
+	return MakeVec2(s*a.X, s*a.Y)
 }
 
-func B2Vec2Equals(a, b B2Vec2) bool {
+func Vec2Equals(a, b Vec2) bool {
 	return a.X == b.X && a.Y == b.Y
 }
 
-func B2Vec2NotEquals(a, b B2Vec2) bool {
+func Vec2NotEquals(a, b Vec2) bool {
 	return a.X != b.X || a.Y != b.Y
 }
 
-func B2Vec2Distance(a, b B2Vec2) float64 {
-	return B2Vec2Sub(a, b).Length()
+func Vec2Distance(a, b Vec2) float64 {
+	return Vec2Sub(a, b).Length()
 }
 
-func B2Vec2DistanceSquared(a, b B2Vec2) float64 {
-	c := B2Vec2Sub(a, b)
-	return B2Vec2Dot(c, c)
+func Vec2DistanceSquared(a, b Vec2) float64 {
+	c := Vec2Sub(a, b)
+	return Vec2Dot(c, c)
 }
 
 func B2Vec3MultScalar(s float64, a B2Vec3) B2Vec3 {
@@ -535,29 +532,29 @@ func B2Vec3Cross(a, b B2Vec3) B2Vec3 {
 
 func B2Mat22Add(A, B B2Mat22) B2Mat22 {
 	return MakeB2Mat22FromColumns(
-		B2Vec2Add(A.Ex, B.Ex),
-		B2Vec2Add(A.Ey, B.Ey),
+		Vec2Add(A.Ex, B.Ex),
+		Vec2Add(A.Ey, B.Ey),
 	)
 }
 
 // A * B
 func B2Mat22Mul(A, B B2Mat22) B2Mat22 {
 	return MakeB2Mat22FromColumns(
-		B2Vec2Mat22Mul(A, B.Ex),
-		B2Vec2Mat22Mul(A, B.Ey),
+		Vec2Mat22Mul(A, B.Ex),
+		Vec2Mat22Mul(A, B.Ey),
 	)
 }
 
 // A^T * B
 func B2Mat22MulT(A, B B2Mat22) B2Mat22 {
-	c1 := MakeB2Vec2(
-		B2Vec2Dot(A.Ex, B.Ex),
-		B2Vec2Dot(A.Ey, B.Ex),
+	c1 := MakeVec2(
+		Vec2Dot(A.Ex, B.Ex),
+		Vec2Dot(A.Ey, B.Ex),
 	)
 
-	c2 := MakeB2Vec2(
-		B2Vec2Dot(A.Ex, B.Ey),
-		B2Vec2Dot(A.Ey, B.Ey),
+	c2 := MakeVec2(
+		Vec2Dot(A.Ex, B.Ey),
+		Vec2Dot(A.Ey, B.Ey),
 	)
 
 	return MakeB2Mat22FromColumns(c1, c2)
@@ -579,8 +576,8 @@ func B2Vec3Mat33Mul(A B2Mat33, v B2Vec3) B2Vec3 {
 }
 
 // Multiply a matrix times a vector.
-func B2Vec2Mul22(A B2Mat33, v B2Vec2) B2Vec2 {
-	return MakeB2Vec2(A.Ex.X*v.X+A.Ey.X*v.Y, A.Ex.Y*v.X+A.Ey.Y*v.Y)
+func Vec2Mul22(A B2Mat33, v Vec2) Vec2 {
+	return MakeVec2(A.Ex.X*v.X+A.Ey.X*v.Y, A.Ex.Y*v.X+A.Ey.Y*v.Y)
 }
 
 // Multiply two rotations: q * r
@@ -600,102 +597,102 @@ func B2RotMulT(q, r B2Rot) B2Rot {
 }
 
 // Rotate a vector
-func B2RotVec2Mul(q B2Rot, v B2Vec2) B2Vec2 {
-	return MakeB2Vec2(
+func B2RotVec2Mul(q B2Rot, v Vec2) Vec2 {
+	return MakeVec2(
 		q.C*v.X-q.S*v.Y,
 		q.S*v.X+q.C*v.Y,
 	)
 }
 
 // Inverse rotate a vector
-func B2RotVec2MulT(q B2Rot, v B2Vec2) B2Vec2 {
-	return MakeB2Vec2(
+func B2RotVec2MulT(q B2Rot, v Vec2) Vec2 {
+	return MakeVec2(
 		q.C*v.X+q.S*v.Y,
 		-q.S*v.X+q.C*v.Y,
 	)
 }
 
-func B2TransformVec2Mul(T B2Transform, v B2Vec2) B2Vec2 {
-	return MakeB2Vec2(
+func B2TransformVec2Mul(T B2Transform, v Vec2) Vec2 {
+	return MakeVec2(
 		(T.Q.C*v.X-T.Q.S*v.Y)+T.P.X,
 		(T.Q.S*v.X+T.Q.C*v.Y)+T.P.Y,
 	)
 }
 
-func B2TransformVec2MulT(T B2Transform, v B2Vec2) B2Vec2 {
+func B2TransformVec2MulT(T B2Transform, v Vec2) Vec2 {
 	px := v.X - T.P.X
 	py := v.Y - T.P.Y
 	x := (T.Q.C*px + T.Q.S*py)
 	y := (-T.Q.S*px + T.Q.C*py)
 
-	return MakeB2Vec2(x, y)
+	return MakeVec2(x, y)
 }
 
 func B2TransformMul(A, B B2Transform) B2Transform {
 	q := B2RotMul(A.Q, B.Q)
-	p := B2Vec2Add(B2RotVec2Mul(A.Q, B.P), A.P)
+	p := Vec2Add(B2RotVec2Mul(A.Q, B.P), A.P)
 
 	return MakeB2TransformByPositionAndRotation(p, q)
 }
 
 func B2TransformMulT(A, B B2Transform) B2Transform {
 	q := B2RotMulT(A.Q, B.Q)
-	p := B2RotVec2MulT(A.Q, B2Vec2Sub(B.P, A.P))
+	p := B2RotVec2MulT(A.Q, Vec2Sub(B.P, A.P))
 
 	return MakeB2TransformByPositionAndRotation(p, q)
 }
 
 // Check if the projected testpoint onto the line is on the line segment
-func B2IsProjectedPointOnLineSegment(v1 B2Vec2, v2 B2Vec2, p B2Vec2) bool {
-	e1 := B2Vec2{v2.X - v1.X, v2.Y - v1.Y}
-	recArea := B2Vec2Dot(e1, e1)
-	e2 := B2Vec2{p.X - v1.X, p.Y - v1.Y}
-	v := B2Vec2Dot(e1, e2)
+func B2IsProjectedPointOnLineSegment(v1 Vec2, v2 Vec2, p Vec2) bool {
+	e1 := Vec2{v2.X - v1.X, v2.Y - v1.Y}
+	recArea := Vec2Dot(e1, e1)
+	e2 := Vec2{p.X - v1.X, p.Y - v1.Y}
+	v := Vec2Dot(e1, e2)
 	return v >= 0.0 && v <= recArea
 }
 
 // Get projected point p' of p on line v1,v2
-func B2ProjectPointOnLine(v1 B2Vec2, v2 B2Vec2, p B2Vec2) B2Vec2 {
-	e1 := B2Vec2{v2.X - v1.X, v2.Y - v1.Y}
-	e2 := B2Vec2{p.X - v1.X, p.Y - v1.Y}
-	valDp := B2Vec2Dot(e1, e2)
+func B2ProjectPointOnLine(v1 Vec2, v2 Vec2, p Vec2) Vec2 {
+	e1 := Vec2{v2.X - v1.X, v2.Y - v1.Y}
+	e2 := Vec2{p.X - v1.X, p.Y - v1.Y}
+	valDp := Vec2Dot(e1, e2)
 	len2 := e1.X*e1.X + e1.Y*e1.Y
-	p1 := B2Vec2{
+	p1 := Vec2{
 		v1.X + (valDp*e1.X)/len2,
 		v1.Y + (valDp*e1.Y)/len2,
 	}
 	return p1
 }
 
-func B2Vec2Abs(a B2Vec2) B2Vec2 {
-	return MakeB2Vec2(math.Abs(a.X), math.Abs(a.Y))
+func Vec2Abs(a Vec2) Vec2 {
+	return MakeVec2(math.Abs(a.X), math.Abs(a.Y))
 }
 
 func B2Mat22Abs(A B2Mat22) B2Mat22 {
 	return MakeB2Mat22FromColumns(
-		B2Vec2Abs(A.Ex),
-		B2Vec2Abs(A.Ey),
+		Vec2Abs(A.Ex),
+		Vec2Abs(A.Ey),
 	)
 }
 
-func B2Vec2Min(a, b B2Vec2) B2Vec2 {
-	return MakeB2Vec2(
+func Vec2Min(a, b Vec2) Vec2 {
+	return MakeVec2(
 		fastMin(a.X, b.X),
 		fastMin(a.Y, b.Y),
 	)
 }
 
-func B2Vec2Max(a, b B2Vec2) B2Vec2 {
-	return MakeB2Vec2(
+func Vec2Max(a, b Vec2) Vec2 {
+	return MakeVec2(
 		fastMax(a.X, b.X),
 		fastMax(a.Y, b.Y),
 	)
 }
 
-func B2Vec2Clamp(a, low, high B2Vec2) B2Vec2 {
-	return B2Vec2Max(
+func Vec2Clamp(a, low, high Vec2) Vec2 {
+	return Vec2Max(
 		low,
-		B2Vec2Min(a, high),
+		Vec2Min(a, high),
 	)
 }
 
@@ -733,7 +730,7 @@ func B2IsPowerOfTwo(x uint32) bool {
 }
 
 func (sweep B2Sweep) GetTransform(xf *B2Transform, beta float64) {
-	xf.P = B2Vec2Add(sweep.C0, B2Vec2MulScalar(beta, B2Vec2Sub(sweep.C, sweep.C0)))
+	xf.P = Vec2Add(sweep.C0, Vec2MulScalar(beta, Vec2Sub(sweep.C, sweep.C0)))
 	angle := sweep.A0 + (sweep.A-sweep.A0)*beta
 	xf.Q.Set(angle)
 
@@ -744,7 +741,7 @@ func (sweep B2Sweep) GetTransform(xf *B2Transform, beta float64) {
 func (sweep *B2Sweep) Advance(alpha float64) {
 	B2Assert(sweep.Alpha0 < 1.0)
 	beta := (alpha - sweep.Alpha0) / (1.0 - sweep.Alpha0)
-	sweep.C0.OperatorPlusInplace(B2Vec2MulScalar(beta, B2Vec2Sub(sweep.C, sweep.C0)))
+	sweep.C0.OperatorPlusInplace(Vec2MulScalar(beta, Vec2Sub(sweep.C, sweep.C0)))
 	sweep.A0 += beta * (sweep.A - sweep.A0)
 	sweep.Alpha0 = alpha
 }
@@ -788,7 +785,7 @@ func (mat B2Mat33) Solve33(b B2Vec3) B2Vec3 {
 
 // Solve A * x = b, where b is a column vector. This is more efficient
 // than computing the inverse in one-shot cases.
-func (mat B2Mat33) Solve22(b B2Vec2) B2Vec2 {
+func (mat B2Mat33) Solve22(b Vec2) Vec2 {
 	a11 := mat.Ex.X
 	a12 := mat.Ey.X
 	a21 := mat.Ex.Y
@@ -802,7 +799,7 @@ func (mat B2Mat33) Solve22(b B2Vec2) B2Vec2 {
 	x := det * (a22*b.X - a12*b.Y)
 	y := det * (a11*b.Y - a21*b.X)
 
-	return MakeB2Vec2(x, y)
+	return MakeVec2(x, y)
 }
 
 func (mat B2Mat33) GetInverse22(M *B2Mat33) {
@@ -868,3 +865,33 @@ func fastMax(a, b float64) float64 {
 	}
 	return b
 }
+
+// Legacy type names.
+// TODO: fully migrate to Vec2 and remove.
+type B2Vec2 = Vec2
+
+var (
+	MakeB2Vec2 = MakeVec2
+	NewB2Vec2  = NewVec2
+
+	B2Vec2Dot               = Vec2Dot
+	B2Vec2Cross             = Vec2Cross
+	B2Vec2CrossVectorScalar = Vec2CrossVectorScalar
+	B2Vec2CrossScalarVector = Vec2CrossScalarVector
+	B2Vec2Mat22Mul          = Vec2Mat22Mul
+	B2Vec2Mat22MulT         = Vec2Mat22MulT
+	B2Vec2Add               = Vec2Add
+	B2Vec2Sub               = Vec2Sub
+	B2Vec2MulScalar         = Vec2MulScalar
+	B2Vec2Equals            = Vec2Equals
+	B2Vec2NotEquals         = Vec2NotEquals
+	B2Vec2Distance          = Vec2Distance
+	B2Vec2DistanceSquared   = Vec2DistanceSquared
+	B2Vec2Mul22             = Vec2Mul22
+	B2Vec2Abs               = Vec2Abs
+	B2Vec2Min               = Vec2Min
+	B2Vec2Max               = Vec2Max
+	B2Vec2Clamp             = Vec2Clamp
+
+	B2Vec2_zero = MakeVec2(0, 0)
+)

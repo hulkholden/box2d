@@ -153,8 +153,8 @@ func MakeB2EPAxis() B2EPAxis {
 
 // This holds polygon B expressed in frame A.
 type B2TempPolygon struct {
-	Vertices [maxPolygonVertices]B2Vec2
-	Normals  [maxPolygonVertices]B2Vec2
+	Vertices [maxPolygonVertices]Vec2
+	Normals  [maxPolygonVertices]Vec2
 	Count    int
 }
 
@@ -162,14 +162,14 @@ type B2TempPolygon struct {
 type B2ReferenceFace struct {
 	I1, I2 int
 
-	V1, V2 B2Vec2
+	V1, V2 Vec2
 
-	Normal B2Vec2
+	Normal Vec2
 
-	SideNormal1 B2Vec2
+	SideNormal1 Vec2
 	SideOffset1 float64
 
-	SideNormal2 B2Vec2
+	SideNormal2 Vec2
 	SideOffset2 float64
 }
 
@@ -192,12 +192,12 @@ type B2EPCollider struct {
 	M_polygonB B2TempPolygon
 
 	M_xf                            B2Transform
-	M_centroidB                     B2Vec2
-	M_v0, M_v1, M_v2, M_v3          B2Vec2
-	M_normal0, M_normal1, M_normal2 B2Vec2
-	M_normal                        B2Vec2
+	M_centroidB                     Vec2
+	M_v0, M_v1, M_v2, M_v3          Vec2
+	M_normal0, M_normal1, M_normal2 Vec2
+	M_normal                        Vec2
 	M_type1, M_type2                uint8
-	M_lowerLimit, M_upperLimit      B2Vec2
+	M_lowerLimit, M_upperLimit      Vec2
 	M_radius                        float64
 	M_front                         bool
 }

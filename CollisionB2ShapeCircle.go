@@ -8,7 +8,7 @@ import (
 type B2CircleShape struct {
 	B2Shape
 	/// Position
-	M_p B2Vec2
+	M_p Vec2
 }
 
 func MakeB2CircleShape() B2CircleShape {
@@ -39,7 +39,7 @@ func (shape B2CircleShape) GetChildCount() int {
 	return 1
 }
 
-func (shape B2CircleShape) TestPoint(transform B2Transform, p B2Vec2) bool {
+func (shape B2CircleShape) TestPoint(transform B2Transform, p Vec2) bool {
 	center := Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
 	d := Vec2Sub(p, center)
 	return Vec2Dot(d, d) <= shape.M_radius*shape.M_radius

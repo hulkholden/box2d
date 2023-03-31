@@ -9,7 +9,7 @@ type B2MotorJointDef struct {
 	B2JointDef
 
 	/// Position of bodyB minus the position of bodyA, in bodyA's frame, in meters.
-	LinearOffset B2Vec2
+	LinearOffset Vec2
 
 	/// The bodyB angle minus bodyA angle in radians.
 	AngularOffset float64
@@ -42,9 +42,9 @@ type B2MotorJoint struct {
 	*B2Joint
 
 	// Solver shared
-	M_linearOffset     B2Vec2
+	M_linearOffset     Vec2
 	M_angularOffset    float64
-	M_linearImpulse    B2Vec2
+	M_linearImpulse    Vec2
 	M_angularImpulse   float64
 	M_maxForce         float64
 	M_maxTorque        float64
@@ -53,11 +53,11 @@ type B2MotorJoint struct {
 	// Solver temp
 	M_indexA       int
 	M_indexB       int
-	M_rA           B2Vec2
-	M_rB           B2Vec2
-	M_localCenterA B2Vec2
-	M_localCenterB B2Vec2
-	M_linearError  B2Vec2
+	M_rA           Vec2
+	M_rB           Vec2
+	M_localCenterA Vec2
+	M_localCenterB Vec2
+	M_linearError  Vec2
 	M_angularError float64
 	M_invMassA     float64
 	M_invMassB     float64
@@ -251,15 +251,15 @@ func (joint *B2MotorJoint) SolvePositionConstraints(data B2SolverData) bool {
 	return true
 }
 
-func (joint B2MotorJoint) GetAnchorA() B2Vec2 {
+func (joint B2MotorJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetPosition()
 }
 
-func (joint B2MotorJoint) GetAnchorB() B2Vec2 {
+func (joint B2MotorJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetPosition()
 }
 
-func (joint B2MotorJoint) GetReactionForce(inv_dt float64) B2Vec2 {
+func (joint B2MotorJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar(inv_dt, joint.M_linearImpulse)
 }
 
@@ -294,7 +294,7 @@ func (joint B2MotorJoint) GetCorrectionFactor() float64 {
 	return joint.M_correctionFactor
 }
 
-func (joint *B2MotorJoint) SetLinearOffset(linearOffset B2Vec2) {
+func (joint *B2MotorJoint) SetLinearOffset(linearOffset Vec2) {
 	if linearOffset.X != joint.M_linearOffset.X || linearOffset.Y != joint.M_linearOffset.Y {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -302,7 +302,7 @@ func (joint *B2MotorJoint) SetLinearOffset(linearOffset B2Vec2) {
 	}
 }
 
-func (joint B2MotorJoint) GetLinearOffset() B2Vec2 {
+func (joint B2MotorJoint) GetLinearOffset() Vec2 {
 	return joint.M_linearOffset
 }
 

@@ -9,10 +9,10 @@ type B2FrictionJointDef struct {
 	B2JointDef
 
 	/// The local anchor point relative to bodyA's origin.
-	LocalAnchorA B2Vec2
+	LocalAnchorA Vec2
 
 	/// The local anchor point relative to bodyB's origin.
-	LocalAnchorB B2Vec2
+	LocalAnchorB Vec2
 
 	/// The maximum friction force in N.
 	MaxForce float64
@@ -40,11 +40,11 @@ func MakeB2FrictionJointDef() B2FrictionJointDef {
 type B2FrictionJoint struct {
 	*B2Joint
 
-	M_localAnchorA B2Vec2
-	M_localAnchorB B2Vec2
+	M_localAnchorA Vec2
+	M_localAnchorB Vec2
 
 	// Solver shared
-	M_linearImpulse  B2Vec2
+	M_linearImpulse  Vec2
 	M_angularImpulse float64
 	M_maxForce       float64
 	M_maxTorque      float64
@@ -52,10 +52,10 @@ type B2FrictionJoint struct {
 	// Solver temp
 	M_indexA       int
 	M_indexB       int
-	M_rA           B2Vec2
-	M_rB           B2Vec2
-	M_localCenterA B2Vec2
-	M_localCenterB B2Vec2
+	M_rA           Vec2
+	M_rB           Vec2
+	M_localCenterA Vec2
+	M_localCenterB Vec2
 	M_invMassA     float64
 	M_invMassB     float64
 	M_invIA        float64
@@ -65,12 +65,12 @@ type B2FrictionJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2FrictionJoint) GetLocalAnchorA() B2Vec2 {
+func (joint B2FrictionJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2FrictionJoint) GetLocalAnchorB() B2Vec2 {
+func (joint B2FrictionJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
@@ -86,7 +86,7 @@ func (joint B2FrictionJoint) GetLocalAnchorB() B2Vec2 {
 // J = [0 0 -1 0 0 1]
 // K = invI1 + invI2
 
-func (joint *B2FrictionJointDef) Initialize(bA *B2Body, bB *B2Body, anchor B2Vec2) {
+func (joint *B2FrictionJointDef) Initialize(bA *B2Body, bB *B2Body, anchor Vec2) {
 	joint.BodyA = bA
 	joint.BodyB = bB
 	joint.LocalAnchorA = joint.BodyA.GetLocalPoint(anchor)
@@ -244,15 +244,15 @@ func (joint *B2FrictionJoint) SolvePositionConstraints(data B2SolverData) bool {
 	return true
 }
 
-func (joint B2FrictionJoint) GetAnchorA() B2Vec2 {
+func (joint B2FrictionJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2FrictionJoint) GetAnchorB() B2Vec2 {
+func (joint B2FrictionJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2FrictionJoint) GetReactionForce(inv_dt float64) B2Vec2 {
+func (joint B2FrictionJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar(inv_dt, joint.M_linearImpulse)
 }
 

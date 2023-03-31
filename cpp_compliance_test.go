@@ -53,7 +53,7 @@ func TestCPPCompliance(t *testing.T) {
 		bd.Angle = 0.25 * box2d.B2_pi
 		ground := world.CreateBody(&bd)
 
-		vs := make([]box2d.B2Vec2, 4)
+		vs := make([]box2d.Vec2, 4)
 		vs[0].Set(5.0, 7.0)
 		vs[1].Set(6.0, 8.0)
 		vs[2].Set(7.0, 8.0)
@@ -86,7 +86,7 @@ func TestCPPCompliance(t *testing.T) {
 		bd := box2d.MakeB2BodyDef()
 		ground := world.CreateBody(&bd)
 
-		vs := make([]box2d.B2Vec2, 4)
+		vs := make([]box2d.Vec2, 4)
 		vs[0].Set(-1.0, 3.0)
 		vs[1].Set(1.0, 3.0)
 		vs[2].Set(1.0, 5.0)
@@ -103,7 +103,7 @@ func TestCPPCompliance(t *testing.T) {
 		bd.Position.Set(-10.0, 4.0)
 		ground := world.CreateBody(&bd)
 
-		vs := make([]box2d.B2Vec2, 10)
+		vs := make([]box2d.Vec2, 10)
 		vs[0].Set(0.0, 0.0)
 		vs[1].Set(6.0, 0.0)
 		vs[2].Set(6.0, 2.0)
@@ -172,7 +172,7 @@ func TestCPPCompliance(t *testing.T) {
 
 		angle := 0.0
 		delta := box2d.B2_pi / 3.0
-		vertices := make([]box2d.B2Vec2, 6)
+		vertices := make([]box2d.Vec2, 6)
 		for i := 0; i < 6; i++ {
 			vertices[i].Set(0.5*math.Cos(angle), 0.5*math.Sin(angle))
 			angle += delta

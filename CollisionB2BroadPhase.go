@@ -171,7 +171,7 @@ func (bp *B2BroadPhase) DestroyProxy(proxyId int) {
 	bp.M_tree.DestroyProxy(proxyId)
 }
 
-func (bp *B2BroadPhase) MoveProxy(proxyId int, aabb B2AABB, displacement B2Vec2) {
+func (bp *B2BroadPhase) MoveProxy(proxyId int, aabb B2AABB, displacement Vec2) {
 	buffer := bp.M_tree.MoveProxy(proxyId, aabb, displacement)
 	if buffer {
 		bp.BufferMove(proxyId)
@@ -228,6 +228,6 @@ func (bp *B2BroadPhase) RayCast(callback B2TreeRayCastCallback, input B2RayCastI
 	bp.M_tree.RayCast(callback, input)
 }
 
-func (bp *B2BroadPhase) ShiftOrigin(newOrigin B2Vec2) {
+func (bp *B2BroadPhase) ShiftOrigin(newOrigin Vec2) {
 	bp.M_tree.ShiftOrigin(newOrigin)
 }

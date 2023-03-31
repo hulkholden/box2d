@@ -12,13 +12,13 @@ type B2ChainShape struct {
 	B2Shape
 
 	/// The vertices. Owned by this class.
-	M_vertices []B2Vec2
+	M_vertices []Vec2
 
 	/// The vertex count.
 	M_count int
 
-	M_prevVertex    B2Vec2
-	M_nextVertex    B2Vec2
+	M_prevVertex    Vec2
+	M_nextVertex    Vec2
 	M_hasPrevVertex bool
 	M_hasNextVertex bool
 }
@@ -53,7 +53,7 @@ func (chain *B2ChainShape) Clear() {
 	chain.M_count = 0
 }
 
-func (chain *B2ChainShape) CreateLoop(vertices []B2Vec2, count int) {
+func (chain *B2ChainShape) CreateLoop(vertices []Vec2, count int) {
 	B2Assert(chain.M_vertices == nil && chain.M_count == 0)
 	B2Assert(count >= 3)
 	if count < 3 {
@@ -68,7 +68,7 @@ func (chain *B2ChainShape) CreateLoop(vertices []B2Vec2, count int) {
 	}
 
 	chain.M_count = count + 1
-	chain.M_vertices = make([]B2Vec2, chain.M_count)
+	chain.M_vertices = make([]Vec2, chain.M_count)
 	copy(chain.M_vertices, vertices)
 
 	chain.M_vertices[count] = chain.M_vertices[0]
@@ -78,7 +78,7 @@ func (chain *B2ChainShape) CreateLoop(vertices []B2Vec2, count int) {
 	chain.M_hasNextVertex = true
 }
 
-func (chain *B2ChainShape) CreateChain(vertices []B2Vec2, count int) {
+func (chain *B2ChainShape) CreateChain(vertices []Vec2, count int) {
 	B2Assert(chain.M_vertices == nil && chain.M_count == 0)
 	B2Assert(count >= 2)
 	for i := 1; i < count; i++ {
@@ -87,7 +87,7 @@ func (chain *B2ChainShape) CreateChain(vertices []B2Vec2, count int) {
 	}
 
 	chain.M_count = count
-	chain.M_vertices = make([]B2Vec2, count)
+	chain.M_vertices = make([]Vec2, count)
 	copy(chain.M_vertices, vertices)
 
 	chain.M_hasPrevVertex = false
@@ -97,12 +97,12 @@ func (chain *B2ChainShape) CreateChain(vertices []B2Vec2, count int) {
 	chain.M_nextVertex.SetZero()
 }
 
-func (chain *B2ChainShape) SetPrevVertex(prevVertex B2Vec2) {
+func (chain *B2ChainShape) SetPrevVertex(prevVertex Vec2) {
 	chain.M_prevVertex = prevVertex
 	chain.M_hasPrevVertex = true
 }
 
-func (chain *B2ChainShape) SetNextVertex(nextVertex B2Vec2) {
+func (chain *B2ChainShape) SetNextVertex(nextVertex Vec2) {
 	chain.M_nextVertex = nextVertex
 	chain.M_hasNextVertex = true
 }
@@ -149,7 +149,7 @@ func (chain B2ChainShape) GetChildEdge(edge *B2EdgeShape, index int) {
 	}
 }
 
-func (chain B2ChainShape) TestPoint(xf B2Transform, p B2Vec2) bool {
+func (chain B2ChainShape) TestPoint(xf B2Transform, p Vec2) bool {
 	return false
 }
 

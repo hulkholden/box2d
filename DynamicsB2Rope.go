@@ -6,7 +6,7 @@ import (
 
 type B2RopeDef struct {
 	///
-	Vertices []B2Vec2
+	Vertices []Vec2
 
 	///
 	Count int
@@ -15,7 +15,7 @@ type B2RopeDef struct {
 	Masses []float64
 
 	///
-	Gravity B2Vec2
+	Gravity Vec2
 
 	///
 	Damping float64
@@ -43,16 +43,16 @@ func MakeB2RopeDef() B2RopeDef {
 
 type B2Rope struct {
 	M_count int
-	M_ps    []B2Vec2
-	M_p0s   []B2Vec2
-	M_vs    []B2Vec2
+	M_ps    []Vec2
+	M_p0s   []Vec2
+	M_vs    []Vec2
 
 	M_ims []float64
 
 	M_Ls []float64
 	M_as []float64
 
-	M_gravity B2Vec2
+	M_gravity Vec2
 	M_damping float64
 
 	M_k2 float64
@@ -63,7 +63,7 @@ func (rope B2Rope) GetVertexCount() int {
 	return rope.M_count
 }
 
-func (rope B2Rope) GetVertices() []B2Vec2 {
+func (rope B2Rope) GetVertices() []Vec2 {
 	return rope.M_ps
 }
 
@@ -96,9 +96,9 @@ func (rope *B2Rope) Destroy() {
 func (rope *B2Rope) Initialize(def *B2RopeDef) {
 	B2Assert(def.Count >= 3)
 	rope.M_count = def.Count
-	rope.M_ps = make([]B2Vec2, rope.M_count)
-	rope.M_p0s = make([]B2Vec2, rope.M_count)
-	rope.M_vs = make([]B2Vec2, rope.M_count)
+	rope.M_ps = make([]Vec2, rope.M_count)
+	rope.M_p0s = make([]Vec2, rope.M_count)
+	rope.M_vs = make([]Vec2, rope.M_count)
 	rope.M_ims = make([]float64, rope.M_count)
 
 	for i := 0; i < rope.M_count; i++ {

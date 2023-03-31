@@ -11,8 +11,8 @@ package box2d
 // A distance proxy is used by the GJK algorithm.
 // It encapsulates any shape.
 type B2DistanceProxy struct {
-	M_buffer   [2]B2Vec2
-	M_vertices []B2Vec2 // is a memory blob using pointer arithmetic in original implementation
+	M_buffer   [2]Vec2
+	M_vertices []Vec2 // is a memory blob using pointer arithmetic in original implementation
 	M_count    int
 	M_radius   float64
 }
@@ -48,8 +48,8 @@ func NewB2DistanceInput() *B2DistanceInput { return &B2DistanceInput{} }
 
 // Output for b2Distance.
 type B2DistanceOutput struct {
-	PointA     B2Vec2 ///< closest point on shapeA
-	PointB     B2Vec2 ///< closest point on shapeB
+	PointA     Vec2 ///< closest point on shapeA
+	PointB     Vec2 ///< closest point on shapeB
 	Distance   float64
 	Iterations int ///< number of GJK iterations used
 }
@@ -61,12 +61,12 @@ func (p B2DistanceProxy) GetVertexCount() int {
 	return p.M_count
 }
 
-func (p B2DistanceProxy) GetVertex(index int) B2Vec2 {
+func (p B2DistanceProxy) GetVertex(index int) Vec2 {
 	B2Assert(0 <= index && index < p.M_count)
 	return p.M_vertices[index]
 }
 
-func (p B2DistanceProxy) GetSupport(d B2Vec2) int {
+func (p B2DistanceProxy) GetSupport(d Vec2) int {
 	bestIndex := 0
 	bestValue := Vec2Dot(p.M_vertices[0], d)
 	for i := 1; i < p.M_count; i++ {
@@ -80,7 +80,7 @@ func (p B2DistanceProxy) GetSupport(d B2Vec2) int {
 	return bestIndex
 }
 
-func (p B2DistanceProxy) GetSupportVertex(d B2Vec2) B2Vec2 {
+func (p B2DistanceProxy) GetSupportVertex(d Vec2) Vec2 {
 	bestIndex := 0
 	bestValue := Vec2Dot(p.M_vertices[0], d)
 
@@ -110,7 +110,7 @@ func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 	switch shape.GetType() {
 	case B2Shape_Type.E_circle:
 		circle := (shape).(*B2CircleShape)
-		p.M_vertices = []B2Vec2{circle.M_p}
+		p.M_vertices = []Vec2{circle.M_p}
 		p.M_count = 1
 		p.M_radius = circle.M_radius
 
@@ -137,7 +137,7 @@ func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 
 	case B2Shape_Type.E_edge:
 		edge := shape.(*B2EdgeShape)
-		p.M_vertices = []B2Vec2{edge.M_vertex1, edge.M_vertex2}
+		p.M_vertices = []Vec2{edge.M_vertex1, edge.M_vertex2}
 		p.M_count = 2
 		p.M_radius = edge.M_radius
 
@@ -147,9 +147,9 @@ func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 }
 
 type B2SimplexVertex struct {
-	WA     B2Vec2  // support point in proxyA
-	WB     B2Vec2  // support point in proxyB
-	W      B2Vec2  // wB - wA
+	WA     Vec2    // support point in proxyA
+	WB     Vec2    // support point in proxyB
+	W      Vec2    // wB - wA
 	A      float64 // barycentric coordinate for closest point
 	IndexA int     // wA index
 	IndexB int     // wB index
@@ -221,7 +221,7 @@ func (simplex B2Simplex) WriteCache(cache *B2SimplexCache) {
 	}
 }
 
-func (simplex B2Simplex) GetSearchDirection() B2Vec2 {
+func (simplex B2Simplex) GetSearchDirection() Vec2 {
 	switch simplex.M_count {
 	case 1:
 		return simplex.M_vs[0].W.OperatorNegate()
@@ -245,7 +245,7 @@ func (simplex B2Simplex) GetSearchDirection() B2Vec2 {
 	}
 }
 
-func (simplex B2Simplex) GetClosestPoint() B2Vec2 {
+func (simplex B2Simplex) GetClosestPoint() Vec2 {
 	switch simplex.M_count {
 	case 0:
 		B2Assert(false)
@@ -275,7 +275,7 @@ func (simplex B2Simplex) GetClosestPoint() B2Vec2 {
 	}
 }
 
-func (simplex B2Simplex) GetWitnessPoints(pA *B2Vec2, pB *B2Vec2) {
+func (simplex B2Simplex) GetWitnessPoints(pA *Vec2, pB *Vec2) {
 	switch simplex.M_count {
 	case 0:
 		B2Assert(false)

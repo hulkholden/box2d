@@ -71,8 +71,8 @@ type B2SeparationFunction struct {
 	M_proxyB           *B2DistanceProxy
 	M_sweepA, M_sweepB B2Sweep
 	M_type             uint8
-	M_localPoint       B2Vec2
-	M_axis             B2Vec2
+	M_localPoint       Vec2
+	M_axis             Vec2
 }
 
 // TODO_ERIN might not need to return the separation

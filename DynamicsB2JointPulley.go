@@ -13,16 +13,16 @@ type B2PulleyJointDef struct {
 	B2JointDef
 
 	/// The first ground anchor in world coordinates. This point never moves.
-	GroundAnchorA B2Vec2
+	GroundAnchorA Vec2
 
 	/// The second ground anchor in world coordinates. This point never moves.
-	GroundAnchorB B2Vec2
+	GroundAnchorB Vec2
 
 	/// The local anchor point relative to bodyA's origin.
-	LocalAnchorA B2Vec2
+	LocalAnchorA Vec2
 
 	/// The local anchor point relative to bodyB's origin.
-	LocalAnchorB B2Vec2
+	LocalAnchorB Vec2
 
 	/// The a reference length for the segment attached to bodyA.
 	LengthA float64
@@ -63,14 +63,14 @@ func MakeB2PulleyJointDef() B2PulleyJointDef {
 type B2PulleyJoint struct {
 	*B2Joint
 
-	M_groundAnchorA B2Vec2
-	M_groundAnchorB B2Vec2
+	M_groundAnchorA Vec2
+	M_groundAnchorB Vec2
 	M_lengthA       float64
 	M_lengthB       float64
 
 	// Solver shared
-	M_localAnchorA B2Vec2
-	M_localAnchorB B2Vec2
+	M_localAnchorA Vec2
+	M_localAnchorB Vec2
 	M_constant     float64
 	M_ratio        float64
 	M_impulse      float64
@@ -78,12 +78,12 @@ type B2PulleyJoint struct {
 	// Solver temp
 	M_indexA       int
 	M_indexB       int
-	M_uA           B2Vec2
-	M_uB           B2Vec2
-	M_rA           B2Vec2
-	M_rB           B2Vec2
-	M_localCenterA B2Vec2
-	M_localCenterB B2Vec2
+	M_uA           Vec2
+	M_uB           Vec2
+	M_rA           Vec2
+	M_rB           Vec2
+	M_localCenterA Vec2
+	M_localCenterB Vec2
 	M_invMassA     float64
 	M_invMassB     float64
 	M_invIA        float64
@@ -103,7 +103,7 @@ type B2PulleyJoint struct {
 // K = J * invM * JT
 //   = invMass1 + invI1 * cross(r1, u1)^2 + ratio^2 * (invMass2 + invI2 * cross(r2, u2)^2)
 
-func (def *B2PulleyJointDef) Initialize(bA *B2Body, bB *B2Body, groundA B2Vec2, groundB B2Vec2, anchorA B2Vec2, anchorB B2Vec2, r float64) {
+func (def *B2PulleyJointDef) Initialize(bA *B2Body, bB *B2Body, groundA Vec2, groundB Vec2, anchorA Vec2, anchorB Vec2, r float64) {
 	def.BodyA = bA
 	def.BodyB = bB
 	def.GroundAnchorA = groundA
@@ -312,15 +312,15 @@ func (joint *B2PulleyJoint) SolvePositionConstraints(data B2SolverData) bool {
 	return linearError < linearSlop
 }
 
-func (joint B2PulleyJoint) GetAnchorA() B2Vec2 {
+func (joint B2PulleyJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2PulleyJoint) GetAnchorB() B2Vec2 {
+func (joint B2PulleyJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2PulleyJoint) GetReactionForce(inv_dt float64) B2Vec2 {
+func (joint B2PulleyJoint) GetReactionForce(inv_dt float64) Vec2 {
 	P := Vec2MulScalar(joint.M_impulse, joint.M_uB)
 	return Vec2MulScalar(inv_dt, P)
 }
@@ -329,11 +329,11 @@ func (joint B2PulleyJoint) GetReactionTorque(inv_dt float64) float64 {
 	return 0.0
 }
 
-func (joint B2PulleyJoint) GetGroundAnchorA() B2Vec2 {
+func (joint B2PulleyJoint) GetGroundAnchorA() Vec2 {
 	return joint.M_groundAnchorA
 }
 
-func (joint B2PulleyJoint) GetGroundAnchorB() B2Vec2 {
+func (joint B2PulleyJoint) GetGroundAnchorB() Vec2 {
 	return joint.M_groundAnchorB
 }
 
@@ -381,7 +381,7 @@ func (joint *B2PulleyJoint) Dump() {
 	fmt.Printf("  joints[%d] = m_world.CreateJoint(&jd);\n", joint.M_index)
 }
 
-func (joint *B2PulleyJoint) ShiftOrigin(newOrigin B2Vec2) {
+func (joint *B2PulleyJoint) ShiftOrigin(newOrigin Vec2) {
 	joint.M_groundAnchorA.OperatorMinusInplace(newOrigin)
 	joint.M_groundAnchorB.OperatorMinusInplace(newOrigin)
 }

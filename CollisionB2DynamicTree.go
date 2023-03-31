@@ -280,7 +280,7 @@ func (tree *B2DynamicTree) DestroyProxy(proxyId int) {
 	tree.FreeNode(proxyId)
 }
 
-func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb B2AABB, displacement B2Vec2) bool {
+func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb B2AABB, displacement Vec2) bool {
 	B2Assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 
 	B2Assert(tree.M_nodes[proxyId].IsLeaf())
@@ -829,7 +829,7 @@ func (tree *B2DynamicTree) RebuildBottomUp() {
 	tree.Validate()
 }
 
-func (tree *B2DynamicTree) ShiftOrigin(newOrigin B2Vec2) {
+func (tree *B2DynamicTree) ShiftOrigin(newOrigin Vec2) {
 	// Build array of leaves. Free the rest.
 	for i := 0; i < tree.M_nodeCapacity; i++ {
 		tree.M_nodes[i].Aabb.LowerBound.OperatorMinusInplace(newOrigin)

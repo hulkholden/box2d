@@ -57,13 +57,13 @@ type B2GearJoint struct {
 	M_bodyD *B2Body
 
 	// Solver shared
-	M_localAnchorA B2Vec2
-	M_localAnchorB B2Vec2
-	M_localAnchorC B2Vec2
-	M_localAnchorD B2Vec2
+	M_localAnchorA Vec2
+	M_localAnchorB Vec2
+	M_localAnchorC Vec2
+	M_localAnchorD Vec2
 
-	M_localAxisC B2Vec2
-	M_localAxisD B2Vec2
+	M_localAxisC Vec2
+	M_localAxisD Vec2
 
 	M_referenceAngleA float64
 	M_referenceAngleB float64
@@ -75,10 +75,10 @@ type B2GearJoint struct {
 
 	// Solver temp
 	M_indexA, M_indexB, M_indexC, M_indexD int
-	M_lcA, M_lcB, M_lcC, M_lcD             B2Vec2
+	M_lcA, M_lcB, M_lcC, M_lcD             Vec2
 	M_mA, M_mB, M_mC, M_mD                 float64
 	M_iA, M_iB, M_iC, M_iD                 float64
-	M_JvAC, M_JvBD                         B2Vec2
+	M_JvAC, M_JvBD                         Vec2
 	M_JwA, M_JwB, M_JwC, M_JwD             float64
 	M_mass                                 float64
 }
@@ -354,8 +354,8 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 	coordinateA := 0.0
 	coordinateB := 0.0
 
-	var JvAC B2Vec2
-	var JvBD B2Vec2
+	var JvAC Vec2
+	var JvBD Vec2
 	var JwA, JwB, JwC, JwD float64
 	mass := 0.0
 
@@ -430,15 +430,15 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 	return linearError < linearSlop
 }
 
-func (joint B2GearJoint) GetAnchorA() B2Vec2 {
+func (joint B2GearJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2GearJoint) GetAnchorB() B2Vec2 {
+func (joint B2GearJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2GearJoint) GetReactionForce(inv_dt float64) B2Vec2 {
+func (joint B2GearJoint) GetReactionForce(inv_dt float64) Vec2 {
 	P := Vec2MulScalar(joint.M_impulse, joint.M_JvAC)
 	return Vec2MulScalar(inv_dt, P)
 }

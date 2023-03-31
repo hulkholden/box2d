@@ -90,4 +90,4 @@ func (cf *B2ContactFilter) ShouldCollide(fixtureA *B2Fixture, fixtureB *B2Fixtur
 // @param normal the normal vector at the point of intersection
 // @return -1 to filter, 0 to terminate, fraction to clip the ray for
 // closest hit, 1 to continue
-type B2RaycastCallback func(fixture *B2Fixture, point B2Vec2, normal B2Vec2, fraction float64) float64
+type B2RaycastCallback func(fixture *B2Fixture, point Vec2, normal Vec2, fraction float64) float64

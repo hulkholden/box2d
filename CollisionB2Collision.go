@@ -64,7 +64,7 @@ func (v *B2ContactID) SetKey(key uint32) {
 // Note: the impulses are used for internal caching and may not
 // provide reliable contact forces, especially for high speed collisions.
 type B2ManifoldPoint struct {
-	LocalPoint     B2Vec2      ///< usage depends on manifold type
+	LocalPoint     Vec2        ///< usage depends on manifold type
 	NormalImpulse  float64     ///< the non-penetration impulse
 	TangentImpulse float64     ///< the friction impulse
 	Id             B2ContactID ///< uniquely identifies a contact point between two shapes
@@ -99,8 +99,8 @@ var B2Manifold_Type = struct {
 
 type B2Manifold struct {
 	Points      [maxManifoldPoints]B2ManifoldPoint ///< the points of contact
-	LocalNormal B2Vec2                             ///< not use for Type::e_points
-	LocalPoint  B2Vec2                             ///< usage depends on manifold type
+	LocalNormal Vec2                               ///< not use for Type::e_points
+	LocalPoint  Vec2                               ///< usage depends on manifold type
 	Type        uint8                              // B2Manifold_Type
 	PointCount  int                                ///< the number of manifold points
 }
@@ -109,8 +109,8 @@ func NewB2Manifold() *B2Manifold { return &B2Manifold{} }
 
 // This is used to compute the current state of a contact manifold.
 type B2WorldManifold struct {
-	Normal      B2Vec2                     ///< world vector pointing from A to B
-	Points      [maxManifoldPoints]B2Vec2  ///< world contact point (point of intersection)
+	Normal      Vec2                       ///< world vector pointing from A to B
+	Points      [maxManifoldPoints]Vec2    ///< world contact point (point of intersection)
 	Separations [maxManifoldPoints]float64 ///< a negative value indicates overlap, in meters
 }
 
@@ -130,13 +130,13 @@ var B2PointState = struct {
 
 // Used for computing contact manifolds.
 type B2ClipVertex struct {
-	V  B2Vec2
+	V  Vec2
 	Id B2ContactID
 }
 
 // Ray-cast input data. The ray extends from p1 to p1 + maxFraction * (p2 - p1).
 type B2RayCastInput struct {
-	P1, P2      B2Vec2
+	P1, P2      Vec2
 	MaxFraction float64
 }
 
@@ -145,7 +145,7 @@ func MakeB2RayCastInput() B2RayCastInput { return B2RayCastInput{} }
 // Ray-cast output data. The ray hits at p1 + fraction * (p2 - p1), where p1 and p2
 // come from b2RayCastInput.
 type B2RayCastOutput struct {
-	Normal   B2Vec2
+	Normal   Vec2
 	Fraction float64
 }
 
@@ -153,11 +153,11 @@ func MakeB2RayCastOutput() B2RayCastOutput { return B2RayCastOutput{} }
 
 // An axis aligned bounding box.
 type B2AABB struct {
-	LowerBound B2Vec2 ///< the lower vertex
-	UpperBound B2Vec2 ///< the upper vertex
+	LowerBound Vec2 ///< the lower vertex
+	UpperBound Vec2 ///< the upper vertex
 }
 
-func MakeB2AABB(lower, upper B2Vec2) B2AABB {
+func MakeB2AABB(lower, upper Vec2) B2AABB {
 	return B2AABB{
 		LowerBound: lower,
 		UpperBound: upper,
@@ -166,7 +166,7 @@ func MakeB2AABB(lower, upper B2Vec2) B2AABB {
 func NewB2AABB() *B2AABB { return &B2AABB{} }
 
 // Get the center of the AABB.
-func (bb B2AABB) GetCenter() B2Vec2 {
+func (bb B2AABB) GetCenter() Vec2 {
 	return Vec2MulScalar(
 		0.5,
 		Vec2Add(bb.LowerBound, bb.UpperBound),
@@ -174,7 +174,7 @@ func (bb B2AABB) GetCenter() B2Vec2 {
 }
 
 // Get the extents of the AABB (half-widths).
-func (bb B2AABB) GetExtents() B2Vec2 {
+func (bb B2AABB) GetExtents() Vec2 {
 	return Vec2MulScalar(
 		0.5,
 		Vec2Sub(bb.UpperBound, bb.LowerBound),
@@ -408,7 +408,7 @@ func (bb B2AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
 }
 
 // Sutherland-Hodgman clipping.
-func B2ClipSegmentToLine(vOut []B2ClipVertex, vIn []B2ClipVertex, normal B2Vec2, offset float64, vertexIndexA int) int {
+func B2ClipSegmentToLine(vOut []B2ClipVertex, vIn []B2ClipVertex, normal Vec2, offset float64, vertexIndexA int) int {
 	// Start with no output points
 	numOut := 0
 

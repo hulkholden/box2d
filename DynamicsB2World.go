@@ -33,7 +33,7 @@ type B2World struct {
 	M_bodyCount  int
 	M_jointCount int
 
-	M_gravity    B2Vec2
+	M_gravity    Vec2
 	M_allowSleep bool
 
 	M_destructionListener B2DestructionListenerInterface
@@ -77,11 +77,11 @@ func (world B2World) GetContactCount() int {
 	return world.M_contactManager.M_contactCount
 }
 
-func (world *B2World) SetGravity(gravity B2Vec2) {
+func (world *B2World) SetGravity(gravity Vec2) {
 	world.M_gravity = gravity
 }
 
-func (world B2World) GetGravity() B2Vec2 {
+func (world B2World) GetGravity() Vec2 {
 	return world.M_gravity
 }
 
@@ -118,7 +118,7 @@ func (world B2World) GetProfile() B2Profile {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func MakeB2World(gravity B2Vec2) B2World {
+func MakeB2World(gravity Vec2) B2World {
 	world := B2World{}
 
 	world.M_destructionListener = nil
@@ -970,7 +970,7 @@ func (world *B2World) QueryAABB(callback B2BroadPhaseQueryCallback, aabb B2AABB)
 	world.M_contactManager.M_broadPhase.Query(wrapper.QueryCallback, aabb)
 }
 
-func (world *B2World) RayCast(callback B2RaycastCallback, point1 B2Vec2, point2 B2Vec2) {
+func (world *B2World) RayCast(callback B2RaycastCallback, point1 Vec2, point2 Vec2) {
 	// B2TreeRayCastCallback
 	wrapper := func(input B2RayCastInput, nodeId int) float64 {
 		userData := world.M_contactManager.M_broadPhase.GetUserData(nodeId)
@@ -1046,7 +1046,7 @@ func (world *B2World) DrawShape(fixture *B2Fixture, xf B2Transform, color B2Colo
 		poly := fixture.GetShape().(*B2PolygonShape)
 		vertexCount := poly.M_count
 		B2Assert(vertexCount <= maxPolygonVertices)
-		var vertices [maxPolygonVertices]B2Vec2
+		var vertices [maxPolygonVertices]Vec2
 
 		for i := 0; i < vertexCount; i++ {
 			vertices[i] = B2TransformVec2Mul(xf, poly.M_vertices[i])
@@ -1159,7 +1159,7 @@ func (world *B2World) DrawDebugData() {
 				for i := 0; i < f.M_proxyCount; i++ {
 					proxy := f.M_proxies[i]
 					aabb := bp.GetFatAABB(proxy.ProxyId)
-					var vs [4]B2Vec2
+					var vs [4]Vec2
 					vs[0].Set(aabb.LowerBound.X, aabb.LowerBound.Y)
 					vs[1].Set(aabb.UpperBound.X, aabb.LowerBound.Y)
 					vs[2].Set(aabb.UpperBound.X, aabb.UpperBound.Y)
@@ -1196,7 +1196,7 @@ func (world B2World) GetTreeQuality() float64 {
 	return world.M_contactManager.M_broadPhase.GetTreeQuality()
 }
 
-func (world *B2World) ShiftOrigin(newOrigin B2Vec2) {
+func (world *B2World) ShiftOrigin(newOrigin Vec2) {
 	B2Assert((world.M_flags & B2World_Flags.E_locked) == 0)
 	if (world.M_flags & B2World_Flags.E_locked) == B2World_Flags.E_locked {
 		return

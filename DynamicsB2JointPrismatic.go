@@ -15,13 +15,13 @@ type B2PrismaticJointDef struct {
 	B2JointDef
 
 	/// The local anchor point relative to bodyA's origin.
-	LocalAnchorA B2Vec2
+	LocalAnchorA Vec2
 
 	/// The local anchor point relative to bodyB's origin.
-	LocalAnchorB B2Vec2
+	LocalAnchorB Vec2
 
 	/// The local translation unit axis in bodyA.
-	LocalAxisA B2Vec2
+	LocalAxisA Vec2
 
 	/// The constrained angle between the bodies: bodyB_angle - bodyA_angle.
 	ReferenceAngle float64
@@ -73,10 +73,10 @@ type B2PrismaticJoint struct {
 	*B2Joint
 
 	// Solver shared
-	M_localAnchorA     B2Vec2
-	M_localAnchorB     B2Vec2
-	M_localXAxisA      B2Vec2
-	M_localYAxisA      B2Vec2
+	M_localAnchorA     Vec2
+	M_localAnchorB     Vec2
+	M_localXAxisA      Vec2
+	M_localYAxisA      Vec2
 	M_referenceAngle   float64
 	M_impulse          B2Vec3
 	M_motorImpulse     float64
@@ -91,13 +91,13 @@ type B2PrismaticJoint struct {
 	// Solver temp
 	M_indexA       int
 	M_indexB       int
-	M_localCenterA B2Vec2
-	M_localCenterB B2Vec2
+	M_localCenterA Vec2
+	M_localCenterB Vec2
 	M_invMassA     float64
 	M_invMassB     float64
 	M_invIA        float64
 	M_invIB        float64
-	M_axis, M_perp B2Vec2
+	M_axis, M_perp Vec2
 	M_s1, M_s2     float64
 	M_a1, M_a2     float64
 	M_K            B2Mat33
@@ -105,17 +105,17 @@ type B2PrismaticJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2PrismaticJoint) GetLocalAnchorA() B2Vec2 {
+func (joint B2PrismaticJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2PrismaticJoint) GetLocalAnchorB() B2Vec2 {
+func (joint B2PrismaticJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
 // The local joint axis relative to bodyA.
-func (joint B2PrismaticJoint) GetLocalAxisA() B2Vec2 {
+func (joint B2PrismaticJoint) GetLocalAxisA() Vec2 {
 	return joint.M_localXAxisA
 }
 
@@ -198,7 +198,7 @@ func (joint B2PrismaticJoint) GetMotorSpeed() float64 {
 // Now compute impulse to be applied:
 // df = f2 - f1
 
-func (joint *B2PrismaticJointDef) Initialize(bA *B2Body, bB *B2Body, anchor B2Vec2, axis B2Vec2) {
+func (joint *B2PrismaticJointDef) Initialize(bA *B2Body, bB *B2Body, anchor Vec2, axis Vec2) {
 	joint.BodyA = bA
 	joint.BodyB = bB
 	joint.LocalAnchorA = joint.BodyA.GetLocalPoint(anchor)
@@ -389,7 +389,7 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 		wB += iB * LB
 	}
 
-	var Cdot1 B2Vec2
+	var Cdot1 Vec2
 	Cdot1.X = Vec2Dot(joint.M_perp, Vec2Sub(vB, vA)) + joint.M_s2*wB - joint.M_s1*wA
 	Cdot1.Y = wB - wA
 
@@ -571,15 +571,15 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	return linearError <= linearSlop && angularError <= angularSlop
 }
 
-func (joint B2PrismaticJoint) GetAnchorA() B2Vec2 {
+func (joint B2PrismaticJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2PrismaticJoint) GetAnchorB() B2Vec2 {
+func (joint B2PrismaticJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2PrismaticJoint) GetReactionForce(inv_dt float64) B2Vec2 {
+func (joint B2PrismaticJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar(inv_dt, Vec2Add(Vec2MulScalar(joint.M_impulse.X, joint.M_perp), Vec2MulScalar(joint.M_motorImpulse+joint.M_impulse.Z, joint.M_axis)))
 }
 

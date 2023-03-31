@@ -15,13 +15,13 @@ type B2WheelJointDef struct {
 	B2JointDef
 
 	/// The local anchor point relative to bodyA's origin.
-	LocalAnchorA B2Vec2
+	LocalAnchorA Vec2
 
 	/// The local anchor point relative to bodyB's origin.
-	LocalAnchorB B2Vec2
+	LocalAnchorB Vec2
 
 	/// The local translation axis in bodyA.
-	LocalAxisA B2Vec2
+	LocalAxisA Vec2
 
 	/// Enable/disable the joint motor.
 	EnableMotor bool
@@ -68,10 +68,10 @@ type B2WheelJoint struct {
 	M_dampingRatio float64
 
 	// Solver shared
-	M_localAnchorA B2Vec2
-	M_localAnchorB B2Vec2
-	M_localXAxisA  B2Vec2
-	M_localYAxisA  B2Vec2
+	M_localAnchorA Vec2
+	M_localAnchorB Vec2
+	M_localXAxisA  Vec2
+	M_localYAxisA  Vec2
 
 	M_impulse       float64
 	M_motorImpulse  float64
@@ -84,15 +84,15 @@ type B2WheelJoint struct {
 	// Solver temp
 	M_indexA       int
 	M_indexB       int
-	M_localCenterA B2Vec2
-	M_localCenterB B2Vec2
+	M_localCenterA Vec2
+	M_localCenterB Vec2
 	M_invMassA     float64
 	M_invMassB     float64
 	M_invIA        float64
 	M_invIB        float64
 
-	M_ax  B2Vec2
-	M_ay  B2Vec2
+	M_ax  Vec2
+	M_ay  Vec2
 	M_sAx float64
 	M_sBx float64
 	M_sAy float64
@@ -107,17 +107,17 @@ type B2WheelJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2WheelJoint) GetLocalAnchorA() B2Vec2 {
+func (joint B2WheelJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2WheelJoint) GetLocalAnchorB() B2Vec2 {
+func (joint B2WheelJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
 // The local joint axis relative to bodyA.
-func (joint B2WheelJoint) GetLocalAxisA() B2Vec2 {
+func (joint B2WheelJoint) GetLocalAxisA() Vec2 {
 	return joint.M_localXAxisA
 }
 
@@ -161,7 +161,7 @@ func (joint B2WheelJoint) GetSpringDampingRatio() float64 {
 // Cdot = wB - wA
 // J = [0 0 -1 0 0 1]
 
-func (def *B2WheelJointDef) Initialize(bA *B2Body, bB *B2Body, anchor B2Vec2, axis B2Vec2) {
+func (def *B2WheelJointDef) Initialize(bA *B2Body, bB *B2Body, anchor Vec2, axis Vec2) {
 	def.BodyA = bA
 	def.BodyB = bB
 	def.LocalAnchorA = def.BodyA.GetLocalPoint(anchor)
@@ -440,15 +440,15 @@ func (joint *B2WheelJoint) SolvePositionConstraints(data B2SolverData) bool {
 	return math.Abs(C) <= linearSlop
 }
 
-func (joint B2WheelJoint) GetAnchorA() B2Vec2 {
+func (joint B2WheelJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2WheelJoint) GetAnchorB() B2Vec2 {
+func (joint B2WheelJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2WheelJoint) GetReactionForce(inv_dt float64) B2Vec2 {
+func (joint B2WheelJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar(inv_dt, Vec2Add(Vec2MulScalar(joint.M_impulse, joint.M_ay), Vec2MulScalar(joint.M_springImpulse, joint.M_ax)))
 }
 

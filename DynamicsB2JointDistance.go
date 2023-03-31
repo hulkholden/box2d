@@ -15,10 +15,10 @@ type B2DistanceJointDef struct {
 	B2JointDef
 
 	/// The local anchor point relative to bodyA's origin.
-	LocalAnchorA B2Vec2
+	LocalAnchorA Vec2
 
 	/// The local anchor point relative to bodyB's origin.
-	LocalAnchorB B2Vec2
+	LocalAnchorB Vec2
 
 	/// The natural length between the anchor points.
 	Length float64
@@ -57,8 +57,8 @@ type B2DistanceJoint struct {
 	M_bias         float64
 
 	// Solver shared
-	M_localAnchorA B2Vec2
-	M_localAnchorB B2Vec2
+	M_localAnchorA Vec2
+	M_localAnchorB Vec2
 	M_gamma        float64
 	M_impulse      float64
 	M_length       float64
@@ -66,11 +66,11 @@ type B2DistanceJoint struct {
 	// Solver temp
 	M_indexA       int
 	M_indexB       int
-	M_u            B2Vec2
-	M_rA           B2Vec2
-	M_rB           B2Vec2
-	M_localCenterA B2Vec2
-	M_localCenterB B2Vec2
+	M_u            Vec2
+	M_rA           Vec2
+	M_rB           Vec2
+	M_localCenterA Vec2
+	M_localCenterB Vec2
 	M_invMassA     float64
 	M_invMassB     float64
 	M_invIA        float64
@@ -79,12 +79,12 @@ type B2DistanceJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2DistanceJoint) GetLocalAnchorA() B2Vec2 {
+func (joint B2DistanceJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2DistanceJoint) GetLocalAnchorB() B2Vec2 {
+func (joint B2DistanceJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
@@ -127,7 +127,7 @@ func (joint B2DistanceJoint) GetDampingRatio() float64 {
 // K = J * invM * JT
 //   = invMass1 + invI1 * cross(r1, u)^2 + invMass2 + invI2 * cross(r2, u)^2
 
-func (joint *B2DistanceJointDef) Initialize(b1 *B2Body, b2 *B2Body, anchor1 B2Vec2, anchor2 B2Vec2) {
+func (joint *B2DistanceJointDef) Initialize(b1 *B2Body, b2 *B2Body, anchor1 Vec2, anchor2 Vec2) {
 	joint.BodyA = b1
 	joint.BodyB = b2
 	joint.LocalAnchorA = joint.BodyA.GetLocalPoint(anchor1)
@@ -318,15 +318,15 @@ func (joint *B2DistanceJoint) SolvePositionConstraints(data B2SolverData) bool {
 	return math.Abs(C) < linearSlop
 }
 
-func (joint B2DistanceJoint) GetAnchorA() B2Vec2 {
+func (joint B2DistanceJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2DistanceJoint) GetAnchorB() B2Vec2 {
+func (joint B2DistanceJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2DistanceJoint) GetReactionForce(inv_dt float64) B2Vec2 {
+func (joint B2DistanceJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar((inv_dt * joint.M_impulse), joint.M_u)
 }
 

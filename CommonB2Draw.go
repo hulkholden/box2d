@@ -49,24 +49,24 @@ type B2Draw interface {
 	GetFlags() uint32
 
 	// Draw a closed polygon provided in CCW order.
-	DrawPolygon(vertices []B2Vec2, color B2Color)
+	DrawPolygon(vertices []Vec2, color B2Color)
 
 	// Draw a solid closed polygon provided in CCW order.
-	DrawSolidPolygon(vertices []B2Vec2, color B2Color)
+	DrawSolidPolygon(vertices []Vec2, color B2Color)
 
 	// Draw a circle.
-	DrawCircle(center B2Vec2, radius float64, color B2Color)
+	DrawCircle(center Vec2, radius float64, color B2Color)
 
 	// Draw a solid circle.
-	DrawSolidCircle(center B2Vec2, radius float64, axis B2Vec2, color B2Color)
+	DrawSolidCircle(center Vec2, radius float64, axis Vec2, color B2Color)
 
 	// Draw a line segment.
-	DrawSegment(p1 B2Vec2, p2 B2Vec2, color B2Color)
+	DrawSegment(p1 Vec2, p2 Vec2, color B2Color)
 
 	// Draw a transform. Choose your own length scale.
 	// @param xf a transform.
 	DrawTransform(xf B2Transform)
 
 	// Draw a point.
-	DrawPoint(p B2Vec2, size float64, color B2Color)
+	DrawPoint(p Vec2, size float64, color B2Color)
 }

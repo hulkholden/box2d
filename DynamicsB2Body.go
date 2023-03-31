@@ -28,13 +28,13 @@ type B2BodyDef struct {
 
 	/// The world position of the body. Avoid creating bodies at the origin
 	/// since this can lead to many overlapping shapes.
-	Position B2Vec2
+	Position Vec2
 
 	/// The world angle of the body in radians.
 	Angle float64
 
 	/// The linear velocity of the body's origin in world co-ordinates.
-	LinearVelocity B2Vec2
+	LinearVelocity Vec2
 
 	/// The angular velocity of the body.
 	AngularVelocity float64
@@ -130,10 +130,10 @@ type B2Body struct {
 	M_xf    B2Transform // the body origin transform
 	M_sweep B2Sweep     // the swept motion for CCD
 
-	M_linearVelocity  B2Vec2
+	M_linearVelocity  Vec2
 	M_angularVelocity float64
 
-	M_force  B2Vec2
+	M_force  Vec2
 	M_torque float64
 
 	M_world *B2World
@@ -168,7 +168,7 @@ func (body B2Body) GetTransform() B2Transform {
 	return body.M_xf
 }
 
-func (body B2Body) GetPosition() B2Vec2 {
+func (body B2Body) GetPosition() Vec2 {
 	return body.M_xf.P
 }
 
@@ -176,15 +176,15 @@ func (body B2Body) GetAngle() float64 {
 	return body.M_sweep.A
 }
 
-func (body B2Body) GetWorldCenter() B2Vec2 {
+func (body B2Body) GetWorldCenter() Vec2 {
 	return body.M_sweep.C
 }
 
-func (body B2Body) GetLocalCenter() B2Vec2 {
+func (body B2Body) GetLocalCenter() Vec2 {
 	return body.M_sweep.LocalCenter
 }
 
-func (body *B2Body) SetLinearVelocity(v B2Vec2) {
+func (body *B2Body) SetLinearVelocity(v Vec2) {
 	if body.M_type == B2BodyType.B2_staticBody {
 		return
 	}
@@ -196,7 +196,7 @@ func (body *B2Body) SetLinearVelocity(v B2Vec2) {
 	body.M_linearVelocity = v
 }
 
-func (body B2Body) GetLinearVelocity() B2Vec2 {
+func (body B2Body) GetLinearVelocity() Vec2 {
 	return body.M_linearVelocity
 }
 
@@ -232,27 +232,27 @@ func (body B2Body) GetMassData() B2MassData {
 	return data
 }
 
-func (body B2Body) GetWorldPoint(localPoint B2Vec2) B2Vec2 {
+func (body B2Body) GetWorldPoint(localPoint Vec2) Vec2 {
 	return B2TransformVec2Mul(body.M_xf, localPoint)
 }
 
-func (body B2Body) GetWorldVector(localVector B2Vec2) B2Vec2 {
+func (body B2Body) GetWorldVector(localVector Vec2) Vec2 {
 	return B2RotVec2Mul(body.M_xf.Q, localVector)
 }
 
-func (body B2Body) GetLocalPoint(worldPoint B2Vec2) B2Vec2 {
+func (body B2Body) GetLocalPoint(worldPoint Vec2) Vec2 {
 	return B2TransformVec2MulT(body.M_xf, worldPoint)
 }
 
-func (body B2Body) GetLocalVector(worldVector B2Vec2) B2Vec2 {
+func (body B2Body) GetLocalVector(worldVector Vec2) Vec2 {
 	return B2RotVec2MulT(body.M_xf.Q, worldVector)
 }
 
-func (body B2Body) GetLinearVelocityFromWorldPoint(worldPoint B2Vec2) B2Vec2 {
+func (body B2Body) GetLinearVelocityFromWorldPoint(worldPoint Vec2) Vec2 {
 	return Vec2Add(body.M_linearVelocity, Vec2CrossScalarVector(body.M_angularVelocity, Vec2Sub(worldPoint, body.M_sweep.C)))
 }
 
-func (body B2Body) GetLinearVelocityFromLocalPoint(localPoint B2Vec2) B2Vec2 {
+func (body B2Body) GetLinearVelocityFromLocalPoint(localPoint Vec2) Vec2 {
 	return body.GetLinearVelocityFromWorldPoint(body.GetWorldPoint(localPoint))
 }
 
@@ -355,7 +355,7 @@ func (body B2Body) GetUserData() interface{} {
 	return body.M_userData
 }
 
-func (body *B2Body) ApplyForce(force B2Vec2, point B2Vec2, wake bool) {
+func (body *B2Body) ApplyForce(force Vec2, point Vec2, wake bool) {
 	if body.M_type != B2BodyType.B2_dynamicBody {
 		return
 	}
@@ -374,7 +374,7 @@ func (body *B2Body) ApplyForce(force B2Vec2, point B2Vec2, wake bool) {
 	}
 }
 
-func (body *B2Body) ApplyForceToCenter(force B2Vec2, wake bool) {
+func (body *B2Body) ApplyForceToCenter(force Vec2, wake bool) {
 	if body.M_type != B2BodyType.B2_dynamicBody {
 		return
 	}
@@ -404,7 +404,7 @@ func (body *B2Body) ApplyTorque(torque float64, wake bool) {
 	}
 }
 
-func (body *B2Body) ApplyLinearImpulse(impulse B2Vec2, point B2Vec2, wake bool) {
+func (body *B2Body) ApplyLinearImpulse(impulse Vec2, point Vec2, wake bool) {
 	if body.M_type != B2BodyType.B2_dynamicBody {
 		return
 	}
@@ -423,7 +423,7 @@ func (body *B2Body) ApplyLinearImpulse(impulse B2Vec2, point B2Vec2, wake bool) 
 	}
 }
 
-func (body *B2Body) ApplyLinearImpulseToCenter(impulse B2Vec2, wake bool) {
+func (body *B2Body) ApplyLinearImpulseToCenter(impulse Vec2, wake bool) {
 	if body.M_type != B2BodyType.B2_dynamicBody {
 		return
 	}
@@ -833,7 +833,7 @@ func (body B2Body) ShouldCollide(other *B2Body) bool {
 	return true
 }
 
-func (body *B2Body) SetTransform(position B2Vec2, angle float64) {
+func (body *B2Body) SetTransform(position Vec2, angle float64) {
 	B2Assert(!body.M_world.IsLocked())
 
 	if body.M_world.IsLocked() {

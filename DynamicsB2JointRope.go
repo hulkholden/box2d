@@ -13,10 +13,10 @@ type B2RopeJointDef struct {
 	B2JointDef
 
 	/// The local anchor point relative to bodyA's origin.
-	LocalAnchorA B2Vec2
+	LocalAnchorA Vec2
 
 	/// The local anchor point relative to bodyB's origin.
-	LocalAnchorB B2Vec2
+	LocalAnchorB Vec2
 
 	/// The maximum length of the rope.
 	/// Warning: this must be larger than b2_linearSlop or
@@ -47,8 +47,8 @@ type B2RopeJoint struct {
 	*B2Joint
 
 	// Solver shared
-	M_localAnchorA B2Vec2
-	M_localAnchorB B2Vec2
+	M_localAnchorA Vec2
+	M_localAnchorB Vec2
 	M_maxLength    float64
 	M_length       float64
 	M_impulse      float64
@@ -56,11 +56,11 @@ type B2RopeJoint struct {
 	// Solver temp
 	M_indexA       int
 	M_indexB       int
-	M_u            B2Vec2
-	M_rA           B2Vec2
-	M_rB           B2Vec2
-	M_localCenterA B2Vec2
-	M_localCenterB B2Vec2
+	M_u            Vec2
+	M_rA           Vec2
+	M_rB           Vec2
+	M_localCenterA Vec2
+	M_localCenterB Vec2
 	M_invMassA     float64
 	M_invMassB     float64
 	M_invIA        float64
@@ -70,12 +70,12 @@ type B2RopeJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2RopeJoint) GetLocalAnchorA() B2Vec2 {
+func (joint B2RopeJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2RopeJoint) GetLocalAnchorB() B2Vec2 {
+func (joint B2RopeJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
@@ -253,15 +253,15 @@ func (joint *B2RopeJoint) SolvePositionConstraints(data B2SolverData) bool {
 	return length-joint.M_maxLength < linearSlop
 }
 
-func (joint B2RopeJoint) GetAnchorA() B2Vec2 {
+func (joint B2RopeJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2RopeJoint) GetAnchorB() B2Vec2 {
+func (joint B2RopeJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2RopeJoint) GetReactionForce(inv_dt float64) B2Vec2 {
+func (joint B2RopeJoint) GetReactionForce(inv_dt float64) Vec2 {
 	F := Vec2MulScalar((inv_dt * joint.M_impulse), joint.M_u)
 	return F
 }

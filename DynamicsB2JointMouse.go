@@ -11,7 +11,7 @@ type B2MouseJointDef struct {
 
 	/// The initial world target point. This is assumed
 	/// to coincide with the body anchor initially.
-	Target B2Vec2
+	Target Vec2
 
 	/// The maximum constraint force that can be exerted
 	/// to move the candidate body. Usually you will express
@@ -49,26 +49,26 @@ func MakeB2MouseJointDef() B2MouseJointDef {
 type B2MouseJoint struct {
 	*B2Joint
 
-	M_localAnchorB B2Vec2
-	M_targetA      B2Vec2
+	M_localAnchorB Vec2
+	M_targetA      Vec2
 	M_frequencyHz  float64
 	M_dampingRatio float64
 	M_beta         float64
 
 	// Solver shared
-	M_impulse  B2Vec2
+	M_impulse  Vec2
 	M_maxForce float64
 	M_gamma    float64
 
 	// Solver temp
 	M_indexA       int
 	M_indexB       int
-	M_rB           B2Vec2
-	M_localCenterB B2Vec2
+	M_rB           Vec2
+	M_localCenterB Vec2
 	M_invMassB     float64
 	M_invIB        float64
 	M_mass         B2Mat22
-	M_C            B2Vec2
+	M_C            Vec2
 }
 
 // The mouse joint does not support dumping.
@@ -109,14 +109,14 @@ func MakeB2MouseJoint(def *B2MouseJointDef) *B2MouseJoint {
 	return &res
 }
 
-func (joint *B2MouseJoint) SetTarget(target B2Vec2) {
+func (joint *B2MouseJoint) SetTarget(target Vec2) {
 	if target != joint.M_targetA {
 		joint.M_bodyB.SetAwake(true)
 		joint.M_targetA = target
 	}
 }
 
-func (joint B2MouseJoint) GetTarget() B2Vec2 {
+func (joint B2MouseJoint) GetTarget() Vec2 {
 	return joint.M_targetA
 }
 
@@ -238,15 +238,15 @@ func (joint *B2MouseJoint) SolvePositionConstraints(data B2SolverData) bool {
 	return true
 }
 
-func (joint B2MouseJoint) GetAnchorA() B2Vec2 {
+func (joint B2MouseJoint) GetAnchorA() Vec2 {
 	return joint.M_targetA
 }
 
-func (joint B2MouseJoint) GetAnchorB() B2Vec2 {
+func (joint B2MouseJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2MouseJoint) GetReactionForce(inv_dt float64) B2Vec2 {
+func (joint B2MouseJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar(inv_dt, joint.M_impulse)
 }
 
@@ -254,6 +254,6 @@ func (joint B2MouseJoint) GetReactionTorque(inv_dt float64) float64 {
 	return inv_dt * 0.0
 }
 
-func (joint *B2MouseJoint) ShiftOrigin(newOrigin B2Vec2) {
+func (joint *B2MouseJoint) ShiftOrigin(newOrigin Vec2) {
 	joint.M_targetA.OperatorMinusInplace(newOrigin)
 }

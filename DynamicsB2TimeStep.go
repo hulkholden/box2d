@@ -32,13 +32,13 @@ func MakeB2TimeStep() B2TimeStep {
 
 // This is an internal structure.
 type B2Position struct {
-	C B2Vec2
+	C Vec2
 	A float64
 }
 
 // This is an internal structure.
 type B2Velocity struct {
-	V B2Vec2
+	V Vec2
 	W float64
 }
 

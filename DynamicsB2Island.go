@@ -200,7 +200,7 @@ func MakeB2Island(bodyCapacity int, contactCapacity int, jointCapacity int, list
 func (island *B2Island) Destroy() {
 }
 
-func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec2, allowSleep bool) {
+func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2, allowSleep bool) {
 	timer := MakeB2Timer()
 
 	h := step.Dt

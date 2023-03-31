@@ -41,7 +41,7 @@ var B2LimitState = struct {
 }
 
 type B2Jacobian struct {
-	Linear   B2Vec2
+	Linear   Vec2
 	AngularA float64
 	AngularB float64
 }
@@ -60,7 +60,6 @@ type B2JointEdge struct {
 
 // Joint definitions are used to construct joints.
 type B2JointDef struct {
-
 	/// The joint type is set automatically for concrete joint types.
 	Type uint8
 
@@ -162,7 +161,7 @@ type B2Joint struct {
 func (j B2Joint) Dump() {}
 
 // Shift the origin for any points stored in world coordinates.
-func (j B2Joint) ShiftOrigin(newOrigin B2Vec2) {}
+func (j B2Joint) ShiftOrigin(newOrigin Vec2) {}
 
 func (j B2Joint) GetType() uint8 {
 	return j.M_type
@@ -355,7 +354,6 @@ func (j B2Joint) IsActive() bool {
 
 // @goadd
 func (j *B2Joint) Destroy() {
-
 }
 
 // @goadd
@@ -388,7 +386,7 @@ type B2JointInterface interface {
 	Dump()
 
 	/// Shift the origin for any points stored in world coordinates.
-	ShiftOrigin(newOrigin B2Vec2)
+	ShiftOrigin(newOrigin Vec2)
 
 	GetType() uint8
 	SetType(t uint8)

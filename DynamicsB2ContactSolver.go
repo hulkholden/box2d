@@ -5,8 +5,8 @@ import (
 )
 
 type B2VelocityConstraintPoint struct {
-	RA             B2Vec2
-	RB             B2Vec2
+	RA             Vec2
+	RB             Vec2
 	NormalImpulse  float64
 	TangentImpulse float64
 	NormalMass     float64
@@ -16,7 +16,7 @@ type B2VelocityConstraintPoint struct {
 
 type B2ContactVelocityConstraint struct {
 	Points             [maxManifoldPoints]B2VelocityConstraintPoint
-	Normal             B2Vec2
+	Normal             Vec2
 	NormalMass         B2Mat22
 	K                  B2Mat22
 	IndexA             int
@@ -66,13 +66,13 @@ const B2_DEBUG_SOLVER = 0
 var g_blockSolve = true
 
 type B2ContactPositionConstraint struct {
-	LocalPoints                [maxManifoldPoints]B2Vec2
-	LocalNormal                B2Vec2
-	LocalPoint                 B2Vec2
+	LocalPoints                [maxManifoldPoints]Vec2
+	LocalNormal                Vec2
+	LocalPoint                 Vec2
 	IndexA                     int
 	IndexB                     int
 	InvMassA, InvMassB         float64
-	LocalCenterA, LocalCenterB B2Vec2
+	LocalCenterA, LocalCenterB Vec2
 	InvIA, InvIB               float64
 	Type                       uint8
 	RadiusA, RadiusB           float64
@@ -676,8 +676,8 @@ func (solver *B2ContactSolver) StoreImpulses() {
 }
 
 type B2PositionSolverManifold struct {
-	Normal     B2Vec2
-	Point      B2Vec2
+	Normal     Vec2
+	Point      Vec2
 	Separation float64
 }
 

@@ -6,10 +6,10 @@ package box2d
 type B2EdgeShape struct {
 	B2Shape
 	/// These are the edge vertices
-	M_vertex1, M_vertex2 B2Vec2
+	M_vertex1, M_vertex2 Vec2
 
 	/// Optional adjacent vertices. These are used for smooth collision.
-	M_vertex0, M_vertex3       B2Vec2
+	M_vertex0, M_vertex3       Vec2
 	M_hasVertex0, M_hasVertex3 bool
 }
 
@@ -39,7 +39,7 @@ func NewB2EdgeShape() *B2EdgeShape {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (edge *B2EdgeShape) Set(v1 B2Vec2, v2 B2Vec2) {
+func (edge *B2EdgeShape) Set(v1 Vec2, v2 Vec2) {
 	edge.M_vertex1 = v1
 	edge.M_vertex2 = v2
 	edge.M_hasVertex0 = false
@@ -64,7 +64,7 @@ func (edge B2EdgeShape) GetChildCount() int {
 	return 1
 }
 
-func (edge B2EdgeShape) TestPoint(xf B2Transform, p B2Vec2) bool {
+func (edge B2EdgeShape) TestPoint(xf B2Transform, p Vec2) bool {
 	return false
 }
 

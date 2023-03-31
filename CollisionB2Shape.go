@@ -6,7 +6,7 @@ type B2MassData struct {
 	Mass float64
 
 	/// The position of the shape's centroid relative to the shape's origin.
-	Center B2Vec2
+	Center Vec2
 
 	/// The rotational inertia of the shape about the local origin.
 	I float64
@@ -63,7 +63,7 @@ type B2ShapeInterface interface {
 	/// Test a point for containment in this shape. This only works for convex shapes.
 	/// @param xf the shape world transform.
 	/// @param p a point in world coordinates.
-	TestPoint(xf B2Transform, p B2Vec2) bool
+	TestPoint(xf B2Transform, p Vec2) bool
 
 	/// Cast a ray against a child shape.
 	/// @param output the ray-cast results.

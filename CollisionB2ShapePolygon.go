@@ -8,9 +8,9 @@ package box2d
 type B2PolygonShape struct {
 	B2Shape
 
-	M_centroid B2Vec2
-	M_vertices [maxPolygonVertices]B2Vec2
-	M_normals  [maxPolygonVertices]B2Vec2
+	M_centroid Vec2
+	M_vertices [maxPolygonVertices]Vec2
+	M_normals  [maxPolygonVertices]Vec2
 	M_count    int
 }
 
@@ -30,7 +30,7 @@ func NewB2PolygonShape() *B2PolygonShape {
 	return &res
 }
 
-func (poly *B2PolygonShape) GetVertex(index int) *B2Vec2 {
+func (poly *B2PolygonShape) GetVertex(index int) *Vec2 {
 	B2Assert(0 <= index && index < poly.M_count)
 	return &poly.M_vertices[index]
 }
@@ -70,7 +70,7 @@ func (poly *B2PolygonShape) SetAsBox(hx float64, hy float64) {
 	poly.M_centroid.SetZero()
 }
 
-func (poly *B2PolygonShape) SetAsBoxFromCenterAndAngle(hx float64, hy float64, center B2Vec2, angle float64) {
+func (poly *B2PolygonShape) SetAsBoxFromCenterAndAngle(hx float64, hy float64, center Vec2, angle float64) {
 	poly.M_count = 4
 	poly.M_vertices[0].Set(-hx, -hy)
 	poly.M_vertices[1].Set(hx, -hy)
@@ -97,7 +97,7 @@ func (poly B2PolygonShape) GetChildCount() int {
 	return 1
 }
 
-func ComputeCentroid(vs []B2Vec2, count int) B2Vec2 {
+func ComputeCentroid(vs []Vec2, count int) Vec2 {
 	B2Assert(count >= 3)
 
 	c := MakeVec2(0, 0)
@@ -119,7 +119,7 @@ func ComputeCentroid(vs []B2Vec2, count int) B2Vec2 {
 		// Triangle vertices.
 		p1 := pRef
 		p2 := vs[i]
-		var p3 B2Vec2
+		var p3 Vec2
 		if i+1 < count {
 			p3 = vs[i+1]
 		} else {
@@ -144,7 +144,7 @@ func ComputeCentroid(vs []B2Vec2, count int) B2Vec2 {
 	return c
 }
 
-func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
+func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
 	B2Assert(3 <= count && count <= maxPolygonVertices)
 	if count < 3 {
 		poly.SetAsBox(1.0, 1.0)
@@ -154,7 +154,7 @@ func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
 	n := MinInt(count, maxPolygonVertices)
 
 	// Perform welding and copy vertices into local buffer.
-	ps := make([]B2Vec2, maxPolygonVertices)
+	ps := make([]Vec2, maxPolygonVertices)
 	tempCount := 0
 
 	for i := 0; i < n; i++ {
@@ -264,7 +264,7 @@ func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
 	poly.M_centroid = ComputeCentroid(poly.M_vertices[:], m)
 }
 
-func (poly B2PolygonShape) TestPoint(xf B2Transform, p B2Vec2) bool {
+func (poly B2PolygonShape) TestPoint(xf B2Transform, p Vec2) bool {
 	pLocal := B2RotVec2MulT(xf.Q, Vec2Sub(p, xf.P))
 
 	for i := 0; i < poly.M_count; i++ {

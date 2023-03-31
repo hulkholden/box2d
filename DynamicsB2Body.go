@@ -249,7 +249,7 @@ func (body B2Body) GetLocalVector(worldVector B2Vec2) B2Vec2 {
 }
 
 func (body B2Body) GetLinearVelocityFromWorldPoint(worldPoint B2Vec2) B2Vec2 {
-	return B2Vec2Add(body.M_linearVelocity, Vec2CrossScalarVector(body.M_angularVelocity, B2Vec2Sub(worldPoint, body.M_sweep.C)))
+	return Vec2Add(body.M_linearVelocity, Vec2CrossScalarVector(body.M_angularVelocity, B2Vec2Sub(worldPoint, body.M_sweep.C)))
 }
 
 func (body B2Body) GetLinearVelocityFromLocalPoint(localPoint B2Vec2) B2Vec2 {

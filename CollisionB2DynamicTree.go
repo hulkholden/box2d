@@ -115,7 +115,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 	// Build a bounding box for the segment.
 	var segmentAABB B2AABB
 	{
-		t := B2Vec2Add(p1, B2Vec2MulScalar(maxFraction, B2Vec2Sub(p2, p1)))
+		t := Vec2Add(p1, B2Vec2MulScalar(maxFraction, B2Vec2Sub(p2, p1)))
 		segmentAABB = MakeB2AABB(B2Vec2Min(p1, t), B2Vec2Max(p1, t))
 	}
 
@@ -160,7 +160,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 			if value > 0.0 {
 				// Update segment bounding box.
 				maxFraction = value
-				t := B2Vec2Add(p1, B2Vec2MulScalar(maxFraction, B2Vec2Sub(p2, p1)))
+				t := Vec2Add(p1, B2Vec2MulScalar(maxFraction, B2Vec2Sub(p2, p1)))
 				segmentAABB.LowerBound = B2Vec2Min(p1, t)
 				segmentAABB.UpperBound = B2Vec2Max(p1, t)
 			}
@@ -263,7 +263,7 @@ func (tree *B2DynamicTree) CreateProxy(aabb B2AABB, userData interface{}) int {
 	// Fatten the aabb.
 	r := MakeVec2(aabbExtension, aabbExtension)
 	tree.M_nodes[proxyId].Aabb.LowerBound = B2Vec2Sub(aabb.LowerBound, r)
-	tree.M_nodes[proxyId].Aabb.UpperBound = B2Vec2Add(aabb.UpperBound, r)
+	tree.M_nodes[proxyId].Aabb.UpperBound = Vec2Add(aabb.UpperBound, r)
 	tree.M_nodes[proxyId].UserData = userData
 	tree.M_nodes[proxyId].Height = 0
 
@@ -295,7 +295,7 @@ func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb B2AABB, displacement B2Ve
 	b := aabb
 	r := MakeVec2(aabbExtension, aabbExtension)
 	b.LowerBound = B2Vec2Sub(b.LowerBound, r)
-	b.UpperBound = B2Vec2Add(b.UpperBound, r)
+	b.UpperBound = Vec2Add(b.UpperBound, r)
 
 	// Predict AABB displacement.
 	d := B2Vec2MulScalar(aabbMultiplier, displacement)

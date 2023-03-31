@@ -135,7 +135,7 @@ func (joint *B2RopeJoint) InitVelocityConstraints(data B2SolverData) {
 
 	joint.M_rA = B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
 	joint.M_rB = B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
-	joint.M_u = B2Vec2Sub(B2Vec2Sub(B2Vec2Add(cB, joint.M_rB), cA), joint.M_rA)
+	joint.M_u = B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, joint.M_rB), cA), joint.M_rA)
 
 	joint.M_length = joint.M_u.Length()
 
@@ -192,8 +192,8 @@ func (joint *B2RopeJoint) SolveVelocityConstraints(data B2SolverData) {
 	wB := data.Velocities[joint.M_indexB].W
 
 	// Cdot = dot(u, v + cross(w, r))
-	vpA := B2Vec2Add(vA, Vec2CrossScalarVector(wA, joint.M_rA))
-	vpB := B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB))
+	vpA := Vec2Add(vA, Vec2CrossScalarVector(wA, joint.M_rA))
+	vpB := Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB))
 	C := joint.M_length - joint.M_maxLength
 	Cdot := Vec2Dot(joint.M_u, B2Vec2Sub(vpB, vpA))
 
@@ -230,7 +230,7 @@ func (joint *B2RopeJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 	rA := B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
 	rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
-	u := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(cB, rB), cA), rA)
+	u := B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, rB), cA), rA)
 
 	length := u.Normalize()
 	C := length - joint.M_maxLength

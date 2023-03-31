@@ -156,7 +156,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 		res.M_localAxisC = prismatic.M_localXAxisA
 
 		pC := res.M_localAnchorC
-		pA := B2RotVec2MulT(xfC.Q, B2Vec2Add(B2RotVec2Mul(xfA.Q, res.M_localAnchorA), B2Vec2Sub(xfA.P, xfC.P)))
+		pA := B2RotVec2MulT(xfC.Q, Vec2Add(B2RotVec2Mul(xfA.Q, res.M_localAnchorA), B2Vec2Sub(xfA.P, xfC.P)))
 		coordinateA = Vec2Dot(B2Vec2Sub(pA, pC), res.M_localAxisC)
 	}
 
@@ -185,7 +185,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 		res.M_localAxisD = prismatic.M_localXAxisA
 
 		pD := res.M_localAnchorD
-		pB := B2RotVec2MulT(xfD.Q, B2Vec2Add(B2RotVec2Mul(xfB.Q, res.M_localAnchorB), B2Vec2Sub(xfB.P, xfD.P)))
+		pB := B2RotVec2MulT(xfD.Q, Vec2Add(B2RotVec2Mul(xfB.Q, res.M_localAnchorB), B2Vec2Sub(xfB.P, xfD.P)))
 		coordinateB = Vec2Dot(B2Vec2Sub(pB, pD), res.M_localAxisD)
 	}
 
@@ -376,7 +376,7 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 		mass += joint.M_mC + joint.M_mA + joint.M_iC*JwC*JwC + joint.M_iA*JwA*JwA
 
 		pC := B2Vec2Sub(joint.M_localAnchorC, joint.M_lcC)
-		pA := B2RotVec2MulT(qC, B2Vec2Add(rA, B2Vec2Sub(cA, cC)))
+		pA := B2RotVec2MulT(qC, Vec2Add(rA, B2Vec2Sub(cA, cC)))
 		coordinateA = Vec2Dot(B2Vec2Sub(pA, pC), joint.M_localAxisC)
 	}
 
@@ -397,7 +397,7 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 		mass += joint.M_ratio*joint.M_ratio*(joint.M_mD+joint.M_mB) + joint.M_iD*JwD*JwD + joint.M_iB*JwB*JwB
 
 		pD := B2Vec2Sub(joint.M_localAnchorD, joint.M_lcD)
-		pB := B2RotVec2MulT(qD, B2Vec2Add(rB, B2Vec2Sub(cB, cD)))
+		pB := B2RotVec2MulT(qD, Vec2Add(rB, B2Vec2Sub(cB, cD)))
 		coordinateB = Vec2Dot(B2Vec2Sub(pB, pD), joint.M_localAxisD)
 	}
 

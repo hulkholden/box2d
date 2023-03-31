@@ -169,7 +169,7 @@ func NewB2AABB() *B2AABB { return &B2AABB{} }
 func (bb B2AABB) GetCenter() B2Vec2 {
 	return B2Vec2MulScalar(
 		0.5,
-		B2Vec2Add(bb.LowerBound, bb.UpperBound),
+		Vec2Add(bb.LowerBound, bb.UpperBound),
 	)
 }
 
@@ -254,10 +254,10 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 				wm.Normal.Normalize()
 			}
 
-			cA := B2Vec2Add(pointA, B2Vec2MulScalar(radiusA, wm.Normal))
+			cA := Vec2Add(pointA, B2Vec2MulScalar(radiusA, wm.Normal))
 			cB := B2Vec2Sub(pointB, B2Vec2MulScalar(radiusB, wm.Normal))
 
-			wm.Points[0] = B2Vec2MulScalar(0.5, B2Vec2Add(cA, cB))
+			wm.Points[0] = B2Vec2MulScalar(0.5, Vec2Add(cA, cB))
 			wm.Separations[0] = Vec2Dot(B2Vec2Sub(cB, cA), wm.Normal)
 		}
 
@@ -268,7 +268,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 
 			for i := 0; i < manifold.PointCount; i++ {
 				clipPoint := B2TransformVec2Mul(xfB, manifold.Points[i].LocalPoint)
-				cA := B2Vec2Add(
+				cA := Vec2Add(
 					clipPoint,
 					B2Vec2MulScalar(
 						radiusA-Vec2Dot(
@@ -279,7 +279,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 					),
 				)
 				cB := B2Vec2Sub(clipPoint, B2Vec2MulScalar(radiusB, wm.Normal))
-				wm.Points[i] = B2Vec2MulScalar(0.5, B2Vec2Add(cA, cB))
+				wm.Points[i] = B2Vec2MulScalar(0.5, Vec2Add(cA, cB))
 				wm.Separations[i] = Vec2Dot(
 					B2Vec2Sub(cB, cA),
 					wm.Normal,
@@ -294,14 +294,14 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 
 			for i := 0; i < manifold.PointCount; i++ {
 				clipPoint := B2TransformVec2Mul(xfA, manifold.Points[i].LocalPoint)
-				cB := B2Vec2Add(clipPoint, B2Vec2MulScalar(
+				cB := Vec2Add(clipPoint, B2Vec2MulScalar(
 					radiusB-Vec2Dot(
 						B2Vec2Sub(clipPoint, planePoint),
 						wm.Normal,
 					), wm.Normal,
 				))
 				cA := B2Vec2Sub(clipPoint, B2Vec2MulScalar(radiusA, wm.Normal))
-				wm.Points[i] = B2Vec2MulScalar(0.5, B2Vec2Add(cA, cB))
+				wm.Points[i] = B2Vec2MulScalar(0.5, Vec2Add(cA, cB))
 				wm.Separations[i] = Vec2Dot(
 					B2Vec2Sub(cA, cB),
 					wm.Normal,
@@ -431,7 +431,7 @@ func B2ClipSegmentToLine(vOut []B2ClipVertex, vIn []B2ClipVertex, normal B2Vec2,
 	if distance0*distance1 < 0.0 {
 		// Find intersection point of edge and plane
 		interp := distance0 / (distance0 - distance1)
-		vOut[numOut].V = B2Vec2Add(
+		vOut[numOut].V = Vec2Add(
 			vIn[0].V,
 			B2Vec2MulScalar(interp, B2Vec2Sub(vIn[1].V, vIn[0].V)),
 		)

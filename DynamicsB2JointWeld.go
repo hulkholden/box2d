@@ -280,7 +280,7 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 		wA -= iA * impulse2
 		wB += iB * impulse2
 
-		Cdot1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot1 := B2Vec2Sub(B2Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 
 		impulse1 := B2Vec2Mul22(joint.M_mass, Cdot1).OperatorNegate()
 		joint.M_impulse.X += impulse1.X
@@ -294,7 +294,7 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
 		wB += iB * Vec2Cross(joint.M_rB, P)
 	} else {
-		Cdot1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot1 := B2Vec2Sub(B2Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 		Cdot2 := wB - wA
 		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
 
@@ -348,7 +348,7 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data B2SolverData) bool {
 	K.Ez.Z = iA + iB
 
 	if joint.M_frequencyHz > 0.0 {
-		C1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(cB, rB), cA), rA)
+		C1 := B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, rB), cA), rA)
 
 		positionError = C1.Length()
 		angularError = 0.0
@@ -361,7 +361,7 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data B2SolverData) bool {
 		cB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
 		aB += iB * Vec2Cross(rB, P)
 	} else {
-		C1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(cB, rB), cA), rA)
+		C1 := B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, rB), cA), rA)
 		C2 := aB - aA - joint.M_referenceAngle
 
 		positionError = C1.Length()

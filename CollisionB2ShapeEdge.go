@@ -99,7 +99,7 @@ func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, x
 		return false
 	}
 
-	q := B2Vec2Add(p1, B2Vec2MulScalar(t, d))
+	q := Vec2Add(p1, B2Vec2MulScalar(t, d))
 
 	// q = v1 + s * r
 	// s = dot(q - v1, r) / dot(r, r)
@@ -140,7 +140,7 @@ func (edge B2EdgeShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 func (edge B2EdgeShape) ComputeMass(density float64) B2MassData {
 	massData := MakeMassData()
 	massData.Mass = 0.0
-	massData.Center = B2Vec2MulScalar(0.5, B2Vec2Add(edge.M_vertex1, edge.M_vertex2))
+	massData.Center = B2Vec2MulScalar(0.5, Vec2Add(edge.M_vertex1, edge.M_vertex2))
 	massData.I = 0.0
 	return massData
 }

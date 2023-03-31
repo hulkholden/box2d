@@ -224,7 +224,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec
 			v.OperatorPlusInplace(
 				B2Vec2MulScalar(
 					h,
-					B2Vec2Add(
+					Vec2Add(
 						B2Vec2MulScalar(b.M_gravityScale, gravity),
 						B2Vec2MulScalar(b.M_invMass, b.M_force),
 					),

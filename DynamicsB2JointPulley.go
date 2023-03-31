@@ -168,8 +168,8 @@ func (joint *B2PulleyJoint) InitVelocityConstraints(data B2SolverData) {
 	joint.M_rB = B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 
 	// Get the pulley axes.
-	joint.M_uA = B2Vec2Sub(B2Vec2Add(cA, joint.M_rA), joint.M_groundAnchorA)
-	joint.M_uB = B2Vec2Sub(B2Vec2Add(cB, joint.M_rB), joint.M_groundAnchorB)
+	joint.M_uA = B2Vec2Sub(Vec2Add(cA, joint.M_rA), joint.M_groundAnchorA)
+	joint.M_uB = B2Vec2Sub(Vec2Add(cB, joint.M_rB), joint.M_groundAnchorB)
 
 	lengthA := joint.M_uA.Length()
 	lengthB := joint.M_uB.Length()
@@ -227,8 +227,8 @@ func (joint *B2PulleyJoint) SolveVelocityConstraints(data B2SolverData) {
 	vB := data.Velocities[joint.M_indexB].V
 	wB := data.Velocities[joint.M_indexB].W
 
-	vpA := B2Vec2Add(vA, Vec2CrossScalarVector(wA, joint.M_rA))
-	vpB := B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB))
+	vpA := Vec2Add(vA, Vec2CrossScalarVector(wA, joint.M_rA))
+	vpB := Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB))
 
 	Cdot := -Vec2Dot(joint.M_uA, vpA) - joint.M_ratio*Vec2Dot(joint.M_uB, vpB)
 	impulse := -joint.M_mass * Cdot
@@ -260,8 +260,8 @@ func (joint *B2PulleyJoint) SolvePositionConstraints(data B2SolverData) bool {
 	rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 
 	// Get the pulley axes.
-	uA := B2Vec2Sub(B2Vec2Add(cA, rA), joint.M_groundAnchorA)
-	uB := B2Vec2Sub(B2Vec2Add(cB, rB), joint.M_groundAnchorB)
+	uA := B2Vec2Sub(Vec2Add(cA, rA), joint.M_groundAnchorA)
+	uB := B2Vec2Sub(Vec2Add(cB, rB), joint.M_groundAnchorB)
 
 	lengthA := uA.Length()
 	lengthB := uB.Length()

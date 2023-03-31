@@ -255,7 +255,7 @@ func (simplex B2Simplex) GetClosestPoint() B2Vec2 {
 		return simplex.M_vs[0].W
 
 	case 2:
-		return B2Vec2Add(
+		return Vec2Add(
 			B2Vec2MulScalar(
 				simplex.M_vs[0].A,
 				simplex.M_vs[0].W,
@@ -285,18 +285,18 @@ func (simplex B2Simplex) GetWitnessPoints(pA *B2Vec2, pB *B2Vec2) {
 		*pB = simplex.M_vs[0].WB
 
 	case 2:
-		*pA = B2Vec2Add(
+		*pA = Vec2Add(
 			B2Vec2MulScalar(simplex.M_vs[0].A, simplex.M_vs[0].WA),
 			B2Vec2MulScalar(simplex.M_vs[1].A, simplex.M_vs[1].WA),
 		)
-		*pB = B2Vec2Add(
+		*pB = Vec2Add(
 			B2Vec2MulScalar(simplex.M_vs[0].A, simplex.M_vs[0].WB),
 			B2Vec2MulScalar(simplex.M_vs[1].A, simplex.M_vs[1].WB),
 		)
 
 	case 3:
-		*pA = B2Vec2Add(
-			B2Vec2Add(
+		*pA = Vec2Add(
+			Vec2Add(
 				B2Vec2MulScalar(simplex.M_vs[0].A, simplex.M_vs[0].WA),
 				B2Vec2MulScalar(simplex.M_vs[1].A, simplex.M_vs[1].WA),
 			),
@@ -603,7 +603,7 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 			// Move the witness points to the middle.
 			p := B2Vec2MulScalar(
 				0.5,
-				B2Vec2Add(output.PointA, output.PointB),
+				Vec2Add(output.PointA, output.PointB),
 			)
 			output.PointA = p
 			output.PointB = p

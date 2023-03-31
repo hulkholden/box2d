@@ -40,7 +40,7 @@ func (shape B2CircleShape) GetChildCount() int {
 }
 
 func (shape B2CircleShape) TestPoint(transform B2Transform, p B2Vec2) bool {
-	center := B2Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
+	center := Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
 	d := B2Vec2Sub(p, center)
 	return Vec2Dot(d, d) <= shape.M_radius*shape.M_radius
 }
@@ -52,7 +52,7 @@ func (shape B2CircleShape) TestPoint(transform B2Transform, p B2Vec2) bool {
 func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, transform B2Transform, childIndex int) bool {
 	// B2_NOT_USED(childIndex);
 
-	position := B2Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
+	position := Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
 	s := B2Vec2Sub(input.P1, position)
 	b := Vec2Dot(s, s) - shape.M_radius*shape.M_radius
 
@@ -74,7 +74,7 @@ func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 	if 0.0 <= a && a <= input.MaxFraction*rr {
 		a /= rr
 		output.Fraction = a
-		output.Normal = B2Vec2Add(s, B2Vec2MulScalar(a, r))
+		output.Normal = Vec2Add(s, B2Vec2MulScalar(a, r))
 		output.Normal.Normalize()
 		return true
 	}
@@ -85,7 +85,7 @@ func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 func (shape B2CircleShape) ComputeAABB(transform B2Transform, childIndex int) B2AABB {
 	// B2_NOT_USED(childIndex);
 
-	p := B2Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
+	p := Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
 	lowerBound := MakeVec2(p.X-shape.M_radius, p.Y-shape.M_radius)
 	upperBound := MakeVec2(p.X+shape.M_radius, p.Y+shape.M_radius)
 	return MakeB2AABB(lowerBound, upperBound)

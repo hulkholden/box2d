@@ -103,7 +103,7 @@ func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Tran
 	// Region AB
 	den := Vec2Dot(e, e)
 	B2Assert(den > 0.0)
-	P := B2Vec2MulScalar(1.0/den, B2Vec2Add(B2Vec2MulScalar(u, A), B2Vec2MulScalar(v, B)))
+	P := B2Vec2MulScalar(1.0/den, Vec2Add(B2Vec2MulScalar(u, A), B2Vec2MulScalar(v, B)))
 	d := B2Vec2Sub(Q, P)
 	dd := Vec2Dot(d, d)
 	if dd > radius*radius {

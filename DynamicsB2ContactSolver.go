@@ -247,7 +247,7 @@ func (solver *B2ContactSolver) InitializeVelocityConstraints() {
 				vc.Normal,
 				B2Vec2Sub(
 					B2Vec2Sub(
-						B2Vec2Add(
+						Vec2Add(
 							vB,
 							Vec2CrossScalarVector(wB, vcp.RB),
 						),
@@ -313,7 +313,7 @@ func (solver *B2ContactSolver) WarmStart() {
 
 		for j := 0; j < pointCount; j++ {
 			vcp := &vc.Points[j]
-			P := B2Vec2Add(B2Vec2MulScalar(vcp.NormalImpulse, normal), B2Vec2MulScalar(vcp.TangentImpulse, tangent))
+			P := Vec2Add(B2Vec2MulScalar(vcp.NormalImpulse, normal), B2Vec2MulScalar(vcp.TangentImpulse, tangent))
 			wA -= iA * Vec2Cross(vcp.RA, P)
 			vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
 			wB += iB * Vec2Cross(vcp.RB, P)
@@ -356,7 +356,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 			vcp := &vc.Points[j]
 
 			// Relative velocity at contact
-			dv := B2Vec2Add(
+			dv := Vec2Add(
 				vB,
 				B2Vec2Sub(
 					B2Vec2Sub(
@@ -393,7 +393,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 				vcp := &vc.Points[j]
 
 				// Relative velocity at contact
-				dv := B2Vec2Add(
+				dv := Vec2Add(
 					vB,
 					B2Vec2Sub(
 						B2Vec2Sub(
@@ -462,8 +462,8 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 			B2Assert(a.X >= 0.0 && a.Y >= 0.0)
 
 			// Relative velocity at contact
-			dv1 := B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp1.RB), vA), Vec2CrossScalarVector(wA, cp1.RA)))
-			dv2 := B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp2.RB), vA), Vec2CrossScalarVector(wA, cp2.RA)))
+			dv1 := Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp1.RB), vA), Vec2CrossScalarVector(wA, cp1.RA)))
+			dv2 := Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp2.RB), vA), Vec2CrossScalarVector(wA, cp2.RA)))
 
 			// Compute normal velocity
 			vn1 := Vec2Dot(dv1, normal)
@@ -498,10 +498,10 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 					// Apply incremental impulse
 					P1 := B2Vec2MulScalar(d.X, normal)
 					P2 := B2Vec2MulScalar(d.Y, normal)
-					vA.OperatorMinusInplace(B2Vec2MulScalar(mA, B2Vec2Add(P1, P2)))
+					vA.OperatorMinusInplace(B2Vec2MulScalar(mA, Vec2Add(P1, P2)))
 					wA -= iA * (Vec2Cross(cp1.RA, P1) + Vec2Cross(cp2.RA, P2))
 
-					vB.OperatorPlusInplace(B2Vec2MulScalar(mB, B2Vec2Add(P1, P2)))
+					vB.OperatorPlusInplace(B2Vec2MulScalar(mB, Vec2Add(P1, P2)))
 					wB += iB * (Vec2Cross(cp1.RB, P1) + Vec2Cross(cp2.RB, P2))
 
 					// Accumulate
@@ -510,7 +510,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 
 					if B2_DEBUG_SOLVER == 1 {
 						// Postconditions
-						dv1 = B2Vec2Add(
+						dv1 = Vec2Add(
 							vB,
 							B2Vec2Sub(
 								B2Vec2Sub(
@@ -520,7 +520,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 								Vec2CrossScalarVector(wA, cp1.RA),
 							),
 						)
-						dv2 = B2Vec2Add(
+						dv2 = Vec2Add(
 							vB,
 							B2Vec2Sub(
 								B2Vec2Sub(
@@ -558,10 +558,10 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 					// Apply incremental impulse
 					P1 := B2Vec2MulScalar(d.X, normal)
 					P2 := B2Vec2MulScalar(d.Y, normal)
-					vA.OperatorMinusInplace(B2Vec2MulScalar(mA, B2Vec2Add(P1, P2)))
+					vA.OperatorMinusInplace(B2Vec2MulScalar(mA, Vec2Add(P1, P2)))
 					wA -= iA * (Vec2Cross(cp1.RA, P1) + Vec2Cross(cp2.RA, P2))
 
-					vB.OperatorPlusInplace(B2Vec2MulScalar(mB, B2Vec2Add(P1, P2)))
+					vB.OperatorPlusInplace(B2Vec2MulScalar(mB, Vec2Add(P1, P2)))
 					wB += iB * (Vec2Cross(cp1.RB, P1) + Vec2Cross(cp2.RB, P2))
 
 					// Accumulate
@@ -570,7 +570,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 
 					if B2_DEBUG_SOLVER == 1 {
 						// Postconditions
-						dv1 = B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp1.RB), vA), Vec2CrossScalarVector(wA, cp1.RA)))
+						dv1 = Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp1.RB), vA), Vec2CrossScalarVector(wA, cp1.RA)))
 
 						// Compute normal velocity
 						vn1 = Vec2Dot(dv1, normal)
@@ -598,10 +598,10 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 					// Apply incremental impulse
 					P1 := B2Vec2MulScalar(d.X, normal)
 					P2 := B2Vec2MulScalar(d.Y, normal)
-					vA.OperatorMinusInplace(B2Vec2MulScalar(mA, B2Vec2Add(P1, P2)))
+					vA.OperatorMinusInplace(B2Vec2MulScalar(mA, Vec2Add(P1, P2)))
 					wA -= iA * (Vec2Cross(cp1.RA, P1) + Vec2Cross(cp2.RA, P2))
 
-					vB.OperatorPlusInplace(B2Vec2MulScalar(mB, B2Vec2Add(P1, P2)))
+					vB.OperatorPlusInplace(B2Vec2MulScalar(mB, Vec2Add(P1, P2)))
 					wB += iB * (Vec2Cross(cp1.RB, P1) + Vec2Cross(cp2.RB, P2))
 
 					// Accumulate
@@ -610,7 +610,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 
 					if B2_DEBUG_SOLVER == 1 {
 						// Postconditions
-						dv2 = B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp2.RB), vA), Vec2CrossScalarVector(wA, cp2.RA)))
+						dv2 = Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp2.RB), vA), Vec2CrossScalarVector(wA, cp2.RA)))
 
 						// Compute normal velocity
 						vn2 = Vec2Dot(dv2, normal)
@@ -638,10 +638,10 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 					// Apply incremental impulse
 					P1 := B2Vec2MulScalar(d.X, normal)
 					P2 := B2Vec2MulScalar(d.Y, normal)
-					vA.OperatorMinusInplace(B2Vec2MulScalar(mA, B2Vec2Add(P1, P2)))
+					vA.OperatorMinusInplace(B2Vec2MulScalar(mA, Vec2Add(P1, P2)))
 					wA -= iA * (Vec2Cross(cp1.RA, P1) + Vec2Cross(cp2.RA, P2))
 
-					vB.OperatorPlusInplace(B2Vec2MulScalar(mB, B2Vec2Add(P1, P2)))
+					vB.OperatorPlusInplace(B2Vec2MulScalar(mB, Vec2Add(P1, P2)))
 					wB += iB * (Vec2Cross(cp1.RB, P1) + Vec2Cross(cp2.RB, P2))
 
 					// Accumulate
@@ -694,7 +694,7 @@ func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPosition
 		pointB := B2TransformVec2Mul(xfB, pc.LocalPoints[0])
 		solvermanifold.Normal = B2Vec2Sub(pointB, pointA)
 		solvermanifold.Normal.Normalize()
-		solvermanifold.Point = B2Vec2MulScalar(0.5, B2Vec2Add(pointA, pointB))
+		solvermanifold.Point = B2Vec2MulScalar(0.5, Vec2Add(pointA, pointB))
 		solvermanifold.Separation = Vec2Dot(B2Vec2Sub(pointB, pointA), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
 
 	case B2Manifold_Type.E_faceA:

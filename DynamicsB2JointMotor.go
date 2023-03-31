@@ -165,7 +165,7 @@ func (joint *B2MotorJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_angularMass = 1.0 / joint.M_angularMass
 	}
 
-	joint.M_linearError = B2Vec2Sub(B2Vec2Sub(B2Vec2Add(cB, joint.M_rB), cA), joint.M_rA)
+	joint.M_linearError = B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, joint.M_rB), cA), joint.M_rA)
 	joint.M_angularError = aB - aA - joint.M_angularOffset
 
 	if data.Step.WarmStarting {
@@ -219,7 +219,7 @@ func (joint *B2MotorJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Solve linear friction
 	{
-		Cdot := B2Vec2Add(B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA)), B2Vec2MulScalar(inv_h*joint.M_correctionFactor, joint.M_linearError))
+		Cdot := Vec2Add(B2Vec2Sub(B2Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA)), B2Vec2MulScalar(inv_h*joint.M_correctionFactor, joint.M_linearError))
 
 		impulse := Vec2Mat22Mul(joint.M_linearMass, Cdot).OperatorNegate()
 		oldImpulse := joint.M_linearImpulse

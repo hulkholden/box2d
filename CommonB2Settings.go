@@ -48,7 +48,7 @@ const linearSlop = 0.005
 
 // A small angle used as a collision and constraint tolerance. Usually it is
 // chosen to be numerically significant, but visually insignificant.
-const B2_angularSlop = (2.0 / 180.0 * B2_pi)
+const angularSlop = (2.0 / 180.0 * B2_pi)
 
 // The radius of the polygon/edge shape skin. This should not be modified. Making
 // this smaller means polygons will have an insufficient buffer for continuous collision.

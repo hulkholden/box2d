@@ -582,11 +582,11 @@ func (collider *B2EPCollider) ComputePolygonSeparation() B2EPAxis {
 
 		// Adjacency
 		if B2Vec2Dot(n, perp) >= 0.0 {
-			if B2Vec2Dot(B2Vec2Sub(n, collider.M_upperLimit), collider.M_normal) < -B2_angularSlop {
+			if B2Vec2Dot(B2Vec2Sub(n, collider.M_upperLimit), collider.M_normal) < -angularSlop {
 				continue
 			}
 		} else {
-			if B2Vec2Dot(B2Vec2Sub(n, collider.M_lowerLimit), collider.M_normal) < -B2_angularSlop {
+			if B2Vec2Dot(B2Vec2Sub(n, collider.M_lowerLimit), collider.M_normal) < -angularSlop {
 				continue
 			}
 		}

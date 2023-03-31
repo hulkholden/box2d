@@ -568,7 +568,7 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	data.Positions[joint.M_indexB].C = cB
 	data.Positions[joint.M_indexB].A = aB
 
-	return linearError <= linearSlop && angularError <= B2_angularSlop
+	return linearError <= linearSlop && angularError <= angularSlop
 }
 
 func (joint B2PrismaticJoint) GetAnchorA() B2Vec2 {

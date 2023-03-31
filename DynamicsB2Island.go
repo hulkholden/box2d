@@ -377,7 +377,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec
 			}
 		}
 
-		if minSleepTime >= B2_timeToSleep && positionSolved {
+		if minSleepTime >= timeToSleep && positionSolved {
 			for i := 0; i < island.M_bodyCount; i++ {
 				b := island.M_bodies[i]
 				b.SetAwake(false)

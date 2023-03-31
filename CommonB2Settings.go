@@ -100,7 +100,7 @@ const (
 // Sleep
 
 // The time that a body must be still before it will go to sleep.
-const B2_timeToSleep = 0.5
+const timeToSleep = 0.5
 
 // A body cannot sleep if its linear velocity is above this tolerance.
 const B2_linearSleepTolerance = 0.01

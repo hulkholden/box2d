@@ -129,7 +129,7 @@ func (edge B2EdgeShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 	v2 := B2TransformVec2Mul(xf, edge.M_vertex2)
 
 	lower := Vec2Min(v1, v2)
-	upper := B2Vec2Max(v1, v2)
+	upper := Vec2Max(v1, v2)
 
 	r := MakeVec2(edge.M_radius, edge.M_radius)
 	lowerBound := Vec2Sub(lower, r)

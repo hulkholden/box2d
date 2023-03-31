@@ -343,7 +343,7 @@ func (poly B2PolygonShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 	for i := 1; i < poly.M_count; i++ {
 		v := B2TransformVec2Mul(xf, poly.M_vertices[i])
 		lower = Vec2Min(lower, v)
-		upper = B2Vec2Max(upper, v)
+		upper = Vec2Max(upper, v)
 	}
 
 	r := MakeVec2(poly.M_radius, poly.M_radius)

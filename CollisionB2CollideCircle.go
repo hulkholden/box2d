@@ -78,7 +78,7 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 	u1 := Vec2Dot(Vec2Sub(cLocal, v1), Vec2Sub(v2, v1))
 	u2 := Vec2Dot(Vec2Sub(cLocal, v2), Vec2Sub(v1, v2))
 	if u1 <= 0.0 {
-		if B2Vec2DistanceSquared(cLocal, v1) > radius*radius {
+		if Vec2DistanceSquared(cLocal, v1) > radius*radius {
 			return
 		}
 
@@ -90,7 +90,7 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 		manifold.Points[0].LocalPoint = circleB.M_p
 		manifold.Points[0].Id.SetKey(0)
 	} else if u2 <= 0.0 {
-		if B2Vec2DistanceSquared(cLocal, v2) > radius*radius {
+		if Vec2DistanceSquared(cLocal, v2) > radius*radius {
 			return
 		}
 

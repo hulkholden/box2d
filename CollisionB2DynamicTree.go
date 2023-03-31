@@ -298,7 +298,7 @@ func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb B2AABB, displacement B2Ve
 	b.UpperBound = B2Vec2Add(b.UpperBound, r)
 
 	// Predict AABB displacement.
-	d := B2Vec2MulScalar(B2_aabbMultiplier, displacement)
+	d := B2Vec2MulScalar(aabbMultiplier, displacement)
 
 	if d.X < 0.0 {
 		b.LowerBound.X += d.X

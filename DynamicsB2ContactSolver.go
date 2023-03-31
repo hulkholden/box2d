@@ -765,7 +765,7 @@ func (solver *B2ContactSolver) SolvePositionConstraints() bool {
 			minSeparation = math.Min(minSeparation, separation)
 
 			// Prevent large corrections and allow slop.
-			C := B2FloatClamp(B2_baumgarte*(separation+linearSlop), -B2_maxLinearCorrection, 0.0)
+			C := B2FloatClamp(B2_baumgarte*(separation+linearSlop), -maxLinearCorrection, 0.0)
 
 			// Compute the effective mass.
 			rnA := B2Vec2Cross(rA, normal)
@@ -856,7 +856,7 @@ func (solver *B2ContactSolver) SolveTOIPositionConstraints(toiIndexA int, toiInd
 			minSeparation = math.Min(minSeparation, separation)
 
 			// Prevent large corrections and allow slop.
-			C := B2FloatClamp(B2_toiBaugarte*(separation+linearSlop), -B2_maxLinearCorrection, 0.0)
+			C := B2FloatClamp(B2_toiBaugarte*(separation+linearSlop), -maxLinearCorrection, 0.0)
 
 			// Compute the effective mass.
 			rnA := B2Vec2Cross(rA, normal)

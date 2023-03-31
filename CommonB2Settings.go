@@ -69,7 +69,7 @@ const velocityThreshold = 1.0
 
 // The maximum linear position correction used when solving constraints. This helps to
 // prevent overshoot.
-const B2_maxLinearCorrection = 0.2
+const maxLinearCorrection = 0.2
 
 // The maximum angular position correction used when solving constraints. This helps to
 // prevent overshoot.

@@ -497,17 +497,17 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 		translation := B2Vec2Dot(axis, d)
 		if math.Abs(joint.M_upperTranslation-joint.M_lowerTranslation) < 2.0*linearSlop {
 			// Prevent large angular corrections
-			C2 = B2FloatClamp(translation, -B2_maxLinearCorrection, B2_maxLinearCorrection)
+			C2 = B2FloatClamp(translation, -maxLinearCorrection, maxLinearCorrection)
 			linearError = math.Max(linearError, math.Abs(translation))
 			active = true
 		} else if translation <= joint.M_lowerTranslation {
 			// Prevent large linear corrections and allow some slop.
-			C2 = B2FloatClamp(translation-joint.M_lowerTranslation+linearSlop, -B2_maxLinearCorrection, 0.0)
+			C2 = B2FloatClamp(translation-joint.M_lowerTranslation+linearSlop, -maxLinearCorrection, 0.0)
 			linearError = math.Max(linearError, joint.M_lowerTranslation-translation)
 			active = true
 		} else if translation >= joint.M_upperTranslation {
 			// Prevent large linear corrections and allow some slop.
-			C2 = B2FloatClamp(translation-joint.M_upperTranslation-linearSlop, 0.0, B2_maxLinearCorrection)
+			C2 = B2FloatClamp(translation-joint.M_upperTranslation-linearSlop, 0.0, maxLinearCorrection)
 			linearError = math.Max(linearError, translation-joint.M_upperTranslation)
 			active = true
 		}

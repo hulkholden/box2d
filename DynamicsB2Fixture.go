@@ -369,7 +369,7 @@ func (fix *B2Fixture) Dump(bodyIndex int) {
 	case B2Shape_Type.E_polygon:
 		s := fix.M_shape.(*B2PolygonShape)
 		fmt.Printf("    b2PolygonShape shape;\n")
-		fmt.Printf("    b2Vec2 vs[%d];\n", B2_maxPolygonVertices)
+		fmt.Printf("    b2Vec2 vs[%d];\n", maxPolygonVertices)
 		for i := 0; i < s.M_count; i++ {
 			fmt.Printf("    vs[%d].Set(%.15f, %.15f);\n", i, s.M_vertices[i].X, s.M_vertices[i].Y)
 		}

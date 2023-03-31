@@ -30,7 +30,7 @@ const maxManifoldPoints = 2
 
 // The maximum number of vertices on a convex polygon. You cannot increase
 // this too much because b2BlockAllocator has a maximum object size.
-const B2_maxPolygonVertices = 8
+const maxPolygonVertices = 8
 
 // This is used to fatten AABBs in the dynamic tree. This allows proxies
 // to move by a small amount without triggering a tree adjustment.

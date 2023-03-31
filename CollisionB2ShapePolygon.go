@@ -9,8 +9,8 @@ type B2PolygonShape struct {
 	B2Shape
 
 	M_centroid B2Vec2
-	M_vertices [B2_maxPolygonVertices]B2Vec2
-	M_normals  [B2_maxPolygonVertices]B2Vec2
+	M_vertices [maxPolygonVertices]B2Vec2
+	M_normals  [maxPolygonVertices]B2Vec2
 	M_count    int
 }
 
@@ -44,7 +44,6 @@ func (poly *B2PolygonShape) GetVertex(index int) *B2Vec2 {
 ///////////////////////////////////////////////////////////////////////////////
 
 func (poly B2PolygonShape) Clone() B2ShapeInterface {
-
 	clone := NewB2PolygonShape()
 	clone.M_centroid = poly.M_centroid
 	clone.M_count = poly.M_count
@@ -99,7 +98,6 @@ func (poly B2PolygonShape) GetChildCount() int {
 }
 
 func ComputeCentroid(vs []B2Vec2, count int) B2Vec2 {
-
 	B2Assert(count >= 3)
 
 	c := MakeB2Vec2(0, 0)
@@ -147,16 +145,16 @@ func ComputeCentroid(vs []B2Vec2, count int) B2Vec2 {
 }
 
 func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
-	B2Assert(3 <= count && count <= B2_maxPolygonVertices)
+	B2Assert(3 <= count && count <= maxPolygonVertices)
 	if count < 3 {
 		poly.SetAsBox(1.0, 1.0)
 		return
 	}
 
-	n := MinInt(count, B2_maxPolygonVertices)
+	n := MinInt(count, maxPolygonVertices)
 
 	// Perform welding and copy vertices into local buffer.
-	ps := make([]B2Vec2, B2_maxPolygonVertices)
+	ps := make([]B2Vec2, maxPolygonVertices)
 	tempCount := 0
 
 	for i := 0; i < n; i++ {
@@ -198,12 +196,12 @@ func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
 		}
 	}
 
-	hull := make([]int, B2_maxPolygonVertices)
+	hull := make([]int, maxPolygonVertices)
 	m := 0
 	ih := i0
 
 	for {
-		B2Assert(m < B2_maxPolygonVertices)
+		B2Assert(m < maxPolygonVertices)
 		hull[m] = ih
 
 		ie := 0
@@ -280,7 +278,6 @@ func (poly B2PolygonShape) TestPoint(xf B2Transform, p B2Vec2) bool {
 }
 
 func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf B2Transform, childIndex int) bool {
-
 	// Put the ray into the polygon's frame of reference.
 	p1 := B2RotVec2MulT(xf.Q, B2Vec2Sub(input.P1, xf.P))
 	p2 := B2RotVec2MulT(xf.Q, B2Vec2Sub(input.P2, xf.P))
@@ -322,7 +319,7 @@ func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 		// The use of epsilon here causes the assert on lower to trip
 		// in some cases. Apparently the use of epsilon was to make edge
 		// shapes work, but now those are handled separately.
-		//if (upper < lower - b2_epsilon)
+		// if (upper < lower - b2_epsilon)
 		if upper < lower {
 			return false
 		}
@@ -340,7 +337,6 @@ func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 }
 
 func (poly B2PolygonShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
-
 	lower := B2TransformVec2Mul(xf, poly.M_vertices[0])
 	upper := lower
 
@@ -450,7 +446,6 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 }
 
 func (poly B2PolygonShape) Validate() bool {
-
 	for i := 0; i < poly.M_count; i++ {
 		i1 := i
 		i2 := 0

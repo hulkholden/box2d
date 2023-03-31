@@ -1045,8 +1045,8 @@ func (world *B2World) DrawShape(fixture *B2Fixture, xf B2Transform, color B2Colo
 	case B2Shape_Type.E_polygon:
 		poly := fixture.GetShape().(*B2PolygonShape)
 		vertexCount := poly.M_count
-		B2Assert(vertexCount <= B2_maxPolygonVertices)
-		var vertices [B2_maxPolygonVertices]B2Vec2
+		B2Assert(vertexCount <= maxPolygonVertices)
+		var vertices [maxPolygonVertices]B2Vec2
 
 		for i := 0; i < vertexCount; i++ {
 			vertices[i] = B2TransformVec2Mul(xf, poly.M_vertices[i])

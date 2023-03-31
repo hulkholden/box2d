@@ -444,7 +444,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *B2TOIInput) {
 
 			pushBackIter++
 
-			if pushBackIter == B2_maxPolygonVertices {
+			if pushBackIter == maxPolygonVertices {
 				break
 			}
 		}

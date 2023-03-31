@@ -153,8 +153,8 @@ func MakeB2EPAxis() B2EPAxis {
 
 // This holds polygon B expressed in frame A.
 type B2TempPolygon struct {
-	Vertices [B2_maxPolygonVertices]B2Vec2
-	Normals  [B2_maxPolygonVertices]B2Vec2
+	Vertices [maxPolygonVertices]B2Vec2
+	Normals  [maxPolygonVertices]B2Vec2
 	Count    int
 }
 

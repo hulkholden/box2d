@@ -356,7 +356,7 @@ func (bb B2AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
 
 	p := input.P1
 	d := Vec2Sub(input.P2, input.P1)
-	absD := B2Vec2Abs(d)
+	absD := Vec2Abs(d)
 
 	normal := MakeVec2(0, 0)
 

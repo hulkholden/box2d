@@ -299,8 +299,8 @@ func B2TimeOfImpact(output *B2TOIOutput, input *B2TOIInput) {
 	tMax := input.TMax
 
 	totalRadius := proxyA.M_radius + proxyB.M_radius
-	target := math.Max(B2_linearSlop, totalRadius-3.0*B2_linearSlop)
-	tolerance := 0.25 * B2_linearSlop
+	target := math.Max(linearSlop, totalRadius-3.0*linearSlop)
+	tolerance := 0.25 * linearSlop
 	B2Assert(target > tolerance)
 
 	t1 := 0.0

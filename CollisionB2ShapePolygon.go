@@ -162,7 +162,7 @@ func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
 
 		unique := true
 		for j := 0; j < tempCount; j++ {
-			if B2Vec2DistanceSquared(v, ps[j]) < ((0.5 * B2_linearSlop) * (0.5 * B2_linearSlop)) {
+			if B2Vec2DistanceSquared(v, ps[j]) < ((0.5 * linearSlop) * (0.5 * linearSlop)) {
 				unique = false
 				break
 			}

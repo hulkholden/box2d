@@ -146,7 +146,7 @@ func (joint *B2RopeJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_state = B2LimitState.E_inactiveLimit
 	}
 
-	if joint.M_length > B2_linearSlop {
+	if joint.M_length > linearSlop {
 		joint.M_u.OperatorScalarMulInplace(1.0 / joint.M_length)
 	} else {
 		joint.M_u.SetZero()
@@ -250,7 +250,7 @@ func (joint *B2RopeJoint) SolvePositionConstraints(data B2SolverData) bool {
 	data.Positions[joint.M_indexB].C = cB
 	data.Positions[joint.M_indexB].A = aB
 
-	return length-joint.M_maxLength < B2_linearSlop
+	return length-joint.M_maxLength < linearSlop
 }
 
 func (joint B2RopeJoint) GetAnchorA() B2Vec2 {

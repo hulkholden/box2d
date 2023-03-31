@@ -64,7 +64,7 @@ func (chain *B2ChainShape) CreateLoop(vertices []B2Vec2, count int) {
 		v1 := vertices[i-1]
 		v2 := vertices[i]
 		// If the code crashes here, it means your vertices are too close together.
-		B2Assert(B2Vec2DistanceSquared(v1, v2) > B2_linearSlop*B2_linearSlop)
+		B2Assert(B2Vec2DistanceSquared(v1, v2) > linearSlop*linearSlop)
 	}
 
 	chain.M_count = count + 1
@@ -83,7 +83,7 @@ func (chain *B2ChainShape) CreateChain(vertices []B2Vec2, count int) {
 	B2Assert(count >= 2)
 	for i := 1; i < count; i++ {
 		// If the code crashes here, it means your vertices are too close together.
-		B2Assert(B2Vec2DistanceSquared(vertices[i-1], vertices[i]) > B2_linearSlop*B2_linearSlop)
+		B2Assert(B2Vec2DistanceSquared(vertices[i-1], vertices[i]) > linearSlop*linearSlop)
 	}
 
 	chain.M_count = count
@@ -108,7 +108,6 @@ func (chain *B2ChainShape) SetNextVertex(nextVertex B2Vec2) {
 }
 
 func (chain B2ChainShape) Clone() B2ShapeInterface {
-
 	clone := MakeB2ChainShape()
 	clone.CreateChain(chain.M_vertices, chain.M_count)
 	clone.M_prevVertex = chain.M_prevVertex

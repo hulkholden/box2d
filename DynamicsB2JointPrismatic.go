@@ -308,7 +308,7 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 	// Compute motor and limit terms.
 	if joint.M_enableLimit {
 		jointTranslation := B2Vec2Dot(joint.M_axis, d)
-		if math.Abs(joint.M_upperTranslation-joint.M_lowerTranslation) < 2.0*B2_linearSlop {
+		if math.Abs(joint.M_upperTranslation-joint.M_lowerTranslation) < 2.0*linearSlop {
 			joint.M_limitState = B2LimitState.E_equalLimits
 		} else if jointTranslation <= joint.M_lowerTranslation {
 			if joint.M_limitState != B2LimitState.E_atLowerLimit {
@@ -495,19 +495,19 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	C2 := 0.0
 	if joint.M_enableLimit {
 		translation := B2Vec2Dot(axis, d)
-		if math.Abs(joint.M_upperTranslation-joint.M_lowerTranslation) < 2.0*B2_linearSlop {
+		if math.Abs(joint.M_upperTranslation-joint.M_lowerTranslation) < 2.0*linearSlop {
 			// Prevent large angular corrections
 			C2 = B2FloatClamp(translation, -B2_maxLinearCorrection, B2_maxLinearCorrection)
 			linearError = math.Max(linearError, math.Abs(translation))
 			active = true
 		} else if translation <= joint.M_lowerTranslation {
 			// Prevent large linear corrections and allow some slop.
-			C2 = B2FloatClamp(translation-joint.M_lowerTranslation+B2_linearSlop, -B2_maxLinearCorrection, 0.0)
+			C2 = B2FloatClamp(translation-joint.M_lowerTranslation+linearSlop, -B2_maxLinearCorrection, 0.0)
 			linearError = math.Max(linearError, joint.M_lowerTranslation-translation)
 			active = true
 		} else if translation >= joint.M_upperTranslation {
 			// Prevent large linear corrections and allow some slop.
-			C2 = B2FloatClamp(translation-joint.M_upperTranslation-B2_linearSlop, 0.0, B2_maxLinearCorrection)
+			C2 = B2FloatClamp(translation-joint.M_upperTranslation-linearSlop, 0.0, B2_maxLinearCorrection)
 			linearError = math.Max(linearError, translation-joint.M_upperTranslation)
 			active = true
 		}
@@ -568,7 +568,7 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	data.Positions[joint.M_indexB].C = cB
 	data.Positions[joint.M_indexB].A = aB
 
-	return linearError <= B2_linearSlop && angularError <= B2_angularSlop
+	return linearError <= linearSlop && angularError <= B2_angularSlop
 }
 
 func (joint B2PrismaticJoint) GetAnchorA() B2Vec2 {

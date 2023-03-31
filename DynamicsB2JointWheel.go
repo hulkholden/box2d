@@ -437,7 +437,7 @@ func (joint *B2WheelJoint) SolvePositionConstraints(data B2SolverData) bool {
 	data.Positions[joint.M_indexB].C = cB
 	data.Positions[joint.M_indexB].A = aB
 
-	return math.Abs(C) <= B2_linearSlop
+	return math.Abs(C) <= linearSlop
 }
 
 func (joint B2WheelJoint) GetAnchorA() B2Vec2 {

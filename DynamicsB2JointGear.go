@@ -427,7 +427,7 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 	data.Positions[joint.M_indexD].A = aD
 
 	// TODO_ERIN not implemented
-	return linearError < B2_linearSlop
+	return linearError < linearSlop
 }
 
 func (joint B2GearJoint) GetAnchorA() B2Vec2 {

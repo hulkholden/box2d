@@ -109,7 +109,7 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA B2Transf
 
 	edge1 := 0 // reference edge
 	var flip uint8
-	k_tol := 0.1 * B2_linearSlop
+	k_tol := 0.1 * linearSlop
 
 	if separationB > separationA+k_tol {
 		poly1 = polyB

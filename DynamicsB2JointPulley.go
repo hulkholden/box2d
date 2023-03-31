@@ -174,13 +174,13 @@ func (joint *B2PulleyJoint) InitVelocityConstraints(data B2SolverData) {
 	lengthA := joint.M_uA.Length()
 	lengthB := joint.M_uB.Length()
 
-	if lengthA > 10.0*B2_linearSlop {
+	if lengthA > 10.0*linearSlop {
 		joint.M_uA.OperatorScalarMulInplace(1.0 / lengthA)
 	} else {
 		joint.M_uA.SetZero()
 	}
 
-	if lengthB > 10.0*B2_linearSlop {
+	if lengthB > 10.0*linearSlop {
 		joint.M_uB.OperatorScalarMulInplace(1.0 / lengthB)
 	} else {
 		joint.M_uB.SetZero()
@@ -266,13 +266,13 @@ func (joint *B2PulleyJoint) SolvePositionConstraints(data B2SolverData) bool {
 	lengthA := uA.Length()
 	lengthB := uB.Length()
 
-	if lengthA > 10.0*B2_linearSlop {
+	if lengthA > 10.0*linearSlop {
 		uA.OperatorScalarMulInplace(1.0 / lengthA)
 	} else {
 		uA.SetZero()
 	}
 
-	if lengthB > 10.0*B2_linearSlop {
+	if lengthB > 10.0*linearSlop {
 		uB.OperatorScalarMulInplace(1.0 / lengthB)
 	} else {
 		uB.SetZero()
@@ -309,7 +309,7 @@ func (joint *B2PulleyJoint) SolvePositionConstraints(data B2SolverData) bool {
 	data.Positions[joint.M_indexB].C = cB
 	data.Positions[joint.M_indexB].A = aB
 
-	return linearError < B2_linearSlop
+	return linearError < linearSlop
 }
 
 func (joint B2PulleyJoint) GetAnchorA() B2Vec2 {

@@ -765,7 +765,7 @@ func (solver *B2ContactSolver) SolvePositionConstraints() bool {
 			minSeparation = math.Min(minSeparation, separation)
 
 			// Prevent large corrections and allow slop.
-			C := B2FloatClamp(B2_baumgarte*(separation+B2_linearSlop), -B2_maxLinearCorrection, 0.0)
+			C := B2FloatClamp(B2_baumgarte*(separation+linearSlop), -B2_maxLinearCorrection, 0.0)
 
 			// Compute the effective mass.
 			rnA := B2Vec2Cross(rA, normal)
@@ -796,7 +796,7 @@ func (solver *B2ContactSolver) SolvePositionConstraints() bool {
 
 	// We can't expect minSpeparation >= -b2_linearSlop because we don't
 	// push the separation above -b2_linearSlop.
-	return minSeparation >= -3.0*B2_linearSlop
+	return minSeparation >= -3.0*linearSlop
 }
 
 // Sequential position solver for position constraints.
@@ -856,7 +856,7 @@ func (solver *B2ContactSolver) SolveTOIPositionConstraints(toiIndexA int, toiInd
 			minSeparation = math.Min(minSeparation, separation)
 
 			// Prevent large corrections and allow slop.
-			C := B2FloatClamp(B2_toiBaugarte*(separation+B2_linearSlop), -B2_maxLinearCorrection, 0.0)
+			C := B2FloatClamp(B2_toiBaugarte*(separation+linearSlop), -B2_maxLinearCorrection, 0.0)
 
 			// Compute the effective mass.
 			rnA := B2Vec2Cross(rA, normal)
@@ -887,5 +887,5 @@ func (solver *B2ContactSolver) SolveTOIPositionConstraints(toiIndexA int, toiInd
 
 	// We can't expect minSpeparation >= -b2_linearSlop because we don't
 	// push the separation above -b2_linearSlop.
-	return minSeparation >= -1.5*B2_linearSlop
+	return minSeparation >= -1.5*linearSlop
 }

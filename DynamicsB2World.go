@@ -603,7 +603,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 
 // Find TOI contacts and solve them.
 func (world *B2World) SolveTOI(step B2TimeStep) {
-	island := MakeB2Island(2*B2_maxTOIContacts, B2_maxTOIContacts, 0, world.M_contactManager.M_contactListener)
+	island := MakeB2Island(2*maxTOIContacts, maxTOIContacts, 0, world.M_contactManager.M_contactListener)
 
 	if world.M_stepComplete {
 		for b := world.M_bodyList; b != nil; b = b.M_next {

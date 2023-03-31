@@ -490,14 +490,14 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, 
 	// Clip to box side 1
 	np = B2ClipSegmentToLine(clipPoints1, ie, rf.SideNormal1, rf.SideOffset1, rf.I1)
 
-	if np < B2_maxManifoldPoints {
+	if np < maxManifoldPoints {
 		return
 	}
 
 	// Clip to negative box side 1
 	np = B2ClipSegmentToLine(clipPoints2, clipPoints1, rf.SideNormal2, rf.SideOffset2, rf.I2)
 
-	if np < B2_maxManifoldPoints {
+	if np < maxManifoldPoints {
 		return
 	}
 
@@ -511,7 +511,7 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, 
 	}
 
 	pointCount := 0
-	for i := 0; i < B2_maxManifoldPoints; i++ {
+	for i := 0; i < maxManifoldPoints; i++ {
 		separation := 0.0
 
 		separation = B2Vec2Dot(rf.Normal, B2Vec2Sub(clipPoints2[i].V, rf.V1))

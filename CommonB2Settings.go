@@ -26,7 +26,7 @@ const (
 
 // The maximum number of contact points between two convex shapes. Do
 // not change this value.
-const B2_maxManifoldPoints = 2
+const maxManifoldPoints = 2
 
 // The maximum number of vertices on a convex polygon. You cannot increase
 // this too much because b2BlockAllocator has a maximum object size.

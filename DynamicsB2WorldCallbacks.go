@@ -16,8 +16,8 @@ type B2ContactFilterInterface interface {
 // sub-step forces may approach infinity for rigid body collisions. These
 // match up one-to-one with the contact points in b2Manifold.
 type B2ContactImpulse struct {
-	NormalImpulses  [B2_maxManifoldPoints]float64
-	TangentImpulses [B2_maxManifoldPoints]float64
+	NormalImpulses  [maxManifoldPoints]float64
+	TangentImpulses [maxManifoldPoints]float64
 	Count           int
 }
 

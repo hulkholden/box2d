@@ -15,7 +15,7 @@ type B2VelocityConstraintPoint struct {
 }
 
 type B2ContactVelocityConstraint struct {
-	Points             [B2_maxManifoldPoints]B2VelocityConstraintPoint
+	Points             [maxManifoldPoints]B2VelocityConstraintPoint
 	Normal             B2Vec2
 	NormalMass         B2Mat22
 	K                  B2Mat22
@@ -66,7 +66,7 @@ const B2_DEBUG_SOLVER = 0
 var g_blockSolve = true
 
 type B2ContactPositionConstraint struct {
-	LocalPoints                [B2_maxManifoldPoints]B2Vec2
+	LocalPoints                [maxManifoldPoints]B2Vec2
 	LocalNormal                B2Vec2
 	LocalPoint                 B2Vec2
 	IndexA                     int

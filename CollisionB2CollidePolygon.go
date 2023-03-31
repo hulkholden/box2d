@@ -187,7 +187,7 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA B2Transf
 	manifold.LocalPoint = planePoint
 
 	pointCount := 0
-	for i := 0; i < B2_maxManifoldPoints; i++ {
+	for i := 0; i < maxManifoldPoints; i++ {
 		separation := B2Vec2Dot(normal, clipPoints2[i].V) - frontOffset
 
 		if separation <= totalRadius {

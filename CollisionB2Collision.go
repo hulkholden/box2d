@@ -98,20 +98,20 @@ var B2Manifold_Type = struct {
 }
 
 type B2Manifold struct {
-	Points      [B2_maxManifoldPoints]B2ManifoldPoint ///< the points of contact
-	LocalNormal B2Vec2                                ///< not use for Type::e_points
-	LocalPoint  B2Vec2                                ///< usage depends on manifold type
-	Type        uint8                                 // B2Manifold_Type
-	PointCount  int                                   ///< the number of manifold points
+	Points      [maxManifoldPoints]B2ManifoldPoint ///< the points of contact
+	LocalNormal B2Vec2                             ///< not use for Type::e_points
+	LocalPoint  B2Vec2                             ///< usage depends on manifold type
+	Type        uint8                              // B2Manifold_Type
+	PointCount  int                                ///< the number of manifold points
 }
 
 func NewB2Manifold() *B2Manifold { return &B2Manifold{} }
 
 // This is used to compute the current state of a contact manifold.
 type B2WorldManifold struct {
-	Normal      B2Vec2                        ///< world vector pointing from A to B
-	Points      [B2_maxManifoldPoints]B2Vec2  ///< world contact point (point of intersection)
-	Separations [B2_maxManifoldPoints]float64 ///< a negative value indicates overlap, in meters
+	Normal      B2Vec2                     ///< world vector pointing from A to B
+	Points      [maxManifoldPoints]B2Vec2  ///< world contact point (point of intersection)
+	Separations [maxManifoldPoints]float64 ///< a negative value indicates overlap, in meters
 }
 
 func MakeB2WorldManifold() B2WorldManifold { return B2WorldManifold{} }
@@ -314,8 +314,8 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 	}
 }
 
-func B2GetPointStates(state1 *[B2_maxManifoldPoints]uint8, state2 *[B2_maxManifoldPoints]uint8, manifold1 B2Manifold, manifold2 B2Manifold) {
-	for i := 0; i < B2_maxManifoldPoints; i++ {
+func B2GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoints]uint8, manifold1 B2Manifold, manifold2 B2Manifold) {
+	for i := 0; i < maxManifoldPoints; i++ {
 		state1[i] = B2PointState.B2_nullState
 		state2[i] = B2PointState.B2_nullState
 	}

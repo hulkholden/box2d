@@ -238,8 +238,8 @@ func (joint *B2WheelJoint) InitVelocityConstraints(data B2SolverData) {
 	// Point to line constraint
 	{
 		joint.M_ay = B2RotVec2Mul(qA, joint.M_localYAxisA)
-		joint.M_sAy = B2Vec2Cross(B2Vec2Add(d, rA), joint.M_ay)
-		joint.M_sBy = B2Vec2Cross(rB, joint.M_ay)
+		joint.M_sAy = Vec2Cross(B2Vec2Add(d, rA), joint.M_ay)
+		joint.M_sBy = Vec2Cross(rB, joint.M_ay)
 
 		joint.M_mass = mA + mB + iA*joint.M_sAy*joint.M_sAy + iB*joint.M_sBy*joint.M_sBy
 
@@ -254,8 +254,8 @@ func (joint *B2WheelJoint) InitVelocityConstraints(data B2SolverData) {
 	joint.M_gamma = 0.0
 	if joint.M_frequencyHz > 0.0 {
 		joint.M_ax = B2RotVec2Mul(qA, joint.M_localXAxisA)
-		joint.M_sAx = B2Vec2Cross(B2Vec2Add(d, rA), joint.M_ax)
-		joint.M_sBx = B2Vec2Cross(rB, joint.M_ax)
+		joint.M_sAx = Vec2Cross(B2Vec2Add(d, rA), joint.M_ax)
+		joint.M_sBx = Vec2Cross(rB, joint.M_ax)
 
 		invMass := mA + mB + iA*joint.M_sAx*joint.M_sAx + iB*joint.M_sBx*joint.M_sBx
 
@@ -409,8 +409,8 @@ func (joint *B2WheelJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 	ay := B2RotVec2Mul(qA, joint.M_localYAxisA)
 
-	sAy := B2Vec2Cross(B2Vec2Add(d, rA), ay)
-	sBy := B2Vec2Cross(rB, ay)
+	sAy := Vec2Cross(B2Vec2Add(d, rA), ay)
+	sBy := Vec2Cross(rB, ay)
 
 	C := Vec2Dot(d, ay)
 

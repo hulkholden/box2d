@@ -156,8 +156,8 @@ func (joint *B2RopeJoint) InitVelocityConstraints(data B2SolverData) {
 	}
 
 	// Compute effective mass.
-	crA := B2Vec2Cross(joint.M_rA, joint.M_u)
-	crB := B2Vec2Cross(joint.M_rB, joint.M_u)
+	crA := Vec2Cross(joint.M_rA, joint.M_u)
+	crB := Vec2Cross(joint.M_rB, joint.M_u)
 	invMass := joint.M_invMassA + joint.M_invIA*crA*crA + joint.M_invMassB + joint.M_invIB*crB*crB
 
 	if invMass != 0.0 {
@@ -172,9 +172,9 @@ func (joint *B2RopeJoint) InitVelocityConstraints(data B2SolverData) {
 
 		P := B2Vec2MulScalar(joint.M_impulse, joint.M_u)
 		vA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
-		wA -= joint.M_invIA * B2Vec2Cross(joint.M_rA, P)
+		wA -= joint.M_invIA * Vec2Cross(joint.M_rA, P)
 		vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
-		wB += joint.M_invIB * B2Vec2Cross(joint.M_rB, P)
+		wB += joint.M_invIB * Vec2Cross(joint.M_rB, P)
 	} else {
 		joint.M_impulse = 0.0
 	}
@@ -209,9 +209,9 @@ func (joint *B2RopeJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	P := B2Vec2MulScalar(impulse, joint.M_u)
 	vA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
-	wA -= joint.M_invIA * B2Vec2Cross(joint.M_rA, P)
+	wA -= joint.M_invIA * Vec2Cross(joint.M_rA, P)
 	vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
-	wB += joint.M_invIB * B2Vec2Cross(joint.M_rB, P)
+	wB += joint.M_invIB * Vec2Cross(joint.M_rB, P)
 
 	data.Velocities[joint.M_indexA].V = vA
 	data.Velocities[joint.M_indexA].W = wA
@@ -241,9 +241,9 @@ func (joint *B2RopeJoint) SolvePositionConstraints(data B2SolverData) bool {
 	P := B2Vec2MulScalar(impulse, u)
 
 	cA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
-	aA -= joint.M_invIA * B2Vec2Cross(rA, P)
+	aA -= joint.M_invIA * Vec2Cross(rA, P)
 	cB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
-	aB += joint.M_invIB * B2Vec2Cross(rB, P)
+	aB += joint.M_invIB * Vec2Cross(rB, P)
 
 	data.Positions[joint.M_indexA].C = cA
 	data.Positions[joint.M_indexA].A = aA

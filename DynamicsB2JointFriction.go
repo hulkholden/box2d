@@ -169,9 +169,9 @@ func (joint *B2FrictionJoint) InitVelocityConstraints(data B2SolverData) {
 
 		P := MakeVec2(joint.M_linearImpulse.X, joint.M_linearImpulse.Y)
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
-		wA -= iA * (B2Vec2Cross(joint.M_rA, P) + joint.M_angularImpulse)
+		wA -= iA * (Vec2Cross(joint.M_rA, P) + joint.M_angularImpulse)
 		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
-		wB += iB * (B2Vec2Cross(joint.M_rB, P) + joint.M_angularImpulse)
+		wB += iB * (Vec2Cross(joint.M_rB, P) + joint.M_angularImpulse)
 	} else {
 		joint.M_linearImpulse.SetZero()
 		joint.M_angularImpulse = 0.0
@@ -228,10 +228,10 @@ func (joint *B2FrictionJoint) SolveVelocityConstraints(data B2SolverData) {
 		impulse = B2Vec2Sub(joint.M_linearImpulse, oldImpulse)
 
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, impulse))
-		wA -= iA * B2Vec2Cross(joint.M_rA, impulse)
+		wA -= iA * Vec2Cross(joint.M_rA, impulse)
 
 		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, impulse))
-		wB += iB * B2Vec2Cross(joint.M_rB, impulse)
+		wB += iB * Vec2Cross(joint.M_rB, impulse)
 	}
 
 	data.Velocities[joint.M_indexA].V = vA

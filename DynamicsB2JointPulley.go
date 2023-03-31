@@ -187,8 +187,8 @@ func (joint *B2PulleyJoint) InitVelocityConstraints(data B2SolverData) {
 	}
 
 	// Compute effective mass.
-	ruA := B2Vec2Cross(joint.M_rA, joint.M_uA)
-	ruB := B2Vec2Cross(joint.M_rB, joint.M_uB)
+	ruA := Vec2Cross(joint.M_rA, joint.M_uA)
+	ruB := Vec2Cross(joint.M_rB, joint.M_uB)
 
 	mA := joint.M_invMassA + joint.M_invIA*ruA*ruA
 	mB := joint.M_invMassB + joint.M_invIB*ruB*ruB
@@ -208,9 +208,9 @@ func (joint *B2PulleyJoint) InitVelocityConstraints(data B2SolverData) {
 		PB := B2Vec2MulScalar(-joint.M_ratio*joint.M_impulse, joint.M_uB)
 
 		vA.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassA, PA))
-		wA += joint.M_invIA * B2Vec2Cross(joint.M_rA, PA)
+		wA += joint.M_invIA * Vec2Cross(joint.M_rA, PA)
 		vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, PB))
-		wB += joint.M_invIB * B2Vec2Cross(joint.M_rB, PB)
+		wB += joint.M_invIB * Vec2Cross(joint.M_rB, PB)
 	} else {
 		joint.M_impulse = 0.0
 	}
@@ -237,9 +237,9 @@ func (joint *B2PulleyJoint) SolveVelocityConstraints(data B2SolverData) {
 	PA := B2Vec2MulScalar(-impulse, joint.M_uA)
 	PB := B2Vec2MulScalar(-joint.M_ratio*impulse, joint.M_uB)
 	vA.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassA, PA))
-	wA += joint.M_invIA * B2Vec2Cross(joint.M_rA, PA)
+	wA += joint.M_invIA * Vec2Cross(joint.M_rA, PA)
 	vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, PB))
-	wB += joint.M_invIB * B2Vec2Cross(joint.M_rB, PB)
+	wB += joint.M_invIB * Vec2Cross(joint.M_rB, PB)
 
 	data.Velocities[joint.M_indexA].V = vA
 	data.Velocities[joint.M_indexA].W = wA
@@ -279,8 +279,8 @@ func (joint *B2PulleyJoint) SolvePositionConstraints(data B2SolverData) bool {
 	}
 
 	// Compute effective mass.
-	ruA := B2Vec2Cross(rA, uA)
-	ruB := B2Vec2Cross(rB, uB)
+	ruA := Vec2Cross(rA, uA)
+	ruB := Vec2Cross(rB, uB)
 
 	mA := joint.M_invMassA + joint.M_invIA*ruA*ruA
 	mB := joint.M_invMassB + joint.M_invIB*ruB*ruB
@@ -300,9 +300,9 @@ func (joint *B2PulleyJoint) SolvePositionConstraints(data B2SolverData) bool {
 	PB := B2Vec2MulScalar(-joint.M_ratio*impulse, uB)
 
 	cA.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassA, PA))
-	aA += joint.M_invIA * B2Vec2Cross(rA, PA)
+	aA += joint.M_invIA * Vec2Cross(rA, PA)
 	cB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, PB))
-	aB += joint.M_invIB * B2Vec2Cross(rB, PB)
+	aB += joint.M_invIB * Vec2Cross(rB, PB)
 
 	data.Positions[joint.M_indexA].C = cA
 	data.Positions[joint.M_indexA].A = aA

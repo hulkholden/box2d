@@ -367,7 +367,7 @@ func (body *B2Body) ApplyForce(force B2Vec2, point B2Vec2, wake bool) {
 	// Don't accumulate a force if the body is sleeping.
 	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
 		body.M_force.OperatorPlusInplace(force)
-		body.M_torque += B2Vec2Cross(
+		body.M_torque += Vec2Cross(
 			B2Vec2Sub(point, body.M_sweep.C),
 			force,
 		)
@@ -416,7 +416,7 @@ func (body *B2Body) ApplyLinearImpulse(impulse B2Vec2, point B2Vec2, wake bool) 
 	// Don't accumulate velocity if the body is sleeping
 	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
 		body.M_linearVelocity.OperatorPlusInplace(B2Vec2MulScalar(body.M_invMass, impulse))
-		body.M_angularVelocity += body.M_invI * B2Vec2Cross(
+		body.M_angularVelocity += body.M_invI * Vec2Cross(
 			B2Vec2Sub(point, body.M_sweep.C),
 			impulse,
 		)

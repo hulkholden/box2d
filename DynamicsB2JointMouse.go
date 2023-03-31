@@ -202,7 +202,7 @@ func (joint *B2MouseJoint) InitVelocityConstraints(data B2SolverData) {
 	if data.Step.WarmStarting {
 		joint.M_impulse.OperatorScalarMulInplace(data.Step.DtRatio)
 		vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, joint.M_impulse))
-		wB += joint.M_invIB * B2Vec2Cross(joint.M_rB, joint.M_impulse)
+		wB += joint.M_invIB * Vec2Cross(joint.M_rB, joint.M_impulse)
 	} else {
 		joint.M_impulse.SetZero()
 	}
@@ -228,7 +228,7 @@ func (joint *B2MouseJoint) SolveVelocityConstraints(data B2SolverData) {
 	impulse = B2Vec2Sub(joint.M_impulse, oldImpulse)
 
 	vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, impulse))
-	wB += joint.M_invIB * B2Vec2Cross(joint.M_rB, impulse)
+	wB += joint.M_invIB * Vec2Cross(joint.M_rB, impulse)
 
 	data.Velocities[joint.M_indexB].V = vB
 	data.Velocities[joint.M_indexB].W = wB

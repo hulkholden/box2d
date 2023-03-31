@@ -249,8 +249,8 @@ func (joint *B2GearJoint) InitVelocityConstraints(data B2SolverData) {
 		rC := B2RotVec2Mul(qC, B2Vec2Sub(joint.M_localAnchorC, joint.M_lcC))
 		rA := B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_lcA))
 		joint.M_JvAC = u
-		joint.M_JwC = B2Vec2Cross(rC, u)
-		joint.M_JwA = B2Vec2Cross(rA, u)
+		joint.M_JwC = Vec2Cross(rC, u)
+		joint.M_JwA = Vec2Cross(rA, u)
 		joint.M_mass += joint.M_mC + joint.M_mA + joint.M_iC*joint.M_JwC*joint.M_JwC + joint.M_iA*joint.M_JwA*joint.M_JwA
 	}
 
@@ -264,8 +264,8 @@ func (joint *B2GearJoint) InitVelocityConstraints(data B2SolverData) {
 		rD := B2RotVec2Mul(qD, B2Vec2Sub(joint.M_localAnchorD, joint.M_lcD))
 		rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_lcB))
 		joint.M_JvBD = B2Vec2MulScalar(joint.M_ratio, u)
-		joint.M_JwD = joint.M_ratio * B2Vec2Cross(rD, u)
-		joint.M_JwB = joint.M_ratio * B2Vec2Cross(rB, u)
+		joint.M_JwD = joint.M_ratio * Vec2Cross(rD, u)
+		joint.M_JwB = joint.M_ratio * Vec2Cross(rB, u)
 		joint.M_mass += joint.M_ratio*joint.M_ratio*(joint.M_mD+joint.M_mB) + joint.M_iD*joint.M_JwD*joint.M_JwD + joint.M_iB*joint.M_JwB*joint.M_JwB
 	}
 
@@ -371,8 +371,8 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 		rC := B2RotVec2Mul(qC, B2Vec2Sub(joint.M_localAnchorC, joint.M_lcC))
 		rA := B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_lcA))
 		JvAC = u
-		JwC = B2Vec2Cross(rC, u)
-		JwA = B2Vec2Cross(rA, u)
+		JwC = Vec2Cross(rC, u)
+		JwA = Vec2Cross(rA, u)
 		mass += joint.M_mC + joint.M_mA + joint.M_iC*JwC*JwC + joint.M_iA*JwA*JwA
 
 		pC := B2Vec2Sub(joint.M_localAnchorC, joint.M_lcC)
@@ -392,8 +392,8 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 		rD := B2RotVec2Mul(qD, B2Vec2Sub(joint.M_localAnchorD, joint.M_lcD))
 		rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_lcB))
 		JvBD = B2Vec2MulScalar(joint.M_ratio, u)
-		JwD = joint.M_ratio * B2Vec2Cross(rD, u)
-		JwB = joint.M_ratio * B2Vec2Cross(rB, u)
+		JwD = joint.M_ratio * Vec2Cross(rD, u)
+		JwB = joint.M_ratio * Vec2Cross(rB, u)
 		mass += joint.M_ratio*joint.M_ratio*(joint.M_mD+joint.M_mB) + joint.M_iD*JwD*JwD + joint.M_iB*JwB*JwB
 
 		pD := B2Vec2Sub(joint.M_localAnchorD, joint.M_lcD)

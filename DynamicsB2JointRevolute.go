@@ -263,10 +263,10 @@ func (joint *B2RevoluteJoint) InitVelocityConstraints(data B2SolverData) {
 		P := MakeVec2(joint.M_impulse.X, joint.M_impulse.Y)
 
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
-		wA -= iA * (B2Vec2Cross(joint.M_rA, P) + joint.M_motorImpulse + joint.M_impulse.Z)
+		wA -= iA * (Vec2Cross(joint.M_rA, P) + joint.M_motorImpulse + joint.M_impulse.Z)
 
 		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
-		wB += iB * (B2Vec2Cross(joint.M_rB, P) + joint.M_motorImpulse + joint.M_impulse.Z)
+		wB += iB * (Vec2Cross(joint.M_rB, P) + joint.M_motorImpulse + joint.M_impulse.Z)
 	} else {
 		joint.M_impulse.SetZero()
 		joint.M_motorImpulse = 0.0
@@ -347,10 +347,10 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 		P := MakeVec2(impulse.X, impulse.Y)
 
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
-		wA -= iA * (B2Vec2Cross(joint.M_rA, P) + impulse.Z)
+		wA -= iA * (Vec2Cross(joint.M_rA, P) + impulse.Z)
 
 		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
-		wB += iB * (B2Vec2Cross(joint.M_rB, P) + impulse.Z)
+		wB += iB * (Vec2Cross(joint.M_rB, P) + impulse.Z)
 	} else {
 		// Solve point-to-point constraint
 		Cdot := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, joint.M_rB)), vA), B2Vec2CrossScalarVector(wA, joint.M_rA))
@@ -360,10 +360,10 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 		joint.M_impulse.Y += impulse.Y
 
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, impulse))
-		wA -= iA * B2Vec2Cross(joint.M_rA, impulse)
+		wA -= iA * Vec2Cross(joint.M_rA, impulse)
 
 		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, impulse))
-		wB += iB * B2Vec2Cross(joint.M_rB, impulse)
+		wB += iB * Vec2Cross(joint.M_rB, impulse)
 	}
 
 	data.Velocities[joint.M_indexA].V = vA
@@ -440,10 +440,10 @@ func (joint *B2RevoluteJoint) SolvePositionConstraints(data B2SolverData) bool {
 		impulse := K.Solve(C).OperatorNegate()
 
 		cA.OperatorMinusInplace(B2Vec2MulScalar(mA, impulse))
-		aA -= iA * B2Vec2Cross(rA, impulse)
+		aA -= iA * Vec2Cross(rA, impulse)
 
 		cB.OperatorPlusInplace(B2Vec2MulScalar(mB, impulse))
-		aB += iB * B2Vec2Cross(rB, impulse)
+		aB += iB * Vec2Cross(rB, impulse)
 	}
 
 	data.Positions[joint.M_indexA].C = cA

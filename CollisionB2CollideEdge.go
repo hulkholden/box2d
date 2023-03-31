@@ -242,7 +242,7 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, 
 		edge0 := B2Vec2Sub(collider.M_v1, collider.M_v0)
 		edge0.Normalize()
 		collider.M_normal0.Set(edge0.Y, -edge0.X)
-		convex1 = B2Vec2Cross(edge0, edge1) >= 0.0
+		convex1 = Vec2Cross(edge0, edge1) >= 0.0
 		offset0 = Vec2Dot(collider.M_normal0, B2Vec2Sub(collider.M_centroidB, collider.M_v0))
 	}
 
@@ -251,7 +251,7 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, 
 		edge2 := B2Vec2Sub(collider.M_v3, collider.M_v2)
 		edge2.Normalize()
 		collider.M_normal2.Set(edge2.Y, -edge2.X)
-		convex2 = B2Vec2Cross(edge1, edge2) > 0.0
+		convex2 = Vec2Cross(edge1, edge2) > 0.0
 		offset2 = Vec2Dot(collider.M_normal2, B2Vec2Sub(collider.M_centroidB, collider.M_v2))
 	}
 

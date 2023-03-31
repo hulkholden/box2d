@@ -188,8 +188,8 @@ func (joint *B2DistanceJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_u.Set(0.0, 0.0)
 	}
 
-	crAu := B2Vec2Cross(joint.M_rA, joint.M_u)
-	crBu := B2Vec2Cross(joint.M_rB, joint.M_u)
+	crAu := Vec2Cross(joint.M_rA, joint.M_u)
+	crBu := Vec2Cross(joint.M_rB, joint.M_u)
 	invMass := joint.M_invMassA + joint.M_invIA*crAu*crAu + joint.M_invMassB + joint.M_invIB*crBu*crBu
 
 	// Compute the effective mass matrix.
@@ -238,9 +238,9 @@ func (joint *B2DistanceJoint) InitVelocityConstraints(data B2SolverData) {
 
 		P := B2Vec2MulScalar(joint.M_impulse, joint.M_u)
 		vA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
-		wA -= joint.M_invIA * B2Vec2Cross(joint.M_rA, P)
+		wA -= joint.M_invIA * Vec2Cross(joint.M_rA, P)
 		vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
-		wB += joint.M_invIB * B2Vec2Cross(joint.M_rB, P)
+		wB += joint.M_invIB * Vec2Cross(joint.M_rB, P)
 	} else {
 		joint.M_impulse = 0.0
 	}
@@ -268,9 +268,9 @@ func (joint *B2DistanceJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	P := B2Vec2MulScalar(impulse, joint.M_u)
 	vA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
-	wA -= joint.M_invIA * B2Vec2Cross(joint.M_rA, P)
+	wA -= joint.M_invIA * Vec2Cross(joint.M_rA, P)
 	vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
-	wB += joint.M_invIB * B2Vec2Cross(joint.M_rB, P)
+	wB += joint.M_invIB * Vec2Cross(joint.M_rB, P)
 
 	// Note: mutation on value, not ref; but OK because Velocities is an array
 	data.Velocities[joint.M_indexA].V = vA
@@ -305,9 +305,9 @@ func (joint *B2DistanceJoint) SolvePositionConstraints(data B2SolverData) bool {
 	P := B2Vec2MulScalar(impulse, u)
 
 	cA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
-	aA -= joint.M_invIA * B2Vec2Cross(rA, P)
+	aA -= joint.M_invIA * Vec2Cross(rA, P)
 	cB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
-	aB += joint.M_invIB * B2Vec2Cross(rB, P)
+	aB += joint.M_invIB * Vec2Cross(rB, P)
 
 	// Note: mutation on value, not ref; but OK because Positions is an array
 	data.Positions[joint.M_indexA].C = cA

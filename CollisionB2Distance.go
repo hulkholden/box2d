@@ -229,7 +229,7 @@ func (simplex B2Simplex) GetSearchDirection() B2Vec2 {
 	case 2:
 		{
 			e12 := B2Vec2Sub(simplex.M_vs[1].W, simplex.M_vs[0].W)
-			sgn := B2Vec2Cross(e12, simplex.M_vs[0].W.OperatorNegate())
+			sgn := Vec2Cross(e12, simplex.M_vs[0].W.OperatorNegate())
 			if sgn > 0.0 {
 				// Origin is left of e12.
 				return B2Vec2CrossScalarVector(1.0, e12)
@@ -322,7 +322,7 @@ func (simplex B2Simplex) GetMetric() float64 {
 		return B2Vec2Distance(simplex.M_vs[0].W, simplex.M_vs[1].W)
 
 	case 3:
-		return B2Vec2Cross(
+		return Vec2Cross(
 			B2Vec2Sub(simplex.M_vs[1].W, simplex.M_vs[0].W),
 			B2Vec2Sub(simplex.M_vs[2].W, simplex.M_vs[0].W),
 		)
@@ -408,11 +408,11 @@ func (simplex *B2Simplex) Solve3() {
 	d23_2 := -w2e23
 
 	// Triangle123
-	n123 := B2Vec2Cross(e12, e13)
+	n123 := Vec2Cross(e12, e13)
 
-	d123_1 := n123 * B2Vec2Cross(w2, w3)
-	d123_2 := n123 * B2Vec2Cross(w3, w1)
-	d123_3 := n123 * B2Vec2Cross(w1, w2)
+	d123_1 := n123 * Vec2Cross(w2, w3)
+	d123_2 := n123 * Vec2Cross(w3, w1)
+	d123_3 := n123 * Vec2Cross(w1, w2)
 
 	// w1 region
 	if d12_2 <= 0.0 && d13_2 <= 0.0 {

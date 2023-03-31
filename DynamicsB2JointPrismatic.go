@@ -273,8 +273,8 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 	// Compute motor Jacobian and effective mass.
 	{
 		joint.M_axis = B2RotVec2Mul(qA, joint.M_localXAxisA)
-		joint.M_a1 = B2Vec2Cross(B2Vec2Add(d, rA), joint.M_axis)
-		joint.M_a2 = B2Vec2Cross(rB, joint.M_axis)
+		joint.M_a1 = Vec2Cross(B2Vec2Add(d, rA), joint.M_axis)
+		joint.M_a2 = Vec2Cross(rB, joint.M_axis)
 
 		joint.M_motorMass = mA + mB + iA*joint.M_a1*joint.M_a1 + iB*joint.M_a2*joint.M_a2
 		if joint.M_motorMass > 0.0 {
@@ -286,8 +286,8 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 	{
 		joint.M_perp = B2RotVec2Mul(qA, joint.M_localYAxisA)
 
-		joint.M_s1 = B2Vec2Cross(B2Vec2Add(d, rA), joint.M_perp)
-		joint.M_s2 = B2Vec2Cross(rB, joint.M_perp)
+		joint.M_s1 = Vec2Cross(B2Vec2Add(d, rA), joint.M_perp)
+		joint.M_s2 = Vec2Cross(rB, joint.M_perp)
 
 		k11 := mA + mB + iA*joint.M_s1*joint.M_s1 + iB*joint.M_s2*joint.M_s2
 		k12 := iA*joint.M_s1 + iB*joint.M_s2
@@ -476,12 +476,12 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	d := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(cB, rB), cA), rA)
 
 	axis := B2RotVec2Mul(qA, joint.M_localXAxisA)
-	a1 := B2Vec2Cross(B2Vec2Add(d, rA), axis)
-	a2 := B2Vec2Cross(rB, axis)
+	a1 := Vec2Cross(B2Vec2Add(d, rA), axis)
+	a2 := Vec2Cross(rB, axis)
 	perp := B2RotVec2Mul(qA, joint.M_localYAxisA)
 
-	s1 := B2Vec2Cross(B2Vec2Add(d, rA), perp)
-	s2 := B2Vec2Cross(rB, perp)
+	s1 := Vec2Cross(B2Vec2Add(d, rA), perp)
+	s2 := Vec2Cross(rB, perp)
 
 	impulse := MakeB2Vec3(0, 0, 0)
 	C1 := MakeVec2(0, 0)

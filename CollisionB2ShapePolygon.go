@@ -129,7 +129,7 @@ func ComputeCentroid(vs []B2Vec2, count int) B2Vec2 {
 		e1 := B2Vec2Sub(p2, p1)
 		e2 := B2Vec2Sub(p3, p1)
 
-		D := B2Vec2Cross(e1, e2)
+		D := Vec2Cross(e1, e2)
 
 		triangleArea := 0.5 * D
 		area += triangleArea
@@ -213,7 +213,7 @@ func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
 
 			r := B2Vec2Sub(ps[ie], ps[hull[m]])
 			v := B2Vec2Sub(ps[j], ps[hull[m]])
-			c := B2Vec2Cross(r, v)
+			c := Vec2Cross(r, v)
 			if c < 0.0 {
 				ie = j
 			}
@@ -408,7 +408,7 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 			e2 = B2Vec2Sub(poly.M_vertices[0], s)
 		}
 
-		D := B2Vec2Cross(e1, e2)
+		D := Vec2Cross(e1, e2)
 
 		triangleArea := 0.5 * D
 		area += triangleArea
@@ -463,7 +463,7 @@ func (poly B2PolygonShape) Validate() bool {
 			}
 
 			v := B2Vec2Sub(poly.M_vertices[j], p)
-			c := B2Vec2Cross(e, v)
+			c := Vec2Cross(e, v)
 			if c < 0.0 {
 				return false
 			}

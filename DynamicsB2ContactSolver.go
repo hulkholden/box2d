@@ -255,7 +255,7 @@ func (solver *B2ContactSolver) InitializeVelocityConstraints() {
 					B2Vec2CrossScalarVector(wA, vcp.RA),
 				),
 			)
-			if vRel < -B2_velocityThreshold {
+			if vRel < -velocityThreshold {
 				vcp.VelocityBias = -vc.Restitution * vRel
 			}
 		}

@@ -633,7 +633,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 			}
 
 			// Prevent excessive sub-stepping.
-			if c.GetTOICount() > B2_maxSubSteps {
+			if c.GetTOICount() > maxSubSteps {
 				continue
 			}
 

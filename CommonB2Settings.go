@@ -56,7 +56,7 @@ const angularSlop = (2.0 / 180.0 * B2_pi)
 const polygonRadius = (2.0 * linearSlop)
 
 // Maximum number of sub-steps per contact in continuous physics simulation.
-const B2_maxSubSteps = 8
+const maxSubSteps = 8
 
 // Dynamics
 

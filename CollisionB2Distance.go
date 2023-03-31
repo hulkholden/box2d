@@ -241,7 +241,7 @@ func (simplex B2Simplex) GetSearchDirection() Vec2 {
 
 	default:
 		B2Assert(false)
-		return B2Vec2_zero
+		return Vec2{}
 	}
 }
 
@@ -249,7 +249,7 @@ func (simplex B2Simplex) GetClosestPoint() Vec2 {
 	switch simplex.M_count {
 	case 0:
 		B2Assert(false)
-		return B2Vec2_zero
+		return Vec2{}
 
 	case 1:
 		return simplex.M_vs[0].W
@@ -267,11 +267,11 @@ func (simplex B2Simplex) GetClosestPoint() Vec2 {
 		)
 
 	case 3:
-		return B2Vec2_zero
+		return Vec2{}
 
 	default:
 		B2Assert(false)
-		return B2Vec2_zero
+		return Vec2{}
 	}
 }
 

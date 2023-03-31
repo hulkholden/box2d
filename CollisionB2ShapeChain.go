@@ -27,7 +27,7 @@ func MakeB2ChainShape() B2ChainShape {
 	return B2ChainShape{
 		B2Shape: B2Shape{
 			M_type:   B2Shape_Type.E_chain,
-			M_radius: B2_polygonRadius,
+			M_radius: polygonRadius,
 		},
 		M_vertices:      nil,
 		M_count:         0,

@@ -53,7 +53,7 @@ const angularSlop = (2.0 / 180.0 * B2_pi)
 // The radius of the polygon/edge shape skin. This should not be modified. Making
 // this smaller means polygons will have an insufficient buffer for continuous collision.
 // Making it larger may create artifacts for vertex collision.
-const B2_polygonRadius = (2.0 * linearSlop)
+const polygonRadius = (2.0 * linearSlop)
 
 // Maximum number of sub-steps per contact in continuous physics simulation.
 const B2_maxSubSteps = 8

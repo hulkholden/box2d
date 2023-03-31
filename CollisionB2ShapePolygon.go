@@ -18,7 +18,7 @@ func MakeB2PolygonShape() B2PolygonShape {
 	return B2PolygonShape{
 		B2Shape: B2Shape{
 			M_type:   B2Shape_Type.E_polygon,
-			M_radius: B2_polygonRadius,
+			M_radius: polygonRadius,
 		},
 		M_count:    0,
 		M_centroid: MakeB2Vec2(0, 0),

@@ -17,7 +17,7 @@ func MakeB2EdgeShape() B2EdgeShape {
 	return B2EdgeShape{
 		B2Shape: B2Shape{
 			M_type:   B2Shape_Type.E_edge,
-			M_radius: B2_polygonRadius,
+			M_radius: polygonRadius,
 		},
 		M_vertex0:    MakeB2Vec2(0, 0),
 		M_vertex3:    MakeB2Vec2(0, 0),

@@ -96,7 +96,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 		localPointB := sepfunc.M_proxyB.GetVertex(cache.IndexB[0])
 		pointA := B2TransformVec2Mul(xfA, localPointA)
 		pointB := B2TransformVec2Mul(xfB, localPointB)
-		sepfunc.M_axis = B2Vec2Sub(pointB, pointA)
+		sepfunc.M_axis = Vec2Sub(pointB, pointA)
 		s := sepfunc.M_axis.Normalize()
 		return s
 	} else if cache.IndexA[0] == cache.IndexA[1] {
@@ -106,7 +106,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 		localPointB2 := proxyB.GetVertex(cache.IndexB[1])
 
 		sepfunc.M_axis = Vec2CrossVectorScalar(
-			B2Vec2Sub(localPointB2, localPointB1),
+			Vec2Sub(localPointB2, localPointB1),
 			1.0,
 		)
 
@@ -119,7 +119,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 		localPointA := proxyA.GetVertex(cache.IndexA[0])
 		pointA := B2TransformVec2Mul(xfA, localPointA)
 
-		s := Vec2Dot(B2Vec2Sub(pointA, pointB), normal)
+		s := Vec2Dot(Vec2Sub(pointA, pointB), normal)
 		if s < 0.0 {
 			sepfunc.M_axis = sepfunc.M_axis.OperatorNegate()
 			s = -s
@@ -132,7 +132,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 		localPointA1 := sepfunc.M_proxyA.GetVertex(cache.IndexA[0])
 		localPointA2 := sepfunc.M_proxyA.GetVertex(cache.IndexA[1])
 
-		sepfunc.M_axis = Vec2CrossVectorScalar(B2Vec2Sub(localPointA2, localPointA1), 1.0)
+		sepfunc.M_axis = Vec2CrossVectorScalar(Vec2Sub(localPointA2, localPointA1), 1.0)
 		sepfunc.M_axis.Normalize()
 		normal := B2RotVec2Mul(xfA.Q, sepfunc.M_axis)
 
@@ -142,7 +142,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 		localPointB := sepfunc.M_proxyB.GetVertex(cache.IndexB[0])
 		pointB := B2TransformVec2Mul(xfB, localPointB)
 
-		s := Vec2Dot(B2Vec2Sub(pointB, pointA), normal)
+		s := Vec2Dot(Vec2Sub(pointB, pointA), normal)
 		if s < 0.0 {
 			sepfunc.M_axis = sepfunc.M_axis.OperatorNegate()
 			s = -s
@@ -174,7 +174,7 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 			pointA := B2TransformVec2Mul(xfA, localPointA)
 			pointB := B2TransformVec2Mul(xfB, localPointB)
 
-			separation := Vec2Dot(B2Vec2Sub(pointB, pointA), sepfunc.M_axis)
+			separation := Vec2Dot(Vec2Sub(pointB, pointA), sepfunc.M_axis)
 			return separation
 		}
 
@@ -191,7 +191,7 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 			localPointB := sepfunc.M_proxyB.GetVertex(*indexB)
 			pointB := B2TransformVec2Mul(xfB, localPointB)
 
-			separation := Vec2Dot(B2Vec2Sub(pointB, pointA), normal)
+			separation := Vec2Dot(Vec2Sub(pointB, pointA), normal)
 			return separation
 		}
 
@@ -208,7 +208,7 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 			localPointA := sepfunc.M_proxyA.GetVertex(*indexA)
 			pointA := B2TransformVec2Mul(xfA, localPointA)
 
-			separation := Vec2Dot(B2Vec2Sub(pointA, pointB), normal)
+			separation := Vec2Dot(Vec2Sub(pointA, pointB), normal)
 			return separation
 		}
 
@@ -235,7 +235,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 
 			pointA := B2TransformVec2Mul(xfA, localPointA)
 			pointB := B2TransformVec2Mul(xfB, localPointB)
-			separation := Vec2Dot(B2Vec2Sub(pointB, pointA), sepfunc.M_axis)
+			separation := Vec2Dot(Vec2Sub(pointB, pointA), sepfunc.M_axis)
 
 			return separation
 		}
@@ -248,7 +248,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 			localPointB := sepfunc.M_proxyB.GetVertex(indexB)
 			pointB := B2TransformVec2Mul(xfB, localPointB)
 
-			separation := Vec2Dot(B2Vec2Sub(pointB, pointA), normal)
+			separation := Vec2Dot(Vec2Sub(pointB, pointA), normal)
 			return separation
 		}
 
@@ -260,7 +260,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 			localPointA := sepfunc.M_proxyA.GetVertex(indexA)
 			pointA := B2TransformVec2Mul(xfA, localPointA)
 
-			separation := Vec2Dot(B2Vec2Sub(pointA, pointB), normal)
+			separation := Vec2Dot(Vec2Sub(pointA, pointB), normal)
 			return separation
 		}
 

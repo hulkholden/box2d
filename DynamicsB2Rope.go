@@ -130,8 +130,8 @@ func (rope *B2Rope) Initialize(def *B2RopeDef) {
 		p2 := rope.M_ps[i+1]
 		p3 := rope.M_ps[i+2]
 
-		d1 := B2Vec2Sub(p2, p1)
-		d2 := B2Vec2Sub(p3, p2)
+		d1 := Vec2Sub(p2, p1)
+		d2 := Vec2Sub(p3, p2)
 
 		a := Vec2Cross(d1, d2)
 		b := Vec2Dot(d1, d2)
@@ -169,7 +169,7 @@ func (rope *B2Rope) Step(h float64, iterations int) {
 
 	inv_h := 1.0 / h
 	for i := 0; i < rope.M_count; i++ {
-		rope.M_vs[i] = B2Vec2MulScalar(inv_h, B2Vec2Sub(rope.M_ps[i], rope.M_p0s[i]))
+		rope.M_vs[i] = B2Vec2MulScalar(inv_h, Vec2Sub(rope.M_ps[i], rope.M_p0s[i]))
 	}
 }
 
@@ -180,7 +180,7 @@ func (rope *B2Rope) SolveC2() {
 		p1 := rope.M_ps[i]
 		p2 := rope.M_ps[i+1]
 
-		d := B2Vec2Sub(p2, p1)
+		d := Vec2Sub(p2, p1)
 		L := d.Normalize()
 
 		im1 := rope.M_ims[i]
@@ -220,8 +220,8 @@ func (rope *B2Rope) SolveC3() {
 		m2 := rope.M_ims[i+1]
 		m3 := rope.M_ims[i+2]
 
-		d1 := B2Vec2Sub(p2, p1)
-		d2 := B2Vec2Sub(p3, p2)
+		d1 := Vec2Sub(p2, p1)
+		d2 := Vec2Sub(p3, p2)
 
 		L1sqr := d1.LengthSquared()
 		L2sqr := d2.LengthSquared()
@@ -239,7 +239,7 @@ func (rope *B2Rope) SolveC3() {
 		Jd2 := B2Vec2MulScalar((1.0 / L2sqr), d2.Skew())
 
 		J1 := Jd1.OperatorNegate()
-		J2 := B2Vec2Sub(Jd1, Jd2)
+		J2 := Vec2Sub(Jd1, Jd2)
 		J3 := Jd2
 
 		mass := m1*Vec2Dot(J1, J1) + m2*Vec2Dot(J2, J2) + m3*Vec2Dot(J3, J3)

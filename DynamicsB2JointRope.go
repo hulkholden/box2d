@@ -133,9 +133,9 @@ func (joint *B2RopeJoint) InitVelocityConstraints(data B2SolverData) {
 	qA := MakeB2RotFromAngle(aA)
 	qB := MakeB2RotFromAngle(aB)
 
-	joint.M_rA = B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	joint.M_rB = B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
-	joint.M_u = B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, joint.M_rB), cA), joint.M_rA)
+	joint.M_rA = B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	joint.M_rB = B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	joint.M_u = Vec2Sub(Vec2Sub(Vec2Add(cB, joint.M_rB), cA), joint.M_rA)
 
 	joint.M_length = joint.M_u.Length()
 
@@ -195,7 +195,7 @@ func (joint *B2RopeJoint) SolveVelocityConstraints(data B2SolverData) {
 	vpA := Vec2Add(vA, Vec2CrossScalarVector(wA, joint.M_rA))
 	vpB := Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB))
 	C := joint.M_length - joint.M_maxLength
-	Cdot := Vec2Dot(joint.M_u, B2Vec2Sub(vpB, vpA))
+	Cdot := Vec2Dot(joint.M_u, Vec2Sub(vpB, vpA))
 
 	// Predictive constraint.
 	if C < 0.0 {
@@ -228,9 +228,9 @@ func (joint *B2RopeJoint) SolvePositionConstraints(data B2SolverData) bool {
 	qA := MakeB2RotFromAngle(aA)
 	qB := MakeB2RotFromAngle(aB)
 
-	rA := B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
-	u := B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, rB), cA), rA)
+	rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	u := Vec2Sub(Vec2Sub(Vec2Add(cB, rB), cA), rA)
 
 	length := u.Normalize()
 	C := length - joint.M_maxLength

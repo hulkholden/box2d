@@ -180,7 +180,7 @@ func (joint *B2MouseJoint) InitVelocityConstraints(data B2SolverData) {
 	joint.M_beta = h * k * joint.M_gamma
 
 	// Compute the effective mass matrix.
-	joint.M_rB = B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	joint.M_rB = B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 
 	// K    = [(1/m1 + 1/m2) * eye(2) - skew(r1) * invI1 * skew(r1) - skew(r2) * invI2 * skew(r2)]
 	//      = [1/m1+1/m2     0    ] + invI1 * [r1.y*r1.y -r1.x*r1.y] + invI2 * [r1.y*r1.y -r1.x*r1.y]
@@ -193,7 +193,7 @@ func (joint *B2MouseJoint) InitVelocityConstraints(data B2SolverData) {
 
 	joint.M_mass = K.GetInverse()
 
-	joint.M_C = B2Vec2Sub(Vec2Add(cB, joint.M_rB), joint.M_targetA)
+	joint.M_C = Vec2Sub(Vec2Add(cB, joint.M_rB), joint.M_targetA)
 	joint.M_C.OperatorScalarMulInplace(joint.M_beta)
 
 	// Cheat with some damping
@@ -225,7 +225,7 @@ func (joint *B2MouseJoint) SolveVelocityConstraints(data B2SolverData) {
 	if joint.M_impulse.LengthSquared() > maxImpulse*maxImpulse {
 		joint.M_impulse.OperatorScalarMulInplace(maxImpulse / joint.M_impulse.Length())
 	}
-	impulse = B2Vec2Sub(joint.M_impulse, oldImpulse)
+	impulse = Vec2Sub(joint.M_impulse, oldImpulse)
 
 	vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, impulse))
 	wB += joint.M_invIB * Vec2Cross(joint.M_rB, impulse)

@@ -165,8 +165,8 @@ func (joint *B2WeldJoint) InitVelocityConstraints(data B2SolverData) {
 	qA := MakeB2RotFromAngle(aA)
 	qB := MakeB2RotFromAngle(aB)
 
-	joint.M_rA = B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	joint.M_rB = B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	joint.M_rA = B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	joint.M_rB = B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 
 	// J = [-I -r1_skew I r2_skew]
 	//     [ 0       -1 0       1]
@@ -280,7 +280,7 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 		wA -= iA * impulse2
 		wB += iB * impulse2
 
-		Cdot1 := B2Vec2Sub(B2Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot1 := Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 
 		impulse1 := B2Vec2Mul22(joint.M_mass, Cdot1).OperatorNegate()
 		joint.M_impulse.X += impulse1.X
@@ -294,7 +294,7 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
 		wB += iB * Vec2Cross(joint.M_rB, P)
 	} else {
-		Cdot1 := B2Vec2Sub(B2Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot1 := Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 		Cdot2 := wB - wA
 		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
 
@@ -330,8 +330,8 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data B2SolverData) bool {
 	iA := joint.M_invIA
 	iB := joint.M_invIB
 
-	rA := B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 
 	positionError := 0.0
 	angularError := 0.0
@@ -348,7 +348,7 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data B2SolverData) bool {
 	K.Ez.Z = iA + iB
 
 	if joint.M_frequencyHz > 0.0 {
-		C1 := B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, rB), cA), rA)
+		C1 := Vec2Sub(Vec2Sub(Vec2Add(cB, rB), cA), rA)
 
 		positionError = C1.Length()
 		angularError = 0.0
@@ -361,7 +361,7 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data B2SolverData) bool {
 		cB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
 		aB += iB * Vec2Cross(rB, P)
 	} else {
-		C1 := B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, rB), cA), rA)
+		C1 := Vec2Sub(Vec2Sub(Vec2Add(cB, rB), cA), rA)
 		C2 := aB - aA - joint.M_referenceAngle
 
 		positionError = C1.Length()

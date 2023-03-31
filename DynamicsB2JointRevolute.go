@@ -195,8 +195,8 @@ func (joint *B2RevoluteJoint) InitVelocityConstraints(data B2SolverData) {
 	qA := MakeB2RotFromAngle(aA)
 	qB := MakeB2RotFromAngle(aB)
 
-	joint.M_rA = B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	joint.M_rB = B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	joint.M_rA = B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	joint.M_rB = B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 
 	// J = [-I -r1_skew I r2_skew]
 	//     [ 0       -1 0       1]
@@ -306,7 +306,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Solve limit constraint.
 	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit && !fixedRotation {
-		Cdot1 := B2Vec2Sub(B2Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot1 := Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 		Cdot2 := wB - wA
 		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
 
@@ -353,7 +353,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 		wB += iB * (Vec2Cross(joint.M_rB, P) + impulse.Z)
 	} else {
 		// Solve point-to-point constraint
-		Cdot := B2Vec2Sub(B2Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot := Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 		impulse := joint.M_mass.Solve22(Cdot.OperatorNegate())
 
 		joint.M_impulse.X += impulse.X
@@ -420,10 +420,10 @@ func (joint *B2RevoluteJoint) SolvePositionConstraints(data B2SolverData) bool {
 	{
 		qA.Set(aA)
 		qB.Set(aB)
-		rA := B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-		rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+		rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+		rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 
-		C := B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, rB), cA), rA)
+		C := Vec2Sub(Vec2Sub(Vec2Add(cB, rB), cA), rA)
 		positionError = C.Length()
 
 		mA := joint.M_invMassA

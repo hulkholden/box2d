@@ -74,20 +74,20 @@ func (edge B2EdgeShape) TestPoint(xf B2Transform, p B2Vec2) bool {
 // s * e - t * d = p1 - v1
 func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf B2Transform, childIndex int) bool {
 	// Put the ray into the edge's frame of reference.
-	p1 := B2RotVec2MulT(xf.Q, B2Vec2Sub(input.P1, xf.P))
-	p2 := B2RotVec2MulT(xf.Q, B2Vec2Sub(input.P2, xf.P))
-	d := B2Vec2Sub(p2, p1)
+	p1 := B2RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
+	p2 := B2RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))
+	d := Vec2Sub(p2, p1)
 
 	v1 := edge.M_vertex1
 	v2 := edge.M_vertex2
-	e := B2Vec2Sub(v2, v1)
+	e := Vec2Sub(v2, v1)
 	normal := MakeVec2(e.Y, -e.X)
 	normal.Normalize()
 
 	// q = p1 + t * d
 	// dot(normal, q - v1) = 0
 	// dot(normal, p1 - v1) + t * dot(normal, d) = 0
-	numerator := Vec2Dot(normal, B2Vec2Sub(v1, p1))
+	numerator := Vec2Dot(normal, Vec2Sub(v1, p1))
 	denominator := Vec2Dot(normal, d)
 
 	if denominator == 0.0 {
@@ -103,13 +103,13 @@ func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, x
 
 	// q = v1 + s * r
 	// s = dot(q - v1, r) / dot(r, r)
-	r := B2Vec2Sub(v2, v1)
+	r := Vec2Sub(v2, v1)
 	rr := Vec2Dot(r, r)
 	if rr == 0.0 {
 		return false
 	}
 
-	s := Vec2Dot(B2Vec2Sub(q, v1), r) / rr
+	s := Vec2Dot(Vec2Sub(q, v1), r) / rr
 	if s < 0.0 || 1.0 < s {
 		return false
 	}
@@ -132,8 +132,8 @@ func (edge B2EdgeShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 	upper := B2Vec2Max(v1, v2)
 
 	r := MakeVec2(edge.M_radius, edge.M_radius)
-	lowerBound := B2Vec2Sub(lower, r)
-	upperBound := B2Vec2Sub(upper, r)
+	lowerBound := Vec2Sub(lower, r)
+	upperBound := Vec2Sub(upper, r)
 	return MakeB2AABB(lowerBound, upperBound)
 }
 

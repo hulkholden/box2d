@@ -14,11 +14,11 @@ func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Tran
 
 	A := edgeA.M_vertex1
 	B := edgeA.M_vertex2
-	e := B2Vec2Sub(B, A)
+	e := Vec2Sub(B, A)
 
 	// Barycentric coordinates
-	u := Vec2Dot(e, B2Vec2Sub(B, Q))
-	v := Vec2Dot(e, B2Vec2Sub(Q, A))
+	u := Vec2Dot(e, Vec2Sub(B, Q))
+	v := Vec2Dot(e, Vec2Sub(Q, A))
 
 	radius := edgeA.M_radius + circleB.M_radius
 
@@ -29,7 +29,7 @@ func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Tran
 	// Region A
 	if v <= 0.0 {
 		P := A
-		d := B2Vec2Sub(Q, P)
+		d := Vec2Sub(Q, P)
 		dd := Vec2Dot(d, d)
 		if dd > radius*radius {
 			return
@@ -39,8 +39,8 @@ func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Tran
 		if edgeA.M_hasVertex0 {
 			A1 := edgeA.M_vertex0
 			B1 := A
-			e1 := B2Vec2Sub(B1, A1)
-			u1 := Vec2Dot(e1, B2Vec2Sub(B1, Q))
+			e1 := Vec2Sub(B1, A1)
+			u1 := Vec2Dot(e1, Vec2Sub(B1, Q))
 
 			// Is the circle in Region AB of the previous edge?
 			if u1 > 0.0 {
@@ -66,7 +66,7 @@ func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Tran
 	// Region B
 	if u <= 0.0 {
 		P := B
-		d := B2Vec2Sub(Q, P)
+		d := Vec2Sub(Q, P)
 		dd := Vec2Dot(d, d)
 		if dd > radius*radius {
 			return
@@ -76,8 +76,8 @@ func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Tran
 		if edgeA.M_hasVertex3 {
 			B2 := edgeA.M_vertex3
 			A2 := B
-			e2 := B2Vec2Sub(B2, A2)
-			v2 := Vec2Dot(e2, B2Vec2Sub(Q, A2))
+			e2 := Vec2Sub(B2, A2)
+			v2 := Vec2Dot(e2, Vec2Sub(Q, A2))
 
 			// Is the circle in Region AB of the next edge?
 			if v2 > 0.0 {
@@ -104,14 +104,14 @@ func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Tran
 	den := Vec2Dot(e, e)
 	B2Assert(den > 0.0)
 	P := B2Vec2MulScalar(1.0/den, Vec2Add(B2Vec2MulScalar(u, A), B2Vec2MulScalar(v, B)))
-	d := B2Vec2Sub(Q, P)
+	d := Vec2Sub(Q, P)
 	dd := Vec2Dot(d, d)
 	if dd > radius*radius {
 		return
 	}
 
 	n := MakeVec2(-e.Y, e.X)
-	if Vec2Dot(n, B2Vec2Sub(Q, A)) < 0.0 {
+	if Vec2Dot(n, Vec2Sub(Q, A)) < 0.0 {
 		n.Set(-n.X, -n.Y)
 	}
 	n.Normalize()
@@ -228,10 +228,10 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, 
 	hasVertex0 := edgeA.M_hasVertex0
 	hasVertex3 := edgeA.M_hasVertex3
 
-	edge1 := B2Vec2Sub(collider.M_v2, collider.M_v1)
+	edge1 := Vec2Sub(collider.M_v2, collider.M_v1)
 	edge1.Normalize()
 	collider.M_normal1.Set(edge1.Y, -edge1.X)
-	offset1 := Vec2Dot(collider.M_normal1, B2Vec2Sub(collider.M_centroidB, collider.M_v1))
+	offset1 := Vec2Dot(collider.M_normal1, Vec2Sub(collider.M_centroidB, collider.M_v1))
 	offset0 := 0.0
 	offset2 := 0.0
 	convex1 := false
@@ -239,20 +239,20 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, 
 
 	// Is there a preceding edge?
 	if hasVertex0 {
-		edge0 := B2Vec2Sub(collider.M_v1, collider.M_v0)
+		edge0 := Vec2Sub(collider.M_v1, collider.M_v0)
 		edge0.Normalize()
 		collider.M_normal0.Set(edge0.Y, -edge0.X)
 		convex1 = Vec2Cross(edge0, edge1) >= 0.0
-		offset0 = Vec2Dot(collider.M_normal0, B2Vec2Sub(collider.M_centroidB, collider.M_v0))
+		offset0 = Vec2Dot(collider.M_normal0, Vec2Sub(collider.M_centroidB, collider.M_v0))
 	}
 
 	// Is there a following edge?
 	if hasVertex3 {
-		edge2 := B2Vec2Sub(collider.M_v3, collider.M_v2)
+		edge2 := Vec2Sub(collider.M_v3, collider.M_v2)
 		edge2.Normalize()
 		collider.M_normal2.Set(edge2.Y, -edge2.X)
 		convex2 = Vec2Cross(edge1, edge2) > 0.0
-		offset2 = Vec2Dot(collider.M_normal2, B2Vec2Sub(collider.M_centroidB, collider.M_v2))
+		offset2 = Vec2Dot(collider.M_normal2, Vec2Sub(collider.M_centroidB, collider.M_v2))
 	}
 
 	// Determine front or back collision. Determine collision normal limits.
@@ -514,7 +514,7 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, 
 	for i := 0; i < maxManifoldPoints; i++ {
 		separation := 0.0
 
-		separation = Vec2Dot(rf.Normal, B2Vec2Sub(clipPoints2[i].V, rf.V1))
+		separation = Vec2Dot(rf.Normal, Vec2Sub(clipPoints2[i].V, rf.V1))
 
 		if separation <= collider.M_radius {
 			cp := &manifold.Points[pointCount]
@@ -548,7 +548,7 @@ func (collider *B2EPCollider) ComputeEdgeSeparation() B2EPAxis {
 	axis.Separation = B2_maxFloat
 
 	for i := 0; i < collider.M_polygonB.Count; i++ {
-		s := Vec2Dot(collider.M_normal, B2Vec2Sub(collider.M_polygonB.Vertices[i], collider.M_v1))
+		s := Vec2Dot(collider.M_normal, Vec2Sub(collider.M_polygonB.Vertices[i], collider.M_v1))
 		if s < axis.Separation {
 			axis.Separation = s
 		}
@@ -568,8 +568,8 @@ func (collider *B2EPCollider) ComputePolygonSeparation() B2EPAxis {
 	for i := 0; i < collider.M_polygonB.Count; i++ {
 		n := collider.M_polygonB.Normals[i].OperatorNegate()
 
-		s1 := Vec2Dot(n, B2Vec2Sub(collider.M_polygonB.Vertices[i], collider.M_v1))
-		s2 := Vec2Dot(n, B2Vec2Sub(collider.M_polygonB.Vertices[i], collider.M_v2))
+		s1 := Vec2Dot(n, Vec2Sub(collider.M_polygonB.Vertices[i], collider.M_v1))
+		s2 := Vec2Dot(n, Vec2Sub(collider.M_polygonB.Vertices[i], collider.M_v2))
 		s := math.Min(s1, s2)
 
 		if s > collider.M_radius {
@@ -582,11 +582,11 @@ func (collider *B2EPCollider) ComputePolygonSeparation() B2EPAxis {
 
 		// Adjacency
 		if Vec2Dot(n, perp) >= 0.0 {
-			if Vec2Dot(B2Vec2Sub(n, collider.M_upperLimit), collider.M_normal) < -angularSlop {
+			if Vec2Dot(Vec2Sub(n, collider.M_upperLimit), collider.M_normal) < -angularSlop {
 				continue
 			}
 		} else {
-			if Vec2Dot(B2Vec2Sub(n, collider.M_lowerLimit), collider.M_normal) < -angularSlop {
+			if Vec2Dot(Vec2Sub(n, collider.M_lowerLimit), collider.M_normal) < -angularSlop {
 				continue
 			}
 		}

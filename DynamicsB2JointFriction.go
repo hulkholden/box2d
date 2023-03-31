@@ -132,8 +132,8 @@ func (joint *B2FrictionJoint) InitVelocityConstraints(data B2SolverData) {
 	qB := MakeB2RotFromAngle(aB)
 
 	// Compute the effective mass matrix.
-	joint.M_rA = B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	joint.M_rB = B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	joint.M_rA = B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	joint.M_rB = B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 
 	// J = [-I -r1_skew I r2_skew]
 	//     [ 0       -1 0       1]
@@ -212,7 +212,7 @@ func (joint *B2FrictionJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Solve linear friction
 	{
-		Cdot := B2Vec2Sub(B2Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot := Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 
 		impulse := Vec2Mat22Mul(joint.M_linearMass, Cdot).OperatorNegate()
 		oldImpulse := joint.M_linearImpulse
@@ -225,7 +225,7 @@ func (joint *B2FrictionJoint) SolveVelocityConstraints(data B2SolverData) {
 			joint.M_linearImpulse.OperatorScalarMulInplace(maxImpulse)
 		}
 
-		impulse = B2Vec2Sub(joint.M_linearImpulse, oldImpulse)
+		impulse = Vec2Sub(joint.M_linearImpulse, oldImpulse)
 
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, impulse))
 		wA -= iA * Vec2Cross(joint.M_rA, impulse)

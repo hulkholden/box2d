@@ -249,7 +249,7 @@ func (body B2Body) GetLocalVector(worldVector B2Vec2) B2Vec2 {
 }
 
 func (body B2Body) GetLinearVelocityFromWorldPoint(worldPoint B2Vec2) B2Vec2 {
-	return Vec2Add(body.M_linearVelocity, Vec2CrossScalarVector(body.M_angularVelocity, B2Vec2Sub(worldPoint, body.M_sweep.C)))
+	return Vec2Add(body.M_linearVelocity, Vec2CrossScalarVector(body.M_angularVelocity, Vec2Sub(worldPoint, body.M_sweep.C)))
 }
 
 func (body B2Body) GetLinearVelocityFromLocalPoint(localPoint B2Vec2) B2Vec2 {
@@ -368,7 +368,7 @@ func (body *B2Body) ApplyForce(force B2Vec2, point B2Vec2, wake bool) {
 	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
 		body.M_force.OperatorPlusInplace(force)
 		body.M_torque += Vec2Cross(
-			B2Vec2Sub(point, body.M_sweep.C),
+			Vec2Sub(point, body.M_sweep.C),
 			force,
 		)
 	}
@@ -417,7 +417,7 @@ func (body *B2Body) ApplyLinearImpulse(impulse B2Vec2, point B2Vec2, wake bool) 
 	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
 		body.M_linearVelocity.OperatorPlusInplace(B2Vec2MulScalar(body.M_invMass, impulse))
 		body.M_angularVelocity += body.M_invI * Vec2Cross(
-			B2Vec2Sub(point, body.M_sweep.C),
+			Vec2Sub(point, body.M_sweep.C),
 			impulse,
 		)
 	}
@@ -455,7 +455,7 @@ func (body *B2Body) ApplyAngularImpulse(impulse float64, wake bool) {
 
 func (body *B2Body) SynchronizeTransform() {
 	body.M_xf.Q.Set(body.M_sweep.A)
-	body.M_xf.P = B2Vec2Sub(body.M_sweep.C, B2RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
+	body.M_xf.P = Vec2Sub(body.M_sweep.C, B2RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
 }
 
 func (body *B2Body) Advance(alpha float64) {
@@ -464,7 +464,7 @@ func (body *B2Body) Advance(alpha float64) {
 	body.M_sweep.C = body.M_sweep.C0
 	body.M_sweep.A = body.M_sweep.A0
 	body.M_xf.Q.Set(body.M_sweep.A)
-	body.M_xf.P = B2Vec2Sub(body.M_sweep.C, B2RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
+	body.M_xf.P = Vec2Sub(body.M_sweep.C, B2RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
 }
 
 func (body B2Body) GetWorld() *B2World {
@@ -769,7 +769,7 @@ func (body *B2Body) ResetMassData() {
 	// Update center of mass velocity.
 	body.M_linearVelocity.OperatorPlusInplace(Vec2CrossScalarVector(
 		body.M_angularVelocity,
-		B2Vec2Sub(body.M_sweep.C, oldCenter),
+		Vec2Sub(body.M_sweep.C, oldCenter),
 	))
 }
 
@@ -810,7 +810,7 @@ func (body *B2Body) SetMassData(massData *B2MassData) {
 	body.M_linearVelocity.OperatorPlusInplace(
 		Vec2CrossScalarVector(
 			body.M_angularVelocity,
-			B2Vec2Sub(body.M_sweep.C, oldCenter),
+			Vec2Sub(body.M_sweep.C, oldCenter),
 		),
 	)
 }
@@ -858,7 +858,7 @@ func (body *B2Body) SetTransform(position B2Vec2, angle float64) {
 func (body *B2Body) SynchronizeFixtures() {
 	xf1 := MakeB2Transform()
 	xf1.Q.Set(body.M_sweep.A0)
-	xf1.P = B2Vec2Sub(body.M_sweep.C0, B2RotVec2Mul(xf1.Q, body.M_sweep.LocalCenter))
+	xf1.P = Vec2Sub(body.M_sweep.C0, B2RotVec2Mul(xf1.Q, body.M_sweep.LocalCenter))
 
 	broadPhase := &body.M_world.M_contactManager.M_broadPhase
 	for f := body.M_fixtureList; f != nil; f = f.M_next {

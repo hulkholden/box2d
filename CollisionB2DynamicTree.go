@@ -99,7 +99,7 @@ func (tree *B2DynamicTree) Query(queryCallback B2TreeQueryCallback, aabb B2AABB)
 func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B2RayCastInput) {
 	p1 := input.P1
 	p2 := input.P2
-	r := B2Vec2Sub(p2, p1)
+	r := Vec2Sub(p2, p1)
 	B2Assert(r.LengthSquared() > 0.0)
 	r.Normalize()
 
@@ -115,7 +115,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 	// Build a bounding box for the segment.
 	var segmentAABB B2AABB
 	{
-		t := Vec2Add(p1, B2Vec2MulScalar(maxFraction, B2Vec2Sub(p2, p1)))
+		t := Vec2Add(p1, B2Vec2MulScalar(maxFraction, Vec2Sub(p2, p1)))
 		segmentAABB = MakeB2AABB(B2Vec2Min(p1, t), B2Vec2Max(p1, t))
 	}
 
@@ -139,7 +139,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 		c := node.Aabb.GetCenter()
 		h := node.Aabb.GetExtents()
 
-		separation := math.Abs(Vec2Dot(v, B2Vec2Sub(p1, c))) - Vec2Dot(abs_v, h)
+		separation := math.Abs(Vec2Dot(v, Vec2Sub(p1, c))) - Vec2Dot(abs_v, h)
 		if separation > 0.0 {
 			continue
 		}
@@ -160,7 +160,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 			if value > 0.0 {
 				// Update segment bounding box.
 				maxFraction = value
-				t := Vec2Add(p1, B2Vec2MulScalar(maxFraction, B2Vec2Sub(p2, p1)))
+				t := Vec2Add(p1, B2Vec2MulScalar(maxFraction, Vec2Sub(p2, p1)))
 				segmentAABB.LowerBound = B2Vec2Min(p1, t)
 				segmentAABB.UpperBound = B2Vec2Max(p1, t)
 			}
@@ -262,7 +262,7 @@ func (tree *B2DynamicTree) CreateProxy(aabb B2AABB, userData interface{}) int {
 
 	// Fatten the aabb.
 	r := MakeVec2(aabbExtension, aabbExtension)
-	tree.M_nodes[proxyId].Aabb.LowerBound = B2Vec2Sub(aabb.LowerBound, r)
+	tree.M_nodes[proxyId].Aabb.LowerBound = Vec2Sub(aabb.LowerBound, r)
 	tree.M_nodes[proxyId].Aabb.UpperBound = Vec2Add(aabb.UpperBound, r)
 	tree.M_nodes[proxyId].UserData = userData
 	tree.M_nodes[proxyId].Height = 0
@@ -294,7 +294,7 @@ func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb B2AABB, displacement B2Ve
 	// Extend AABB.
 	b := aabb
 	r := MakeVec2(aabbExtension, aabbExtension)
-	b.LowerBound = B2Vec2Sub(b.LowerBound, r)
+	b.LowerBound = Vec2Sub(b.LowerBound, r)
 	b.UpperBound = Vec2Add(b.UpperBound, r)
 
 	// Predict AABB displacement.

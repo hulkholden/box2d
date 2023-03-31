@@ -289,7 +289,7 @@ func (fix *B2Fixture) Synchronize(broadPhase *B2BroadPhase, transform1 B2Transfo
 
 		proxy.Aabb.CombineTwoInPlace(aabb1, aabb2)
 
-		displacement := B2Vec2Sub(transform2.P, transform1.P)
+		displacement := Vec2Sub(transform2.P, transform1.P)
 
 		broadPhase.MoveProxy(proxy.ProxyId, proxy.Aabb, displacement)
 	}

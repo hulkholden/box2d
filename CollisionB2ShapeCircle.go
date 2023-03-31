@@ -41,7 +41,7 @@ func (shape B2CircleShape) GetChildCount() int {
 
 func (shape B2CircleShape) TestPoint(transform B2Transform, p B2Vec2) bool {
 	center := Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
-	d := B2Vec2Sub(p, center)
+	d := Vec2Sub(p, center)
 	return Vec2Dot(d, d) <= shape.M_radius*shape.M_radius
 }
 
@@ -53,11 +53,11 @@ func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 	// B2_NOT_USED(childIndex);
 
 	position := Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
-	s := B2Vec2Sub(input.P1, position)
+	s := Vec2Sub(input.P1, position)
 	b := Vec2Dot(s, s) - shape.M_radius*shape.M_radius
 
 	// Solve quadratic equation.
-	r := B2Vec2Sub(input.P2, input.P1)
+	r := Vec2Sub(input.P2, input.P1)
 	c := Vec2Dot(s, r)
 	rr := Vec2Dot(r, r)
 	sigma := c*c - rr*b

@@ -110,9 +110,9 @@ func (def *B2PulleyJointDef) Initialize(bA *B2Body, bB *B2Body, groundA B2Vec2, 
 	def.GroundAnchorB = groundB
 	def.LocalAnchorA = def.BodyA.GetLocalPoint(anchorA)
 	def.LocalAnchorB = def.BodyB.GetLocalPoint(anchorB)
-	dA := B2Vec2Sub(anchorA, groundA)
+	dA := Vec2Sub(anchorA, groundA)
 	def.LengthA = dA.Length()
-	dB := B2Vec2Sub(anchorB, groundB)
+	dB := Vec2Sub(anchorB, groundB)
 	def.LengthB = dB.Length()
 	def.Ratio = r
 	B2Assert(def.Ratio > B2_epsilon)
@@ -164,12 +164,12 @@ func (joint *B2PulleyJoint) InitVelocityConstraints(data B2SolverData) {
 	qA := MakeB2RotFromAngle(aA)
 	qB := MakeB2RotFromAngle(aB)
 
-	joint.M_rA = B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	joint.M_rB = B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	joint.M_rA = B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	joint.M_rB = B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 
 	// Get the pulley axes.
-	joint.M_uA = B2Vec2Sub(Vec2Add(cA, joint.M_rA), joint.M_groundAnchorA)
-	joint.M_uB = B2Vec2Sub(Vec2Add(cB, joint.M_rB), joint.M_groundAnchorB)
+	joint.M_uA = Vec2Sub(Vec2Add(cA, joint.M_rA), joint.M_groundAnchorA)
+	joint.M_uB = Vec2Sub(Vec2Add(cB, joint.M_rB), joint.M_groundAnchorB)
 
 	lengthA := joint.M_uA.Length()
 	lengthB := joint.M_uB.Length()
@@ -256,12 +256,12 @@ func (joint *B2PulleyJoint) SolvePositionConstraints(data B2SolverData) bool {
 	qA := MakeB2RotFromAngle(aA)
 	qB := MakeB2RotFromAngle(aB)
 
-	rA := B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 
 	// Get the pulley axes.
-	uA := B2Vec2Sub(Vec2Add(cA, rA), joint.M_groundAnchorA)
-	uB := B2Vec2Sub(Vec2Add(cB, rB), joint.M_groundAnchorB)
+	uA := Vec2Sub(Vec2Add(cA, rA), joint.M_groundAnchorA)
+	uB := Vec2Sub(Vec2Add(cB, rB), joint.M_groundAnchorB)
 
 	lengthA := uA.Length()
 	lengthB := uB.Length()
@@ -352,14 +352,14 @@ func (joint B2PulleyJoint) GetRatio() float64 {
 func (joint B2PulleyJoint) GetCurrentLengthA() float64 {
 	p := joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 	s := joint.M_groundAnchorA
-	d := B2Vec2Sub(p, s)
+	d := Vec2Sub(p, s)
 	return d.Length()
 }
 
 func (joint B2PulleyJoint) GetCurrentLengthB() float64 {
 	p := joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 	s := joint.M_groundAnchorB
-	d := B2Vec2Sub(p, s)
+	d := Vec2Sub(p, s)
 	return d.Length()
 }
 

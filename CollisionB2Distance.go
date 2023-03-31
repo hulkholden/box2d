@@ -181,7 +181,7 @@ func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *B2DistancePro
 		wBLocal := proxyB.GetVertex(v.IndexB)
 		v.WA = B2TransformVec2Mul(transformA, wALocal)
 		v.WB = B2TransformVec2Mul(transformB, wBLocal)
-		v.W = B2Vec2Sub(v.WB, v.WA)
+		v.W = Vec2Sub(v.WB, v.WA)
 		v.A = 0.0
 	}
 
@@ -205,7 +205,7 @@ func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *B2DistancePro
 		wBLocal := proxyB.GetVertex(0)
 		v.WA = B2TransformVec2Mul(transformA, wALocal)
 		v.WB = B2TransformVec2Mul(transformB, wBLocal)
-		v.W = B2Vec2Sub(v.WB, v.WA)
+		v.W = Vec2Sub(v.WB, v.WA)
 		v.A = 1.0
 		simplex.M_count = 1
 	}
@@ -228,7 +228,7 @@ func (simplex B2Simplex) GetSearchDirection() B2Vec2 {
 
 	case 2:
 		{
-			e12 := B2Vec2Sub(simplex.M_vs[1].W, simplex.M_vs[0].W)
+			e12 := Vec2Sub(simplex.M_vs[1].W, simplex.M_vs[0].W)
 			sgn := Vec2Cross(e12, simplex.M_vs[0].W.OperatorNegate())
 			if sgn > 0.0 {
 				// Origin is left of e12.
@@ -323,8 +323,8 @@ func (simplex B2Simplex) GetMetric() float64 {
 
 	case 3:
 		return Vec2Cross(
-			B2Vec2Sub(simplex.M_vs[1].W, simplex.M_vs[0].W),
-			B2Vec2Sub(simplex.M_vs[2].W, simplex.M_vs[0].W),
+			Vec2Sub(simplex.M_vs[1].W, simplex.M_vs[0].W),
+			Vec2Sub(simplex.M_vs[2].W, simplex.M_vs[0].W),
 		)
 
 	default:
@@ -339,7 +339,7 @@ func (simplex B2Simplex) GetMetric() float64 {
 func (simplex *B2Simplex) Solve2() {
 	w1 := simplex.M_vs[0].W
 	w2 := simplex.M_vs[1].W
-	e12 := B2Vec2Sub(w2, w1)
+	e12 := Vec2Sub(w2, w1)
 
 	// w1 region
 	d12_2 := -Vec2Dot(w1, e12)
@@ -381,7 +381,7 @@ func (simplex *B2Simplex) Solve3() {
 	// [1      1     ][a1] = [1]
 	// [w1.e12 w2.e12][a2] = [0]
 	// a3 = 0
-	e12 := B2Vec2Sub(w2, w1)
+	e12 := Vec2Sub(w2, w1)
 	w1e12 := Vec2Dot(w1, e12)
 	w2e12 := Vec2Dot(w2, e12)
 	d12_1 := w2e12
@@ -391,7 +391,7 @@ func (simplex *B2Simplex) Solve3() {
 	// [1      1     ][a1] = [1]
 	// [w1.e13 w3.e13][a3] = [0]
 	// a2 = 0
-	e13 := B2Vec2Sub(w3, w1)
+	e13 := Vec2Sub(w3, w1)
 	w1e13 := Vec2Dot(w1, e13)
 	w3e13 := Vec2Dot(w3, e13)
 	d13_1 := w3e13
@@ -401,7 +401,7 @@ func (simplex *B2Simplex) Solve3() {
 	// [1      1     ][a2] = [1]
 	// [w2.e23 w3.e23][a3] = [0]
 	// a1 = 0
-	e23 := B2Vec2Sub(w3, w2)
+	e23 := Vec2Sub(w3, w2)
 	w2e23 := Vec2Dot(w2, e23)
 	w3e23 := Vec2Dot(w3, e23)
 	d23_1 := w3e23
@@ -545,7 +545,7 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 		// b2Vec2 wBLocal;
 		vertex.IndexB = proxyB.GetSupport(B2RotVec2MulT(transformB.Q, d))
 		vertex.WB = B2TransformVec2Mul(transformB, proxyB.GetVertex(vertex.IndexB))
-		vertex.W = B2Vec2Sub(vertex.WB, vertex.WA)
+		vertex.W = Vec2Sub(vertex.WB, vertex.WA)
 
 		// Iteration count is equated to the number of support point calls.
 		iter++
@@ -590,7 +590,7 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 			// Shapes are still no overlapped.
 			// Move the witness points to the outer surface.
 			output.Distance -= rA + rB
-			normal := B2Vec2Sub(output.PointB, output.PointA)
+			normal := Vec2Sub(output.PointB, output.PointA)
 			normal.Normalize()
 			output.PointA.OperatorPlusInplace(
 				B2Vec2MulScalar(rA, normal),

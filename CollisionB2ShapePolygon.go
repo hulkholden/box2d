@@ -126,8 +126,8 @@ func ComputeCentroid(vs []B2Vec2, count int) B2Vec2 {
 			p3 = vs[0]
 		}
 
-		e1 := B2Vec2Sub(p2, p1)
-		e2 := B2Vec2Sub(p3, p1)
+		e1 := Vec2Sub(p2, p1)
+		e2 := Vec2Sub(p3, p1)
 
 		D := Vec2Cross(e1, e2)
 
@@ -211,8 +211,8 @@ func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
 				continue
 			}
 
-			r := B2Vec2Sub(ps[ie], ps[hull[m]])
-			v := B2Vec2Sub(ps[j], ps[hull[m]])
+			r := Vec2Sub(ps[ie], ps[hull[m]])
+			v := Vec2Sub(ps[j], ps[hull[m]])
 			c := Vec2Cross(r, v)
 			if c < 0.0 {
 				ie = j
@@ -254,7 +254,7 @@ func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
 			i2 = i + 1
 		}
 
-		edge := B2Vec2Sub(poly.M_vertices[i2], poly.M_vertices[i1])
+		edge := Vec2Sub(poly.M_vertices[i2], poly.M_vertices[i1])
 		B2Assert(edge.LengthSquared() > B2_epsilon*B2_epsilon)
 		poly.M_normals[i] = Vec2CrossVectorScalar(edge, 1.0)
 		poly.M_normals[i].Normalize()
@@ -265,10 +265,10 @@ func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
 }
 
 func (poly B2PolygonShape) TestPoint(xf B2Transform, p B2Vec2) bool {
-	pLocal := B2RotVec2MulT(xf.Q, B2Vec2Sub(p, xf.P))
+	pLocal := B2RotVec2MulT(xf.Q, Vec2Sub(p, xf.P))
 
 	for i := 0; i < poly.M_count; i++ {
-		dot := Vec2Dot(poly.M_normals[i], B2Vec2Sub(pLocal, poly.M_vertices[i]))
+		dot := Vec2Dot(poly.M_normals[i], Vec2Sub(pLocal, poly.M_vertices[i]))
 		if dot > 0.0 {
 			return false
 		}
@@ -279,9 +279,9 @@ func (poly B2PolygonShape) TestPoint(xf B2Transform, p B2Vec2) bool {
 
 func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf B2Transform, childIndex int) bool {
 	// Put the ray into the polygon's frame of reference.
-	p1 := B2RotVec2MulT(xf.Q, B2Vec2Sub(input.P1, xf.P))
-	p2 := B2RotVec2MulT(xf.Q, B2Vec2Sub(input.P2, xf.P))
-	d := B2Vec2Sub(p2, p1)
+	p1 := B2RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
+	p2 := B2RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))
+	d := Vec2Sub(p2, p1)
 
 	lower := 0.0
 	upper := input.MaxFraction
@@ -292,7 +292,7 @@ func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 		// p = p1 + a * d
 		// dot(normal, p - v) = 0
 		// dot(normal, p1 - v) + a * dot(normal, d) = 0
-		numerator := Vec2Dot(poly.M_normals[i], B2Vec2Sub(poly.M_vertices[i], p1))
+		numerator := Vec2Dot(poly.M_normals[i], Vec2Sub(poly.M_vertices[i], p1))
 		denominator := Vec2Dot(poly.M_normals[i], d)
 
 		if denominator == 0.0 {
@@ -347,8 +347,8 @@ func (poly B2PolygonShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 	}
 
 	r := MakeVec2(poly.M_radius, poly.M_radius)
-	lowerBound := B2Vec2Sub(lower, r)
-	upperBound := B2Vec2Sub(upper, r)
+	lowerBound := Vec2Sub(lower, r)
+	upperBound := Vec2Sub(upper, r)
 	return MakeB2AABB(lowerBound, upperBound)
 }
 
@@ -399,13 +399,13 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 
 	for i := 0; i < poly.M_count; i++ {
 		// Triangle vertices.
-		e1 := B2Vec2Sub(poly.M_vertices[i], s)
+		e1 := Vec2Sub(poly.M_vertices[i], s)
 		e2 := MakeVec2(0, 0)
 
 		if i+1 < poly.M_count {
-			e2 = B2Vec2Sub(poly.M_vertices[i+1], s)
+			e2 = Vec2Sub(poly.M_vertices[i+1], s)
 		} else {
-			e2 = B2Vec2Sub(poly.M_vertices[0], s)
+			e2 = Vec2Sub(poly.M_vertices[0], s)
 		}
 
 		D := Vec2Cross(e1, e2)
@@ -455,14 +455,14 @@ func (poly B2PolygonShape) Validate() bool {
 		}
 
 		p := poly.M_vertices[i1]
-		e := B2Vec2Sub(poly.M_vertices[i2], p)
+		e := Vec2Sub(poly.M_vertices[i2], p)
 
 		for j := 0; j < poly.M_count; j++ {
 			if j == i1 || j == i2 {
 				continue
 			}
 
-			v := B2Vec2Sub(poly.M_vertices[j], p)
+			v := Vec2Sub(poly.M_vertices[j], p)
 			c := Vec2Cross(e, v)
 			if c < 0.0 {
 				return false

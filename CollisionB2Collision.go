@@ -177,7 +177,7 @@ func (bb B2AABB) GetCenter() B2Vec2 {
 func (bb B2AABB) GetExtents() B2Vec2 {
 	return B2Vec2MulScalar(
 		0.5,
-		B2Vec2Sub(bb.UpperBound, bb.LowerBound),
+		Vec2Sub(bb.UpperBound, bb.LowerBound),
 	)
 }
 
@@ -209,15 +209,15 @@ func (bb B2AABB) Contains(aabb B2AABB) bool {
 }
 
 func (bb B2AABB) IsValid() bool {
-	d := B2Vec2Sub(bb.UpperBound, bb.LowerBound)
+	d := Vec2Sub(bb.UpperBound, bb.LowerBound)
 	valid := d.X >= 0.0 && d.Y >= 0.0
 	valid = valid && bb.LowerBound.IsValid() && bb.UpperBound.IsValid()
 	return valid
 }
 
 func B2TestOverlapBoundingBoxes(a, b B2AABB) bool {
-	d1 := B2Vec2Sub(b.LowerBound, a.UpperBound)
-	d2 := B2Vec2Sub(a.LowerBound, b.UpperBound)
+	d1 := Vec2Sub(b.LowerBound, a.UpperBound)
+	d2 := Vec2Sub(a.LowerBound, b.UpperBound)
 
 	if d1.X > 0.0 || d1.Y > 0.0 {
 		return false
@@ -250,15 +250,15 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 			pointA := B2TransformVec2Mul(xfA, manifold.LocalPoint)
 			pointB := B2TransformVec2Mul(xfB, manifold.Points[0].LocalPoint)
 			if B2Vec2DistanceSquared(pointA, pointB) > B2_epsilon*B2_epsilon {
-				wm.Normal = B2Vec2Sub(pointB, pointA)
+				wm.Normal = Vec2Sub(pointB, pointA)
 				wm.Normal.Normalize()
 			}
 
 			cA := Vec2Add(pointA, B2Vec2MulScalar(radiusA, wm.Normal))
-			cB := B2Vec2Sub(pointB, B2Vec2MulScalar(radiusB, wm.Normal))
+			cB := Vec2Sub(pointB, B2Vec2MulScalar(radiusB, wm.Normal))
 
 			wm.Points[0] = B2Vec2MulScalar(0.5, Vec2Add(cA, cB))
-			wm.Separations[0] = Vec2Dot(B2Vec2Sub(cB, cA), wm.Normal)
+			wm.Separations[0] = Vec2Dot(Vec2Sub(cB, cA), wm.Normal)
 		}
 
 	case B2Manifold_Type.E_faceA:
@@ -272,16 +272,16 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 					clipPoint,
 					B2Vec2MulScalar(
 						radiusA-Vec2Dot(
-							B2Vec2Sub(clipPoint, planePoint),
+							Vec2Sub(clipPoint, planePoint),
 							wm.Normal,
 						),
 						wm.Normal,
 					),
 				)
-				cB := B2Vec2Sub(clipPoint, B2Vec2MulScalar(radiusB, wm.Normal))
+				cB := Vec2Sub(clipPoint, B2Vec2MulScalar(radiusB, wm.Normal))
 				wm.Points[i] = B2Vec2MulScalar(0.5, Vec2Add(cA, cB))
 				wm.Separations[i] = Vec2Dot(
-					B2Vec2Sub(cB, cA),
+					Vec2Sub(cB, cA),
 					wm.Normal,
 				)
 			}
@@ -296,14 +296,14 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 				clipPoint := B2TransformVec2Mul(xfA, manifold.Points[i].LocalPoint)
 				cB := Vec2Add(clipPoint, B2Vec2MulScalar(
 					radiusB-Vec2Dot(
-						B2Vec2Sub(clipPoint, planePoint),
+						Vec2Sub(clipPoint, planePoint),
 						wm.Normal,
 					), wm.Normal,
 				))
-				cA := B2Vec2Sub(clipPoint, B2Vec2MulScalar(radiusA, wm.Normal))
+				cA := Vec2Sub(clipPoint, B2Vec2MulScalar(radiusA, wm.Normal))
 				wm.Points[i] = B2Vec2MulScalar(0.5, Vec2Add(cA, cB))
 				wm.Separations[i] = Vec2Dot(
-					B2Vec2Sub(cA, cB),
+					Vec2Sub(cA, cB),
 					wm.Normal,
 				)
 			}
@@ -355,7 +355,7 @@ func (bb B2AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
 	tmax := B2_maxFloat
 
 	p := input.P1
-	d := B2Vec2Sub(input.P2, input.P1)
+	d := Vec2Sub(input.P2, input.P1)
 	absD := B2Vec2Abs(d)
 
 	normal := MakeVec2(0, 0)
@@ -433,7 +433,7 @@ func B2ClipSegmentToLine(vOut []B2ClipVertex, vIn []B2ClipVertex, normal B2Vec2,
 		interp := distance0 / (distance0 - distance1)
 		vOut[numOut].V = Vec2Add(
 			vIn[0].V,
-			B2Vec2MulScalar(interp, B2Vec2Sub(vIn[1].V, vIn[0].V)),
+			B2Vec2MulScalar(interp, Vec2Sub(vIn[1].V, vIn[0].V)),
 		)
 
 		// VertexA is hitting edgeB.

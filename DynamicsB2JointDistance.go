@@ -132,7 +132,7 @@ func (joint *B2DistanceJointDef) Initialize(b1 *B2Body, b2 *B2Body, anchor1 B2Ve
 	joint.BodyB = b2
 	joint.LocalAnchorA = joint.BodyA.GetLocalPoint(anchor1)
 	joint.LocalAnchorB = joint.BodyB.GetLocalPoint(anchor2)
-	d := B2Vec2Sub(anchor2, anchor1)
+	d := Vec2Sub(anchor2, anchor1)
 	joint.Length = d.Length()
 }
 
@@ -176,9 +176,9 @@ func (joint *B2DistanceJoint) InitVelocityConstraints(data B2SolverData) {
 	qA := MakeB2RotFromAngle(aA)
 	qB := MakeB2RotFromAngle(aB)
 
-	joint.M_rA = B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	joint.M_rB = B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
-	joint.M_u = B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, joint.M_rB), cA), joint.M_rA)
+	joint.M_rA = B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	joint.M_rB = B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	joint.M_u = Vec2Sub(Vec2Sub(Vec2Add(cB, joint.M_rB), cA), joint.M_rA)
 
 	// Handle singularity.
 	length := joint.M_u.Length()
@@ -261,7 +261,7 @@ func (joint *B2DistanceJoint) SolveVelocityConstraints(data B2SolverData) {
 	// Cdot = dot(u, v + cross(w, r))
 	vpA := Vec2Add(vA, Vec2CrossScalarVector(wA, joint.M_rA))
 	vpB := Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB))
-	Cdot := Vec2Dot(joint.M_u, B2Vec2Sub(vpB, vpA))
+	Cdot := Vec2Dot(joint.M_u, Vec2Sub(vpB, vpA))
 
 	impulse := -joint.M_mass * (Cdot + joint.M_bias + joint.M_gamma*joint.M_impulse)
 	joint.M_impulse += impulse
@@ -293,9 +293,9 @@ func (joint *B2DistanceJoint) SolvePositionConstraints(data B2SolverData) bool {
 	qA := MakeB2RotFromAngle(aA)
 	qB := MakeB2RotFromAngle(aB)
 
-	rA := B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
-	u := B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, rB), cA), rA)
+	rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	u := Vec2Sub(Vec2Sub(Vec2Add(cB, rB), cA), rA)
 
 	length := u.Normalize()
 	C := length - joint.M_length

@@ -20,7 +20,7 @@ func B2FindMaxSeparation(edgeIndex *int, poly1 *B2PolygonShape, xf1 B2Transform,
 		// Find deepest point for normal i.
 		si := B2_maxFloat
 		for j := 0; j < count2; j++ {
-			sij := Vec2Dot(n, B2Vec2Sub(v2s[j], v1))
+			sij := Vec2Dot(n, Vec2Sub(v2s[j], v1))
 			if sij < si {
 				si = sij
 			}
@@ -144,7 +144,7 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA B2Transf
 	v11 := vertices1[iv1]
 	v12 := vertices1[iv2]
 
-	localTangent := B2Vec2Sub(v12, v11)
+	localTangent := Vec2Sub(v12, v11)
 	localTangent.Normalize()
 
 	localNormal := Vec2CrossVectorScalar(localTangent, 1.0)

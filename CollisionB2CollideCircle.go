@@ -6,7 +6,7 @@ func B2CollideCircles(manifold *B2Manifold, circleA *B2CircleShape, xfA B2Transf
 	pA := B2TransformVec2Mul(xfA, circleA.M_p)
 	pB := B2TransformVec2Mul(xfB, circleB.M_p)
 
-	d := B2Vec2Sub(pB, pA)
+	d := Vec2Sub(pB, pA)
 	distSqr := Vec2Dot(d, d)
 	rA := circleA.M_radius
 	rB := circleB.M_radius
@@ -40,7 +40,7 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 	normals := polygonA.M_normals
 
 	for i := 0; i < vertexCount; i++ {
-		s := Vec2Dot(normals[i], B2Vec2Sub(cLocal, vertices[i]))
+		s := Vec2Dot(normals[i], Vec2Sub(cLocal, vertices[i]))
 
 		if s > radius {
 			// Early out.
@@ -75,8 +75,8 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 	}
 
 	// Compute barycentric coordinates
-	u1 := Vec2Dot(B2Vec2Sub(cLocal, v1), B2Vec2Sub(v2, v1))
-	u2 := Vec2Dot(B2Vec2Sub(cLocal, v2), B2Vec2Sub(v1, v2))
+	u1 := Vec2Dot(Vec2Sub(cLocal, v1), Vec2Sub(v2, v1))
+	u2 := Vec2Dot(Vec2Sub(cLocal, v2), Vec2Sub(v1, v2))
 	if u1 <= 0.0 {
 		if B2Vec2DistanceSquared(cLocal, v1) > radius*radius {
 			return
@@ -84,7 +84,7 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 
 		manifold.PointCount = 1
 		manifold.Type = B2Manifold_Type.E_faceA
-		manifold.LocalNormal = B2Vec2Sub(cLocal, v1)
+		manifold.LocalNormal = Vec2Sub(cLocal, v1)
 		manifold.LocalNormal.Normalize()
 		manifold.LocalPoint = v1
 		manifold.Points[0].LocalPoint = circleB.M_p
@@ -96,14 +96,14 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 
 		manifold.PointCount = 1
 		manifold.Type = B2Manifold_Type.E_faceA
-		manifold.LocalNormal = B2Vec2Sub(cLocal, v2)
+		manifold.LocalNormal = Vec2Sub(cLocal, v2)
 		manifold.LocalNormal.Normalize()
 		manifold.LocalPoint = v2
 		manifold.Points[0].LocalPoint = circleB.M_p
 		manifold.Points[0].Id.SetKey(0)
 	} else {
 		faceCenter := B2Vec2MulScalar(0.5, Vec2Add(v1, v2))
-		s := Vec2Dot(B2Vec2Sub(cLocal, faceCenter), normals[vertIndex1])
+		s := Vec2Dot(Vec2Sub(cLocal, faceCenter), normals[vertIndex1])
 		if s > radius {
 			return
 		}

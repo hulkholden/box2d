@@ -261,9 +261,9 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 	qB := MakeB2RotFromAngle(aB)
 
 	// Compute the effective masses.
-	rA := B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
-	d := B2Vec2Sub(Vec2Add(B2Vec2Sub(cB, cA), rB), rA)
+	rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	d := Vec2Sub(Vec2Add(Vec2Sub(cB, cA), rB), rA)
 
 	mA := joint.M_invMassA
 	mB := joint.M_invMassB
@@ -371,7 +371,7 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Solve linear motor constraint.
 	if joint.M_enableMotor && joint.M_limitState != B2LimitState.E_equalLimits {
-		Cdot := Vec2Dot(joint.M_axis, B2Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
+		Cdot := Vec2Dot(joint.M_axis, Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
 		impulse := joint.M_motorMass * (joint.M_motorSpeed - Cdot)
 		oldImpulse := joint.M_motorImpulse
 		maxImpulse := data.Step.Dt * joint.M_maxMotorForce
@@ -390,13 +390,13 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 	}
 
 	var Cdot1 B2Vec2
-	Cdot1.X = Vec2Dot(joint.M_perp, B2Vec2Sub(vB, vA)) + joint.M_s2*wB - joint.M_s1*wA
+	Cdot1.X = Vec2Dot(joint.M_perp, Vec2Sub(vB, vA)) + joint.M_s2*wB - joint.M_s1*wA
 	Cdot1.Y = wB - wA
 
 	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit {
 		// Solve prismatic and limit constraint in block form.
 		Cdot2 := 0.0
-		Cdot2 = Vec2Dot(joint.M_axis, B2Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
+		Cdot2 = Vec2Dot(joint.M_axis, Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
 		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
 
 		f1 := joint.M_impulse
@@ -410,7 +410,7 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 		}
 
 		// f2(1:2) = invK(1:2,1:2) * (-Cdot(1:2) - K(1:2,3) * (f2(3) - f1(3))) + f1(1:2)
-		b := B2Vec2Sub(Cdot1.OperatorNegate(), B2Vec2MulScalar(joint.M_impulse.Z-f1.Z, MakeVec2(joint.M_K.Ez.X, joint.M_K.Ez.Y)))
+		b := Vec2Sub(Cdot1.OperatorNegate(), B2Vec2MulScalar(joint.M_impulse.Z-f1.Z, MakeVec2(joint.M_K.Ez.X, joint.M_K.Ez.Y)))
 		f2r := Vec2Add(joint.M_K.Solve22(b), MakeVec2(f1.X, f1.Y))
 		joint.M_impulse.X = f2r.X
 		joint.M_impulse.Y = f2r.Y
@@ -471,9 +471,9 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	iB := joint.M_invIB
 
 	// Compute fresh Jacobians
-	rA := B2RotVec2Mul(qA, B2Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	rB := B2RotVec2Mul(qB, B2Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
-	d := B2Vec2Sub(B2Vec2Sub(Vec2Add(cB, rB), cA), rA)
+	rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	d := Vec2Sub(Vec2Sub(Vec2Add(cB, rB), cA), rA)
 
 	axis := B2RotVec2Mul(qA, joint.M_localXAxisA)
 	a1 := Vec2Cross(Vec2Add(d, rA), axis)
@@ -590,7 +590,7 @@ func (joint B2PrismaticJoint) GetReactionTorque(inv_dt float64) float64 {
 func (joint B2PrismaticJoint) GetJointTranslation() float64 {
 	pA := joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 	pB := joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
-	d := B2Vec2Sub(pB, pA)
+	d := Vec2Sub(pB, pA)
 	axis := joint.M_bodyA.GetWorldVector(joint.M_localXAxisA)
 
 	translation := Vec2Dot(d, axis)
@@ -601,11 +601,11 @@ func (joint B2PrismaticJoint) GetJointSpeed() float64 {
 	bA := joint.M_bodyA
 	bB := joint.M_bodyB
 
-	rA := B2RotVec2Mul(bA.M_xf.Q, B2Vec2Sub(joint.M_localAnchorA, bA.M_sweep.LocalCenter))
-	rB := B2RotVec2Mul(bB.M_xf.Q, B2Vec2Sub(joint.M_localAnchorB, bB.M_sweep.LocalCenter))
+	rA := B2RotVec2Mul(bA.M_xf.Q, Vec2Sub(joint.M_localAnchorA, bA.M_sweep.LocalCenter))
+	rB := B2RotVec2Mul(bB.M_xf.Q, Vec2Sub(joint.M_localAnchorB, bB.M_sweep.LocalCenter))
 	p1 := Vec2Add(bA.M_sweep.C, rA)
 	p2 := Vec2Add(bB.M_sweep.C, rB)
-	d := B2Vec2Sub(p2, p1)
+	d := Vec2Sub(p2, p1)
 	axis := B2RotVec2Mul(bA.M_xf.Q, joint.M_localXAxisA)
 
 	vA := bA.M_linearVelocity
@@ -614,7 +614,7 @@ func (joint B2PrismaticJoint) GetJointSpeed() float64 {
 	wB := bB.M_angularVelocity
 
 	speed := Vec2Dot(d, Vec2CrossScalarVector(wA, axis)) +
-		Vec2Dot(axis, B2Vec2Sub(B2Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, rB)), vA), Vec2CrossScalarVector(wA, rA)))
+		Vec2Dot(axis, Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, rB)), vA), Vec2CrossScalarVector(wA, rA)))
 	return speed
 }
 

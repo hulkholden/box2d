@@ -116,7 +116,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 	var segmentAABB B2AABB
 	{
 		t := Vec2Add(p1, Vec2MulScalar(maxFraction, Vec2Sub(p2, p1)))
-		segmentAABB = MakeB2AABB(B2Vec2Min(p1, t), B2Vec2Max(p1, t))
+		segmentAABB = MakeB2AABB(Vec2Min(p1, t), B2Vec2Max(p1, t))
 	}
 
 	stack := NewB2GrowableStack[int](256)
@@ -161,7 +161,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 				// Update segment bounding box.
 				maxFraction = value
 				t := Vec2Add(p1, Vec2MulScalar(maxFraction, Vec2Sub(p2, p1)))
-				segmentAABB.LowerBound = B2Vec2Min(p1, t)
+				segmentAABB.LowerBound = Vec2Min(p1, t)
 				segmentAABB.UpperBound = B2Vec2Max(p1, t)
 			}
 		} else {

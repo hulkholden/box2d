@@ -190,13 +190,13 @@ func (bb B2AABB) GetPerimeter() float64 {
 
 // Combine an AABB into this one.
 func (bb *B2AABB) CombineInPlace(aabb B2AABB) {
-	bb.LowerBound = B2Vec2Min(bb.LowerBound, aabb.LowerBound)
+	bb.LowerBound = Vec2Min(bb.LowerBound, aabb.LowerBound)
 	bb.UpperBound = B2Vec2Max(bb.UpperBound, aabb.UpperBound)
 }
 
 // Combine two AABBs into this one.
 func (bb *B2AABB) CombineTwoInPlace(aabb1, aabb2 B2AABB) {
-	bb.LowerBound = B2Vec2Min(aabb1.LowerBound, aabb2.LowerBound)
+	bb.LowerBound = Vec2Min(aabb1.LowerBound, aabb2.LowerBound)
 	bb.UpperBound = B2Vec2Max(aabb1.UpperBound, aabb2.UpperBound)
 }
 

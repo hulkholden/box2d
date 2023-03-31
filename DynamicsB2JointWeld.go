@@ -282,7 +282,7 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 
 		Cdot1 := Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 
-		impulse1 := B2Vec2Mul22(joint.M_mass, Cdot1).OperatorNegate()
+		impulse1 := Vec2Mul22(joint.M_mass, Cdot1).OperatorNegate()
 		joint.M_impulse.X += impulse1.X
 		joint.M_impulse.Y += impulse1.Y
 

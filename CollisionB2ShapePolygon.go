@@ -21,7 +21,7 @@ func MakeB2PolygonShape() B2PolygonShape {
 			M_radius: polygonRadius,
 		},
 		M_count:    0,
-		M_centroid: MakeB2Vec2(0, 0),
+		M_centroid: MakeVec2(0, 0),
 	}
 }
 
@@ -100,12 +100,12 @@ func (poly B2PolygonShape) GetChildCount() int {
 func ComputeCentroid(vs []B2Vec2, count int) B2Vec2 {
 	B2Assert(count >= 3)
 
-	c := MakeB2Vec2(0, 0)
+	c := MakeVec2(0, 0)
 	area := 0.0
 
 	// pRef is the reference point for forming triangles.
 	// It's location doesn't change the result (except for rounding error).
-	pRef := MakeB2Vec2(0.0, 0.0)
+	pRef := MakeVec2(0.0, 0.0)
 
 	// This code would put the reference point inside the polygon.
 	for i := 0; i < count; i++ {
@@ -346,7 +346,7 @@ func (poly B2PolygonShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 		upper = B2Vec2Max(upper, v)
 	}
 
-	r := MakeB2Vec2(poly.M_radius, poly.M_radius)
+	r := MakeVec2(poly.M_radius, poly.M_radius)
 	lowerBound := B2Vec2Sub(lower, r)
 	upperBound := B2Vec2Sub(upper, r)
 	return MakeB2AABB(lowerBound, upperBound)
@@ -379,14 +379,14 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 
 	B2Assert(poly.M_count >= 3)
 
-	center := MakeB2Vec2(0, 0)
+	center := MakeVec2(0, 0)
 
 	area := 0.0
 	I := 0.0
 
 	// s is the reference point for forming triangles.
 	// It's location doesn't change the result (except for rounding error).
-	s := MakeB2Vec2(0.0, 0.0)
+	s := MakeVec2(0.0, 0.0)
 
 	// This code would put the reference point inside the polygon.
 	for i := 0; i < poly.M_count; i++ {
@@ -400,7 +400,7 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 	for i := 0; i < poly.M_count; i++ {
 		// Triangle vertices.
 		e1 := B2Vec2Sub(poly.M_vertices[i], s)
-		e2 := MakeB2Vec2(0, 0)
+		e2 := MakeVec2(0, 0)
 
 		if i+1 < poly.M_count {
 			e2 = B2Vec2Sub(poly.M_vertices[i+1], s)

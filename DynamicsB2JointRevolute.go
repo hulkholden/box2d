@@ -260,7 +260,7 @@ func (joint *B2RevoluteJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_impulse.OperatorScalarMultInplace(data.Step.DtRatio)
 		joint.M_motorImpulse *= data.Step.DtRatio
 
-		P := MakeB2Vec2(joint.M_impulse.X, joint.M_impulse.Y)
+		P := MakeVec2(joint.M_impulse.X, joint.M_impulse.Y)
 
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
 		wA -= iA * (B2Vec2Cross(joint.M_rA, P) + joint.M_motorImpulse + joint.M_impulse.Z)
@@ -317,7 +317,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 		} else if joint.M_limitState == B2LimitState.E_atLowerLimit {
 			newImpulse := joint.M_impulse.Z + impulse.Z
 			if newImpulse < 0.0 {
-				rhs := B2Vec2Add(Cdot1.OperatorNegate(), B2Vec2MulScalar(joint.M_impulse.Z, MakeB2Vec2(joint.M_mass.Ez.X, joint.M_mass.Ez.Y)))
+				rhs := B2Vec2Add(Cdot1.OperatorNegate(), B2Vec2MulScalar(joint.M_impulse.Z, MakeVec2(joint.M_mass.Ez.X, joint.M_mass.Ez.Y)))
 				reduced := joint.M_mass.Solve22(rhs)
 				impulse.X = reduced.X
 				impulse.Y = reduced.Y
@@ -331,7 +331,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 		} else if joint.M_limitState == B2LimitState.E_atUpperLimit {
 			newImpulse := joint.M_impulse.Z + impulse.Z
 			if newImpulse > 0.0 {
-				rhs := B2Vec2Add(Cdot1.OperatorNegate(), B2Vec2MulScalar(joint.M_impulse.Z, MakeB2Vec2(joint.M_mass.Ez.X, joint.M_mass.Ez.Y)))
+				rhs := B2Vec2Add(Cdot1.OperatorNegate(), B2Vec2MulScalar(joint.M_impulse.Z, MakeVec2(joint.M_mass.Ez.X, joint.M_mass.Ez.Y)))
 				reduced := joint.M_mass.Solve22(rhs)
 				impulse.X = reduced.X
 				impulse.Y = reduced.Y
@@ -344,7 +344,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 			}
 		}
 
-		P := MakeB2Vec2(impulse.X, impulse.Y)
+		P := MakeVec2(impulse.X, impulse.Y)
 
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
 		wA -= iA * (B2Vec2Cross(joint.M_rA, P) + impulse.Z)
@@ -463,7 +463,7 @@ func (joint B2RevoluteJoint) GetAnchorB() B2Vec2 {
 }
 
 func (joint B2RevoluteJoint) GetReactionForce(inv_dt float64) B2Vec2 {
-	P := MakeB2Vec2(joint.M_impulse.X, joint.M_impulse.Y)
+	P := MakeVec2(joint.M_impulse.X, joint.M_impulse.Y)
 	return B2Vec2MulScalar(inv_dt, P)
 }
 

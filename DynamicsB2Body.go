@@ -22,7 +22,6 @@ var B2BodyType = struct {
 // A body definition holds all the data needed to construct a rigid body.
 // You can safely re-use body definitions. Shapes are added to a body after construction.
 type B2BodyDef struct {
-
 	/// The body type: static, kinematic, or dynamic.
 	/// Note: if a dynamic body would have zero mass, the mass is set to one.
 	Type uint8
@@ -82,9 +81,9 @@ type B2BodyDef struct {
 func MakeB2BodyDef() B2BodyDef {
 	return B2BodyDef{
 		UserData:        nil,
-		Position:        MakeB2Vec2(0, 0),
+		Position:        MakeVec2(0, 0),
 		Angle:           0.0,
-		LinearVelocity:  MakeB2Vec2(0, 0),
+		LinearVelocity:  MakeVec2(0, 0),
 		AngularVelocity: 0.0,
 		LinearDamping:   0.0,
 		AngularDamping:  0.0,
@@ -563,7 +562,6 @@ func NewB2Body(bd *B2BodyDef, world *B2World) *B2Body {
 }
 
 func (body *B2Body) SetType(bodytype uint8) {
-
 	B2Assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return
@@ -611,7 +609,6 @@ func (body *B2Body) SetType(bodytype uint8) {
 }
 
 func (body *B2Body) CreateFixtureFromDef(def *B2FixtureDef) *B2Fixture {
-
 	B2Assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return nil
@@ -644,7 +641,6 @@ func (body *B2Body) CreateFixtureFromDef(def *B2FixtureDef) *B2Fixture {
 }
 
 func (body *B2Body) CreateFixture(shape B2ShapeInterface, density float64) *B2Fixture {
-
 	def := MakeB2FixtureDef()
 	def.Shape = shape
 	def.Density = density
@@ -653,7 +649,6 @@ func (body *B2Body) CreateFixture(shape B2ShapeInterface, density float64) *B2Fi
 }
 
 func (body *B2Body) DestroyFixture(fixture *B2Fixture) {
-
 	if fixture == nil {
 		return
 	}
@@ -714,7 +709,6 @@ func (body *B2Body) DestroyFixture(fixture *B2Fixture) {
 }
 
 func (body *B2Body) ResetMassData() {
-
 	// Compute mass data from shapes. Each shape has its own density.
 	body.M_mass = 0.0
 	body.M_invMass = 0.0
@@ -733,7 +727,7 @@ func (body *B2Body) ResetMassData() {
 	B2Assert(body.M_type == B2BodyType.B2_dynamicBody)
 
 	// Accumulate mass over all fixtures.
-	localCenter := MakeB2Vec2(0, 0)
+	localCenter := MakeVec2(0, 0)
 	for f := body.M_fixtureList; f != nil; f = f.M_next {
 		if f.M_density == 0.0 {
 			continue
@@ -780,7 +774,6 @@ func (body *B2Body) ResetMassData() {
 }
 
 func (body *B2Body) SetMassData(massData *B2MassData) {
-
 	B2Assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return
@@ -823,7 +816,6 @@ func (body *B2Body) SetMassData(massData *B2MassData) {
 }
 
 func (body B2Body) ShouldCollide(other *B2Body) bool {
-
 	// At least one body should be dynamic.
 	if body.M_type != B2BodyType.B2_dynamicBody && other.M_type != B2BodyType.B2_dynamicBody {
 		return false
@@ -875,7 +867,6 @@ func (body *B2Body) SynchronizeFixtures() {
 }
 
 func (body *B2Body) SetActive(flag bool) {
-
 	B2Assert(!body.M_world.IsLocked())
 
 	if flag == body.IsActive() {

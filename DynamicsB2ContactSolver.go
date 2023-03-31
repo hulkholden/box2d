@@ -458,7 +458,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 			cp1 := &vc.Points[0]
 			cp2 := &vc.Points[1]
 
-			a := MakeB2Vec2(cp1.NormalImpulse, cp2.NormalImpulse)
+			a := MakeVec2(cp1.NormalImpulse, cp2.NormalImpulse)
 			B2Assert(a.X >= 0.0 && a.Y >= 0.0)
 
 			// Relative velocity at contact
@@ -469,7 +469,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 			vn1 := B2Vec2Dot(dv1, normal)
 			vn2 := B2Vec2Dot(dv2, normal)
 
-			b := MakeB2Vec2(0, 0)
+			b := MakeVec2(0, 0)
 			b.X = vn1 - cp1.VelocityBias
 			b.Y = vn2 - cp2.VelocityBias
 

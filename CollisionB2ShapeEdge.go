@@ -19,8 +19,8 @@ func MakeB2EdgeShape() B2EdgeShape {
 			M_type:   B2Shape_Type.E_edge,
 			M_radius: polygonRadius,
 		},
-		M_vertex0:    MakeB2Vec2(0, 0),
-		M_vertex3:    MakeB2Vec2(0, 0),
+		M_vertex0:    MakeVec2(0, 0),
+		M_vertex3:    MakeVec2(0, 0),
 		M_hasVertex0: false,
 		M_hasVertex3: false,
 	}
@@ -81,7 +81,7 @@ func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, x
 	v1 := edge.M_vertex1
 	v2 := edge.M_vertex2
 	e := B2Vec2Sub(v2, v1)
-	normal := MakeB2Vec2(e.Y, -e.X)
+	normal := MakeVec2(e.Y, -e.X)
 	normal.Normalize()
 
 	// q = p1 + t * d
@@ -131,7 +131,7 @@ func (edge B2EdgeShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
 	lower := B2Vec2Min(v1, v2)
 	upper := B2Vec2Max(v1, v2)
 
-	r := MakeB2Vec2(edge.M_radius, edge.M_radius)
+	r := MakeVec2(edge.M_radius, edge.M_radius)
 	lowerBound := B2Vec2Sub(lower, r)
 	upperBound := B2Vec2Sub(upper, r)
 	return MakeB2AABB(lowerBound, upperBound)

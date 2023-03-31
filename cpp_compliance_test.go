@@ -12,7 +12,7 @@ import (
 
 func TestCPPCompliance(t *testing.T) {
 	// Define the gravity vector.
-	gravity := box2d.MakeB2Vec2(0.0, -10.0)
+	gravity := box2d.MakeVec2(0.0, -10.0)
 
 	// Construct a world object, which will hold and simulate the rigid bodies.
 	world := box2d.MakeB2World(gravity)
@@ -25,7 +25,7 @@ func TestCPPCompliance(t *testing.T) {
 		ground := world.CreateBody(&bd)
 
 		shape := box2d.MakeB2EdgeShape()
-		shape.Set(box2d.MakeB2Vec2(-20.0, 0.0), box2d.MakeB2Vec2(20.0, 0.0))
+		shape.Set(box2d.MakeVec2(-20.0, 0.0), box2d.MakeVec2(20.0, 0.0))
 		ground.CreateFixture(&shape, 0.0)
 		characters["00_ground"] = ground
 	}
@@ -38,11 +38,11 @@ func TestCPPCompliance(t *testing.T) {
 		ground := world.CreateBody(&bd)
 
 		shape := box2d.MakeB2EdgeShape()
-		shape.Set(box2d.MakeB2Vec2(-8.0, 1.0), box2d.MakeB2Vec2(-6.0, 1.0))
+		shape.Set(box2d.MakeVec2(-8.0, 1.0), box2d.MakeVec2(-6.0, 1.0))
 		ground.CreateFixture(&shape, 0.0)
-		shape.Set(box2d.MakeB2Vec2(-6.0, 1.0), box2d.MakeB2Vec2(-4.0, 1.0))
+		shape.Set(box2d.MakeVec2(-6.0, 1.0), box2d.MakeVec2(-4.0, 1.0))
 		ground.CreateFixture(&shape, 0.0)
-		shape.Set(box2d.MakeB2Vec2(-4.0, 1.0), box2d.MakeB2Vec2(-2.0, 1.0))
+		shape.Set(box2d.MakeVec2(-4.0, 1.0), box2d.MakeVec2(-2.0, 1.0))
 		ground.CreateFixture(&shape, 0.0)
 		characters["01_colinearground"] = ground
 	}
@@ -72,11 +72,11 @@ func TestCPPCompliance(t *testing.T) {
 		ground := world.CreateBody(&bd)
 
 		shape := box2d.MakeB2PolygonShape()
-		shape.SetAsBoxFromCenterAndAngle(1.0, 1.0, box2d.MakeB2Vec2(4.0, 3.0), 0.0)
+		shape.SetAsBoxFromCenterAndAngle(1.0, 1.0, box2d.MakeVec2(4.0, 3.0), 0.0)
 		ground.CreateFixture(&shape, 0.0)
-		shape.SetAsBoxFromCenterAndAngle(1.0, 1.0, box2d.MakeB2Vec2(6.0, 3.0), 0.0)
+		shape.SetAsBoxFromCenterAndAngle(1.0, 1.0, box2d.MakeVec2(6.0, 3.0), 0.0)
 		ground.CreateFixture(&shape, 0.0)
-		shape.SetAsBoxFromCenterAndAngle(1.0, 1.0, box2d.MakeB2Vec2(8.0, 3.0), 0.0)
+		shape.SetAsBoxFromCenterAndAngle(1.0, 1.0, box2d.MakeVec2(8.0, 3.0), 0.0)
 		ground.CreateFixture(&shape, 0.0)
 		characters["03_squaretiles"] = ground
 	}

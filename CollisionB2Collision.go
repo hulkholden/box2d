@@ -358,7 +358,7 @@ func (bb B2AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
 	d := B2Vec2Sub(input.P2, input.P1)
 	absD := B2Vec2Abs(d)
 
-	normal := MakeB2Vec2(0, 0)
+	normal := MakeVec2(0, 0)
 
 	for i := 0; i < 2; i++ {
 		if absD.OperatorIndexGet(i) < B2_epsilon {

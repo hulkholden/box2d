@@ -15,7 +15,7 @@ type B2MassData struct {
 func MakeMassData() B2MassData {
 	return B2MassData{
 		Mass:   0.0,
-		Center: MakeB2Vec2(0, 0),
+		Center: MakeVec2(0, 0),
 		I:      0.0,
 	}
 }

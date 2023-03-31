@@ -243,7 +243,7 @@ func (joint *B2WeldJoint) InitVelocityConstraints(data B2SolverData) {
 		// Scale impulses to support a variable time step.
 		joint.M_impulse.OperatorScalarMultInplace(data.Step.DtRatio)
 
-		P := MakeB2Vec2(joint.M_impulse.X, joint.M_impulse.Y)
+		P := MakeVec2(joint.M_impulse.X, joint.M_impulse.Y)
 
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
 		wA -= iA * (B2Vec2Cross(joint.M_rA, P) + joint.M_impulse.Z)
@@ -301,7 +301,7 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 		impulse := B2Vec3Mat33Mul(joint.M_mass, Cdot).OperatorNegate()
 		joint.M_impulse.OperatorPlusInplace(impulse)
 
-		P := MakeB2Vec2(impulse.X, impulse.Y)
+		P := MakeVec2(impulse.X, impulse.Y)
 
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
 		wA -= iA * (B2Vec2Cross(joint.M_rA, P) + impulse.Z)
@@ -377,7 +377,7 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data B2SolverData) bool {
 			impulse.Set(impulse2.X, impulse2.Y, 0.0)
 		}
 
-		P := MakeB2Vec2(impulse.X, impulse.Y)
+		P := MakeVec2(impulse.X, impulse.Y)
 
 		cA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
 		aA -= iA * (B2Vec2Cross(rA, P) + impulse.Z)
@@ -403,7 +403,7 @@ func (joint B2WeldJoint) GetAnchorB() B2Vec2 {
 }
 
 func (joint B2WeldJoint) GetReactionForce(inv_dt float64) B2Vec2 {
-	P := MakeB2Vec2(joint.M_impulse.X, joint.M_impulse.Y)
+	P := MakeVec2(joint.M_impulse.X, joint.M_impulse.Y)
 	return B2Vec2MulScalar(inv_dt, P)
 }
 

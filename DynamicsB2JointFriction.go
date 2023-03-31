@@ -167,7 +167,7 @@ func (joint *B2FrictionJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_linearImpulse.OperatorScalarMulInplace(data.Step.DtRatio)
 		joint.M_angularImpulse *= data.Step.DtRatio
 
-		P := MakeB2Vec2(joint.M_linearImpulse.X, joint.M_linearImpulse.Y)
+		P := MakeVec2(joint.M_linearImpulse.X, joint.M_linearImpulse.Y)
 		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
 		wA -= iA * (B2Vec2Cross(joint.M_rA, P) + joint.M_angularImpulse)
 		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))

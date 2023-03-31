@@ -17,7 +17,7 @@ func MakeB2CircleShape() B2CircleShape {
 			M_type:   B2Shape_Type.E_circle,
 			M_radius: 0.0,
 		},
-		M_p: MakeB2Vec2(0, 0),
+		M_p: MakeVec2(0, 0),
 	}
 }
 
@@ -86,8 +86,8 @@ func (shape B2CircleShape) ComputeAABB(transform B2Transform, childIndex int) B2
 	// B2_NOT_USED(childIndex);
 
 	p := B2Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
-	lowerBound := MakeB2Vec2(p.X-shape.M_radius, p.Y-shape.M_radius)
-	upperBound := MakeB2Vec2(p.X+shape.M_radius, p.Y+shape.M_radius)
+	lowerBound := MakeVec2(p.X-shape.M_radius, p.Y-shape.M_radius)
+	upperBound := MakeVec2(p.X+shape.M_radius, p.Y+shape.M_radius)
 	return MakeB2AABB(lowerBound, upperBound)
 }
 

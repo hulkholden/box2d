@@ -410,8 +410,8 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 		}
 
 		// f2(1:2) = invK(1:2,1:2) * (-Cdot(1:2) - K(1:2,3) * (f2(3) - f1(3))) + f1(1:2)
-		b := B2Vec2Sub(Cdot1.OperatorNegate(), B2Vec2MulScalar(joint.M_impulse.Z-f1.Z, MakeB2Vec2(joint.M_K.Ez.X, joint.M_K.Ez.Y)))
-		f2r := B2Vec2Add(joint.M_K.Solve22(b), MakeB2Vec2(f1.X, f1.Y))
+		b := B2Vec2Sub(Cdot1.OperatorNegate(), B2Vec2MulScalar(joint.M_impulse.Z-f1.Z, MakeVec2(joint.M_K.Ez.X, joint.M_K.Ez.Y)))
+		f2r := B2Vec2Add(joint.M_K.Solve22(b), MakeVec2(f1.X, f1.Y))
 		joint.M_impulse.X = f2r.X
 		joint.M_impulse.Y = f2r.Y
 
@@ -484,7 +484,7 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	s2 := B2Vec2Cross(rB, perp)
 
 	impulse := MakeB2Vec3(0, 0, 0)
-	C1 := MakeB2Vec2(0, 0)
+	C1 := MakeVec2(0, 0)
 	C1.X = B2Vec2Dot(perp, d)
 	C1.Y = aB - aA - joint.M_referenceAngle
 

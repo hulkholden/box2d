@@ -110,7 +110,7 @@ func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Tran
 		return
 	}
 
-	n := MakeB2Vec2(-e.Y, e.X)
+	n := MakeVec2(-e.Y, e.X)
 	if B2Vec2Dot(n, B2Vec2Sub(Q, A)) < 0.0 {
 		n.Set(-n.X, -n.Y)
 	}
@@ -563,7 +563,7 @@ func (collider *B2EPCollider) ComputePolygonSeparation() B2EPAxis {
 	axis.Index = -1
 	axis.Separation = -B2_maxFloat
 
-	perp := MakeB2Vec2(-collider.M_normal.Y, collider.M_normal.X)
+	perp := MakeVec2(-collider.M_normal.Y, collider.M_normal.X)
 
 	for i := 0; i < collider.M_polygonB.Count; i++ {
 		n := collider.M_polygonB.Normals[i].OperatorNegate()

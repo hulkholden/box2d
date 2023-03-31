@@ -359,7 +359,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec
 	if allowSleep {
 		minSleepTime := B2_maxFloat
 
-		linTolSqr := B2_linearSleepTolerance * B2_linearSleepTolerance
+		linTolSqr := linearSleepTolerance * linearSleepTolerance
 		angTolSqr := B2_angularSleepTolerance * B2_angularSleepTolerance
 
 		for i := 0; i < island.M_bodyCount; i++ {

@@ -103,7 +103,7 @@ const (
 const timeToSleep = 0.5
 
 // A body cannot sleep if its linear velocity is above this tolerance.
-const B2_linearSleepTolerance = 0.01
+const linearSleepTolerance = 0.01
 
 // A body cannot sleep if its angular velocity is above this tolerance.
 const B2_angularSleepTolerance = (2.0 / 180.0 * B2_pi)

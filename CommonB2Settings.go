@@ -85,8 +85,8 @@ const (
 // The maximum angular velocity of a body. This limit is very large and is used
 // to prevent numerical problems. You shouldn't need to adjust this.
 const (
-	B2_maxRotation        = (0.5 * B2_pi)
-	B2_maxRotationSquared = (B2_maxRotation * B2_maxRotation)
+	maxRotation        = (0.5 * B2_pi)
+	maxRotationSquared = (maxRotation * maxRotation)
 )
 
 // This scale factor controls how fast overlap is resolved. Ideally this would be 1 so

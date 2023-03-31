@@ -308,8 +308,8 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec
 		}
 
 		rotation := h * w
-		if rotation*rotation > B2_maxRotationSquared {
-			ratio := B2_maxRotation / math.Abs(rotation)
+		if rotation*rotation > maxRotationSquared {
+			ratio := maxRotation / math.Abs(rotation)
 			w *= ratio
 		}
 
@@ -451,8 +451,8 @@ func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB in
 		}
 
 		rotation := h * w
-		if rotation*rotation > B2_maxRotationSquared {
-			ratio := B2_maxRotation / math.Abs(rotation)
+		if rotation*rotation > maxRotationSquared {
+			ratio := maxRotation / math.Abs(rotation)
 			w *= ratio
 		}
 

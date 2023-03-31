@@ -319,7 +319,7 @@ func (simplex B2Simplex) GetMetric() float64 {
 		return 0.0
 
 	case 2:
-		return B2Vec2Distance(simplex.M_vs[0].W, simplex.M_vs[1].W)
+		return Vec2Distance(simplex.M_vs[0].W, simplex.M_vs[1].W)
 
 	case 3:
 		return Vec2Cross(
@@ -575,7 +575,7 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 
 	// Prepare output.
 	simplex.GetWitnessPoints(&output.PointA, &output.PointB)
-	output.Distance = B2Vec2Distance(output.PointA, output.PointB)
+	output.Distance = Vec2Distance(output.PointA, output.PointB)
 	output.Iterations = iter
 
 	// Cache the simplex.

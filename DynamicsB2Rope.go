@@ -122,7 +122,7 @@ func (rope *B2Rope) Initialize(def *B2RopeDef) {
 	for i := 0; i < count2; i++ {
 		p1 := rope.M_ps[i]
 		p2 := rope.M_ps[i+1]
-		rope.M_Ls[i] = B2Vec2Distance(p1, p2)
+		rope.M_Ls[i] = Vec2Distance(p1, p2)
 	}
 
 	for i := 0; i < count3; i++ {

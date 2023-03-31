@@ -256,7 +256,7 @@ func (poly *B2PolygonShape) Set(vertices []B2Vec2, count int) {
 
 		edge := B2Vec2Sub(poly.M_vertices[i2], poly.M_vertices[i1])
 		B2Assert(edge.LengthSquared() > B2_epsilon*B2_epsilon)
-		poly.M_normals[i] = B2Vec2CrossVectorScalar(edge, 1.0)
+		poly.M_normals[i] = Vec2CrossVectorScalar(edge, 1.0)
 		poly.M_normals[i].Normalize()
 	}
 

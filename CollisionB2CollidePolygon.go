@@ -147,11 +147,11 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA B2Transf
 	localTangent := B2Vec2Sub(v12, v11)
 	localTangent.Normalize()
 
-	localNormal := B2Vec2CrossVectorScalar(localTangent, 1.0)
+	localNormal := Vec2CrossVectorScalar(localTangent, 1.0)
 	planePoint := B2Vec2MulScalar(0.5, B2Vec2Add(v11, v12))
 
 	tangent := B2RotVec2Mul(xf1.Q, localTangent)
-	normal := B2Vec2CrossVectorScalar(tangent, 1.0)
+	normal := Vec2CrossVectorScalar(tangent, 1.0)
 
 	v11 = B2TransformVec2Mul(xf1, v11)
 	v12 = B2TransformVec2Mul(xf1, v12)

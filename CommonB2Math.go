@@ -876,7 +876,7 @@ var (
 
 	B2Vec2Dot               = Vec2Dot
 	B2Vec2Cross             = Vec2Cross
-	B2Vec2CrossVectorScalar = Vec2CrossVectorScalar
+	B2Vec2CrossVectorScalar   = Vec2CrossVectorScalar
 	B2Vec2CrossScalarVector = Vec2CrossScalarVector
 	B2Vec2Mat22Mul          = Vec2Mat22Mul
 	B2Vec2Mat22MulT         = Vec2Mat22MulT

@@ -228,7 +228,7 @@ func (solver *B2ContactSolver) InitializeVelocityConstraints() {
 				vcp.NormalMass = 0.0
 			}
 
-			tangent := B2Vec2CrossVectorScalar(vc.Normal, 1.0)
+			tangent := Vec2CrossVectorScalar(vc.Normal, 1.0)
 
 			rtA := Vec2Cross(vcp.RA, tangent)
 			rtB := Vec2Cross(vcp.RB, tangent)
@@ -309,7 +309,7 @@ func (solver *B2ContactSolver) WarmStart() {
 		wB := solver.M_velocities[indexB].W
 
 		normal := vc.Normal
-		tangent := B2Vec2CrossVectorScalar(normal, 1.0)
+		tangent := Vec2CrossVectorScalar(normal, 1.0)
 
 		for j := 0; j < pointCount; j++ {
 			vcp := &vc.Points[j]
@@ -345,7 +345,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 		wB := solver.M_velocities[indexB].W
 
 		normal := vc.Normal
-		tangent := B2Vec2CrossVectorScalar(normal, 1.0)
+		tangent := Vec2CrossVectorScalar(normal, 1.0)
 		friction := vc.Friction
 
 		B2Assert(pointCount == 1 || pointCount == 2)

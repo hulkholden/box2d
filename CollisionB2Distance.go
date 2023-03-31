@@ -235,7 +235,7 @@ func (simplex B2Simplex) GetSearchDirection() B2Vec2 {
 				return B2Vec2CrossScalarVector(1.0, e12)
 			} else {
 				// Origin is right of e12.
-				return B2Vec2CrossVectorScalar(e12, 1.0)
+				return Vec2CrossVectorScalar(e12, 1.0)
 			}
 		}
 

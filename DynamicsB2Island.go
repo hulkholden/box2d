@@ -302,8 +302,8 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec
 
 		// Check for large velocities
 		translation := B2Vec2MulScalar(h, v)
-		if B2Vec2Dot(translation, translation) > B2_maxTranslationSquared {
-			ratio := B2_maxTranslation / translation.Length()
+		if B2Vec2Dot(translation, translation) > maxTranslationSquared {
+			ratio := maxTranslation / translation.Length()
 			v.OperatorScalarMulInplace(ratio)
 		}
 
@@ -445,8 +445,8 @@ func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB in
 
 		// Check for large velocities
 		translation := B2Vec2MulScalar(h, v)
-		if B2Vec2Dot(translation, translation) > B2_maxTranslationSquared {
-			ratio := B2_maxTranslation / translation.Length()
+		if B2Vec2Dot(translation, translation) > maxTranslationSquared {
+			ratio := maxTranslation / translation.Length()
 			v.OperatorScalarMulInplace(ratio)
 		}
 

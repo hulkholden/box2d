@@ -35,7 +35,7 @@ const maxPolygonVertices = 8
 // This is used to fatten AABBs in the dynamic tree. This allows proxies
 // to move by a small amount without triggering a tree adjustment.
 // This is in meters.
-const B2_aabbExtension = 0.1
+const aabbExtension = 0.1
 
 // This is used to fatten AABBs in the dynamic tree. This is used to predict
 // the future position based on the current displacement.

@@ -261,7 +261,7 @@ func (tree *B2DynamicTree) CreateProxy(aabb B2AABB, userData interface{}) int {
 	proxyId := tree.AllocateNode()
 
 	// Fatten the aabb.
-	r := MakeB2Vec2(B2_aabbExtension, B2_aabbExtension)
+	r := MakeB2Vec2(aabbExtension, aabbExtension)
 	tree.M_nodes[proxyId].Aabb.LowerBound = B2Vec2Sub(aabb.LowerBound, r)
 	tree.M_nodes[proxyId].Aabb.UpperBound = B2Vec2Add(aabb.UpperBound, r)
 	tree.M_nodes[proxyId].UserData = userData
@@ -293,7 +293,7 @@ func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb B2AABB, displacement B2Ve
 
 	// Extend AABB.
 	b := aabb
-	r := MakeB2Vec2(B2_aabbExtension, B2_aabbExtension)
+	r := MakeB2Vec2(aabbExtension, aabbExtension)
 	b.LowerBound = B2Vec2Sub(b.LowerBound, r)
 	b.UpperBound = B2Vec2Add(b.UpperBound, r)
 

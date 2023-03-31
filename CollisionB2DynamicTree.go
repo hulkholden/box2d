@@ -139,7 +139,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 		c := node.Aabb.GetCenter()
 		h := node.Aabb.GetExtents()
 
-		separation := math.Abs(B2Vec2Dot(v, B2Vec2Sub(p1, c))) - B2Vec2Dot(abs_v, h)
+		separation := math.Abs(Vec2Dot(v, B2Vec2Sub(p1, c))) - Vec2Dot(abs_v, h)
 		if separation > 0.0 {
 			continue
 		}

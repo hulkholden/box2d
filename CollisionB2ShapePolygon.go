@@ -268,7 +268,7 @@ func (poly B2PolygonShape) TestPoint(xf B2Transform, p B2Vec2) bool {
 	pLocal := B2RotVec2MulT(xf.Q, B2Vec2Sub(p, xf.P))
 
 	for i := 0; i < poly.M_count; i++ {
-		dot := B2Vec2Dot(poly.M_normals[i], B2Vec2Sub(pLocal, poly.M_vertices[i]))
+		dot := Vec2Dot(poly.M_normals[i], B2Vec2Sub(pLocal, poly.M_vertices[i]))
 		if dot > 0.0 {
 			return false
 		}
@@ -292,8 +292,8 @@ func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 		// p = p1 + a * d
 		// dot(normal, p - v) = 0
 		// dot(normal, p1 - v) + a * dot(normal, d) = 0
-		numerator := B2Vec2Dot(poly.M_normals[i], B2Vec2Sub(poly.M_vertices[i], p1))
-		denominator := B2Vec2Dot(poly.M_normals[i], d)
+		numerator := Vec2Dot(poly.M_normals[i], B2Vec2Sub(poly.M_vertices[i], p1))
+		denominator := Vec2Dot(poly.M_normals[i], d)
 
 		if denominator == 0.0 {
 			if numerator < 0.0 {
@@ -441,7 +441,7 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 	massData.I = density * I
 
 	// Shift to center of mass then to original body origin.
-	massData.I += massData.Mass * (B2Vec2Dot(massData.Center, massData.Center) - B2Vec2Dot(center, center))
+	massData.I += massData.Mass * (Vec2Dot(massData.Center, massData.Center) - Vec2Dot(center, center))
 	return massData
 }
 

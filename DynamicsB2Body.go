@@ -189,7 +189,7 @@ func (body *B2Body) SetLinearVelocity(v B2Vec2) {
 		return
 	}
 
-	if B2Vec2Dot(v, v) > 0.0 {
+	if Vec2Dot(v, v) > 0.0 {
 		body.SetAwake(true)
 	}
 
@@ -221,13 +221,13 @@ func (body B2Body) GetMass() float64 {
 }
 
 func (body B2Body) GetInertia() float64 {
-	return body.M_I + body.M_mass*B2Vec2Dot(body.M_sweep.LocalCenter, body.M_sweep.LocalCenter)
+	return body.M_I + body.M_mass*Vec2Dot(body.M_sweep.LocalCenter, body.M_sweep.LocalCenter)
 }
 
 func (body B2Body) GetMassData() B2MassData {
 	data := MakeMassData()
 	data.Mass = body.M_mass
-	data.I = body.M_I + body.M_mass*B2Vec2Dot(body.M_sweep.LocalCenter, body.M_sweep.LocalCenter)
+	data.I = body.M_I + body.M_mass*Vec2Dot(body.M_sweep.LocalCenter, body.M_sweep.LocalCenter)
 	data.Center = body.M_sweep.LocalCenter
 	return data
 }
@@ -751,7 +751,7 @@ func (body *B2Body) ResetMassData() {
 
 	if body.M_I > 0.0 && (body.M_flags&B2Body_Flags.E_fixedRotationFlag) == 0 {
 		// Center the inertia about the center of mass.
-		body.M_I -= body.M_mass * B2Vec2Dot(localCenter, localCenter)
+		body.M_I -= body.M_mass * Vec2Dot(localCenter, localCenter)
 		B2Assert(body.M_I > 0.0)
 		body.M_invI = 1.0 / body.M_I
 
@@ -795,7 +795,7 @@ func (body *B2Body) SetMassData(massData *B2MassData) {
 	body.M_invMass = 1.0 / body.M_mass
 
 	if massData.I > 0.0 && (body.M_flags&B2Body_Flags.E_fixedRotationFlag) == 0 {
-		body.M_I = massData.I - body.M_mass*B2Vec2Dot(massData.Center, massData.Center)
+		body.M_I = massData.I - body.M_mass*Vec2Dot(massData.Center, massData.Center)
 		B2Assert(body.M_I > 0.0)
 		body.M_invI = 1.0 / body.M_I
 	}

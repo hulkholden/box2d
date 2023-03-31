@@ -258,7 +258,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 			cB := B2Vec2Sub(pointB, B2Vec2MulScalar(radiusB, wm.Normal))
 
 			wm.Points[0] = B2Vec2MulScalar(0.5, B2Vec2Add(cA, cB))
-			wm.Separations[0] = B2Vec2Dot(B2Vec2Sub(cB, cA), wm.Normal)
+			wm.Separations[0] = Vec2Dot(B2Vec2Sub(cB, cA), wm.Normal)
 		}
 
 	case B2Manifold_Type.E_faceA:
@@ -271,7 +271,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 				cA := B2Vec2Add(
 					clipPoint,
 					B2Vec2MulScalar(
-						radiusA-B2Vec2Dot(
+						radiusA-Vec2Dot(
 							B2Vec2Sub(clipPoint, planePoint),
 							wm.Normal,
 						),
@@ -280,7 +280,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 				)
 				cB := B2Vec2Sub(clipPoint, B2Vec2MulScalar(radiusB, wm.Normal))
 				wm.Points[i] = B2Vec2MulScalar(0.5, B2Vec2Add(cA, cB))
-				wm.Separations[i] = B2Vec2Dot(
+				wm.Separations[i] = Vec2Dot(
 					B2Vec2Sub(cB, cA),
 					wm.Normal,
 				)
@@ -295,14 +295,14 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 			for i := 0; i < manifold.PointCount; i++ {
 				clipPoint := B2TransformVec2Mul(xfA, manifold.Points[i].LocalPoint)
 				cB := B2Vec2Add(clipPoint, B2Vec2MulScalar(
-					radiusB-B2Vec2Dot(
+					radiusB-Vec2Dot(
 						B2Vec2Sub(clipPoint, planePoint),
 						wm.Normal,
 					), wm.Normal,
 				))
 				cA := B2Vec2Sub(clipPoint, B2Vec2MulScalar(radiusA, wm.Normal))
 				wm.Points[i] = B2Vec2MulScalar(0.5, B2Vec2Add(cA, cB))
-				wm.Separations[i] = B2Vec2Dot(
+				wm.Separations[i] = Vec2Dot(
 					B2Vec2Sub(cA, cB),
 					wm.Normal,
 				)
@@ -413,8 +413,8 @@ func B2ClipSegmentToLine(vOut []B2ClipVertex, vIn []B2ClipVertex, normal B2Vec2,
 	numOut := 0
 
 	// Calculate the distance of end points to the line
-	distance0 := B2Vec2Dot(normal, vIn[0].V) - offset
-	distance1 := B2Vec2Dot(normal, vIn[1].V) - offset
+	distance0 := Vec2Dot(normal, vIn[0].V) - offset
+	distance1 := Vec2Dot(normal, vIn[1].V) - offset
 
 	// If the points are behind the plane
 	if distance0 <= 0.0 {

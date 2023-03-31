@@ -87,8 +87,8 @@ func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, x
 	// q = p1 + t * d
 	// dot(normal, q - v1) = 0
 	// dot(normal, p1 - v1) + t * dot(normal, d) = 0
-	numerator := B2Vec2Dot(normal, B2Vec2Sub(v1, p1))
-	denominator := B2Vec2Dot(normal, d)
+	numerator := Vec2Dot(normal, B2Vec2Sub(v1, p1))
+	denominator := Vec2Dot(normal, d)
 
 	if denominator == 0.0 {
 		return false
@@ -104,12 +104,12 @@ func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, x
 	// q = v1 + s * r
 	// s = dot(q - v1, r) / dot(r, r)
 	r := B2Vec2Sub(v2, v1)
-	rr := B2Vec2Dot(r, r)
+	rr := Vec2Dot(r, r)
 	if rr == 0.0 {
 		return false
 	}
 
-	s := B2Vec2Dot(B2Vec2Sub(q, v1), r) / rr
+	s := Vec2Dot(B2Vec2Sub(q, v1), r) / rr
 	if s < 0.0 || 1.0 < s {
 		return false
 	}

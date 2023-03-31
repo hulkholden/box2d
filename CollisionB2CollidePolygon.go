@@ -20,7 +20,7 @@ func B2FindMaxSeparation(edgeIndex *int, poly1 *B2PolygonShape, xf1 B2Transform,
 		// Find deepest point for normal i.
 		si := B2_maxFloat
 		for j := 0; j < count2; j++ {
-			sij := B2Vec2Dot(n, B2Vec2Sub(v2s[j], v1))
+			sij := Vec2Dot(n, B2Vec2Sub(v2s[j], v1))
 			if sij < si {
 				si = sij
 			}
@@ -52,7 +52,7 @@ func B2FindIncidentEdge(c []B2ClipVertex, poly1 *B2PolygonShape, xf1 B2Transform
 	index := 0
 	minDot := B2_maxFloat
 	for i := 0; i < count2; i++ {
-		dot := B2Vec2Dot(normal1, normals2[i])
+		dot := Vec2Dot(normal1, normals2[i])
 		if dot < minDot {
 			minDot = dot
 			index = i
@@ -157,11 +157,11 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA B2Transf
 	v12 = B2TransformVec2Mul(xf1, v12)
 
 	// Face offset.
-	frontOffset := B2Vec2Dot(normal, v11)
+	frontOffset := Vec2Dot(normal, v11)
 
 	// Side offsets, extended by polytope skin thickness.
-	sideOffset1 := -B2Vec2Dot(tangent, v11) + totalRadius
-	sideOffset2 := B2Vec2Dot(tangent, v12) + totalRadius
+	sideOffset1 := -Vec2Dot(tangent, v11) + totalRadius
+	sideOffset2 := Vec2Dot(tangent, v12) + totalRadius
 
 	// Clip incident edge against extruded edge1 side edges.
 	clipPoints1 := make([]B2ClipVertex, 2)
@@ -188,7 +188,7 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA B2Transf
 
 	pointCount := 0
 	for i := 0; i < maxManifoldPoints; i++ {
-		separation := B2Vec2Dot(normal, clipPoints2[i].V) - frontOffset
+		separation := Vec2Dot(normal, clipPoints2[i].V) - frontOffset
 
 		if separation <= totalRadius {
 			cp := &manifold.Points[pointCount]

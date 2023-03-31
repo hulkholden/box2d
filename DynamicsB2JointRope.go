@@ -195,7 +195,7 @@ func (joint *B2RopeJoint) SolveVelocityConstraints(data B2SolverData) {
 	vpA := B2Vec2Add(vA, B2Vec2CrossScalarVector(wA, joint.M_rA))
 	vpB := B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, joint.M_rB))
 	C := joint.M_length - joint.M_maxLength
-	Cdot := B2Vec2Dot(joint.M_u, B2Vec2Sub(vpB, vpA))
+	Cdot := Vec2Dot(joint.M_u, B2Vec2Sub(vpB, vpA))
 
 	// Predictive constraint.
 	if C < 0.0 {

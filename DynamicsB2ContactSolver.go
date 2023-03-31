@@ -243,7 +243,7 @@ func (solver *B2ContactSolver) InitializeVelocityConstraints() {
 
 			// Setup a velocity bias for restitution.
 			vcp.VelocityBias = 0.0
-			vRel := B2Vec2Dot(
+			vRel := Vec2Dot(
 				vc.Normal,
 				B2Vec2Sub(
 					B2Vec2Sub(
@@ -368,7 +368,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 			)
 
 			// Compute tangent force
-			vt := B2Vec2Dot(dv, tangent) - vc.TangentSpeed
+			vt := Vec2Dot(dv, tangent) - vc.TangentSpeed
 			lambda := vcp.TangentMass * (-vt)
 
 			// b2Clamp the accumulated force
@@ -405,7 +405,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 				)
 
 				// Compute normal impulse
-				vn := B2Vec2Dot(dv, normal)
+				vn := Vec2Dot(dv, normal)
 				lambda := -vcp.NormalMass * (vn - vcp.VelocityBias)
 
 				// b2Clamp the accumulated impulse
@@ -466,8 +466,8 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 			dv2 := B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(B2Vec2CrossScalarVector(wB, cp2.RB), vA), B2Vec2CrossScalarVector(wA, cp2.RA)))
 
 			// Compute normal velocity
-			vn1 := B2Vec2Dot(dv1, normal)
-			vn2 := B2Vec2Dot(dv2, normal)
+			vn1 := Vec2Dot(dv1, normal)
+			vn2 := Vec2Dot(dv2, normal)
 
 			b := MakeVec2(0, 0)
 			b.X = vn1 - cp1.VelocityBias
@@ -532,8 +532,8 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 						)
 
 						// Compute normal velocity
-						vn1 = B2Vec2Dot(dv1, normal)
-						vn2 = B2Vec2Dot(dv2, normal)
+						vn1 = Vec2Dot(dv1, normal)
+						vn2 = Vec2Dot(dv2, normal)
 
 						B2Assert(math.Abs(vn1-cp1.VelocityBias) < k_errorTol)
 						B2Assert(math.Abs(vn2-cp2.VelocityBias) < k_errorTol)
@@ -573,7 +573,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 						dv1 = B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(B2Vec2CrossScalarVector(wB, cp1.RB), vA), B2Vec2CrossScalarVector(wA, cp1.RA)))
 
 						// Compute normal velocity
-						vn1 = B2Vec2Dot(dv1, normal)
+						vn1 = Vec2Dot(dv1, normal)
 
 						B2Assert(math.Abs(vn1-cp1.VelocityBias) < k_errorTol)
 					}
@@ -613,7 +613,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 						dv2 = B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(B2Vec2CrossScalarVector(wB, cp2.RB), vA), B2Vec2CrossScalarVector(wA, cp2.RA)))
 
 						// Compute normal velocity
-						vn2 = B2Vec2Dot(dv2, normal)
+						vn2 = Vec2Dot(dv2, normal)
 
 						B2Assert(math.Abs(vn2-cp2.VelocityBias) < k_errorTol)
 					}
@@ -695,14 +695,14 @@ func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPosition
 		solvermanifold.Normal = B2Vec2Sub(pointB, pointA)
 		solvermanifold.Normal.Normalize()
 		solvermanifold.Point = B2Vec2MulScalar(0.5, B2Vec2Add(pointA, pointB))
-		solvermanifold.Separation = B2Vec2Dot(B2Vec2Sub(pointB, pointA), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
+		solvermanifold.Separation = Vec2Dot(B2Vec2Sub(pointB, pointA), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
 
 	case B2Manifold_Type.E_faceA:
 		solvermanifold.Normal = B2RotVec2Mul(xfA.Q, pc.LocalNormal)
 		planePoint := B2TransformVec2Mul(xfA, pc.LocalPoint)
 
 		clipPoint := B2TransformVec2Mul(xfB, pc.LocalPoints[index])
-		solvermanifold.Separation = B2Vec2Dot(B2Vec2Sub(clipPoint, planePoint), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
+		solvermanifold.Separation = Vec2Dot(B2Vec2Sub(clipPoint, planePoint), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
 		solvermanifold.Point = clipPoint
 
 	case B2Manifold_Type.E_faceB:
@@ -710,7 +710,7 @@ func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPosition
 		planePoint := B2TransformVec2Mul(xfB, pc.LocalPoint)
 
 		clipPoint := B2TransformVec2Mul(xfA, pc.LocalPoints[index])
-		solvermanifold.Separation = B2Vec2Dot(B2Vec2Sub(clipPoint, planePoint), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
+		solvermanifold.Separation = Vec2Dot(B2Vec2Sub(clipPoint, planePoint), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
 		solvermanifold.Point = clipPoint
 
 		// Ensure normal points from A to B

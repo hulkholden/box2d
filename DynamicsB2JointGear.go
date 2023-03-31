@@ -157,7 +157,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 
 		pC := res.M_localAnchorC
 		pA := B2RotVec2MulT(xfC.Q, B2Vec2Add(B2RotVec2Mul(xfA.Q, res.M_localAnchorA), B2Vec2Sub(xfA.P, xfC.P)))
-		coordinateA = B2Vec2Dot(B2Vec2Sub(pA, pC), res.M_localAxisC)
+		coordinateA = Vec2Dot(B2Vec2Sub(pA, pC), res.M_localAxisC)
 	}
 
 	res.M_bodyD = res.M_joint2.GetBodyA()
@@ -186,7 +186,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 
 		pD := res.M_localAnchorD
 		pB := B2RotVec2MulT(xfD.Q, B2Vec2Add(B2RotVec2Mul(xfB.Q, res.M_localAnchorB), B2Vec2Sub(xfB.P, xfD.P)))
-		coordinateB = B2Vec2Dot(B2Vec2Sub(pB, pD), res.M_localAxisD)
+		coordinateB = Vec2Dot(B2Vec2Sub(pB, pD), res.M_localAxisD)
 	}
 
 	res.M_ratio = def.Ratio
@@ -309,7 +309,7 @@ func (joint *B2GearJoint) SolveVelocityConstraints(data B2SolverData) {
 	vD := data.Velocities[joint.M_indexD].V
 	wD := data.Velocities[joint.M_indexD].W
 
-	Cdot := B2Vec2Dot(joint.M_JvAC, B2Vec2Sub(vA, vC)) + B2Vec2Dot(joint.M_JvBD, B2Vec2Sub(vB, vD))
+	Cdot := Vec2Dot(joint.M_JvAC, B2Vec2Sub(vA, vC)) + Vec2Dot(joint.M_JvBD, B2Vec2Sub(vB, vD))
 	Cdot += (joint.M_JwA*wA - joint.M_JwC*wC) + (joint.M_JwB*wB - joint.M_JwD*wD)
 
 	impulse := -joint.M_mass * Cdot
@@ -377,7 +377,7 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 		pC := B2Vec2Sub(joint.M_localAnchorC, joint.M_lcC)
 		pA := B2RotVec2MulT(qC, B2Vec2Add(rA, B2Vec2Sub(cA, cC)))
-		coordinateA = B2Vec2Dot(B2Vec2Sub(pA, pC), joint.M_localAxisC)
+		coordinateA = Vec2Dot(B2Vec2Sub(pA, pC), joint.M_localAxisC)
 	}
 
 	if joint.M_typeB == B2JointType.E_revoluteJoint {
@@ -398,7 +398,7 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 		pD := B2Vec2Sub(joint.M_localAnchorD, joint.M_lcD)
 		pB := B2RotVec2MulT(qD, B2Vec2Add(rB, B2Vec2Sub(cB, cD)))
-		coordinateB = B2Vec2Dot(B2Vec2Sub(pB, pD), joint.M_localAxisD)
+		coordinateB = Vec2Dot(B2Vec2Sub(pB, pD), joint.M_localAxisD)
 	}
 
 	C := (coordinateA + joint.M_ratio*coordinateB) - joint.M_constant

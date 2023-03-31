@@ -134,7 +134,7 @@ func (rope *B2Rope) Initialize(def *B2RopeDef) {
 		d2 := B2Vec2Sub(p3, p2)
 
 		a := B2Vec2Cross(d1, d2)
-		b := B2Vec2Dot(d1, d2)
+		b := Vec2Dot(d1, d2)
 
 		rope.M_as[i] = math.Atan2(a, b)
 	}
@@ -231,7 +231,7 @@ func (rope *B2Rope) SolveC3() {
 		}
 
 		a := B2Vec2Cross(d1, d2)
-		b := B2Vec2Dot(d1, d2)
+		b := Vec2Dot(d1, d2)
 
 		angle := math.Atan2(a, b)
 
@@ -242,7 +242,7 @@ func (rope *B2Rope) SolveC3() {
 		J2 := B2Vec2Sub(Jd1, Jd2)
 		J3 := Jd2
 
-		mass := m1*B2Vec2Dot(J1, J1) + m2*B2Vec2Dot(J2, J2) + m3*B2Vec2Dot(J3, J3)
+		mass := m1*Vec2Dot(J1, J1) + m2*Vec2Dot(J2, J2) + m3*Vec2Dot(J3, J3)
 		if mass == 0.0 {
 			continue
 		}

@@ -230,7 +230,7 @@ func (joint *B2PulleyJoint) SolveVelocityConstraints(data B2SolverData) {
 	vpA := B2Vec2Add(vA, B2Vec2CrossScalarVector(wA, joint.M_rA))
 	vpB := B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, joint.M_rB))
 
-	Cdot := -B2Vec2Dot(joint.M_uA, vpA) - joint.M_ratio*B2Vec2Dot(joint.M_uB, vpB)
+	Cdot := -Vec2Dot(joint.M_uA, vpA) - joint.M_ratio*Vec2Dot(joint.M_uB, vpB)
 	impulse := -joint.M_mass * Cdot
 	joint.M_impulse += impulse
 

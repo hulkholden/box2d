@@ -42,7 +42,7 @@ func (shape B2CircleShape) GetChildCount() int {
 func (shape B2CircleShape) TestPoint(transform B2Transform, p B2Vec2) bool {
 	center := B2Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
 	d := B2Vec2Sub(p, center)
-	return B2Vec2Dot(d, d) <= shape.M_radius*shape.M_radius
+	return Vec2Dot(d, d) <= shape.M_radius*shape.M_radius
 }
 
 // Collision Detection in Interactive 3D Environments by Gino van den Bergen
@@ -54,12 +54,12 @@ func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 
 	position := B2Vec2Add(transform.P, B2RotVec2Mul(transform.Q, shape.M_p))
 	s := B2Vec2Sub(input.P1, position)
-	b := B2Vec2Dot(s, s) - shape.M_radius*shape.M_radius
+	b := Vec2Dot(s, s) - shape.M_radius*shape.M_radius
 
 	// Solve quadratic equation.
 	r := B2Vec2Sub(input.P2, input.P1)
-	c := B2Vec2Dot(s, r)
-	rr := B2Vec2Dot(r, r)
+	c := Vec2Dot(s, r)
+	rr := Vec2Dot(r, r)
 	sigma := c*c - rr*b
 
 	// Check for negative discriminant and short segment.
@@ -97,7 +97,7 @@ func (shape B2CircleShape) ComputeMass(density float64) B2MassData {
 	massData.Center = shape.M_p
 
 	// inertia about the local origin
-	massData.I = massData.Mass * (0.5*shape.M_radius*shape.M_radius + B2Vec2Dot(shape.M_p, shape.M_p))
+	massData.I = massData.Mass * (0.5*shape.M_radius*shape.M_radius + Vec2Dot(shape.M_p, shape.M_p))
 	return massData
 }
 

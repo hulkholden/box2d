@@ -307,7 +307,7 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 
 	// Compute motor and limit terms.
 	if joint.M_enableLimit {
-		jointTranslation := B2Vec2Dot(joint.M_axis, d)
+		jointTranslation := Vec2Dot(joint.M_axis, d)
 		if math.Abs(joint.M_upperTranslation-joint.M_lowerTranslation) < 2.0*linearSlop {
 			joint.M_limitState = B2LimitState.E_equalLimits
 		} else if jointTranslation <= joint.M_lowerTranslation {
@@ -371,7 +371,7 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Solve linear motor constraint.
 	if joint.M_enableMotor && joint.M_limitState != B2LimitState.E_equalLimits {
-		Cdot := B2Vec2Dot(joint.M_axis, B2Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
+		Cdot := Vec2Dot(joint.M_axis, B2Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
 		impulse := joint.M_motorMass * (joint.M_motorSpeed - Cdot)
 		oldImpulse := joint.M_motorImpulse
 		maxImpulse := data.Step.Dt * joint.M_maxMotorForce
@@ -390,13 +390,13 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 	}
 
 	var Cdot1 B2Vec2
-	Cdot1.X = B2Vec2Dot(joint.M_perp, B2Vec2Sub(vB, vA)) + joint.M_s2*wB - joint.M_s1*wA
+	Cdot1.X = Vec2Dot(joint.M_perp, B2Vec2Sub(vB, vA)) + joint.M_s2*wB - joint.M_s1*wA
 	Cdot1.Y = wB - wA
 
 	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit {
 		// Solve prismatic and limit constraint in block form.
 		Cdot2 := 0.0
-		Cdot2 = B2Vec2Dot(joint.M_axis, B2Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
+		Cdot2 = Vec2Dot(joint.M_axis, B2Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
 		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
 
 		f1 := joint.M_impulse
@@ -485,7 +485,7 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 
 	impulse := MakeB2Vec3(0, 0, 0)
 	C1 := MakeVec2(0, 0)
-	C1.X = B2Vec2Dot(perp, d)
+	C1.X = Vec2Dot(perp, d)
 	C1.Y = aB - aA - joint.M_referenceAngle
 
 	linearError := math.Abs(C1.X)
@@ -494,7 +494,7 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	active := false
 	C2 := 0.0
 	if joint.M_enableLimit {
-		translation := B2Vec2Dot(axis, d)
+		translation := Vec2Dot(axis, d)
 		if math.Abs(joint.M_upperTranslation-joint.M_lowerTranslation) < 2.0*linearSlop {
 			// Prevent large angular corrections
 			C2 = B2FloatClamp(translation, -maxLinearCorrection, maxLinearCorrection)
@@ -593,7 +593,7 @@ func (joint B2PrismaticJoint) GetJointTranslation() float64 {
 	d := B2Vec2Sub(pB, pA)
 	axis := joint.M_bodyA.GetWorldVector(joint.M_localXAxisA)
 
-	translation := B2Vec2Dot(d, axis)
+	translation := Vec2Dot(d, axis)
 	return translation
 }
 
@@ -613,8 +613,8 @@ func (joint B2PrismaticJoint) GetJointSpeed() float64 {
 	wA := bA.M_angularVelocity
 	wB := bB.M_angularVelocity
 
-	speed := B2Vec2Dot(d, B2Vec2CrossScalarVector(wA, axis)) +
-		B2Vec2Dot(axis, B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, rB)), vA), B2Vec2CrossScalarVector(wA, rA)))
+	speed := Vec2Dot(d, B2Vec2CrossScalarVector(wA, axis)) +
+		Vec2Dot(axis, B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, rB)), vA), B2Vec2CrossScalarVector(wA, rA)))
 	return speed
 }
 

@@ -68,9 +68,9 @@ func (p B2DistanceProxy) GetVertex(index int) B2Vec2 {
 
 func (p B2DistanceProxy) GetSupport(d B2Vec2) int {
 	bestIndex := 0
-	bestValue := B2Vec2Dot(p.M_vertices[0], d)
+	bestValue := Vec2Dot(p.M_vertices[0], d)
 	for i := 1; i < p.M_count; i++ {
-		value := B2Vec2Dot(p.M_vertices[i], d)
+		value := Vec2Dot(p.M_vertices[i], d)
 		if value > bestValue {
 			bestIndex = i
 			bestValue = value
@@ -82,10 +82,10 @@ func (p B2DistanceProxy) GetSupport(d B2Vec2) int {
 
 func (p B2DistanceProxy) GetSupportVertex(d B2Vec2) B2Vec2 {
 	bestIndex := 0
-	bestValue := B2Vec2Dot(p.M_vertices[0], d)
+	bestValue := Vec2Dot(p.M_vertices[0], d)
 
 	for i := 1; i < p.M_count; i++ {
-		value := B2Vec2Dot(p.M_vertices[i], d)
+		value := Vec2Dot(p.M_vertices[i], d)
 		if value > bestValue {
 			bestIndex = i
 			bestValue = value
@@ -342,7 +342,7 @@ func (simplex *B2Simplex) Solve2() {
 	e12 := B2Vec2Sub(w2, w1)
 
 	// w1 region
-	d12_2 := -B2Vec2Dot(w1, e12)
+	d12_2 := -Vec2Dot(w1, e12)
 	if d12_2 <= 0.0 {
 		// a2 <= 0, so we clamp it to 0
 		simplex.M_vs[0].A = 1.0
@@ -351,7 +351,7 @@ func (simplex *B2Simplex) Solve2() {
 	}
 
 	// w2 region
-	d12_1 := B2Vec2Dot(w2, e12)
+	d12_1 := Vec2Dot(w2, e12)
 	if d12_1 <= 0.0 {
 		// a1 <= 0, so we clamp it to 0
 		simplex.M_vs[1].A = 1.0
@@ -382,8 +382,8 @@ func (simplex *B2Simplex) Solve3() {
 	// [w1.e12 w2.e12][a2] = [0]
 	// a3 = 0
 	e12 := B2Vec2Sub(w2, w1)
-	w1e12 := B2Vec2Dot(w1, e12)
-	w2e12 := B2Vec2Dot(w2, e12)
+	w1e12 := Vec2Dot(w1, e12)
+	w2e12 := Vec2Dot(w2, e12)
 	d12_1 := w2e12
 	d12_2 := -w1e12
 
@@ -392,8 +392,8 @@ func (simplex *B2Simplex) Solve3() {
 	// [w1.e13 w3.e13][a3] = [0]
 	// a2 = 0
 	e13 := B2Vec2Sub(w3, w1)
-	w1e13 := B2Vec2Dot(w1, e13)
-	w3e13 := B2Vec2Dot(w3, e13)
+	w1e13 := Vec2Dot(w1, e13)
+	w3e13 := Vec2Dot(w3, e13)
 	d13_1 := w3e13
 	d13_2 := -w1e13
 
@@ -402,8 +402,8 @@ func (simplex *B2Simplex) Solve3() {
 	// [w2.e23 w3.e23][a3] = [0]
 	// a1 = 0
 	e23 := B2Vec2Sub(w3, w2)
-	w2e23 := B2Vec2Dot(w2, e23)
-	w3e23 := B2Vec2Dot(w3, e23)
+	w2e23 := Vec2Dot(w2, e23)
+	w3e23 := Vec2Dot(w3, e23)
 	d23_1 := w3e23
 	d23_2 := -w2e23
 

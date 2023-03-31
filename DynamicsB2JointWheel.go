@@ -262,7 +262,7 @@ func (joint *B2WheelJoint) InitVelocityConstraints(data B2SolverData) {
 		if invMass > 0.0 {
 			joint.M_springMass = 1.0 / invMass
 
-			C := B2Vec2Dot(d, joint.M_ax)
+			C := Vec2Dot(d, joint.M_ax)
 
 			// Frequency
 			omega := 2.0 * B2_pi * joint.M_frequencyHz
@@ -342,7 +342,7 @@ func (joint *B2WheelJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Solve spring constraint
 	{
-		Cdot := B2Vec2Dot(joint.M_ax, B2Vec2Sub(vB, vA)) + joint.M_sBx*wB - joint.M_sAx*wA
+		Cdot := Vec2Dot(joint.M_ax, B2Vec2Sub(vB, vA)) + joint.M_sBx*wB - joint.M_sAx*wA
 		impulse := -joint.M_springMass * (Cdot + joint.M_bias + joint.M_gamma*joint.M_springImpulse)
 		joint.M_springImpulse += impulse
 
@@ -373,7 +373,7 @@ func (joint *B2WheelJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Solve point to line constraint
 	{
-		Cdot := B2Vec2Dot(joint.M_ay, B2Vec2Sub(vB, vA)) + joint.M_sBy*wB - joint.M_sAy*wA
+		Cdot := Vec2Dot(joint.M_ay, B2Vec2Sub(vB, vA)) + joint.M_sBy*wB - joint.M_sAy*wA
 		impulse := -joint.M_mass * Cdot
 		joint.M_impulse += impulse
 
@@ -412,7 +412,7 @@ func (joint *B2WheelJoint) SolvePositionConstraints(data B2SolverData) bool {
 	sAy := B2Vec2Cross(B2Vec2Add(d, rA), ay)
 	sBy := B2Vec2Cross(rB, ay)
 
-	C := B2Vec2Dot(d, ay)
+	C := Vec2Dot(d, ay)
 
 	k := joint.M_invMassA + joint.M_invMassB + joint.M_invIA*joint.M_sAy*joint.M_sAy + joint.M_invIB*joint.M_sBy*joint.M_sBy
 
@@ -465,7 +465,7 @@ func (joint B2WheelJoint) GetJointTranslation() float64 {
 	d := B2Vec2Sub(pB, pA)
 	axis := bA.GetWorldVector(joint.M_localXAxisA)
 
-	translation := B2Vec2Dot(d, axis)
+	translation := Vec2Dot(d, axis)
 	return translation
 }
 
@@ -485,7 +485,7 @@ func (joint B2WheelJoint) GetJointLinearSpeed() float64 {
 	wA := bA.M_angularVelocity
 	wB := bB.M_angularVelocity
 
-	speed := B2Vec2Dot(d, B2Vec2CrossScalarVector(wA, axis)) + B2Vec2Dot(axis, B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, rB)), vA), B2Vec2CrossScalarVector(wA, rA)))
+	speed := Vec2Dot(d, B2Vec2CrossScalarVector(wA, axis)) + Vec2Dot(axis, B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, rB)), vA), B2Vec2CrossScalarVector(wA, rA)))
 	return speed
 }
 

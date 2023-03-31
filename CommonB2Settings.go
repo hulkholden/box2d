@@ -73,7 +73,7 @@ const maxLinearCorrection = 0.2
 
 // The maximum angular position correction used when solving constraints. This helps to
 // prevent overshoot.
-const B2_maxAngularCorrection = (8.0 / 180.0 * B2_pi)
+const maxAngularCorrection = (8.0 / 180.0 * B2_pi)
 
 // The maximum linear velocity of a body. This limit is very large and is used
 // to prevent numerical problems. You shouldn't need to adjust this.

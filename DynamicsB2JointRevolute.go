@@ -393,7 +393,7 @@ func (joint *B2RevoluteJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 		if joint.M_limitState == B2LimitState.E_equalLimits {
 			// Prevent large angular corrections
-			C := B2FloatClamp(angle-joint.M_lowerAngle, -B2_maxAngularCorrection, B2_maxAngularCorrection)
+			C := B2FloatClamp(angle-joint.M_lowerAngle, -maxAngularCorrection, maxAngularCorrection)
 			limitImpulse = -joint.M_motorMass * C
 			angularError = math.Abs(C)
 		} else if joint.M_limitState == B2LimitState.E_atLowerLimit {
@@ -401,14 +401,14 @@ func (joint *B2RevoluteJoint) SolvePositionConstraints(data B2SolverData) bool {
 			angularError = -C
 
 			// Prevent large angular corrections and allow some slop.
-			C = B2FloatClamp(C+angularSlop, -B2_maxAngularCorrection, 0.0)
+			C = B2FloatClamp(C+angularSlop, -maxAngularCorrection, 0.0)
 			limitImpulse = -joint.M_motorMass * C
 		} else if joint.M_limitState == B2LimitState.E_atUpperLimit {
 			C := angle - joint.M_upperAngle
 			angularError = C
 
 			// Prevent large angular corrections and allow some slop.
-			C = B2FloatClamp(C-angularSlop, 0.0, B2_maxAngularCorrection)
+			C = B2FloatClamp(C-angularSlop, 0.0, maxAngularCorrection)
 			limitImpulse = -joint.M_motorMass * C
 		}
 

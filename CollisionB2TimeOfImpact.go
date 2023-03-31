@@ -113,7 +113,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 		sepfunc.M_axis.Normalize()
 		normal := B2RotVec2Mul(xfB.Q, sepfunc.M_axis)
 
-		sepfunc.M_localPoint = B2Vec2MulScalar(0.5, Vec2Add(localPointB1, localPointB2))
+		sepfunc.M_localPoint = Vec2MulScalar(0.5, Vec2Add(localPointB1, localPointB2))
 		pointB := B2TransformVec2Mul(xfB, sepfunc.M_localPoint)
 
 		localPointA := proxyA.GetVertex(cache.IndexA[0])
@@ -136,7 +136,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 		sepfunc.M_axis.Normalize()
 		normal := B2RotVec2Mul(xfA.Q, sepfunc.M_axis)
 
-		sepfunc.M_localPoint = B2Vec2MulScalar(0.5, Vec2Add(localPointA1, localPointA2))
+		sepfunc.M_localPoint = Vec2MulScalar(0.5, Vec2Add(localPointA1, localPointA2))
 		pointA := B2TransformVec2Mul(xfA, sepfunc.M_localPoint)
 
 		localPointB := sepfunc.M_proxyB.GetVertex(cache.IndexB[0])

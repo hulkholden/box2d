@@ -174,9 +174,9 @@ func (joint *B2MotorJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_angularImpulse *= data.Step.DtRatio
 
 		P := MakeVec2(joint.M_linearImpulse.X, joint.M_linearImpulse.Y)
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		wA -= iA * (Vec2Cross(joint.M_rA, P) + joint.M_angularImpulse)
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		wB += iB * (Vec2Cross(joint.M_rB, P) + joint.M_angularImpulse)
 	} else {
 		joint.M_linearImpulse.SetZero()
@@ -219,7 +219,7 @@ func (joint *B2MotorJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Solve linear friction
 	{
-		Cdot := Vec2Add(Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA)), B2Vec2MulScalar(inv_h*joint.M_correctionFactor, joint.M_linearError))
+		Cdot := Vec2Add(Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA)), Vec2MulScalar(inv_h*joint.M_correctionFactor, joint.M_linearError))
 
 		impulse := Vec2Mat22Mul(joint.M_linearMass, Cdot).OperatorNegate()
 		oldImpulse := joint.M_linearImpulse
@@ -234,10 +234,10 @@ func (joint *B2MotorJoint) SolveVelocityConstraints(data B2SolverData) {
 
 		impulse = Vec2Sub(joint.M_linearImpulse, oldImpulse)
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, impulse))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, impulse))
 		wA -= iA * Vec2Cross(joint.M_rA, impulse)
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, impulse))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, impulse))
 		wB += iB * Vec2Cross(joint.M_rB, impulse)
 	}
 
@@ -260,7 +260,7 @@ func (joint B2MotorJoint) GetAnchorB() B2Vec2 {
 }
 
 func (joint B2MotorJoint) GetReactionForce(inv_dt float64) B2Vec2 {
-	return B2Vec2MulScalar(inv_dt, joint.M_linearImpulse)
+	return Vec2MulScalar(inv_dt, joint.M_linearImpulse)
 }
 
 func (joint B2MotorJoint) GetReactionTorque(inv_dt float64) float64 {

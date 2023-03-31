@@ -256,11 +256,11 @@ func (simplex B2Simplex) GetClosestPoint() B2Vec2 {
 
 	case 2:
 		return Vec2Add(
-			B2Vec2MulScalar(
+			Vec2MulScalar(
 				simplex.M_vs[0].A,
 				simplex.M_vs[0].W,
 			),
-			B2Vec2MulScalar(
+			Vec2MulScalar(
 				simplex.M_vs[1].A,
 				simplex.M_vs[1].W,
 			),
@@ -286,21 +286,21 @@ func (simplex B2Simplex) GetWitnessPoints(pA *B2Vec2, pB *B2Vec2) {
 
 	case 2:
 		*pA = Vec2Add(
-			B2Vec2MulScalar(simplex.M_vs[0].A, simplex.M_vs[0].WA),
-			B2Vec2MulScalar(simplex.M_vs[1].A, simplex.M_vs[1].WA),
+			Vec2MulScalar(simplex.M_vs[0].A, simplex.M_vs[0].WA),
+			Vec2MulScalar(simplex.M_vs[1].A, simplex.M_vs[1].WA),
 		)
 		*pB = Vec2Add(
-			B2Vec2MulScalar(simplex.M_vs[0].A, simplex.M_vs[0].WB),
-			B2Vec2MulScalar(simplex.M_vs[1].A, simplex.M_vs[1].WB),
+			Vec2MulScalar(simplex.M_vs[0].A, simplex.M_vs[0].WB),
+			Vec2MulScalar(simplex.M_vs[1].A, simplex.M_vs[1].WB),
 		)
 
 	case 3:
 		*pA = Vec2Add(
 			Vec2Add(
-				B2Vec2MulScalar(simplex.M_vs[0].A, simplex.M_vs[0].WA),
-				B2Vec2MulScalar(simplex.M_vs[1].A, simplex.M_vs[1].WA),
+				Vec2MulScalar(simplex.M_vs[0].A, simplex.M_vs[0].WA),
+				Vec2MulScalar(simplex.M_vs[1].A, simplex.M_vs[1].WA),
 			),
-			B2Vec2MulScalar(simplex.M_vs[2].A, simplex.M_vs[2].WA),
+			Vec2MulScalar(simplex.M_vs[2].A, simplex.M_vs[2].WA),
 		)
 		*pB = *pA
 
@@ -593,15 +593,15 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 			normal := Vec2Sub(output.PointB, output.PointA)
 			normal.Normalize()
 			output.PointA.OperatorPlusInplace(
-				B2Vec2MulScalar(rA, normal),
+				Vec2MulScalar(rA, normal),
 			)
 			output.PointB.OperatorMinusInplace(
-				B2Vec2MulScalar(rB, normal),
+				Vec2MulScalar(rB, normal),
 			)
 		} else {
 			// Shapes are overlapped when radii are considered.
 			// Move the witness points to the middle.
-			p := B2Vec2MulScalar(
+			p := Vec2MulScalar(
 				0.5,
 				Vec2Add(output.PointA, output.PointB),
 			)

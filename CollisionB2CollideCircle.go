@@ -68,7 +68,7 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 		manifold.PointCount = 1
 		manifold.Type = B2Manifold_Type.E_faceA
 		manifold.LocalNormal = normals[normalIndex]
-		manifold.LocalPoint = B2Vec2MulScalar(0.5, Vec2Add(v1, v2))
+		manifold.LocalPoint = Vec2MulScalar(0.5, Vec2Add(v1, v2))
 		manifold.Points[0].LocalPoint = circleB.M_p
 		manifold.Points[0].Id.SetKey(0)
 		return
@@ -102,7 +102,7 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 		manifold.Points[0].LocalPoint = circleB.M_p
 		manifold.Points[0].Id.SetKey(0)
 	} else {
-		faceCenter := B2Vec2MulScalar(0.5, Vec2Add(v1, v2))
+		faceCenter := Vec2MulScalar(0.5, Vec2Add(v1, v2))
 		s := Vec2Dot(Vec2Sub(cLocal, faceCenter), normals[vertIndex1])
 		if s > radius {
 			return

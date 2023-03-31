@@ -415,7 +415,7 @@ func (body *B2Body) ApplyLinearImpulse(impulse B2Vec2, point B2Vec2, wake bool) 
 
 	// Don't accumulate velocity if the body is sleeping
 	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
-		body.M_linearVelocity.OperatorPlusInplace(B2Vec2MulScalar(body.M_invMass, impulse))
+		body.M_linearVelocity.OperatorPlusInplace(Vec2MulScalar(body.M_invMass, impulse))
 		body.M_angularVelocity += body.M_invI * Vec2Cross(
 			Vec2Sub(point, body.M_sweep.C),
 			impulse,
@@ -434,7 +434,7 @@ func (body *B2Body) ApplyLinearImpulseToCenter(impulse B2Vec2, wake bool) {
 
 	// Don't accumulate velocity if the body is sleeping
 	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
-		body.M_linearVelocity.OperatorPlusInplace(B2Vec2MulScalar(body.M_invMass, impulse))
+		body.M_linearVelocity.OperatorPlusInplace(Vec2MulScalar(body.M_invMass, impulse))
 	}
 }
 
@@ -735,7 +735,7 @@ func (body *B2Body) ResetMassData() {
 
 		massData := f.GetMassData()
 		body.M_mass += massData.Mass
-		localCenter.OperatorPlusInplace(B2Vec2MulScalar(massData.Mass, massData.Center))
+		localCenter.OperatorPlusInplace(Vec2MulScalar(massData.Mass, massData.Center))
 		body.M_I += massData.I
 	}
 

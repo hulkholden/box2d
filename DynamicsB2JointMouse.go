@@ -201,7 +201,7 @@ func (joint *B2MouseJoint) InitVelocityConstraints(data B2SolverData) {
 
 	if data.Step.WarmStarting {
 		joint.M_impulse.OperatorScalarMulInplace(data.Step.DtRatio)
-		vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, joint.M_impulse))
+		vB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, joint.M_impulse))
 		wB += joint.M_invIB * Vec2Cross(joint.M_rB, joint.M_impulse)
 	} else {
 		joint.M_impulse.SetZero()
@@ -217,7 +217,7 @@ func (joint *B2MouseJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Cdot = v + cross(w, r)
 	Cdot := Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB))
-	impulse := Vec2Mat22Mul(joint.M_mass, (Vec2Add(Vec2Add(Cdot, joint.M_C), B2Vec2MulScalar(joint.M_gamma, joint.M_impulse))).OperatorNegate())
+	impulse := Vec2Mat22Mul(joint.M_mass, (Vec2Add(Vec2Add(Cdot, joint.M_C), Vec2MulScalar(joint.M_gamma, joint.M_impulse))).OperatorNegate())
 
 	oldImpulse := joint.M_impulse
 	joint.M_impulse.OperatorPlusInplace(impulse)
@@ -227,7 +227,7 @@ func (joint *B2MouseJoint) SolveVelocityConstraints(data B2SolverData) {
 	}
 	impulse = Vec2Sub(joint.M_impulse, oldImpulse)
 
-	vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, impulse))
+	vB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, impulse))
 	wB += joint.M_invIB * Vec2Cross(joint.M_rB, impulse)
 
 	data.Velocities[joint.M_indexB].V = vB
@@ -247,7 +247,7 @@ func (joint B2MouseJoint) GetAnchorB() B2Vec2 {
 }
 
 func (joint B2MouseJoint) GetReactionForce(inv_dt float64) B2Vec2 {
-	return B2Vec2MulScalar(inv_dt, joint.M_impulse)
+	return Vec2MulScalar(inv_dt, joint.M_impulse)
 }
 
 func (joint B2MouseJoint) GetReactionTorque(inv_dt float64) float64 {

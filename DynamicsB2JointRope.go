@@ -170,10 +170,10 @@ func (joint *B2RopeJoint) InitVelocityConstraints(data B2SolverData) {
 		// Scale the impulse to support a variable time step.
 		joint.M_impulse *= data.Step.DtRatio
 
-		P := B2Vec2MulScalar(joint.M_impulse, joint.M_u)
-		vA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
+		P := Vec2MulScalar(joint.M_impulse, joint.M_u)
+		vA.OperatorMinusInplace(Vec2MulScalar(joint.M_invMassA, P))
 		wA -= joint.M_invIA * Vec2Cross(joint.M_rA, P)
-		vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, P))
 		wB += joint.M_invIB * Vec2Cross(joint.M_rB, P)
 	} else {
 		joint.M_impulse = 0.0
@@ -207,10 +207,10 @@ func (joint *B2RopeJoint) SolveVelocityConstraints(data B2SolverData) {
 	joint.M_impulse = math.Min(0.0, joint.M_impulse+impulse)
 	impulse = joint.M_impulse - oldImpulse
 
-	P := B2Vec2MulScalar(impulse, joint.M_u)
-	vA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
+	P := Vec2MulScalar(impulse, joint.M_u)
+	vA.OperatorMinusInplace(Vec2MulScalar(joint.M_invMassA, P))
 	wA -= joint.M_invIA * Vec2Cross(joint.M_rA, P)
-	vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
+	vB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, P))
 	wB += joint.M_invIB * Vec2Cross(joint.M_rB, P)
 
 	data.Velocities[joint.M_indexA].V = vA
@@ -238,11 +238,11 @@ func (joint *B2RopeJoint) SolvePositionConstraints(data B2SolverData) bool {
 	C = B2FloatClamp(C, 0.0, maxLinearCorrection)
 
 	impulse := -joint.M_mass * C
-	P := B2Vec2MulScalar(impulse, u)
+	P := Vec2MulScalar(impulse, u)
 
-	cA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
+	cA.OperatorMinusInplace(Vec2MulScalar(joint.M_invMassA, P))
 	aA -= joint.M_invIA * Vec2Cross(rA, P)
-	cB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
+	cB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, P))
 	aB += joint.M_invIB * Vec2Cross(rB, P)
 
 	data.Positions[joint.M_indexA].C = cA
@@ -262,7 +262,7 @@ func (joint B2RopeJoint) GetAnchorB() B2Vec2 {
 }
 
 func (joint B2RopeJoint) GetReactionForce(inv_dt float64) B2Vec2 {
-	F := B2Vec2MulScalar((inv_dt * joint.M_impulse), joint.M_u)
+	F := Vec2MulScalar((inv_dt * joint.M_impulse), joint.M_u)
 	return F
 }
 

@@ -167,7 +167,7 @@ func NewB2AABB() *B2AABB { return &B2AABB{} }
 
 // Get the center of the AABB.
 func (bb B2AABB) GetCenter() B2Vec2 {
-	return B2Vec2MulScalar(
+	return Vec2MulScalar(
 		0.5,
 		Vec2Add(bb.LowerBound, bb.UpperBound),
 	)
@@ -175,7 +175,7 @@ func (bb B2AABB) GetCenter() B2Vec2 {
 
 // Get the extents of the AABB (half-widths).
 func (bb B2AABB) GetExtents() B2Vec2 {
-	return B2Vec2MulScalar(
+	return Vec2MulScalar(
 		0.5,
 		Vec2Sub(bb.UpperBound, bb.LowerBound),
 	)
@@ -254,10 +254,10 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 				wm.Normal.Normalize()
 			}
 
-			cA := Vec2Add(pointA, B2Vec2MulScalar(radiusA, wm.Normal))
-			cB := Vec2Sub(pointB, B2Vec2MulScalar(radiusB, wm.Normal))
+			cA := Vec2Add(pointA, Vec2MulScalar(radiusA, wm.Normal))
+			cB := Vec2Sub(pointB, Vec2MulScalar(radiusB, wm.Normal))
 
-			wm.Points[0] = B2Vec2MulScalar(0.5, Vec2Add(cA, cB))
+			wm.Points[0] = Vec2MulScalar(0.5, Vec2Add(cA, cB))
 			wm.Separations[0] = Vec2Dot(Vec2Sub(cB, cA), wm.Normal)
 		}
 
@@ -270,7 +270,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 				clipPoint := B2TransformVec2Mul(xfB, manifold.Points[i].LocalPoint)
 				cA := Vec2Add(
 					clipPoint,
-					B2Vec2MulScalar(
+					Vec2MulScalar(
 						radiusA-Vec2Dot(
 							Vec2Sub(clipPoint, planePoint),
 							wm.Normal,
@@ -278,8 +278,8 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 						wm.Normal,
 					),
 				)
-				cB := Vec2Sub(clipPoint, B2Vec2MulScalar(radiusB, wm.Normal))
-				wm.Points[i] = B2Vec2MulScalar(0.5, Vec2Add(cA, cB))
+				cB := Vec2Sub(clipPoint, Vec2MulScalar(radiusB, wm.Normal))
+				wm.Points[i] = Vec2MulScalar(0.5, Vec2Add(cA, cB))
 				wm.Separations[i] = Vec2Dot(
 					Vec2Sub(cB, cA),
 					wm.Normal,
@@ -294,14 +294,14 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 
 			for i := 0; i < manifold.PointCount; i++ {
 				clipPoint := B2TransformVec2Mul(xfA, manifold.Points[i].LocalPoint)
-				cB := Vec2Add(clipPoint, B2Vec2MulScalar(
+				cB := Vec2Add(clipPoint, Vec2MulScalar(
 					radiusB-Vec2Dot(
 						Vec2Sub(clipPoint, planePoint),
 						wm.Normal,
 					), wm.Normal,
 				))
-				cA := Vec2Sub(clipPoint, B2Vec2MulScalar(radiusA, wm.Normal))
-				wm.Points[i] = B2Vec2MulScalar(0.5, Vec2Add(cA, cB))
+				cA := Vec2Sub(clipPoint, Vec2MulScalar(radiusA, wm.Normal))
+				wm.Points[i] = Vec2MulScalar(0.5, Vec2Add(cA, cB))
 				wm.Separations[i] = Vec2Dot(
 					Vec2Sub(cA, cB),
 					wm.Normal,
@@ -433,7 +433,7 @@ func B2ClipSegmentToLine(vOut []B2ClipVertex, vIn []B2ClipVertex, normal B2Vec2,
 		interp := distance0 / (distance0 - distance1)
 		vOut[numOut].V = Vec2Add(
 			vIn[0].V,
-			B2Vec2MulScalar(interp, Vec2Sub(vIn[1].V, vIn[0].V)),
+			Vec2MulScalar(interp, Vec2Sub(vIn[1].V, vIn[0].V)),
 		)
 
 		// VertexA is hitting edgeB.

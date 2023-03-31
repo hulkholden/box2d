@@ -236,10 +236,10 @@ func (joint *B2DistanceJoint) InitVelocityConstraints(data B2SolverData) {
 		// Scale the impulse to support a variable time step.
 		joint.M_impulse *= data.Step.DtRatio
 
-		P := B2Vec2MulScalar(joint.M_impulse, joint.M_u)
-		vA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
+		P := Vec2MulScalar(joint.M_impulse, joint.M_u)
+		vA.OperatorMinusInplace(Vec2MulScalar(joint.M_invMassA, P))
 		wA -= joint.M_invIA * Vec2Cross(joint.M_rA, P)
-		vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, P))
 		wB += joint.M_invIB * Vec2Cross(joint.M_rB, P)
 	} else {
 		joint.M_impulse = 0.0
@@ -266,10 +266,10 @@ func (joint *B2DistanceJoint) SolveVelocityConstraints(data B2SolverData) {
 	impulse := -joint.M_mass * (Cdot + joint.M_bias + joint.M_gamma*joint.M_impulse)
 	joint.M_impulse += impulse
 
-	P := B2Vec2MulScalar(impulse, joint.M_u)
-	vA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
+	P := Vec2MulScalar(impulse, joint.M_u)
+	vA.OperatorMinusInplace(Vec2MulScalar(joint.M_invMassA, P))
 	wA -= joint.M_invIA * Vec2Cross(joint.M_rA, P)
-	vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
+	vB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, P))
 	wB += joint.M_invIB * Vec2Cross(joint.M_rB, P)
 
 	// Note: mutation on value, not ref; but OK because Velocities is an array
@@ -302,11 +302,11 @@ func (joint *B2DistanceJoint) SolvePositionConstraints(data B2SolverData) bool {
 	C = B2FloatClamp(C, -maxLinearCorrection, maxLinearCorrection)
 
 	impulse := -joint.M_mass * C
-	P := B2Vec2MulScalar(impulse, u)
+	P := Vec2MulScalar(impulse, u)
 
-	cA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
+	cA.OperatorMinusInplace(Vec2MulScalar(joint.M_invMassA, P))
 	aA -= joint.M_invIA * Vec2Cross(rA, P)
-	cB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
+	cB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, P))
 	aB += joint.M_invIB * Vec2Cross(rB, P)
 
 	// Note: mutation on value, not ref; but OK because Positions is an array
@@ -327,7 +327,7 @@ func (joint B2DistanceJoint) GetAnchorB() B2Vec2 {
 }
 
 func (joint B2DistanceJoint) GetReactionForce(inv_dt float64) B2Vec2 {
-	return B2Vec2MulScalar((inv_dt * joint.M_impulse), joint.M_u)
+	return Vec2MulScalar((inv_dt * joint.M_impulse), joint.M_u)
 }
 
 func (joint B2DistanceJoint) GetReactionTorque(inv_dt float64) float64 {

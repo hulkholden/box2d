@@ -135,7 +135,7 @@ func ComputeCentroid(vs []B2Vec2, count int) B2Vec2 {
 		area += triangleArea
 
 		// Area weighted centroid
-		c.OperatorPlusInplace(B2Vec2MulScalar(triangleArea*inv3, Vec2Add(Vec2Add(p1, p2), p3)))
+		c.OperatorPlusInplace(Vec2MulScalar(triangleArea*inv3, Vec2Add(Vec2Add(p1, p2), p3)))
 	}
 
 	// Centroid
@@ -414,7 +414,7 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 		area += triangleArea
 
 		// Area weighted centroid
-		center.OperatorPlusInplace(B2Vec2MulScalar(triangleArea*k_inv3, Vec2Add(e1, e2)))
+		center.OperatorPlusInplace(Vec2MulScalar(triangleArea*k_inv3, Vec2Add(e1, e2)))
 
 		ex1 := e1.X
 		ey1 := e1.Y

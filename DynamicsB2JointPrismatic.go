@@ -338,14 +338,14 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_impulse.OperatorScalarMultInplace(data.Step.DtRatio)
 		joint.M_motorImpulse *= data.Step.DtRatio
 
-		P := Vec2Add(B2Vec2MulScalar(joint.M_impulse.X, joint.M_perp), B2Vec2MulScalar(joint.M_motorImpulse+joint.M_impulse.Z, joint.M_axis))
+		P := Vec2Add(Vec2MulScalar(joint.M_impulse.X, joint.M_perp), Vec2MulScalar(joint.M_motorImpulse+joint.M_impulse.Z, joint.M_axis))
 		LA := joint.M_impulse.X*joint.M_s1 + joint.M_impulse.Y + (joint.M_motorImpulse+joint.M_impulse.Z)*joint.M_a1
 		LB := joint.M_impulse.X*joint.M_s2 + joint.M_impulse.Y + (joint.M_motorImpulse+joint.M_impulse.Z)*joint.M_a2
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		wA -= iA * LA
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		wB += iB * LB
 	} else {
 		joint.M_impulse.SetZero()
@@ -378,14 +378,14 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 		joint.M_motorImpulse = B2FloatClamp(joint.M_motorImpulse+impulse, -maxImpulse, maxImpulse)
 		impulse = joint.M_motorImpulse - oldImpulse
 
-		P := B2Vec2MulScalar(impulse, joint.M_axis)
+		P := Vec2MulScalar(impulse, joint.M_axis)
 		LA := impulse * joint.M_a1
 		LB := impulse * joint.M_a2
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		wA -= iA * LA
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		wB += iB * LB
 	}
 
@@ -410,21 +410,21 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 		}
 
 		// f2(1:2) = invK(1:2,1:2) * (-Cdot(1:2) - K(1:2,3) * (f2(3) - f1(3))) + f1(1:2)
-		b := Vec2Sub(Cdot1.OperatorNegate(), B2Vec2MulScalar(joint.M_impulse.Z-f1.Z, MakeVec2(joint.M_K.Ez.X, joint.M_K.Ez.Y)))
+		b := Vec2Sub(Cdot1.OperatorNegate(), Vec2MulScalar(joint.M_impulse.Z-f1.Z, MakeVec2(joint.M_K.Ez.X, joint.M_K.Ez.Y)))
 		f2r := Vec2Add(joint.M_K.Solve22(b), MakeVec2(f1.X, f1.Y))
 		joint.M_impulse.X = f2r.X
 		joint.M_impulse.Y = f2r.Y
 
 		df = B2Vec3Sub(joint.M_impulse, f1)
 
-		P := Vec2Add(B2Vec2MulScalar(df.X, joint.M_perp), B2Vec2MulScalar(df.Z, joint.M_axis))
+		P := Vec2Add(Vec2MulScalar(df.X, joint.M_perp), Vec2MulScalar(df.Z, joint.M_axis))
 		LA := df.X*joint.M_s1 + df.Y + df.Z*joint.M_a1
 		LB := df.X*joint.M_s2 + df.Y + df.Z*joint.M_a2
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		wA -= iA * LA
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		wB += iB * LB
 	} else {
 		// Limit is inactive, just solve the prismatic constraint in block form.
@@ -432,14 +432,14 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 		joint.M_impulse.X += df.X
 		joint.M_impulse.Y += df.Y
 
-		P := B2Vec2MulScalar(df.X, joint.M_perp)
+		P := Vec2MulScalar(df.X, joint.M_perp)
 		LA := df.X*joint.M_s1 + df.Y
 		LB := df.X*joint.M_s2 + df.Y
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		wA -= iA * LA
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		wB += iB * LB
 	}
 
@@ -554,13 +554,13 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 		impulse.Z = 0.0
 	}
 
-	P := Vec2Add(B2Vec2MulScalar(impulse.X, perp), B2Vec2MulScalar(impulse.Z, axis))
+	P := Vec2Add(Vec2MulScalar(impulse.X, perp), Vec2MulScalar(impulse.Z, axis))
 	LA := impulse.X*s1 + impulse.Y + impulse.Z*a1
 	LB := impulse.X*s2 + impulse.Y + impulse.Z*a2
 
-	cA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+	cA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 	aA -= iA * LA
-	cB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+	cB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 	aB += iB * LB
 
 	data.Positions[joint.M_indexA].C = cA
@@ -580,7 +580,7 @@ func (joint B2PrismaticJoint) GetAnchorB() B2Vec2 {
 }
 
 func (joint B2PrismaticJoint) GetReactionForce(inv_dt float64) B2Vec2 {
-	return B2Vec2MulScalar(inv_dt, Vec2Add(B2Vec2MulScalar(joint.M_impulse.X, joint.M_perp), B2Vec2MulScalar(joint.M_motorImpulse+joint.M_impulse.Z, joint.M_axis)))
+	return Vec2MulScalar(inv_dt, Vec2Add(Vec2MulScalar(joint.M_impulse.X, joint.M_perp), Vec2MulScalar(joint.M_motorImpulse+joint.M_impulse.Z, joint.M_axis)))
 }
 
 func (joint B2PrismaticJoint) GetReactionTorque(inv_dt float64) float64 {

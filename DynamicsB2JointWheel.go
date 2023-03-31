@@ -308,14 +308,14 @@ func (joint *B2WheelJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_springImpulse *= data.Step.DtRatio
 		joint.M_motorImpulse *= data.Step.DtRatio
 
-		P := Vec2Add(B2Vec2MulScalar(joint.M_impulse, joint.M_ay), B2Vec2MulScalar(joint.M_springImpulse, joint.M_ax))
+		P := Vec2Add(Vec2MulScalar(joint.M_impulse, joint.M_ay), Vec2MulScalar(joint.M_springImpulse, joint.M_ax))
 		LA := joint.M_impulse*joint.M_sAy + joint.M_springImpulse*joint.M_sAx + joint.M_motorImpulse
 		LB := joint.M_impulse*joint.M_sBy + joint.M_springImpulse*joint.M_sBx + joint.M_motorImpulse
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(joint.M_invMassA, P))
 		wA -= joint.M_invIA * LA
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, P))
 		wB += joint.M_invIB * LB
 	} else {
 		joint.M_impulse = 0.0
@@ -346,14 +346,14 @@ func (joint *B2WheelJoint) SolveVelocityConstraints(data B2SolverData) {
 		impulse := -joint.M_springMass * (Cdot + joint.M_bias + joint.M_gamma*joint.M_springImpulse)
 		joint.M_springImpulse += impulse
 
-		P := B2Vec2MulScalar(impulse, joint.M_ax)
+		P := Vec2MulScalar(impulse, joint.M_ax)
 		LA := impulse * joint.M_sAx
 		LB := impulse * joint.M_sBx
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		wA -= iA * LA
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		wB += iB * LB
 	}
 
@@ -377,14 +377,14 @@ func (joint *B2WheelJoint) SolveVelocityConstraints(data B2SolverData) {
 		impulse := -joint.M_mass * Cdot
 		joint.M_impulse += impulse
 
-		P := B2Vec2MulScalar(impulse, joint.M_ay)
+		P := Vec2MulScalar(impulse, joint.M_ay)
 		LA := impulse * joint.M_sAy
 		LB := impulse * joint.M_sBy
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		wA -= iA * LA
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		wB += iB * LB
 	}
 
@@ -423,13 +423,13 @@ func (joint *B2WheelJoint) SolvePositionConstraints(data B2SolverData) bool {
 		impulse = 0.0
 	}
 
-	P := B2Vec2MulScalar(impulse, ay)
+	P := Vec2MulScalar(impulse, ay)
 	LA := impulse * sAy
 	LB := impulse * sBy
 
-	cA.OperatorMinusInplace(B2Vec2MulScalar(joint.M_invMassA, P))
+	cA.OperatorMinusInplace(Vec2MulScalar(joint.M_invMassA, P))
 	aA -= joint.M_invIA * LA
-	cB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, P))
+	cB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, P))
 	aB += joint.M_invIB * LB
 
 	data.Positions[joint.M_indexA].C = cA
@@ -449,7 +449,7 @@ func (joint B2WheelJoint) GetAnchorB() B2Vec2 {
 }
 
 func (joint B2WheelJoint) GetReactionForce(inv_dt float64) B2Vec2 {
-	return B2Vec2MulScalar(inv_dt, Vec2Add(B2Vec2MulScalar(joint.M_impulse, joint.M_ay), B2Vec2MulScalar(joint.M_springImpulse, joint.M_ax)))
+	return Vec2MulScalar(inv_dt, Vec2Add(Vec2MulScalar(joint.M_impulse, joint.M_ay), Vec2MulScalar(joint.M_springImpulse, joint.M_ax)))
 }
 
 func (joint B2WheelJoint) GetReactionTorque(inv_dt float64) float64 {

@@ -982,7 +982,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 B2Vec2, point2 
 
 		if hit {
 			fraction := output.Fraction
-			point := Vec2Add(B2Vec2MulScalar((1.0-fraction), input.P1), B2Vec2MulScalar(fraction, input.P2))
+			point := Vec2Add(Vec2MulScalar((1.0-fraction), input.P1), Vec2MulScalar(fraction, input.P2))
 			return callback(fixture, point, output.Normal, fraction)
 		}
 

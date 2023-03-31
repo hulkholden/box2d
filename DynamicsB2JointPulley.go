@@ -204,12 +204,12 @@ func (joint *B2PulleyJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_impulse *= data.Step.DtRatio
 
 		// Warm starting.
-		PA := B2Vec2MulScalar(-(joint.M_impulse), joint.M_uA)
-		PB := B2Vec2MulScalar(-joint.M_ratio*joint.M_impulse, joint.M_uB)
+		PA := Vec2MulScalar(-(joint.M_impulse), joint.M_uA)
+		PB := Vec2MulScalar(-joint.M_ratio*joint.M_impulse, joint.M_uB)
 
-		vA.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassA, PA))
+		vA.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassA, PA))
 		wA += joint.M_invIA * Vec2Cross(joint.M_rA, PA)
-		vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, PB))
+		vB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, PB))
 		wB += joint.M_invIB * Vec2Cross(joint.M_rB, PB)
 	} else {
 		joint.M_impulse = 0.0
@@ -234,11 +234,11 @@ func (joint *B2PulleyJoint) SolveVelocityConstraints(data B2SolverData) {
 	impulse := -joint.M_mass * Cdot
 	joint.M_impulse += impulse
 
-	PA := B2Vec2MulScalar(-impulse, joint.M_uA)
-	PB := B2Vec2MulScalar(-joint.M_ratio*impulse, joint.M_uB)
-	vA.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassA, PA))
+	PA := Vec2MulScalar(-impulse, joint.M_uA)
+	PB := Vec2MulScalar(-joint.M_ratio*impulse, joint.M_uB)
+	vA.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassA, PA))
 	wA += joint.M_invIA * Vec2Cross(joint.M_rA, PA)
-	vB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, PB))
+	vB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, PB))
 	wB += joint.M_invIB * Vec2Cross(joint.M_rB, PB)
 
 	data.Velocities[joint.M_indexA].V = vA
@@ -296,12 +296,12 @@ func (joint *B2PulleyJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 	impulse := -mass * C
 
-	PA := B2Vec2MulScalar(-impulse, uA)
-	PB := B2Vec2MulScalar(-joint.M_ratio*impulse, uB)
+	PA := Vec2MulScalar(-impulse, uA)
+	PB := Vec2MulScalar(-joint.M_ratio*impulse, uB)
 
-	cA.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassA, PA))
+	cA.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassA, PA))
 	aA += joint.M_invIA * Vec2Cross(rA, PA)
-	cB.OperatorPlusInplace(B2Vec2MulScalar(joint.M_invMassB, PB))
+	cB.OperatorPlusInplace(Vec2MulScalar(joint.M_invMassB, PB))
 	aB += joint.M_invIB * Vec2Cross(rB, PB)
 
 	data.Positions[joint.M_indexA].C = cA
@@ -321,8 +321,8 @@ func (joint B2PulleyJoint) GetAnchorB() B2Vec2 {
 }
 
 func (joint B2PulleyJoint) GetReactionForce(inv_dt float64) B2Vec2 {
-	P := B2Vec2MulScalar(joint.M_impulse, joint.M_uB)
-	return B2Vec2MulScalar(inv_dt, P)
+	P := Vec2MulScalar(joint.M_impulse, joint.M_uB)
+	return Vec2MulScalar(inv_dt, P)
 }
 
 func (joint B2PulleyJoint) GetReactionTorque(inv_dt float64) float64 {

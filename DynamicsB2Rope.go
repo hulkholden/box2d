@@ -155,10 +155,10 @@ func (rope *B2Rope) Step(h float64, iterations int) {
 	for i := 0; i < rope.M_count; i++ {
 		rope.M_p0s[i] = rope.M_ps[i]
 		if rope.M_ims[i] > 0.0 {
-			rope.M_vs[i].OperatorPlusInplace(B2Vec2MulScalar(h, rope.M_gravity))
+			rope.M_vs[i].OperatorPlusInplace(Vec2MulScalar(h, rope.M_gravity))
 		}
 		rope.M_vs[i].OperatorScalarMulInplace(d)
-		rope.M_ps[i].OperatorPlusInplace(B2Vec2MulScalar(h, rope.M_vs[i]))
+		rope.M_ps[i].OperatorPlusInplace(Vec2MulScalar(h, rope.M_vs[i]))
 	}
 
 	for i := 0; i < iterations; i++ {
@@ -169,7 +169,7 @@ func (rope *B2Rope) Step(h float64, iterations int) {
 
 	inv_h := 1.0 / h
 	for i := 0; i < rope.M_count; i++ {
-		rope.M_vs[i] = B2Vec2MulScalar(inv_h, Vec2Sub(rope.M_ps[i], rope.M_p0s[i]))
+		rope.M_vs[i] = Vec2MulScalar(inv_h, Vec2Sub(rope.M_ps[i], rope.M_p0s[i]))
 	}
 }
 
@@ -193,8 +193,8 @@ func (rope *B2Rope) SolveC2() {
 		s1 := im1 / (im1 + im2)
 		s2 := im2 / (im1 + im2)
 
-		p1.OperatorMinusInplace(B2Vec2MulScalar(rope.M_k2*s1*(rope.M_Ls[i]-L), d))
-		p2.OperatorPlusInplace(B2Vec2MulScalar(rope.M_k2*s2*(rope.M_Ls[i]-L), d))
+		p1.OperatorMinusInplace(Vec2MulScalar(rope.M_k2*s1*(rope.M_Ls[i]-L), d))
+		p2.OperatorPlusInplace(Vec2MulScalar(rope.M_k2*s2*(rope.M_Ls[i]-L), d))
 
 		rope.M_ps[i] = p1
 		rope.M_ps[i+1] = p2
@@ -235,8 +235,8 @@ func (rope *B2Rope) SolveC3() {
 
 		angle := math.Atan2(a, b)
 
-		Jd1 := B2Vec2MulScalar((-1.0 / L1sqr), d1.Skew())
-		Jd2 := B2Vec2MulScalar((1.0 / L2sqr), d2.Skew())
+		Jd1 := Vec2MulScalar((-1.0 / L1sqr), d1.Skew())
+		Jd2 := Vec2MulScalar((1.0 / L2sqr), d2.Skew())
 
 		J1 := Jd1.OperatorNegate()
 		J2 := Vec2Sub(Jd1, Jd2)
@@ -263,9 +263,9 @@ func (rope *B2Rope) SolveC3() {
 
 		impulse := -rope.M_k3 * mass * C
 
-		p1.OperatorPlusInplace(B2Vec2MulScalar((m1 * impulse), J1))
-		p2.OperatorPlusInplace(B2Vec2MulScalar((m2 * impulse), J2))
-		p3.OperatorPlusInplace(B2Vec2MulScalar((m3 * impulse), J3))
+		p1.OperatorPlusInplace(Vec2MulScalar((m1 * impulse), J1))
+		p2.OperatorPlusInplace(Vec2MulScalar((m2 * impulse), J2))
+		p3.OperatorPlusInplace(Vec2MulScalar((m3 * impulse), J3))
 
 		rope.M_ps[i] = p1
 		rope.M_ps[i+1] = p2

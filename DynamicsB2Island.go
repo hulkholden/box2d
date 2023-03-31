@@ -222,11 +222,11 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec
 
 			// Integrate velocities.
 			v.OperatorPlusInplace(
-				B2Vec2MulScalar(
+				Vec2MulScalar(
 					h,
 					Vec2Add(
-						B2Vec2MulScalar(b.M_gravityScale, gravity),
-						B2Vec2MulScalar(b.M_invMass, b.M_force),
+						Vec2MulScalar(b.M_gravityScale, gravity),
+						Vec2MulScalar(b.M_invMass, b.M_force),
 					),
 				),
 			)
@@ -301,7 +301,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec
 		w := island.M_velocities[i].W
 
 		// Check for large velocities
-		translation := B2Vec2MulScalar(h, v)
+		translation := Vec2MulScalar(h, v)
 		if Vec2Dot(translation, translation) > maxTranslationSquared {
 			ratio := maxTranslation / translation.Length()
 			v.OperatorScalarMulInplace(ratio)
@@ -314,7 +314,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity B2Vec
 		}
 
 		// Integrate
-		c.OperatorPlusInplace(B2Vec2MulScalar(h, v))
+		c.OperatorPlusInplace(Vec2MulScalar(h, v))
 		a += h * w
 
 		island.M_positions[i].C = c
@@ -444,7 +444,7 @@ func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB in
 		w := island.M_velocities[i].W
 
 		// Check for large velocities
-		translation := B2Vec2MulScalar(h, v)
+		translation := Vec2MulScalar(h, v)
 		if Vec2Dot(translation, translation) > maxTranslationSquared {
 			ratio := maxTranslation / translation.Length()
 			v.OperatorScalarMulInplace(ratio)
@@ -457,7 +457,7 @@ func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB in
 		}
 
 		// Integrate
-		c.OperatorPlusInplace(B2Vec2MulScalar(h, v))
+		c.OperatorPlusInplace(Vec2MulScalar(h, v))
 		a += h * w
 
 		island.M_positions[i].C = c

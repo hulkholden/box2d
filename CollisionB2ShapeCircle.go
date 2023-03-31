@@ -74,7 +74,7 @@ func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 	if 0.0 <= a && a <= input.MaxFraction*rr {
 		a /= rr
 		output.Fraction = a
-		output.Normal = Vec2Add(s, B2Vec2MulScalar(a, r))
+		output.Normal = Vec2Add(s, Vec2MulScalar(a, r))
 		output.Normal.Normalize()
 		return true
 	}

@@ -245,10 +245,10 @@ func (joint *B2WeldJoint) InitVelocityConstraints(data B2SolverData) {
 
 		P := MakeVec2(joint.M_impulse.X, joint.M_impulse.Y)
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		wA -= iA * (Vec2Cross(joint.M_rA, P) + joint.M_impulse.Z)
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		wB += iB * (Vec2Cross(joint.M_rB, P) + joint.M_impulse.Z)
 	} else {
 		joint.M_impulse.SetZero()
@@ -288,10 +288,10 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 
 		P := impulse1
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		wA -= iA * Vec2Cross(joint.M_rA, P)
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		wB += iB * Vec2Cross(joint.M_rB, P)
 	} else {
 		Cdot1 := Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
@@ -303,10 +303,10 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 
 		P := MakeVec2(impulse.X, impulse.Y)
 
-		vA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		vA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		wA -= iA * (Vec2Cross(joint.M_rA, P) + impulse.Z)
 
-		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		vB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		wB += iB * (Vec2Cross(joint.M_rB, P) + impulse.Z)
 	}
 
@@ -355,10 +355,10 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 		P := K.Solve22(C1).OperatorNegate()
 
-		cA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		cA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		aA -= iA * Vec2Cross(rA, P)
 
-		cB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		cB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		aB += iB * Vec2Cross(rB, P)
 	} else {
 		C1 := Vec2Sub(Vec2Sub(Vec2Add(cB, rB), cA), rA)
@@ -379,10 +379,10 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 		P := MakeVec2(impulse.X, impulse.Y)
 
-		cA.OperatorMinusInplace(B2Vec2MulScalar(mA, P))
+		cA.OperatorMinusInplace(Vec2MulScalar(mA, P))
 		aA -= iA * (Vec2Cross(rA, P) + impulse.Z)
 
-		cB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
+		cB.OperatorPlusInplace(Vec2MulScalar(mB, P))
 		aB += iB * (Vec2Cross(rB, P) + impulse.Z)
 	}
 
@@ -404,7 +404,7 @@ func (joint B2WeldJoint) GetAnchorB() B2Vec2 {
 
 func (joint B2WeldJoint) GetReactionForce(inv_dt float64) B2Vec2 {
 	P := MakeVec2(joint.M_impulse.X, joint.M_impulse.Y)
-	return B2Vec2MulScalar(inv_dt, P)
+	return Vec2MulScalar(inv_dt, P)
 }
 
 func (joint B2WeldJoint) GetReactionTorque(inv_dt float64) float64 {

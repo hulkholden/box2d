@@ -214,7 +214,7 @@ func (joint *B2FrictionJoint) SolveVelocityConstraints(data B2SolverData) {
 	{
 		Cdot := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 
-		impulse := B2Vec2Mat22Mul(joint.M_linearMass, Cdot).OperatorNegate()
+		impulse := Vec2Mat22Mul(joint.M_linearMass, Cdot).OperatorNegate()
 		oldImpulse := joint.M_linearImpulse
 		joint.M_linearImpulse.OperatorPlusInplace(impulse)
 

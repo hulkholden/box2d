@@ -217,7 +217,7 @@ func (joint *B2MouseJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Cdot = v + cross(w, r)
 	Cdot := B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB))
-	impulse := B2Vec2Mat22Mul(joint.M_mass, (B2Vec2Add(B2Vec2Add(Cdot, joint.M_C), B2Vec2MulScalar(joint.M_gamma, joint.M_impulse))).OperatorNegate())
+	impulse := Vec2Mat22Mul(joint.M_mass, (B2Vec2Add(B2Vec2Add(Cdot, joint.M_C), B2Vec2MulScalar(joint.M_gamma, joint.M_impulse))).OperatorNegate())
 
 	oldImpulse := joint.M_impulse
 	joint.M_impulse.OperatorPlusInplace(impulse)

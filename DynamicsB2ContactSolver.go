@@ -474,7 +474,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 			b.Y = vn2 - cp2.VelocityBias
 
 			// Compute b'
-			b.OperatorMinusInplace(B2Vec2Mat22Mul(vc.K, a))
+			b.OperatorMinusInplace(Vec2Mat22Mul(vc.K, a))
 
 			const k_errorTol = 0.001
 			// B2_NOT_USED(k_errorTol);
@@ -489,7 +489,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 				//
 				// x = - inv(A) * b'
 				//
-				x := B2Vec2Mat22Mul(vc.NormalMass, b).OperatorNegate()
+				x := Vec2Mat22Mul(vc.NormalMass, b).OperatorNegate()
 
 				if x.X >= 0.0 && x.Y >= 0.0 {
 					// Get the incremental impulse

@@ -232,7 +232,7 @@ func (simplex B2Simplex) GetSearchDirection() B2Vec2 {
 			sgn := Vec2Cross(e12, simplex.M_vs[0].W.OperatorNegate())
 			if sgn > 0.0 {
 				// Origin is left of e12.
-				return B2Vec2CrossScalarVector(1.0, e12)
+				return Vec2CrossScalarVector(1.0, e12)
 			} else {
 				// Origin is right of e12.
 				return Vec2CrossVectorScalar(e12, 1.0)

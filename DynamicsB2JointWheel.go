@@ -177,7 +177,7 @@ func MakeB2WheelJoint(def *B2WheelJointDef) *B2WheelJoint {
 	res.M_localAnchorA = def.LocalAnchorA
 	res.M_localAnchorB = def.LocalAnchorB
 	res.M_localXAxisA = def.LocalAxisA
-	res.M_localYAxisA = B2Vec2CrossScalarVector(1.0, res.M_localXAxisA)
+	res.M_localYAxisA = Vec2CrossScalarVector(1.0, res.M_localXAxisA)
 
 	res.M_mass = 0.0
 	res.M_impulse = 0.0
@@ -485,7 +485,7 @@ func (joint B2WheelJoint) GetJointLinearSpeed() float64 {
 	wA := bA.M_angularVelocity
 	wB := bB.M_angularVelocity
 
-	speed := Vec2Dot(d, B2Vec2CrossScalarVector(wA, axis)) + Vec2Dot(axis, B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, rB)), vA), B2Vec2CrossScalarVector(wA, rA)))
+	speed := Vec2Dot(d, Vec2CrossScalarVector(wA, axis)) + Vec2Dot(axis, B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, Vec2CrossScalarVector(wB, rB)), vA), Vec2CrossScalarVector(wA, rA)))
 	return speed
 }
 

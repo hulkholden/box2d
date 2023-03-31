@@ -306,7 +306,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Solve limit constraint.
 	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit && !fixedRotation {
-		Cdot1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, joint.M_rB)), vA), B2Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 		Cdot2 := wB - wA
 		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
 
@@ -353,7 +353,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 		wB += iB * (Vec2Cross(joint.M_rB, P) + impulse.Z)
 	} else {
 		// Solve point-to-point constraint
-		Cdot := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, joint.M_rB)), vA), B2Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 		impulse := joint.M_mass.Solve22(Cdot.OperatorNegate())
 
 		joint.M_impulse.X += impulse.X

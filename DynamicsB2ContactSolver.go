@@ -249,10 +249,10 @@ func (solver *B2ContactSolver) InitializeVelocityConstraints() {
 					B2Vec2Sub(
 						B2Vec2Add(
 							vB,
-							B2Vec2CrossScalarVector(wB, vcp.RB),
+							Vec2CrossScalarVector(wB, vcp.RB),
 						),
 						vA),
-					B2Vec2CrossScalarVector(wA, vcp.RA),
+					Vec2CrossScalarVector(wA, vcp.RA),
 				),
 			)
 			if vRel < -velocityThreshold {
@@ -360,10 +360,10 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 				vB,
 				B2Vec2Sub(
 					B2Vec2Sub(
-						B2Vec2CrossScalarVector(wB, vcp.RB),
+						Vec2CrossScalarVector(wB, vcp.RB),
 						vA,
 					),
-					B2Vec2CrossScalarVector(wA, vcp.RA),
+					Vec2CrossScalarVector(wA, vcp.RA),
 				),
 			)
 
@@ -397,10 +397,10 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 					vB,
 					B2Vec2Sub(
 						B2Vec2Sub(
-							B2Vec2CrossScalarVector(wB, vcp.RB),
+							Vec2CrossScalarVector(wB, vcp.RB),
 							vA,
 						),
-						B2Vec2CrossScalarVector(wA, vcp.RA),
+						Vec2CrossScalarVector(wA, vcp.RA),
 					),
 				)
 
@@ -462,8 +462,8 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 			B2Assert(a.X >= 0.0 && a.Y >= 0.0)
 
 			// Relative velocity at contact
-			dv1 := B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(B2Vec2CrossScalarVector(wB, cp1.RB), vA), B2Vec2CrossScalarVector(wA, cp1.RA)))
-			dv2 := B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(B2Vec2CrossScalarVector(wB, cp2.RB), vA), B2Vec2CrossScalarVector(wA, cp2.RA)))
+			dv1 := B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp1.RB), vA), Vec2CrossScalarVector(wA, cp1.RA)))
+			dv2 := B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp2.RB), vA), Vec2CrossScalarVector(wA, cp2.RA)))
 
 			// Compute normal velocity
 			vn1 := Vec2Dot(dv1, normal)
@@ -514,20 +514,20 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 							vB,
 							B2Vec2Sub(
 								B2Vec2Sub(
-									B2Vec2CrossScalarVector(wB, cp1.RB),
+									Vec2CrossScalarVector(wB, cp1.RB),
 									vA,
 								),
-								B2Vec2CrossScalarVector(wA, cp1.RA),
+								Vec2CrossScalarVector(wA, cp1.RA),
 							),
 						)
 						dv2 = B2Vec2Add(
 							vB,
 							B2Vec2Sub(
 								B2Vec2Sub(
-									B2Vec2CrossScalarVector(wB, cp2.RB),
+									Vec2CrossScalarVector(wB, cp2.RB),
 									vA,
 								),
-								B2Vec2CrossScalarVector(wA, cp2.RA),
+								Vec2CrossScalarVector(wA, cp2.RA),
 							),
 						)
 
@@ -570,7 +570,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 
 					if B2_DEBUG_SOLVER == 1 {
 						// Postconditions
-						dv1 = B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(B2Vec2CrossScalarVector(wB, cp1.RB), vA), B2Vec2CrossScalarVector(wA, cp1.RA)))
+						dv1 = B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp1.RB), vA), Vec2CrossScalarVector(wA, cp1.RA)))
 
 						// Compute normal velocity
 						vn1 = Vec2Dot(dv1, normal)
@@ -610,7 +610,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 
 					if B2_DEBUG_SOLVER == 1 {
 						// Postconditions
-						dv2 = B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(B2Vec2CrossScalarVector(wB, cp2.RB), vA), B2Vec2CrossScalarVector(wA, cp2.RA)))
+						dv2 = B2Vec2Add(vB, B2Vec2Sub(B2Vec2Sub(Vec2CrossScalarVector(wB, cp2.RB), vA), Vec2CrossScalarVector(wA, cp2.RA)))
 
 						// Compute normal velocity
 						vn2 = Vec2Dot(dv2, normal)

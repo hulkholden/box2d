@@ -259,8 +259,8 @@ func (joint *B2DistanceJoint) SolveVelocityConstraints(data B2SolverData) {
 	wB := data.Velocities[joint.M_indexB].W
 
 	// Cdot = dot(u, v + cross(w, r))
-	vpA := B2Vec2Add(vA, B2Vec2CrossScalarVector(wA, joint.M_rA))
-	vpB := B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, joint.M_rB))
+	vpA := B2Vec2Add(vA, Vec2CrossScalarVector(wA, joint.M_rA))
+	vpB := B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB))
 	Cdot := Vec2Dot(joint.M_u, B2Vec2Sub(vpB, vpA))
 
 	impulse := -joint.M_mass * (Cdot + joint.M_bias + joint.M_gamma*joint.M_impulse)

@@ -219,7 +219,7 @@ func (joint *B2MotorJoint) SolveVelocityConstraints(data B2SolverData) {
 
 	// Solve linear friction
 	{
-		Cdot := B2Vec2Add(B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, joint.M_rB)), vA), B2Vec2CrossScalarVector(wA, joint.M_rA)), B2Vec2MulScalar(inv_h*joint.M_correctionFactor, joint.M_linearError))
+		Cdot := B2Vec2Add(B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA)), B2Vec2MulScalar(inv_h*joint.M_correctionFactor, joint.M_linearError))
 
 		impulse := B2Vec2Mat22Mul(joint.M_linearMass, Cdot).OperatorNegate()
 		oldImpulse := joint.M_linearImpulse

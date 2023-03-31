@@ -104,7 +104,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 	r.Normalize()
 
 	// v is perpendicular to the segment.
-	v := B2Vec2CrossScalarVector(1.0, r)
+	v := Vec2CrossScalarVector(1.0, r)
 	abs_v := B2Vec2Abs(v)
 
 	// Separating axis for segment (Gino, p80).

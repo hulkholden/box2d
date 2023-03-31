@@ -280,7 +280,7 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 		wA -= iA * impulse2
 		wB += iB * impulse2
 
-		Cdot1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, joint.M_rB)), vA), B2Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 
 		impulse1 := B2Vec2Mul22(joint.M_mass, Cdot1).OperatorNegate()
 		joint.M_impulse.X += impulse1.X
@@ -294,7 +294,7 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 		vB.OperatorPlusInplace(B2Vec2MulScalar(mB, P))
 		wB += iB * Vec2Cross(joint.M_rB, P)
 	} else {
-		Cdot1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, B2Vec2CrossScalarVector(wB, joint.M_rB)), vA), B2Vec2CrossScalarVector(wA, joint.M_rA))
+		Cdot1 := B2Vec2Sub(B2Vec2Sub(B2Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 		Cdot2 := wB - wA
 		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
 

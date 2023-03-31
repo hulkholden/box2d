@@ -93,8 +93,8 @@ const (
 // that overlap is removed in one time step. However using values close to 1 often lead
 // to overshoot.
 const (
-	baumgarte      = 0.2
-	B2_toiBaugarte = 0.75
+	baumgarte   = 0.2
+	toiBaugarte = 0.75
 )
 
 // Sleep

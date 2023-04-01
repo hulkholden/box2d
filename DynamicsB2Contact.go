@@ -6,13 +6,13 @@ import (
 
 // Friction mixing law. The idea is to allow either fixture to drive the friction to zero.
 // For example, anything slides on ice.
-func B2MixFriction(friction1, friction2 float64) float64 {
+func MixFriction(friction1, friction2 float64) float64 {
 	return math.Sqrt(friction1 * friction2)
 }
 
 // Restitution mixing law. The idea is allow for anything to bounce off an inelastic surface.
 // For example, a superball bounces on anything.
-func B2MixRestitution(restitution1, restitution2 float64) float64 {
+func MixRestitution(restitution1, restitution2 float64) float64 {
 	if restitution1 > restitution2 {
 		return restitution1
 	}
@@ -261,7 +261,7 @@ func (contact *B2Contact) SetFriction(friction float64) {
 }
 
 func (contact *B2Contact) ResetFriction() {
-	contact.M_friction = B2MixFriction(contact.M_fixtureA.M_friction, contact.M_fixtureB.M_friction)
+	contact.M_friction = MixFriction(contact.M_fixtureA.M_friction, contact.M_fixtureB.M_friction)
 }
 
 func (contact B2Contact) GetRestitution() float64 {
@@ -273,7 +273,7 @@ func (contact *B2Contact) SetRestitution(restitution float64) {
 }
 
 func (contact *B2Contact) ResetRestitution() {
-	contact.M_restitution = B2MixRestitution(contact.M_fixtureA.M_restitution, contact.M_fixtureB.M_restitution)
+	contact.M_restitution = MixRestitution(contact.M_fixtureA.M_restitution, contact.M_fixtureB.M_restitution)
 }
 
 func (contact B2Contact) GetTangentSpeed() float64 {
@@ -429,8 +429,8 @@ func MakeB2Contact(fA *B2Fixture, indexA int, fB *B2Fixture, indexB int) B2Conta
 
 	contact.M_toiCount = 0
 
-	contact.M_friction = B2MixFriction(contact.M_fixtureA.M_friction, contact.M_fixtureB.M_friction)
-	contact.M_restitution = B2MixRestitution(contact.M_fixtureA.M_restitution, contact.M_fixtureB.M_restitution)
+	contact.M_friction = MixFriction(contact.M_fixtureA.M_friction, contact.M_fixtureB.M_friction)
+	contact.M_restitution = MixRestitution(contact.M_fixtureA.M_restitution, contact.M_fixtureB.M_restitution)
 
 	contact.M_tangentSpeed = 0.0
 

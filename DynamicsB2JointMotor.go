@@ -5,7 +5,7 @@ import (
 )
 
 // Motor joint definition.
-type B2MotorJointDef struct {
+type MotorJointDef struct {
 	JointDef
 
 	/// Position of bodyB minus the position of bodyA, in bodyA's frame, in meters.
@@ -24,8 +24,8 @@ type B2MotorJointDef struct {
 	CorrectionFactor float64
 }
 
-func MakeB2MotorJointDef() B2MotorJointDef {
-	res := B2MotorJointDef{}
+func MakeB2MotorJointDef() MotorJointDef {
+	res := MotorJointDef{}
 	res.Type = JointType.Motor
 	res.LinearOffset.SetZero()
 	res.AngularOffset = 0.0
@@ -38,7 +38,7 @@ func MakeB2MotorJointDef() B2MotorJointDef {
 // A motor joint is used to control the relative motion
 // between two bodies. A typical usage is to control the movement
 // of a dynamic body with respect to the ground.
-type B2MotorJoint struct {
+type MotorJoint struct {
 	*Joint
 
 	// Solver shared
@@ -82,7 +82,7 @@ type B2MotorJoint struct {
 // J = [0 0 -1 0 0 1]
 // K = invI1 + invI2
 
-func (def *B2MotorJointDef) Initialize(bA *Body, bB *Body) {
+func (def *MotorJointDef) Initialize(bA *Body, bB *Body) {
 	def.BodyA = bA
 	def.BodyB = bB
 	xB := def.BodyB.GetPosition()
@@ -93,8 +93,8 @@ func (def *B2MotorJointDef) Initialize(bA *Body, bB *Body) {
 	def.AngularOffset = angleB - angleA
 }
 
-func MakeB2MotorJoint(def *B2MotorJointDef) *B2MotorJoint {
-	res := B2MotorJoint{
+func MakeMotorJoint(def *MotorJointDef) *MotorJoint {
+	res := MotorJoint{
 		Joint: MakeJoint(def),
 	}
 
@@ -111,7 +111,7 @@ func MakeB2MotorJoint(def *B2MotorJointDef) *B2MotorJoint {
 	return &res
 }
 
-func (joint *B2MotorJoint) InitVelocityConstraints(data SolverData) {
+func (joint *MotorJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter
@@ -189,7 +189,7 @@ func (joint *B2MotorJoint) InitVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2MotorJoint) SolveVelocityConstraints(data SolverData) {
+func (joint *MotorJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -247,54 +247,54 @@ func (joint *B2MotorJoint) SolveVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2MotorJoint) SolvePositionConstraints(data SolverData) bool {
+func (joint *MotorJoint) SolvePositionConstraints(data SolverData) bool {
 	return true
 }
 
-func (joint B2MotorJoint) GetAnchorA() Vec2 {
+func (joint MotorJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetPosition()
 }
 
-func (joint B2MotorJoint) GetAnchorB() Vec2 {
+func (joint MotorJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetPosition()
 }
 
-func (joint B2MotorJoint) GetReactionForce(inv_dt float64) Vec2 {
+func (joint MotorJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar(inv_dt, joint.M_linearImpulse)
 }
 
-func (joint B2MotorJoint) GetReactionTorque(inv_dt float64) float64 {
+func (joint MotorJoint) GetReactionTorque(inv_dt float64) float64 {
 	return inv_dt * joint.M_angularImpulse
 }
 
-func (joint *B2MotorJoint) SetMaxForce(force float64) {
+func (joint *MotorJoint) SetMaxForce(force float64) {
 	assert(IsValid(force) && force >= 0.0)
 	joint.M_maxForce = force
 }
 
-func (joint B2MotorJoint) GetMaxForce() float64 {
+func (joint MotorJoint) GetMaxForce() float64 {
 	return joint.M_maxForce
 }
 
-func (joint *B2MotorJoint) SetMaxTorque(torque float64) {
+func (joint *MotorJoint) SetMaxTorque(torque float64) {
 	assert(IsValid(torque) && torque >= 0.0)
 	joint.M_maxTorque = torque
 }
 
-func (joint B2MotorJoint) GetMaxTorque() float64 {
+func (joint MotorJoint) GetMaxTorque() float64 {
 	return joint.M_maxTorque
 }
 
-func (joint *B2MotorJoint) SetCorrectionFactor(factor float64) {
+func (joint *MotorJoint) SetCorrectionFactor(factor float64) {
 	assert(IsValid(factor) && 0.0 <= factor && factor <= 1.0)
 	joint.M_correctionFactor = factor
 }
 
-func (joint B2MotorJoint) GetCorrectionFactor() float64 {
+func (joint MotorJoint) GetCorrectionFactor() float64 {
 	return joint.M_correctionFactor
 }
 
-func (joint *B2MotorJoint) SetLinearOffset(linearOffset Vec2) {
+func (joint *MotorJoint) SetLinearOffset(linearOffset Vec2) {
 	if linearOffset.X != joint.M_linearOffset.X || linearOffset.Y != joint.M_linearOffset.Y {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -302,11 +302,11 @@ func (joint *B2MotorJoint) SetLinearOffset(linearOffset Vec2) {
 	}
 }
 
-func (joint B2MotorJoint) GetLinearOffset() Vec2 {
+func (joint MotorJoint) GetLinearOffset() Vec2 {
 	return joint.M_linearOffset
 }
 
-func (joint *B2MotorJoint) SetAngularOffset(angularOffset float64) {
+func (joint *MotorJoint) SetAngularOffset(angularOffset float64) {
 	if angularOffset != joint.M_angularOffset {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -314,11 +314,11 @@ func (joint *B2MotorJoint) SetAngularOffset(angularOffset float64) {
 	}
 }
 
-func (joint B2MotorJoint) GetAngularOffset() float64 {
+func (joint MotorJoint) GetAngularOffset() float64 {
 	return joint.M_angularOffset
 }
 
-func (joint *B2MotorJoint) Dump() {
+func (joint *MotorJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 

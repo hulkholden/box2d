@@ -951,7 +951,7 @@ func (world *B2World) ClearForces() {
 
 type B2WorldQueryWrapper struct {
 	BroadPhase *BroadPhase
-	Callback   B2BroadPhaseQueryCallback
+	Callback   BroadPhaseQueryCallback
 }
 
 func MakeB2WorldQueryWrapper() B2WorldQueryWrapper {
@@ -963,7 +963,7 @@ func (query *B2WorldQueryWrapper) QueryCallback(proxyId int) bool {
 	return query.Callback(proxy.Fixture)
 }
 
-func (world *B2World) QueryAABB(callback B2BroadPhaseQueryCallback, aabb AABB) {
+func (world *B2World) QueryAABB(callback BroadPhaseQueryCallback, aabb AABB) {
 	wrapper := MakeB2WorldQueryWrapper()
 	wrapper.BroadPhase = &world.M_contactManager.M_broadPhase
 	wrapper.Callback = callback

@@ -36,15 +36,15 @@ type ContactRegister struct {
 // is an edge. A contact edge belongs to a doubly linked list
 // maintained in each attached body. Each contact has two contact
 // nodes, one for each attached body.
-type B2ContactEdge struct {
+type ContactEdge struct {
 	Other   *Body              ///< provides quick access to the other body attached.
 	Contact B2ContactInterface ///< the contact
-	Prev    *B2ContactEdge     ///< the previous contact edge in the body's contact list
-	Next    *B2ContactEdge     ///< the next contact edge in the body's contact list
+	Prev    *ContactEdge       ///< the previous contact edge in the body's contact list
+	Next    *ContactEdge       ///< the next contact edge in the body's contact list
 }
 
-func NewB2ContactEdge() *B2ContactEdge {
-	return &B2ContactEdge{}
+func NewContactEdge() *ContactEdge {
+	return &ContactEdge{}
 }
 
 var ContactFlags = struct {
@@ -81,11 +81,11 @@ type B2ContactInterface interface {
 	GetNext() B2ContactInterface
 	SetNext(prev B2ContactInterface)
 
-	GetNodeA() *B2ContactEdge
-	SetNodeA(node *B2ContactEdge)
+	GetNodeA() *ContactEdge
+	SetNodeA(node *ContactEdge)
 
-	GetNodeB() *B2ContactEdge
-	SetNodeB(node *B2ContactEdge)
+	GetNodeB() *ContactEdge
+	SetNodeB(node *ContactEdge)
 
 	GetFixtureA() *B2Fixture
 	SetFixtureA(fixture *B2Fixture)
@@ -138,8 +138,8 @@ type B2Contact struct {
 	M_next B2ContactInterface // should be backed by a pointer
 
 	// Nodes for connecting bodies.
-	M_nodeA *B2ContactEdge
-	M_nodeB *B2ContactEdge
+	M_nodeA *ContactEdge
+	M_nodeB *ContactEdge
 
 	M_fixtureA *B2Fixture
 	M_fixtureB *B2Fixture
@@ -180,19 +180,19 @@ func (contact *B2Contact) SetNext(next B2ContactInterface) {
 	contact.M_next = next
 }
 
-func (contact B2Contact) GetNodeA() *B2ContactEdge {
+func (contact B2Contact) GetNodeA() *ContactEdge {
 	return contact.M_nodeA
 }
 
-func (contact *B2Contact) SetNodeA(node *B2ContactEdge) {
+func (contact *B2Contact) SetNodeA(node *ContactEdge) {
 	contact.M_nodeA = node
 }
 
-func (contact B2Contact) GetNodeB() *B2ContactEdge {
+func (contact B2Contact) GetNodeB() *ContactEdge {
 	return contact.M_nodeB
 }
 
-func (contact *B2Contact) SetNodeB(node *B2ContactEdge) {
+func (contact *B2Contact) SetNodeB(node *ContactEdge) {
 	contact.M_nodeB = node
 }
 
@@ -413,14 +413,14 @@ func MakeB2Contact(fA *B2Fixture, indexA int, fB *B2Fixture, indexB int) B2Conta
 	contact.M_prev = nil
 	contact.M_next = nil
 
-	contact.M_nodeA = NewB2ContactEdge()
+	contact.M_nodeA = NewContactEdge()
 
 	contact.M_nodeA.Contact = nil
 	contact.M_nodeA.Prev = nil
 	contact.M_nodeA.Next = nil
 	contact.M_nodeA.Other = nil
 
-	contact.M_nodeB = NewB2ContactEdge()
+	contact.M_nodeB = NewContactEdge()
 
 	contact.M_nodeB.Contact = nil
 	contact.M_nodeB.Prev = nil

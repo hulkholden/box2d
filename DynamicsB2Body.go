@@ -143,8 +143,8 @@ type Body struct {
 	M_fixtureList  *B2Fixture // linked list
 	M_fixtureCount int
 
-	M_jointList   *B2JointEdge   // linked list
-	M_contactList *B2ContactEdge // linked list
+	M_jointList   *B2JointEdge // linked list
+	M_contactList *ContactEdge // linked list
 
 	M_mass, M_invMass float64
 
@@ -339,7 +339,7 @@ func (body Body) GetJointList() *B2JointEdge {
 	return body.M_jointList
 }
 
-func (body Body) GetContactList() *B2ContactEdge {
+func (body Body) GetContactList() *ContactEdge {
 	return body.M_contactList
 }
 

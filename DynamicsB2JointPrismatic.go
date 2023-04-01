@@ -375,7 +375,7 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 		impulse := joint.M_motorMass * (joint.M_motorSpeed - Cdot)
 		oldImpulse := joint.M_motorImpulse
 		maxImpulse := data.Step.Dt * joint.M_maxMotorForce
-		joint.M_motorImpulse = B2FloatClamp(joint.M_motorImpulse+impulse, -maxImpulse, maxImpulse)
+		joint.M_motorImpulse = FloatClamp(joint.M_motorImpulse+impulse, -maxImpulse, maxImpulse)
 		impulse = joint.M_motorImpulse - oldImpulse
 
 		P := Vec2MulScalar(impulse, joint.M_axis)
@@ -497,17 +497,17 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 		translation := Vec2Dot(axis, d)
 		if math.Abs(joint.M_upperTranslation-joint.M_lowerTranslation) < 2.0*linearSlop {
 			// Prevent large angular corrections
-			C2 = B2FloatClamp(translation, -maxLinearCorrection, maxLinearCorrection)
+			C2 = FloatClamp(translation, -maxLinearCorrection, maxLinearCorrection)
 			linearError = math.Max(linearError, math.Abs(translation))
 			active = true
 		} else if translation <= joint.M_lowerTranslation {
 			// Prevent large linear corrections and allow some slop.
-			C2 = B2FloatClamp(translation-joint.M_lowerTranslation+linearSlop, -maxLinearCorrection, 0.0)
+			C2 = FloatClamp(translation-joint.M_lowerTranslation+linearSlop, -maxLinearCorrection, 0.0)
 			linearError = math.Max(linearError, joint.M_lowerTranslation-translation)
 			active = true
 		} else if translation >= joint.M_upperTranslation {
 			// Prevent large linear corrections and allow some slop.
-			C2 = B2FloatClamp(translation-joint.M_upperTranslation-linearSlop, 0.0, maxLinearCorrection)
+			C2 = FloatClamp(translation-joint.M_upperTranslation-linearSlop, 0.0, maxLinearCorrection)
 			linearError = math.Max(linearError, translation-joint.M_upperTranslation)
 			active = true
 		}

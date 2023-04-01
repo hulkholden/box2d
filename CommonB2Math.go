@@ -696,7 +696,7 @@ func Vec2Clamp(a, low, high Vec2) Vec2 {
 	)
 }
 
-func B2FloatClamp(a, low, high float64) float64 {
+func FloatClamp(a, low, high float64) float64 {
 	var b, c float64
 	if IsValid(high) {
 		b = math.Min(a, high)

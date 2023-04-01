@@ -373,7 +373,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 
 			// b2Clamp the accumulated force
 			maxFriction := friction * vcp.NormalImpulse
-			newImpulse := B2FloatClamp(vcp.TangentImpulse+lambda, -maxFriction, maxFriction)
+			newImpulse := FloatClamp(vcp.TangentImpulse+lambda, -maxFriction, maxFriction)
 			lambda = newImpulse - vcp.TangentImpulse
 			vcp.TangentImpulse = newImpulse
 
@@ -765,7 +765,7 @@ func (solver *B2ContactSolver) SolvePositionConstraints() bool {
 			minSeparation = math.Min(minSeparation, separation)
 
 			// Prevent large corrections and allow slop.
-			C := B2FloatClamp(baumgarte*(separation+linearSlop), -maxLinearCorrection, 0.0)
+			C := FloatClamp(baumgarte*(separation+linearSlop), -maxLinearCorrection, 0.0)
 
 			// Compute the effective mass.
 			rnA := Vec2Cross(rA, normal)
@@ -856,7 +856,7 @@ func (solver *B2ContactSolver) SolveTOIPositionConstraints(toiIndexA int, toiInd
 			minSeparation = math.Min(minSeparation, separation)
 
 			// Prevent large corrections and allow slop.
-			C := B2FloatClamp(toiBaugarte*(separation+linearSlop), -maxLinearCorrection, 0.0)
+			C := FloatClamp(toiBaugarte*(separation+linearSlop), -maxLinearCorrection, 0.0)
 
 			// Compute the effective mass.
 			rnA := Vec2Cross(rA, normal)

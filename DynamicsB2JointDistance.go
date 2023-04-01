@@ -299,7 +299,7 @@ func (joint *B2DistanceJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 	length := u.Normalize()
 	C := length - joint.M_length
-	C = B2FloatClamp(C, -maxLinearCorrection, maxLinearCorrection)
+	C = FloatClamp(C, -maxLinearCorrection, maxLinearCorrection)
 
 	impulse := -joint.M_mass * C
 	P := Vec2MulScalar(impulse, u)

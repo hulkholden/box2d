@@ -364,7 +364,7 @@ func (joint *B2WheelJoint) SolveVelocityConstraints(data B2SolverData) {
 
 		oldImpulse := joint.M_motorImpulse
 		maxImpulse := data.Step.Dt * joint.M_maxMotorTorque
-		joint.M_motorImpulse = B2FloatClamp(joint.M_motorImpulse+impulse, -maxImpulse, maxImpulse)
+		joint.M_motorImpulse = FloatClamp(joint.M_motorImpulse+impulse, -maxImpulse, maxImpulse)
 		impulse = joint.M_motorImpulse - oldImpulse
 
 		wA -= iA * impulse

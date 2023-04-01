@@ -210,7 +210,7 @@ func (joint *B2MotorJoint) SolveVelocityConstraints(data B2SolverData) {
 
 		oldImpulse := joint.M_angularImpulse
 		maxImpulse := h * joint.M_maxTorque
-		joint.M_angularImpulse = B2FloatClamp(joint.M_angularImpulse+impulse, -maxImpulse, maxImpulse)
+		joint.M_angularImpulse = FloatClamp(joint.M_angularImpulse+impulse, -maxImpulse, maxImpulse)
 		impulse = joint.M_angularImpulse - oldImpulse
 
 		wA -= iA * impulse

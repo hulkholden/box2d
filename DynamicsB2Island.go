@@ -368,7 +368,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2,
 				continue
 			}
 
-			if (b.M_flags&B2Body_Flags.E_autoSleepFlag) == 0 || b.M_angularVelocity*b.M_angularVelocity > angTolSqr || Vec2Dot(b.M_linearVelocity, b.M_linearVelocity) > linTolSqr {
+			if (b.M_flags&BodyFlags.AutoSleep) == 0 || b.M_angularVelocity*b.M_angularVelocity > angTolSqr || Vec2Dot(b.M_linearVelocity, b.M_linearVelocity) > linTolSqr {
 				b.M_sleepTime = 0.0
 				minSleepTime = 0.0
 			} else {

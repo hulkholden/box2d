@@ -102,22 +102,22 @@ func NewBodyDef() *BodyDef {
 	return &res
 }
 
-var B2Body_Flags = struct {
-	E_islandFlag        uint32
-	E_awakeFlag         uint32
-	E_autoSleepFlag     uint32
-	E_bulletFlag        uint32
-	E_fixedRotationFlag uint32
-	E_activeFlag        uint32
-	E_toiFlag           uint32
+var BodyFlags = struct {
+	Island        uint32
+	Awake         uint32
+	AutoSleep     uint32
+	Bullet        uint32
+	FixedRotation uint32
+	Active        uint32
+	TOI           uint32
 }{
-	E_islandFlag:        0x0001,
-	E_awakeFlag:         0x0002,
-	E_autoSleepFlag:     0x0004,
-	E_bulletFlag:        0x0008,
-	E_fixedRotationFlag: 0x0010,
-	E_activeFlag:        0x0020,
-	E_toiFlag:           0x0040,
+	Island:        0x0001,
+	Awake:         0x0002,
+	AutoSleep:     0x0004,
+	Bullet:        0x0008,
+	FixedRotation: 0x0010,
+	Active:        0x0020,
+	TOI:           0x0040,
 }
 
 type B2Body struct {
@@ -282,22 +282,22 @@ func (body *B2Body) SetGravityScale(scale float64) {
 
 func (body *B2Body) SetBullet(flag bool) {
 	if flag {
-		body.M_flags |= B2Body_Flags.E_bulletFlag
+		body.M_flags |= BodyFlags.Bullet
 	} else {
-		body.M_flags &= ^B2Body_Flags.E_bulletFlag
+		body.M_flags &= ^BodyFlags.Bullet
 	}
 }
 
 func (body B2Body) IsBullet() bool {
-	return (body.M_flags & B2Body_Flags.E_bulletFlag) == B2Body_Flags.E_bulletFlag
+	return (body.M_flags & BodyFlags.Bullet) == BodyFlags.Bullet
 }
 
 func (body *B2Body) SetAwake(flag bool) {
 	if flag {
-		body.M_flags |= B2Body_Flags.E_awakeFlag
+		body.M_flags |= BodyFlags.Awake
 		body.M_sleepTime = 0.0
 	} else {
-		body.M_flags &= ^B2Body_Flags.E_awakeFlag
+		body.M_flags &= ^BodyFlags.Awake
 		body.M_sleepTime = 0.0
 		body.M_linearVelocity.SetZero()
 		body.M_angularVelocity = 0.0
@@ -307,28 +307,28 @@ func (body *B2Body) SetAwake(flag bool) {
 }
 
 func (body B2Body) IsAwake() bool {
-	return (body.M_flags & B2Body_Flags.E_awakeFlag) == B2Body_Flags.E_awakeFlag
+	return (body.M_flags & BodyFlags.Awake) == BodyFlags.Awake
 }
 
 func (body B2Body) IsActive() bool {
-	return (body.M_flags & B2Body_Flags.E_activeFlag) == B2Body_Flags.E_activeFlag
+	return (body.M_flags & BodyFlags.Active) == BodyFlags.Active
 }
 
 func (body B2Body) IsFixedRotation() bool {
-	return (body.M_flags & B2Body_Flags.E_fixedRotationFlag) == B2Body_Flags.E_fixedRotationFlag
+	return (body.M_flags & BodyFlags.FixedRotation) == BodyFlags.FixedRotation
 }
 
 func (body *B2Body) SetSleepingAllowed(flag bool) {
 	if flag {
-		body.M_flags |= B2Body_Flags.E_autoSleepFlag
+		body.M_flags |= BodyFlags.AutoSleep
 	} else {
-		body.M_flags &= ^B2Body_Flags.E_autoSleepFlag
+		body.M_flags &= ^BodyFlags.AutoSleep
 		body.SetAwake(true)
 	}
 }
 
 func (body B2Body) IsSleepingAllowed() bool {
-	return (body.M_flags & B2Body_Flags.E_autoSleepFlag) == B2Body_Flags.E_autoSleepFlag
+	return (body.M_flags & BodyFlags.AutoSleep) == BodyFlags.AutoSleep
 }
 
 func (body B2Body) GetFixtureList() *B2Fixture {
@@ -360,12 +360,12 @@ func (body *B2Body) ApplyForce(force Vec2, point Vec2, wake bool) {
 		return
 	}
 
-	if wake && (body.M_flags&B2Body_Flags.E_awakeFlag) == 0 {
+	if wake && (body.M_flags&BodyFlags.Awake) == 0 {
 		body.SetAwake(true)
 	}
 
 	// Don't accumulate a force if the body is sleeping.
-	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
+	if (body.M_flags & BodyFlags.Awake) != 0x0000 {
 		body.M_force.OperatorPlusInplace(force)
 		body.M_torque += Vec2Cross(
 			Vec2Sub(point, body.M_sweep.C),
@@ -379,12 +379,12 @@ func (body *B2Body) ApplyForceToCenter(force Vec2, wake bool) {
 		return
 	}
 
-	if wake && (body.M_flags&B2Body_Flags.E_awakeFlag) == 0 {
+	if wake && (body.M_flags&BodyFlags.Awake) == 0 {
 		body.SetAwake(true)
 	}
 
 	// Don't accumulate a force if the body is sleeping
-	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
+	if (body.M_flags & BodyFlags.Awake) != 0x0000 {
 		body.M_force.OperatorPlusInplace(force)
 	}
 }
@@ -394,12 +394,12 @@ func (body *B2Body) ApplyTorque(torque float64, wake bool) {
 		return
 	}
 
-	if wake && (body.M_flags&B2Body_Flags.E_awakeFlag) == 0 {
+	if wake && (body.M_flags&BodyFlags.Awake) == 0 {
 		body.SetAwake(true)
 	}
 
 	// Don't accumulate a force if the body is sleeping
-	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
+	if (body.M_flags & BodyFlags.Awake) != 0x0000 {
 		body.M_torque += torque
 	}
 }
@@ -409,12 +409,12 @@ func (body *B2Body) ApplyLinearImpulse(impulse Vec2, point Vec2, wake bool) {
 		return
 	}
 
-	if wake && (body.M_flags&B2Body_Flags.E_awakeFlag) == 0 {
+	if wake && (body.M_flags&BodyFlags.Awake) == 0 {
 		body.SetAwake(true)
 	}
 
 	// Don't accumulate velocity if the body is sleeping
-	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
+	if (body.M_flags & BodyFlags.Awake) != 0x0000 {
 		body.M_linearVelocity.OperatorPlusInplace(Vec2MulScalar(body.M_invMass, impulse))
 		body.M_angularVelocity += body.M_invI * Vec2Cross(
 			Vec2Sub(point, body.M_sweep.C),
@@ -428,12 +428,12 @@ func (body *B2Body) ApplyLinearImpulseToCenter(impulse Vec2, wake bool) {
 		return
 	}
 
-	if wake && (body.M_flags&B2Body_Flags.E_awakeFlag) == 0 {
+	if wake && (body.M_flags&BodyFlags.Awake) == 0 {
 		body.SetAwake(true)
 	}
 
 	// Don't accumulate velocity if the body is sleeping
-	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
+	if (body.M_flags & BodyFlags.Awake) != 0x0000 {
 		body.M_linearVelocity.OperatorPlusInplace(Vec2MulScalar(body.M_invMass, impulse))
 	}
 }
@@ -443,12 +443,12 @@ func (body *B2Body) ApplyAngularImpulse(impulse float64, wake bool) {
 		return
 	}
 
-	if wake && (body.M_flags&B2Body_Flags.E_awakeFlag) == 0 {
+	if wake && (body.M_flags&BodyFlags.Awake) == 0 {
 		body.SetAwake(true)
 	}
 
 	// Don't accumulate velocity if the body is sleeping
-	if (body.M_flags & B2Body_Flags.E_awakeFlag) != 0x0000 {
+	if (body.M_flags & BodyFlags.Awake) != 0x0000 {
 		body.M_angularVelocity += body.M_invI * impulse
 	}
 }
@@ -492,23 +492,23 @@ func NewB2Body(bd *BodyDef, world *B2World) *B2Body {
 	body.M_flags = 0
 
 	if bd.Bullet {
-		body.M_flags |= B2Body_Flags.E_bulletFlag
+		body.M_flags |= BodyFlags.Bullet
 	}
 
 	if bd.FixedRotation {
-		body.M_flags |= B2Body_Flags.E_fixedRotationFlag
+		body.M_flags |= BodyFlags.FixedRotation
 	}
 
 	if bd.AllowSleep {
-		body.M_flags |= B2Body_Flags.E_autoSleepFlag
+		body.M_flags |= BodyFlags.AutoSleep
 	}
 
 	if bd.Awake {
-		body.M_flags |= B2Body_Flags.E_awakeFlag
+		body.M_flags |= BodyFlags.Awake
 	}
 
 	if bd.Active {
-		body.M_flags |= B2Body_Flags.E_activeFlag
+		body.M_flags |= BodyFlags.Active
 	}
 
 	body.M_world = world
@@ -617,7 +617,7 @@ func (body *B2Body) CreateFixtureFromDef(def *B2FixtureDef) *B2Fixture {
 	fixture := NewB2Fixture()
 	fixture.Create(body, def)
 
-	if (body.M_flags & B2Body_Flags.E_activeFlag) != 0x0000 {
+	if (body.M_flags & BodyFlags.Active) != 0x0000 {
 		broadPhase := &body.M_world.M_contactManager.M_broadPhase
 		fixture.CreateProxies(broadPhase, body.M_xf)
 	}
@@ -693,7 +693,7 @@ func (body *B2Body) DestroyFixture(fixture *B2Fixture) {
 		}
 	}
 
-	if (body.M_flags & B2Body_Flags.E_activeFlag) != 0x0000 {
+	if (body.M_flags & BodyFlags.Active) != 0x0000 {
 		broadPhase := &body.M_world.M_contactManager.M_broadPhase
 		fixture.DestroyProxies(broadPhase)
 	}
@@ -749,7 +749,7 @@ func (body *B2Body) ResetMassData() {
 		body.M_invMass = 1.0
 	}
 
-	if body.M_I > 0.0 && (body.M_flags&B2Body_Flags.E_fixedRotationFlag) == 0 {
+	if body.M_I > 0.0 && (body.M_flags&BodyFlags.FixedRotation) == 0 {
 		// Center the inertia about the center of mass.
 		body.M_I -= body.M_mass * Vec2Dot(localCenter, localCenter)
 		assert(body.M_I > 0.0)
@@ -794,7 +794,7 @@ func (body *B2Body) SetMassData(massData *B2MassData) {
 
 	body.M_invMass = 1.0 / body.M_mass
 
-	if massData.I > 0.0 && (body.M_flags&B2Body_Flags.E_fixedRotationFlag) == 0 {
+	if massData.I > 0.0 && (body.M_flags&BodyFlags.FixedRotation) == 0 {
 		body.M_I = massData.I - body.M_mass*Vec2Dot(massData.Center, massData.Center)
 		assert(body.M_I > 0.0)
 		body.M_invI = 1.0 / body.M_I
@@ -874,7 +874,7 @@ func (body *B2Body) SetActive(flag bool) {
 	}
 
 	if flag {
-		body.M_flags |= B2Body_Flags.E_activeFlag
+		body.M_flags |= BodyFlags.Active
 
 		// Create all proxies.
 		broadPhase := &body.M_world.M_contactManager.M_broadPhase
@@ -884,7 +884,7 @@ func (body *B2Body) SetActive(flag bool) {
 
 		// Contacts are created the next time step.
 	} else {
-		body.M_flags &= ^B2Body_Flags.E_activeFlag
+		body.M_flags &= ^BodyFlags.Active
 
 		// Destroy all proxies.
 		broadPhase := &body.M_world.M_contactManager.M_broadPhase
@@ -905,16 +905,16 @@ func (body *B2Body) SetActive(flag bool) {
 }
 
 func (body *B2Body) SetFixedRotation(flag bool) {
-	status := (body.M_flags & B2Body_Flags.E_fixedRotationFlag) == B2Body_Flags.E_fixedRotationFlag
+	status := (body.M_flags & BodyFlags.FixedRotation) == BodyFlags.FixedRotation
 
 	if status == flag {
 		return
 	}
 
 	if flag {
-		body.M_flags |= B2Body_Flags.E_fixedRotationFlag
+		body.M_flags |= BodyFlags.FixedRotation
 	} else {
-		body.M_flags &= ^B2Body_Flags.E_fixedRotationFlag
+		body.M_flags &= ^BodyFlags.FixedRotation
 	}
 
 	body.M_angularVelocity = 0.0
@@ -934,11 +934,11 @@ func (body *B2Body) Dump() {
 	fmt.Printf("  bd.angularVelocity = %.15f;\n", body.M_angularVelocity)
 	fmt.Printf("  bd.linearDamping = %.15f;\n", body.M_linearDamping)
 	fmt.Printf("  bd.angularDamping = %.15f;\n", body.M_angularDamping)
-	fmt.Printf("  bd.allowSleep = bool(%d);\n", body.M_flags&B2Body_Flags.E_autoSleepFlag)
-	fmt.Printf("  bd.awake = bool(%d);\n", body.M_flags&B2Body_Flags.E_awakeFlag)
-	fmt.Printf("  bd.fixedRotation = bool(%d);\n", body.M_flags&B2Body_Flags.E_fixedRotationFlag)
-	fmt.Printf("  bd.bullet = bool(%d);\n", body.M_flags&B2Body_Flags.E_bulletFlag)
-	fmt.Printf("  bd.active = bool(%d);\n", body.M_flags&B2Body_Flags.E_activeFlag)
+	fmt.Printf("  bd.allowSleep = bool(%d);\n", body.M_flags&BodyFlags.AutoSleep)
+	fmt.Printf("  bd.awake = bool(%d);\n", body.M_flags&BodyFlags.Awake)
+	fmt.Printf("  bd.fixedRotation = bool(%d);\n", body.M_flags&BodyFlags.FixedRotation)
+	fmt.Printf("  bd.bullet = bool(%d);\n", body.M_flags&BodyFlags.Bullet)
+	fmt.Printf("  bd.active = bool(%d);\n", body.M_flags&BodyFlags.Active)
 	fmt.Printf("  bd.gravityScale = %.15f;\n", body.M_gravityScale)
 	fmt.Printf("  bodies[%d] = body.M_world.CreateBody(&bd);\n", body.M_islandIndex)
 	fmt.Print("\n")

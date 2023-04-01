@@ -441,10 +441,10 @@ func (world *B2World) Solve(step B2TimeStep) {
 
 	// Clear all the island flags.
 	for b := world.M_bodyList; b != nil; b = b.M_next {
-		b.M_flags &= ^B2Body_Flags.E_islandFlag
+		b.M_flags &= ^BodyFlags.Island
 	}
 	for c := world.M_contactManager.M_contactList; c != nil; c = c.GetNext() {
-		c.SetFlags(c.GetFlags() & ^B2Body_Flags.E_islandFlag)
+		c.SetFlags(c.GetFlags() & ^BodyFlags.Island)
 	}
 
 	for j := world.M_jointList; j != nil; j = j.GetNext() {
@@ -456,7 +456,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 	stack := make([]*B2Body, stackSize)
 
 	for seed := world.M_bodyList; seed != nil; seed = seed.M_next {
-		if (seed.M_flags & B2Body_Flags.E_islandFlag) != 0x0000 {
+		if (seed.M_flags & BodyFlags.Island) != 0x0000 {
 			continue
 		}
 
@@ -474,7 +474,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 		stackCount := 0
 		stack[stackCount] = seed
 		stackCount++
-		seed.M_flags |= B2Body_Flags.E_islandFlag
+		seed.M_flags |= BodyFlags.Island
 
 		// Perform a depth first search (DFS) on the constraint graph.
 		for stackCount > 0 {
@@ -485,7 +485,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 			island.AddBody(b)
 
 			// Make sure the body is awake (without resetting sleep timer).
-			b.M_flags |= B2Body_Flags.E_awakeFlag
+			b.M_flags |= BodyFlags.Awake
 
 			// To keep islands as small as possible, we don't
 			// propagate islands across static bodies.
@@ -498,7 +498,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 				contact := ce.Contact
 
 				// Has this contact already been added to an island?
-				if (contact.GetFlags() & B2Body_Flags.E_islandFlag) != 0x0000 {
+				if (contact.GetFlags() & BodyFlags.Island) != 0x0000 {
 					continue
 				}
 
@@ -516,19 +516,19 @@ func (world *B2World) Solve(step B2TimeStep) {
 				}
 
 				island.AddContact(contact)
-				contact.SetFlags(contact.GetFlags() | B2Body_Flags.E_islandFlag)
+				contact.SetFlags(contact.GetFlags() | BodyFlags.Island)
 
 				other := ce.Other
 
 				// Was the other body already added to this island?
-				if (other.M_flags & B2Body_Flags.E_islandFlag) != 0x0000 {
+				if (other.M_flags & BodyFlags.Island) != 0x0000 {
 					continue
 				}
 
 				assert(stackCount < stackSize)
 				stack[stackCount] = other
 				stackCount++
-				other.M_flags |= B2Body_Flags.E_islandFlag
+				other.M_flags |= BodyFlags.Island
 			}
 
 			// Search all joints connect to this body.
@@ -548,14 +548,14 @@ func (world *B2World) Solve(step B2TimeStep) {
 				island.Add(je.Joint)
 				je.Joint.SetIslandFlag(true)
 
-				if other.M_flags&B2Body_Flags.E_islandFlag != 0x0000 {
+				if other.M_flags&BodyFlags.Island != 0x0000 {
 					continue
 				}
 
 				assert(stackCount < stackSize)
 				stack[stackCount] = other
 				stackCount++
-				other.M_flags |= B2Body_Flags.E_islandFlag
+				other.M_flags |= BodyFlags.Island
 			}
 		}
 
@@ -570,7 +570,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 			// Allow static bodies to participate in other islands.
 			b := island.M_bodies[i]
 			if b.GetType() == BodyType.StaticBody {
-				b.M_flags &= ^B2Body_Flags.E_islandFlag
+				b.M_flags &= ^BodyFlags.Island
 			}
 		}
 	}
@@ -583,7 +583,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 		// Synchronize fixtures, check for out of range bodies.
 		for b := world.M_bodyList; b != nil; b = b.GetNext() {
 			// If a body was not in an island then it did not move.
-			if (b.M_flags & B2Body_Flags.E_islandFlag) == 0 {
+			if (b.M_flags & BodyFlags.Island) == 0 {
 				continue
 			}
 
@@ -607,7 +607,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 	if world.M_stepComplete {
 		for b := world.M_bodyList; b != nil; b = b.M_next {
-			b.M_flags &= ^B2Body_Flags.E_islandFlag
+			b.M_flags &= ^BodyFlags.Island
 			b.M_sweep.Alpha0 = 0.0
 		}
 
@@ -763,8 +763,8 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 		island.AddBody(bB)
 		island.AddContact(minContact)
 
-		bA.M_flags |= B2Body_Flags.E_islandFlag
-		bB.M_flags |= B2Body_Flags.E_islandFlag
+		bA.M_flags |= BodyFlags.Island
+		bB.M_flags |= BodyFlags.Island
 		minContact.SetFlags(minContact.GetFlags() | B2Contact_Flag.E_islandFlag)
 
 		// Get contacts on bodyA and bodyB.
@@ -804,7 +804,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 					// Tentatively advance the body to the TOI.
 					backup := other.M_sweep
-					if (other.M_flags & B2Body_Flags.E_islandFlag) == 0 {
+					if (other.M_flags & BodyFlags.Island) == 0 {
 						other.Advance(minAlpha)
 					}
 
@@ -830,12 +830,12 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 					island.AddContact(contact)
 
 					// Has the other body already been added to the island?
-					if (other.M_flags & B2Body_Flags.E_islandFlag) != 0x0000 {
+					if (other.M_flags & BodyFlags.Island) != 0x0000 {
 						continue
 					}
 
 					// Add the other body to the island.
-					other.M_flags |= B2Body_Flags.E_islandFlag
+					other.M_flags |= BodyFlags.Island
 
 					if other.M_type != BodyType.StaticBody {
 						other.SetAwake(true)
@@ -858,7 +858,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 		// Reset island flags and synchronize broad-phase proxies.
 		for i := 0; i < island.M_bodyCount; i++ {
 			body := island.M_bodies[i]
-			body.M_flags &= ^B2Body_Flags.E_islandFlag
+			body.M_flags &= ^BodyFlags.Island
 
 			if body.M_type != BodyType.DynamicBody {
 				continue

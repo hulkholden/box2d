@@ -115,7 +115,7 @@ func (def *B2PulleyJointDef) Initialize(bA *B2Body, bB *B2Body, groundA Vec2, gr
 	dB := Vec2Sub(anchorB, groundB)
 	def.LengthB = dB.Length()
 	def.Ratio = r
-	B2Assert(def.Ratio > B2_epsilon)
+	B2Assert(def.Ratio > epsilon)
 }
 
 func MakeB2PulleyJoint(def *B2PulleyJointDef) *B2PulleyJoint {

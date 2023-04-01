@@ -139,7 +139,7 @@ func ComputeCentroid(vs []Vec2, count int) Vec2 {
 	}
 
 	// Centroid
-	B2Assert(area > B2_epsilon)
+	B2Assert(area > epsilon)
 	c.OperatorScalarMulInplace(1.0 / area)
 	return c
 }
@@ -255,7 +255,7 @@ func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
 		}
 
 		edge := Vec2Sub(poly.M_vertices[i2], poly.M_vertices[i1])
-		B2Assert(edge.LengthSquared() > B2_epsilon*B2_epsilon)
+		B2Assert(edge.LengthSquared() > epsilon*epsilon)
 		poly.M_normals[i] = Vec2CrossVectorScalar(edge, 1.0)
 		poly.M_normals[i].Normalize()
 	}
@@ -433,7 +433,7 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 	massData.Mass = density * area
 
 	// Center of mass
-	B2Assert(area > B2_epsilon)
+	B2Assert(area > epsilon)
 	center.OperatorScalarMulInplace(1.0 / area)
 	massData.Center = Vec2Add(center, s)
 

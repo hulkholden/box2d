@@ -720,7 +720,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 			}
 		}
 
-		if minContact == nil || 1.0-10.0*B2_epsilon < minAlpha {
+		if minContact == nil || 1.0-10.0*epsilon < minAlpha {
 			// No more TOI events. Done!
 			world.M_stepComplete = true
 			break

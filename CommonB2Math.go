@@ -117,7 +117,7 @@ func (v Vec2) LengthSquared() float64 {
 func (v *Vec2) Normalize() float64 {
 	length := v.Length()
 
-	if length < B2_epsilon {
+	if length < epsilon {
 		return 0.0
 	}
 

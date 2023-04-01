@@ -63,7 +63,7 @@ func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 	sigma := c*c - rr*b
 
 	// Check for negative discriminant and short segment.
-	if sigma < 0.0 || rr < B2_epsilon {
+	if sigma < 0.0 || rr < epsilon {
 		return false
 	}
 

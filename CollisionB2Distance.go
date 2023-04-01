@@ -190,7 +190,7 @@ func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *B2DistancePro
 	if simplex.M_count > 1 {
 		metric1 := cache.Metric
 		metric2 := simplex.GetMetric()
-		if metric2 < 0.5*metric1 || 2.0*metric1 < metric2 || metric2 < B2_epsilon {
+		if metric2 < 0.5*metric1 || 2.0*metric1 < metric2 || metric2 < epsilon {
 			// Reset the simplex.
 			simplex.M_count = 0
 		}
@@ -526,7 +526,7 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 		d := simplex.GetSearchDirection()
 
 		// Ensure the search direction is numerically fit.
-		if d.LengthSquared() < B2_epsilon*B2_epsilon {
+		if d.LengthSquared() < epsilon*epsilon {
 			// The origin is probably contained by a line segment
 			// or triangle. Thus the shapes are overlapped.
 
@@ -586,7 +586,7 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 		rA := proxyA.M_radius
 		rB := proxyB.M_radius
 
-		if output.Distance > rA+rB && output.Distance > B2_epsilon {
+		if output.Distance > rA+rB && output.Distance > epsilon {
 			// Shapes are still no overlapped.
 			// Move the witness points to the outer surface.
 			output.Distance -= rA + rB

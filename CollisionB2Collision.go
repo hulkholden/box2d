@@ -249,7 +249,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 			wm.Normal.Set(1.0, 0.0)
 			pointA := B2TransformVec2Mul(xfA, manifold.LocalPoint)
 			pointB := B2TransformVec2Mul(xfB, manifold.Points[0].LocalPoint)
-			if Vec2DistanceSquared(pointA, pointB) > B2_epsilon*B2_epsilon {
+			if Vec2DistanceSquared(pointA, pointB) > epsilon*epsilon {
 				wm.Normal = Vec2Sub(pointB, pointA)
 				wm.Normal.Normalize()
 			}
@@ -361,7 +361,7 @@ func (bb B2AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
 	normal := MakeVec2(0, 0)
 
 	for i := 0; i < 2; i++ {
-		if absD.OperatorIndexGet(i) < B2_epsilon {
+		if absD.OperatorIndexGet(i) < epsilon {
 			// Parallel.
 			if p.OperatorIndexGet(i) < bb.LowerBound.OperatorIndexGet(i) || bb.UpperBound.OperatorIndexGet(i) < p.OperatorIndexGet(i) {
 				return false
@@ -462,5 +462,5 @@ func B2TestOverlapShapes(shapeA B2ShapeInterface, indexA int, shapeB B2ShapeInte
 
 	B2Distance(&output, &cache, &input)
 
-	return output.Distance < 10.0*B2_epsilon
+	return output.Distance < 10.0*epsilon
 }

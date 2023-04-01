@@ -64,7 +64,7 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 	v2 := vertices[vertIndex2]
 
 	// If the center is inside the polygon ...
-	if separation < B2_epsilon {
+	if separation < epsilon {
 		manifold.PointCount = 1
 		manifold.Type = B2Manifold_Type.E_faceA
 		manifold.LocalNormal = normals[normalIndex]

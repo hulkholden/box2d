@@ -351,8 +351,7 @@ func AddType(createFcn ContactCreateFcn, destroyFcn ContactDestroyFcn, type1 uin
 	}
 }
 
-func B2ContactFactory(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) ContactInterface { // returned contact should be a pointer
-
+func ContactFactory(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) ContactInterface { // returned contact should be a pointer
 	if !s_initialized {
 		ContactInitializeRegisters()
 		s_initialized = true

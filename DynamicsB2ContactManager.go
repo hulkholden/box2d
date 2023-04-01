@@ -204,7 +204,7 @@ func (mgr *B2ContactManager) AddPair(proxyUserDataA interface{}, proxyUserDataB 
 	}
 
 	// Call the factory.
-	c := B2ContactFactory(fixtureA, indexA, fixtureB, indexB)
+	c := ContactFactory(fixtureA, indexA, fixtureB, indexB)
 	if c == nil {
 		return
 	}

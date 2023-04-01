@@ -46,7 +46,7 @@ func (edge *EdgeShape) Set(v1 Vec2, v2 Vec2) {
 	edge.M_hasVertex3 = false
 }
 
-func (edge EdgeShape) Clone() B2ShapeInterface {
+func (edge EdgeShape) Clone() ShapeInterface {
 	clone := NewEdgeShape()
 	clone.M_vertex0 = edge.M_vertex0
 	clone.M_vertex1 = edge.M_vertex1

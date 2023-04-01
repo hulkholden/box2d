@@ -106,7 +106,7 @@ func (p B2DistanceProxy) GetSupportVertex(d Vec2) Vec2 {
 // GJK using Voronoi regions (Christer Ericson) and Barycentric coordinates.
 var b2_gjkCalls, b2_gjkIters, b2_gjkMaxIters int
 
-func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
+func (p *B2DistanceProxy) Set(shape ShapeInterface, index int) {
 	switch shape.GetType() {
 	case ShapeType.Circle:
 		circle := (shape).(*CircleShape)

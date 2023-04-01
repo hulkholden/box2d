@@ -640,7 +640,7 @@ func (body *Body) CreateFixtureFromDef(def *FixtureDef) *Fixture {
 	return fixture
 }
 
-func (body *Body) CreateFixture(shape B2ShapeInterface, density float64) *Fixture {
+func (body *Body) CreateFixture(shape ShapeInterface, density float64) *Fixture {
 	def := MakeFixtureDef()
 	def.Shape = shape
 	def.Density = density

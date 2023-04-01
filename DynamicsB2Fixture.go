@@ -32,7 +32,7 @@ func MakeB2Filter() B2Filter {
 type FixtureDef struct {
 	/// The shape, this must be set. The shape will be cloned, so you
 	/// can create the shape on the stack.
-	Shape B2ShapeInterface
+	Shape ShapeInterface
 
 	/// Use this to store application specific fixture data.
 	UserData interface{}
@@ -81,7 +81,7 @@ type Fixture struct {
 	M_next *Fixture
 	M_body *Body
 
-	M_shape B2ShapeInterface
+	M_shape ShapeInterface
 
 	M_friction    float64
 	M_restitution float64
@@ -111,7 +111,7 @@ func (fix Fixture) GetType() uint8 {
 	return fix.M_shape.GetType()
 }
 
-func (fix Fixture) GetShape() B2ShapeInterface {
+func (fix Fixture) GetShape() ShapeInterface {
 	return fix.M_shape
 }
 

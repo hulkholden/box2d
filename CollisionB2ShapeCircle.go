@@ -28,7 +28,7 @@ func NewCircleShape() *CircleShape {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-func (shape CircleShape) Clone() B2ShapeInterface {
+func (shape CircleShape) Clone() ShapeInterface {
 	clone := NewCircleShape()
 	clone.M_radius = shape.M_radius
 	clone.M_p = shape.M_p

@@ -43,7 +43,7 @@ func (poly *PolygonShape) GetVertex(index int) *Vec2 {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (poly PolygonShape) Clone() B2ShapeInterface {
+func (poly PolygonShape) Clone() ShapeInterface {
 	clone := NewPolygonShape()
 	clone.M_centroid = poly.M_centroid
 	clone.M_count = poly.M_count

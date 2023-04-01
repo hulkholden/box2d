@@ -11,7 +11,7 @@ var result B2AABB
 // With hand-rolled min/max
 // BenchmarkPolygonShape_ComputeAABB-12         66439         18026 ns/op
 func BenchmarkPolygonShape_ComputeAABB(b *testing.B) {
-	polys := make([]B2ShapeInterface, 1000)
+	polys := make([]ShapeInterface, 1000)
 	for i := range polys {
 		p := NewPolygonShape()
 		p.SetAsBox(1, 1)

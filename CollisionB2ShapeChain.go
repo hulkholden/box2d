@@ -107,7 +107,7 @@ func (chain *ChainShape) SetNextVertex(nextVertex Vec2) {
 	chain.M_hasNextVertex = true
 }
 
-func (chain ChainShape) Clone() B2ShapeInterface {
+func (chain ChainShape) Clone() ShapeInterface {
 	clone := MakeChainShape()
 	clone.CreateChain(chain.M_vertices, chain.M_count)
 	clone.M_prevVertex = chain.M_prevVertex

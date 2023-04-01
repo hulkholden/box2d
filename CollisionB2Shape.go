@@ -43,11 +43,11 @@ var ShapeType = struct {
 	Count:   4,
 }
 
-type B2ShapeInterface interface {
+type ShapeInterface interface {
 	Destroy()
 
 	/// Clone the concrete shape using the provided allocator.
-	Clone() B2ShapeInterface
+	Clone() ShapeInterface
 
 	/// Get the type of this shape. You can use this to down cast to the concrete shape.
 	/// @return the shape type.

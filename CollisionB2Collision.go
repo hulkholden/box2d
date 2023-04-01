@@ -97,7 +97,7 @@ var ManifoldType = struct {
 	FaceB:   2,
 }
 
-type B2Manifold struct {
+type Manifold struct {
 	Points      [maxManifoldPoints]B2ManifoldPoint ///< the points of contact
 	LocalNormal Vec2                               ///< not use for Type::e_points
 	LocalPoint  Vec2                               ///< usage depends on manifold type
@@ -105,7 +105,7 @@ type B2Manifold struct {
 	PointCount  int                                ///< the number of manifold points
 }
 
-func NewB2Manifold() *B2Manifold { return &B2Manifold{} }
+func NewManifold() *Manifold { return &Manifold{} }
 
 // This is used to compute the current state of a contact manifold.
 type B2WorldManifold struct {
@@ -238,7 +238,7 @@ func B2TestOverlapBoundingBoxes(a, b AABB) bool {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA Transform, radiusA float64, xfB Transform, radiusB float64) {
+func (wm *B2WorldManifold) Initialize(manifold *Manifold, xfA Transform, radiusA float64, xfB Transform, radiusB float64) {
 	if manifold.PointCount == 0 {
 		return
 	}
@@ -314,7 +314,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA Transform, radiu
 	}
 }
 
-func B2GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoints]uint8, manifold1 B2Manifold, manifold2 B2Manifold) {
+func B2GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoints]uint8, manifold1 Manifold, manifold2 Manifold) {
 	for i := 0; i < maxManifoldPoints; i++ {
 		state1[i] = B2PointState.B2_nullState
 		state2[i] = B2PointState.B2_nullState

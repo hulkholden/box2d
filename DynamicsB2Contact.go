@@ -99,8 +99,8 @@ type ContactInterface interface {
 	GetChildIndexB() int
 	SetChildIndexB(index int)
 
-	GetManifold() *B2Manifold
-	SetManifold(manifold *B2Manifold)
+	GetManifold() *Manifold
+	SetManifold(manifold *Manifold)
 
 	GetTOICount() int
 	SetTOICount(toiCount int)
@@ -123,7 +123,7 @@ type ContactInterface interface {
 	IsEnabled() bool
 	SetEnabled(bool)
 
-	Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform)
+	Evaluate(manifold *Manifold, xfA Transform, xfB Transform)
 
 	FlagForFiltering()
 
@@ -147,7 +147,7 @@ type Contact struct {
 	M_indexA int
 	M_indexB int
 
-	M_manifold *B2Manifold
+	M_manifold *Manifold
 
 	M_toiCount     int
 	M_toi          float64
@@ -228,11 +228,11 @@ func (contact *Contact) SetChildIndexB(index int) {
 	contact.M_indexB = index
 }
 
-func (contact Contact) GetManifold() *B2Manifold {
+func (contact Contact) GetManifold() *Manifold {
 	return contact.M_manifold
 }
 
-func (contact *Contact) SetManifold(manifold *B2Manifold) {
+func (contact *Contact) SetManifold(manifold *Manifold) {
 	contact.M_manifold = manifold
 }
 
@@ -406,7 +406,7 @@ func MakeContact(fA *Fixture, indexA int, fB *Fixture, indexB int) Contact {
 	contact.M_indexA = indexA
 	contact.M_indexB = indexB
 
-	contact.M_manifold = NewB2Manifold()
+	contact.M_manifold = NewManifold()
 	contact.M_manifold.PointCount = 0
 
 	contact.M_prev = nil

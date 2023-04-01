@@ -17,7 +17,7 @@ func CircleContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, inde
 func CircleContact_Destroy(contact ContactInterface) { // should be a pointer
 }
 
-func (contact *CircleContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
+func (contact *CircleContact) Evaluate(manifold *Manifold, xfA Transform, xfB Transform) {
 	CollideCircles(
 		manifold,
 		contact.GetFixtureA().GetShape().(*CircleShape), xfA,

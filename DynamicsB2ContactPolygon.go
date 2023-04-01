@@ -25,7 +25,7 @@ func PolygonContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, ind
 func PolygonContact_Destroy(contact ContactInterface) { // should be a pointer
 }
 
-func (contact *PolygonContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
+func (contact *PolygonContact) Evaluate(manifold *Manifold, xfA Transform, xfB Transform) {
 	CollidePolygons(
 		manifold,
 		contact.GetFixtureA().GetShape().(*PolygonShape), xfA,

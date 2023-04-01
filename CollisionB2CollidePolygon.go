@@ -86,7 +86,7 @@ func FindIncidentEdge(c []B2ClipVertex, poly1 *PolygonShape, xf1 Transform, edge
 // Clip
 
 // The normal points from 1 to 2
-func CollidePolygons(manifold *B2Manifold, polyA *PolygonShape, xfA Transform, polyB *PolygonShape, xfB Transform) {
+func CollidePolygons(manifold *Manifold, polyA *PolygonShape, xfA Transform, polyB *PolygonShape, xfB Transform) {
 	manifold.PointCount = 0
 	totalRadius := polyA.M_radius + polyB.M_radius
 

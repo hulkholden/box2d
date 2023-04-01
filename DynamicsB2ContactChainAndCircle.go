@@ -25,7 +25,7 @@ func ChainAndCircleContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixtu
 func ChainAndCircleContact_Destroy(contact ContactInterface) { // should be a pointer
 }
 
-func (contact *ChainAndCircleContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
+func (contact *ChainAndCircleContact) Evaluate(manifold *Manifold, xfA Transform, xfB Transform) {
 	chain := contact.GetFixtureA().GetShape().(*ChainShape)
 	edge := MakeEdgeShape()
 	chain.GetChildEdge(&edge, contact.M_indexA)

@@ -42,7 +42,7 @@ type B2ContactListenerInterface interface {
 	/// Note: if you set the number of contact points to zero, you will not
 	/// get an EndContact callback. However, you may get a BeginContact callback
 	/// the next step.
-	PreSolve(contact ContactInterface, oldManifold B2Manifold) // contact has to be backed by a pointer
+	PreSolve(contact ContactInterface, oldManifold Manifold) // contact has to be backed by a pointer
 
 	/// This lets you inspect a contact after the solver is finished. This is useful
 	/// for inspecting impulses.

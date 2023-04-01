@@ -56,14 +56,14 @@ var (
 	B2_toiRootIters, B2_toiMaxRootIters      int
 )
 
-var B2SeparationFunction_Type = struct {
-	E_points uint8
-	E_faceA  uint8
-	E_faceB  uint8
+var SeparationFunctionType = struct {
+	Points uint8
+	FaceA  uint8
+	FaceB  uint8
 }{
-	E_points: 0,
-	E_faceA:  1,
-	E_faceB:  2,
+	Points: 0,
+	FaceA:  1,
+	FaceB:  2,
 }
 
 type B2SeparationFunction struct {
@@ -91,7 +91,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *SimplexCache, proxyA *Dis
 	sepfunc.M_sweepB.GetTransform(&xfB, t1)
 
 	if count == 1 {
-		sepfunc.M_type = B2SeparationFunction_Type.E_points
+		sepfunc.M_type = SeparationFunctionType.Points
 		localPointA := sepfunc.M_proxyA.GetVertex(cache.IndexA[0])
 		localPointB := sepfunc.M_proxyB.GetVertex(cache.IndexB[0])
 		pointA := TransformVec2Mul(xfA, localPointA)
@@ -101,7 +101,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *SimplexCache, proxyA *Dis
 		return s
 	} else if cache.IndexA[0] == cache.IndexA[1] {
 		// Two points on B and one on A.
-		sepfunc.M_type = B2SeparationFunction_Type.E_faceB
+		sepfunc.M_type = SeparationFunctionType.FaceB
 		localPointB1 := proxyB.GetVertex(cache.IndexB[0])
 		localPointB2 := proxyB.GetVertex(cache.IndexB[1])
 
@@ -128,7 +128,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *SimplexCache, proxyA *Dis
 		return s
 	} else {
 		// Two points on A and one or two points on B.
-		sepfunc.M_type = B2SeparationFunction_Type.E_faceA
+		sepfunc.M_type = SeparationFunctionType.FaceA
 		localPointA1 := sepfunc.M_proxyA.GetVertex(cache.IndexA[0])
 		localPointA2 := sepfunc.M_proxyA.GetVertex(cache.IndexA[1])
 
@@ -160,7 +160,7 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 	sepfunc.M_sweepB.GetTransform(&xfB, t)
 
 	switch sepfunc.M_type {
-	case B2SeparationFunction_Type.E_points:
+	case SeparationFunctionType.Points:
 		{
 			axisA := RotVec2MulT(xfA.Q, sepfunc.M_axis)
 			axisB := RotVec2MulT(xfB.Q, sepfunc.M_axis.OperatorNegate())
@@ -178,7 +178,7 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 			return separation
 		}
 
-	case B2SeparationFunction_Type.E_faceA:
+	case SeparationFunctionType.FaceA:
 		{
 			normal := RotVec2Mul(xfA.Q, sepfunc.M_axis)
 			pointA := TransformVec2Mul(xfA, sepfunc.M_localPoint)
@@ -195,7 +195,7 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 			return separation
 		}
 
-	case B2SeparationFunction_Type.E_faceB:
+	case SeparationFunctionType.FaceB:
 		{
 			normal := RotVec2Mul(xfB.Q, sepfunc.M_axis)
 			pointB := TransformVec2Mul(xfB, sepfunc.M_localPoint)
@@ -228,7 +228,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 	sepfunc.M_sweepB.GetTransform(&xfB, t)
 
 	switch sepfunc.M_type {
-	case B2SeparationFunction_Type.E_points:
+	case SeparationFunctionType.Points:
 		{
 			localPointA := sepfunc.M_proxyA.GetVertex(indexA)
 			localPointB := sepfunc.M_proxyB.GetVertex(indexB)
@@ -240,7 +240,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 			return separation
 		}
 
-	case B2SeparationFunction_Type.E_faceA:
+	case SeparationFunctionType.FaceA:
 		{
 			normal := RotVec2Mul(xfA.Q, sepfunc.M_axis)
 			pointA := TransformVec2Mul(xfA, sepfunc.M_localPoint)
@@ -252,7 +252,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 			return separation
 		}
 
-	case B2SeparationFunction_Type.E_faceB:
+	case SeparationFunctionType.FaceB:
 		{
 			normal := RotVec2Mul(xfB.Q, sepfunc.M_axis)
 			pointB := TransformVec2Mul(xfB, sepfunc.M_localPoint)
@@ -335,7 +335,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *TOIInput) {
 		// If the shapes are overlapped, we give up on continuous collision.
 		if distanceOutput.Distance <= 0.0 {
 			// Failure!
-			output.State = TOIOutputState.E_overlapped
+			output.State = TOIOutputState.Overlapped
 			output.T = 0.0
 			break
 		}

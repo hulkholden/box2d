@@ -16,7 +16,7 @@ type EdgeShape struct {
 func MakeEdgeShape() EdgeShape {
 	return EdgeShape{
 		B2Shape: B2Shape{
-			M_type:   B2Shape_Type.E_edge,
+			M_type:   ShapeType.Edge,
 			M_radius: polygonRadius,
 		},
 		M_vertex0:    MakeVec2(0, 0),

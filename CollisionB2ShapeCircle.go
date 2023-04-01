@@ -14,7 +14,7 @@ type CircleShape struct {
 func MakeCircleShape() CircleShape {
 	return CircleShape{
 		B2Shape: B2Shape{
-			M_type:   B2Shape_Type.E_circle,
+			M_type:   ShapeType.Circle,
 			M_radius: 0.0,
 		},
 		M_p: MakeVec2(0, 0),

@@ -225,19 +225,19 @@ func (fix *Fixture) Destroy() {
 
 	// Free the child shape.
 	switch fix.M_shape.GetType() {
-	case B2Shape_Type.E_circle:
+	case ShapeType.Circle:
 		s := fix.M_shape.(*CircleShape)
 		s.Destroy()
 
-	case B2Shape_Type.E_edge:
+	case ShapeType.Edge:
 		s := fix.M_shape.(*EdgeShape)
 		s.Destroy()
 
-	case B2Shape_Type.E_polygon:
+	case ShapeType.Polygon:
 		s := fix.M_shape.(*PolygonShape)
 		s.Destroy()
 
-	case B2Shape_Type.E_chain:
+	case ShapeType.Chain:
 		s := fix.M_shape.(*ChainShape)
 		s.Destroy()
 
@@ -349,13 +349,13 @@ func (fix *Fixture) Dump(bodyIndex int) {
 	fmt.Printf("    fd.filter.groupIndex = int16(%d);\n", fix.M_filter.GroupIndex)
 
 	switch fix.M_shape.GetType() {
-	case B2Shape_Type.E_circle:
+	case ShapeType.Circle:
 		s := fix.M_shape.(*CircleShape)
 		fmt.Printf("    b2CircleShape shape;\n")
 		fmt.Printf("    shape.m_radius = %.15f;\n", s.M_radius)
 		fmt.Printf("    shape.m_p.Set(%.15f, %.15f);\n", s.M_p.X, s.M_p.Y)
 
-	case B2Shape_Type.E_edge:
+	case ShapeType.Edge:
 		s := fix.M_shape.(*EdgeShape)
 		fmt.Printf("    b2EdgeShape shape;\n")
 		fmt.Printf("    shape.m_radius = %.15f;\n", s.M_radius)
@@ -366,7 +366,7 @@ func (fix *Fixture) Dump(bodyIndex int) {
 		fmt.Printf("    shape.m_hasVertex0 = bool(%v);\n", s.M_hasVertex0)
 		fmt.Printf("    shape.m_hasVertex3 = bool(%v);\n", s.M_hasVertex3)
 
-	case B2Shape_Type.E_polygon:
+	case ShapeType.Polygon:
 		s := fix.M_shape.(*PolygonShape)
 		fmt.Printf("    b2PolygonShape shape;\n")
 		fmt.Printf("    b2Vec2 vs[%d];\n", maxPolygonVertices)
@@ -375,7 +375,7 @@ func (fix *Fixture) Dump(bodyIndex int) {
 		}
 		fmt.Printf("    shape.Set(vs, %d);\n", s.M_count)
 
-	case B2Shape_Type.E_chain:
+	case ShapeType.Chain:
 		s := fix.M_shape.(*ChainShape)
 		fmt.Printf("    b2ChainShape shape;\n")
 		fmt.Printf("    b2Vec2 vs[%d];\n", s.M_count)

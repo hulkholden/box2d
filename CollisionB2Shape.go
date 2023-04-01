@@ -29,18 +29,18 @@ func NewMassData() *MassData {
 /// Shapes used for simulation in b2World are created automatically when a b2Fixture
 /// is created. Shapes may encapsulate a one or more child shapes.
 
-var B2Shape_Type = struct {
-	E_circle    uint8
-	E_edge      uint8
-	E_polygon   uint8
-	E_chain     uint8
-	E_typeCount uint8
+var ShapeType = struct {
+	Circle  uint8
+	Edge    uint8
+	Polygon uint8
+	Chain   uint8
+	Count   uint8
 }{
-	E_circle:    0,
-	E_edge:      1,
-	E_polygon:   2,
-	E_chain:     3,
-	E_typeCount: 4,
+	Circle:  0,
+	Edge:    1,
+	Polygon: 2,
+	Chain:   3,
+	Count:   4,
 }
 
 type B2ShapeInterface interface {

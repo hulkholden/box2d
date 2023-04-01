@@ -17,7 +17,7 @@ type PolygonShape struct {
 func MakePolygonShape() PolygonShape {
 	return PolygonShape{
 		B2Shape: B2Shape{
-			M_type:   B2Shape_Type.E_polygon,
+			M_type:   ShapeType.Polygon,
 			M_radius: polygonRadius,
 		},
 		M_count:    0,

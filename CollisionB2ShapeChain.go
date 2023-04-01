@@ -26,7 +26,7 @@ type ChainShape struct {
 func MakeChainShape() ChainShape {
 	return ChainShape{
 		B2Shape: B2Shape{
-			M_type:   B2Shape_Type.E_chain,
+			M_type:   ShapeType.Chain,
 			M_radius: polygonRadius,
 		},
 		M_vertices:      nil,
@@ -126,7 +126,7 @@ func (chain ChainShape) GetChildCount() int {
 func (chain ChainShape) GetChildEdge(edge *EdgeShape, index int) {
 	assert(0 <= index && index < chain.M_count-1)
 
-	edge.M_type = B2Shape_Type.E_edge
+	edge.M_type = ShapeType.Edge
 	edge.M_radius = chain.M_radius
 
 	edge.M_vertex1 = chain.M_vertices[index+0]

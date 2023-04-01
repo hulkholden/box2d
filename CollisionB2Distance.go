@@ -108,19 +108,19 @@ var b2_gjkCalls, b2_gjkIters, b2_gjkMaxIters int
 
 func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 	switch shape.GetType() {
-	case B2Shape_Type.E_circle:
+	case ShapeType.Circle:
 		circle := (shape).(*CircleShape)
 		p.M_vertices = []Vec2{circle.M_p}
 		p.M_count = 1
 		p.M_radius = circle.M_radius
 
-	case B2Shape_Type.E_polygon:
+	case ShapeType.Polygon:
 		polygon := shape.(*PolygonShape)
 		p.M_vertices = polygon.M_vertices[:]
 		p.M_count = polygon.M_count
 		p.M_radius = polygon.M_radius
 
-	case B2Shape_Type.E_chain:
+	case ShapeType.Chain:
 		chain := shape.(*ChainShape)
 		assert(0 <= index && index < chain.M_count)
 
@@ -135,7 +135,7 @@ func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 		p.M_count = 2
 		p.M_radius = chain.M_radius
 
-	case B2Shape_Type.E_edge:
+	case ShapeType.Edge:
 		edge := shape.(*EdgeShape)
 		p.M_vertices = []Vec2{edge.M_vertex1, edge.M_vertex2}
 		p.M_count = 2

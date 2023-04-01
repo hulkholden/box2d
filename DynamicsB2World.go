@@ -998,7 +998,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 Vec2, point2 Ve
 
 func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color Color) {
 	switch fixture.GetType() {
-	case B2Shape_Type.E_circle:
+	case ShapeType.Circle:
 		circle := fixture.GetShape().(*CircleShape)
 
 		center := TransformVec2Mul(xf, circle.M_p)
@@ -1007,13 +1007,13 @@ func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color Color) {
 
 		world.G_debugDraw.DrawSolidCircle(center, radius, axis, color)
 
-	case B2Shape_Type.E_edge:
+	case ShapeType.Edge:
 		edge := fixture.GetShape().(*EdgeShape)
 		v1 := TransformVec2Mul(xf, edge.M_vertex1)
 		v2 := TransformVec2Mul(xf, edge.M_vertex2)
 		world.G_debugDraw.DrawSegment(v1, v2, color)
 
-	case B2Shape_Type.E_chain:
+	case ShapeType.Chain:
 		chain := fixture.GetShape().(*ChainShape)
 		count := chain.M_count
 		vertices := chain.M_vertices
@@ -1042,7 +1042,7 @@ func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color Color) {
 			world.G_debugDraw.DrawCircle(vn, 0.1, ghostColor)
 		}
 
-	case B2Shape_Type.E_polygon:
+	case ShapeType.Polygon:
 		poly := fixture.GetShape().(*PolygonShape)
 		vertexCount := poly.M_count
 		assert(vertexCount <= maxPolygonVertices)

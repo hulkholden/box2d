@@ -13,8 +13,8 @@ type ChainAndPolygonContact struct {
 ///////////////////////////////////////////////////////////////////////////////
 
 func ChainAndPolygonContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface {
-	assert(fixtureA.GetType() == B2Shape_Type.E_chain)
-	assert(fixtureB.GetType() == B2Shape_Type.E_polygon)
+	assert(fixtureA.GetType() == ShapeType.Chain)
+	assert(fixtureB.GetType() == ShapeType.Polygon)
 	res := &ChainAndPolygonContact{
 		Contact: MakeContact(fixtureA, indexA, fixtureB, indexB),
 	}

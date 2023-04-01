@@ -5,8 +5,8 @@ type CircleContact struct {
 }
 
 func CircleContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface {
-	assert(fixtureA.GetType() == B2Shape_Type.E_circle)
-	assert(fixtureB.GetType() == B2Shape_Type.E_circle)
+	assert(fixtureA.GetType() == ShapeType.Circle)
+	assert(fixtureB.GetType() == ShapeType.Circle)
 	res := &CircleContact{
 		Contact: MakeContact(fixtureA, 0, fixtureB, 0),
 	}

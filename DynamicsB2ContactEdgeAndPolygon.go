@@ -13,8 +13,8 @@ type EdgeAndPolygonContact struct {
 ///////////////////////////////////////////////////////////////////////////////
 
 func EdgeAndPolygonContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface {
-	assert(fixtureA.GetType() == B2Shape_Type.E_edge)
-	assert(fixtureB.GetType() == B2Shape_Type.E_polygon)
+	assert(fixtureA.GetType() == ShapeType.Edge)
+	assert(fixtureB.GetType() == ShapeType.Polygon)
 	res := &EdgeAndPolygonContact{
 		Contact: MakeContact(fixtureA, 0, fixtureB, 0),
 	}

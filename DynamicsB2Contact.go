@@ -322,23 +322,23 @@ func (contact *Contact) FlagForFiltering() {
 ///////////////////////////////////////////////////////////////////////////////
 
 func ContactInitializeRegisters() {
-	s_registers = make([][]ContactRegister, B2Shape_Type.E_typeCount)
-	for i := 0; i < int(B2Shape_Type.E_typeCount); i++ {
-		s_registers[i] = make([]ContactRegister, B2Shape_Type.E_typeCount)
+	s_registers = make([][]ContactRegister, ShapeType.Count)
+	for i := 0; i < int(ShapeType.Count); i++ {
+		s_registers[i] = make([]ContactRegister, ShapeType.Count)
 	}
 
-	AddType(CircleContact_Create, CircleContact_Destroy, B2Shape_Type.E_circle, B2Shape_Type.E_circle)
-	AddType(PolygonAndCircleContact_Create, PolygonAndCircleContact_Destroy, B2Shape_Type.E_polygon, B2Shape_Type.E_circle)
-	AddType(PolygonContact_Create, PolygonContact_Destroy, B2Shape_Type.E_polygon, B2Shape_Type.E_polygon)
-	AddType(EdgeAndCircleContact_Create, EdgeAndCircleContact_Destroy, B2Shape_Type.E_edge, B2Shape_Type.E_circle)
-	AddType(EdgeAndPolygonContact_Create, EdgeAndPolygonContact_Destroy, B2Shape_Type.E_edge, B2Shape_Type.E_polygon)
-	AddType(ChainAndCircleContact_Create, ChainAndCircleContact_Destroy, B2Shape_Type.E_chain, B2Shape_Type.E_circle)
-	AddType(ChainAndPolygonContact_Create, ChainAndPolygonContact_Destroy, B2Shape_Type.E_chain, B2Shape_Type.E_polygon)
+	AddType(CircleContact_Create, CircleContact_Destroy, ShapeType.Circle, ShapeType.Circle)
+	AddType(PolygonAndCircleContact_Create, PolygonAndCircleContact_Destroy, ShapeType.Polygon, ShapeType.Circle)
+	AddType(PolygonContact_Create, PolygonContact_Destroy, ShapeType.Polygon, ShapeType.Polygon)
+	AddType(EdgeAndCircleContact_Create, EdgeAndCircleContact_Destroy, ShapeType.Edge, ShapeType.Circle)
+	AddType(EdgeAndPolygonContact_Create, EdgeAndPolygonContact_Destroy, ShapeType.Edge, ShapeType.Polygon)
+	AddType(ChainAndCircleContact_Create, ChainAndCircleContact_Destroy, ShapeType.Chain, ShapeType.Circle)
+	AddType(ChainAndPolygonContact_Create, ChainAndPolygonContact_Destroy, ShapeType.Chain, ShapeType.Polygon)
 }
 
 func AddType(createFcn ContactCreateFcn, destroyFcn ContactDestroyFcn, type1 uint8, type2 uint8) {
-	assert(type1 < B2Shape_Type.E_typeCount)
-	assert(type2 < B2Shape_Type.E_typeCount)
+	assert(type1 < ShapeType.Count)
+	assert(type2 < ShapeType.Count)
 
 	s_registers[type1][type2].CreateFcn = createFcn
 	s_registers[type1][type2].DestroyFcn = destroyFcn
@@ -360,8 +360,8 @@ func ContactFactory(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int
 	type1 := fixtureA.GetType()
 	type2 := fixtureB.GetType()
 
-	assert(type1 < B2Shape_Type.E_typeCount)
-	assert(type2 < B2Shape_Type.E_typeCount)
+	assert(type1 < ShapeType.Count)
+	assert(type2 < ShapeType.Count)
 
 	createFcn := s_registers[type1][type2].CreateFcn
 	if createFcn != nil {
@@ -389,8 +389,8 @@ func ContactDestroy(contact ContactInterface) {
 	typeA := fixtureA.GetType()
 	typeB := fixtureB.GetType()
 
-	assert(typeA < B2Shape_Type.E_typeCount)
-	assert(typeB < B2Shape_Type.E_typeCount)
+	assert(typeA < ShapeType.Count)
+	assert(typeB < ShapeType.Count)
 
 	destroyFcn := s_registers[typeA][typeB].DestroyFcn
 	destroyFcn(contact)

@@ -15,7 +15,7 @@ func CollideCircles(manifold *B2Manifold, circleA *CircleShape, xfA Transform, c
 		return
 	}
 
-	manifold.Type = B2Manifold_Type.E_circles
+	manifold.Type = ManifoldType.Circles
 	manifold.LocalPoint = circleA.M_p
 	manifold.LocalNormal.SetZero()
 	manifold.PointCount = 1
@@ -66,7 +66,7 @@ func CollidePolygonAndCircle(manifold *B2Manifold, polygonA *PolygonShape, xfA T
 	// If the center is inside the polygon ...
 	if separation < epsilon {
 		manifold.PointCount = 1
-		manifold.Type = B2Manifold_Type.E_faceA
+		manifold.Type = ManifoldType.FaceA
 		manifold.LocalNormal = normals[normalIndex]
 		manifold.LocalPoint = Vec2MulScalar(0.5, Vec2Add(v1, v2))
 		manifold.Points[0].LocalPoint = circleB.M_p
@@ -83,7 +83,7 @@ func CollidePolygonAndCircle(manifold *B2Manifold, polygonA *PolygonShape, xfA T
 		}
 
 		manifold.PointCount = 1
-		manifold.Type = B2Manifold_Type.E_faceA
+		manifold.Type = ManifoldType.FaceA
 		manifold.LocalNormal = Vec2Sub(cLocal, v1)
 		manifold.LocalNormal.Normalize()
 		manifold.LocalPoint = v1
@@ -95,7 +95,7 @@ func CollidePolygonAndCircle(manifold *B2Manifold, polygonA *PolygonShape, xfA T
 		}
 
 		manifold.PointCount = 1
-		manifold.Type = B2Manifold_Type.E_faceA
+		manifold.Type = ManifoldType.FaceA
 		manifold.LocalNormal = Vec2Sub(cLocal, v2)
 		manifold.LocalNormal.Normalize()
 		manifold.LocalPoint = v2
@@ -109,7 +109,7 @@ func CollidePolygonAndCircle(manifold *B2Manifold, polygonA *PolygonShape, xfA T
 		}
 
 		manifold.PointCount = 1
-		manifold.Type = B2Manifold_Type.E_faceA
+		manifold.Type = ManifoldType.FaceA
 		manifold.LocalNormal = normals[vertIndex1]
 		manifold.LocalPoint = faceCenter
 		manifold.Points[0].LocalPoint = circleB.M_p

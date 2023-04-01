@@ -117,7 +117,7 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *PolygonShape, xfA Transform,
 		xf1 = xfB
 		xf2 = xfA
 		edge1 = edgeB
-		manifold.Type = B2Manifold_Type.E_faceB
+		manifold.Type = ManifoldType.FaceB
 		flip = 1
 	} else {
 		poly1 = polyA
@@ -125,7 +125,7 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *PolygonShape, xfA Transform,
 		xf1 = xfA
 		xf2 = xfB
 		edge1 = edgeA
-		manifold.Type = B2Manifold_Type.E_faceA
+		manifold.Type = ManifoldType.FaceA
 		flip = 0
 	}
 

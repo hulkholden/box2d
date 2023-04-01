@@ -87,21 +87,21 @@ type B2ManifoldPoint struct {
 /// All contact scenarios must be expressed in one of these types.
 /// This structure is stored across time steps, so we keep it small.
 
-var B2Manifold_Type = struct {
-	E_circles uint8
-	E_faceA   uint8
-	E_faceB   uint8
+var ManifoldType = struct {
+	Circles uint8
+	FaceA   uint8
+	FaceB   uint8
 }{
-	E_circles: 0,
-	E_faceA:   1,
-	E_faceB:   2,
+	Circles: 0,
+	FaceA:   1,
+	FaceB:   2,
 }
 
 type B2Manifold struct {
 	Points      [maxManifoldPoints]B2ManifoldPoint ///< the points of contact
 	LocalNormal Vec2                               ///< not use for Type::e_points
 	LocalPoint  Vec2                               ///< usage depends on manifold type
-	Type        uint8                              // B2Manifold_Type
+	Type        uint8                              // ManifoldType
 	PointCount  int                                ///< the number of manifold points
 }
 
@@ -244,7 +244,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA Transform, radiu
 	}
 
 	switch manifold.Type {
-	case B2Manifold_Type.E_circles:
+	case ManifoldType.Circles:
 		{
 			wm.Normal.Set(1.0, 0.0)
 			pointA := TransformVec2Mul(xfA, manifold.LocalPoint)
@@ -261,7 +261,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA Transform, radiu
 			wm.Separations[0] = Vec2Dot(Vec2Sub(cB, cA), wm.Normal)
 		}
 
-	case B2Manifold_Type.E_faceA:
+	case ManifoldType.FaceA:
 		{
 			wm.Normal = RotVec2Mul(xfA.Q, manifold.LocalNormal)
 			planePoint := TransformVec2Mul(xfA, manifold.LocalPoint)
@@ -287,7 +287,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA Transform, radiu
 			}
 		}
 
-	case B2Manifold_Type.E_faceB:
+	case ManifoldType.FaceB:
 		{
 			wm.Normal = RotVec2Mul(xfB.Q, manifold.LocalNormal)
 			planePoint := TransformVec2Mul(xfB, manifold.LocalPoint)

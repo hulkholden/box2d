@@ -689,7 +689,7 @@ func (solvermanifold *PositionSolverManifold) Initialize(pc *ContactPositionCons
 	assert(pc.PointCount > 0)
 
 	switch pc.Type {
-	case B2Manifold_Type.E_circles:
+	case ManifoldType.Circles:
 		pointA := TransformVec2Mul(xfA, pc.LocalPoint)
 		pointB := TransformVec2Mul(xfB, pc.LocalPoints[0])
 		solvermanifold.Normal = Vec2Sub(pointB, pointA)
@@ -697,7 +697,7 @@ func (solvermanifold *PositionSolverManifold) Initialize(pc *ContactPositionCons
 		solvermanifold.Point = Vec2MulScalar(0.5, Vec2Add(pointA, pointB))
 		solvermanifold.Separation = Vec2Dot(Vec2Sub(pointB, pointA), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
 
-	case B2Manifold_Type.E_faceA:
+	case ManifoldType.FaceA:
 		solvermanifold.Normal = RotVec2Mul(xfA.Q, pc.LocalNormal)
 		planePoint := TransformVec2Mul(xfA, pc.LocalPoint)
 
@@ -705,7 +705,7 @@ func (solvermanifold *PositionSolverManifold) Initialize(pc *ContactPositionCons
 		solvermanifold.Separation = Vec2Dot(Vec2Sub(clipPoint, planePoint), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
 		solvermanifold.Point = clipPoint
 
-	case B2Manifold_Type.E_faceB:
+	case ManifoldType.FaceB:
 		solvermanifold.Normal = RotVec2Mul(xfB.Q, pc.LocalNormal)
 		planePoint := TransformVec2Mul(xfB, pc.LocalPoint)
 

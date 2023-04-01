@@ -51,7 +51,7 @@ func CollideEdgeAndCircle(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform,
 		cf.IndexA = 0
 		cf.TypeA = ContactFeatureType.Vertex
 		manifold.PointCount = 1
-		manifold.Type = B2Manifold_Type.E_circles
+		manifold.Type = ManifoldType.Circles
 		manifold.LocalNormal.SetZero()
 		manifold.LocalPoint = P
 		manifold.Points[0].Id.SetKey(0)
@@ -88,7 +88,7 @@ func CollideEdgeAndCircle(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform,
 		cf.IndexA = 1
 		cf.TypeA = ContactFeatureType.Vertex
 		manifold.PointCount = 1
-		manifold.Type = B2Manifold_Type.E_circles
+		manifold.Type = ManifoldType.Circles
 		manifold.LocalNormal.SetZero()
 		manifold.LocalPoint = P
 		manifold.Points[0].Id.SetKey(0)
@@ -119,7 +119,7 @@ func CollideEdgeAndCircle(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform,
 	cf.IndexA = 0
 	cf.TypeA = ContactFeatureType.Face
 	manifold.PointCount = 1
-	manifold.Type = B2Manifold_Type.E_faceA
+	manifold.Type = ManifoldType.FaceA
 	manifold.LocalNormal = n
 	manifold.LocalPoint = A
 	manifold.Points[0].Id.SetKey(0)
@@ -406,7 +406,7 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *EdgeShape, xf
 	ie := make([]B2ClipVertex, 2)
 	rf := MakeB2ReferenceFace()
 	if primaryAxis.Type == B2EPAxis_Type.E_edgeA {
-		manifold.Type = B2Manifold_Type.E_faceA
+		manifold.Type = ManifoldType.FaceA
 
 		// Search for the polygon normal that is most anti-parallel to the edge normal.
 		bestIndex := 0
@@ -451,7 +451,7 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *EdgeShape, xf
 			rf.Normal = collider.M_normal1.OperatorNegate()
 		}
 	} else {
-		manifold.Type = B2Manifold_Type.E_faceB
+		manifold.Type = ManifoldType.FaceB
 
 		ie[0].V = collider.M_v1
 		ie[0].Id.IndexA = 0

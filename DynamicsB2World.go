@@ -36,7 +36,7 @@ type B2World struct {
 	M_gravity    Vec2
 	M_allowSleep bool
 
-	M_destructionListener B2DestructionListenerInterface
+	M_destructionListener DestructionListenerInterface
 	G_debugDraw           B2Draw
 
 	// This is used to compute the time step ratio to
@@ -166,7 +166,7 @@ func (world *B2World) Destroy() {
 	}
 }
 
-func (world *B2World) SetDestructionListener(listener B2DestructionListenerInterface) {
+func (world *B2World) SetDestructionListener(listener DestructionListenerInterface) {
 	world.M_destructionListener = listener
 }
 

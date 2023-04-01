@@ -1,6 +1,6 @@
 package box2d
 
-type B2DestructionListenerInterface interface {
+type DestructionListenerInterface interface {
 	/// Called when any fixture is about to be destroyed due
 	/// to the destruction of its parent body.
 	SayGoodbyeToFixture(fixture *Fixture)

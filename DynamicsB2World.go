@@ -22,7 +22,7 @@ var WorldFlags = struct {
 // The world class manages all physics entities, dynamic simulation,
 // and asynchronous queries. The world also contains efficient memory
 // management facilities.
-type B2World struct {
+type World struct {
 	M_flags int
 
 	M_contactManager ContactManager
@@ -53,43 +53,43 @@ type B2World struct {
 	M_profile Profile
 }
 
-func (world B2World) GetBodyList() *Body {
+func (world World) GetBodyList() *Body {
 	return world.M_bodyList
 }
 
-func (world B2World) GetJointList() JointInterface { // returns a pointer
+func (world World) GetJointList() JointInterface { // returns a pointer
 	return world.M_jointList
 }
 
-func (world B2World) GetContactList() ContactInterface { // returns a pointer
+func (world World) GetContactList() ContactInterface { // returns a pointer
 	return world.M_contactManager.M_contactList
 }
 
-func (world B2World) GetBodyCount() int {
+func (world World) GetBodyCount() int {
 	return world.M_bodyCount
 }
 
-func (world B2World) GetJointCount() int {
+func (world World) GetJointCount() int {
 	return world.M_jointCount
 }
 
-func (world B2World) GetContactCount() int {
+func (world World) GetContactCount() int {
 	return world.M_contactManager.M_contactCount
 }
 
-func (world *B2World) SetGravity(gravity Vec2) {
+func (world *World) SetGravity(gravity Vec2) {
 	world.M_gravity = gravity
 }
 
-func (world B2World) GetGravity() Vec2 {
+func (world World) GetGravity() Vec2 {
 	return world.M_gravity
 }
 
-func (world B2World) IsLocked() bool {
+func (world World) IsLocked() bool {
 	return (world.M_flags & WorldFlags.Locked) == WorldFlags.Locked
 }
 
-func (world *B2World) SetAutoClearForces(flag bool) {
+func (world *World) SetAutoClearForces(flag bool) {
 	if flag {
 		world.M_flags |= WorldFlags.ClearForces
 	} else {
@@ -98,28 +98,28 @@ func (world *B2World) SetAutoClearForces(flag bool) {
 }
 
 // Get the flag that controls automatic clearing of forces after each time step.
-func (world B2World) GetAutoClearForces() bool {
+func (world World) GetAutoClearForces() bool {
 	return (world.M_flags & WorldFlags.ClearForces) == WorldFlags.ClearForces
 }
 
-func (world B2World) GetContactManager() ContactManager {
+func (world World) GetContactManager() ContactManager {
 	return world.M_contactManager
 }
 
-func (world B2World) GetProfile() Profile {
+func (world World) GetProfile() Profile {
 	return world.M_profile
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-// B2World.cpp
+// World.cpp
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func MakeB2World(gravity Vec2) B2World {
-	world := B2World{}
+func MakeWorld(gravity Vec2) World {
+	world := World{}
 
 	world.M_destructionListener = nil
 	world.G_debugDraw = nil
@@ -148,7 +148,7 @@ func MakeB2World(gravity Vec2) B2World {
 	return world
 }
 
-func (world *B2World) Destroy() {
+func (world *World) Destroy() {
 	// Some shapes allocate using b2Alloc.
 	b := world.M_bodyList
 	for b != nil {
@@ -166,23 +166,23 @@ func (world *B2World) Destroy() {
 	}
 }
 
-func (world *B2World) SetDestructionListener(listener DestructionListenerInterface) {
+func (world *World) SetDestructionListener(listener DestructionListenerInterface) {
 	world.M_destructionListener = listener
 }
 
-func (world *B2World) SetContactFilter(filter ContactFilterInterface) {
+func (world *World) SetContactFilter(filter ContactFilterInterface) {
 	world.M_contactManager.M_contactFilter = filter
 }
 
-func (world *B2World) SetContactListener(listener ContactListenerInterface) {
+func (world *World) SetContactListener(listener ContactListenerInterface) {
 	world.M_contactManager.M_contactListener = listener
 }
 
-func (world *B2World) SetDebugDraw(debugDraw Draw) {
+func (world *World) SetDebugDraw(debugDraw Draw) {
 	world.G_debugDraw = debugDraw
 }
 
-func (world *B2World) CreateBody(def *BodyDef) *Body {
+func (world *World) CreateBody(def *BodyDef) *Body {
 	assert(!world.IsLocked())
 
 	if world.IsLocked() {
@@ -203,7 +203,7 @@ func (world *B2World) CreateBody(def *BodyDef) *Body {
 	return b
 }
 
-func (world *B2World) DestroyBody(b *Body) {
+func (world *World) DestroyBody(b *Body) {
 	assert(world.M_bodyCount > 0)
 	assert(!world.IsLocked())
 
@@ -272,7 +272,7 @@ func (world *B2World) DestroyBody(b *Body) {
 	world.M_bodyCount--
 }
 
-func (world *B2World) CreateJoint(def JointDefInterface) JointInterface {
+func (world *World) CreateJoint(def JointDefInterface) JointInterface {
 	assert(!world.IsLocked())
 	if world.IsLocked() {
 		return nil
@@ -331,7 +331,7 @@ func (world *B2World) CreateJoint(def JointDefInterface) JointInterface {
 	return j
 }
 
-func (world *B2World) DestroyJoint(j JointInterface) { // j backed by pointer
+func (world *World) DestroyJoint(j JointInterface) { // j backed by pointer
 	assert(!world.IsLocked())
 	if world.IsLocked() {
 		return
@@ -412,7 +412,7 @@ func (world *B2World) DestroyJoint(j JointInterface) { // j backed by pointer
 	}
 }
 
-func (world *B2World) SetAllowSleeping(flag bool) {
+func (world *World) SetAllowSleeping(flag bool) {
 	if flag == world.M_allowSleep {
 		return
 	}
@@ -426,7 +426,7 @@ func (world *B2World) SetAllowSleeping(flag bool) {
 }
 
 // Find islands, integrate and solve constraints, solve position constraints
-func (world *B2World) Solve(step TimeStep) {
+func (world *World) Solve(step TimeStep) {
 	world.M_profile.SolveInit = 0.0
 	world.M_profile.SolveVelocity = 0.0
 	world.M_profile.SolvePosition = 0.0
@@ -602,7 +602,7 @@ func (world *B2World) Solve(step TimeStep) {
 }
 
 // Find TOI contacts and solve them.
-func (world *B2World) SolveTOI(step TimeStep) {
+func (world *World) SolveTOI(step TimeStep) {
 	island := MakeIsland(2*maxTOIContacts, maxTOIContacts, 0, world.M_contactManager.M_contactListener)
 
 	if world.M_stepComplete {
@@ -883,7 +883,7 @@ func (world *B2World) SolveTOI(step TimeStep) {
 	}
 }
 
-func (world *B2World) Step(dt float64, velocityIterations int, positionIterations int) {
+func (world *World) Step(dt float64, velocityIterations int, positionIterations int) {
 	stepTimer := MakeB2Timer()
 
 	// If new fixtures were added, we need to find the new contacts.
@@ -942,7 +942,7 @@ func (world *B2World) Step(dt float64, velocityIterations int, positionIteration
 	world.M_profile.Step = stepTimer.GetMilliseconds()
 }
 
-func (world *B2World) ClearForces() {
+func (world *World) ClearForces() {
 	for body := world.M_bodyList; body != nil; body = body.GetNext() {
 		body.M_force.SetZero()
 		body.M_torque = 0.0
@@ -963,14 +963,14 @@ func (query *B2WorldQueryWrapper) QueryCallback(proxyId int) bool {
 	return query.Callback(proxy.Fixture)
 }
 
-func (world *B2World) QueryAABB(callback BroadPhaseQueryCallback, aabb AABB) {
+func (world *World) QueryAABB(callback BroadPhaseQueryCallback, aabb AABB) {
 	wrapper := MakeB2WorldQueryWrapper()
 	wrapper.BroadPhase = &world.M_contactManager.M_broadPhase
 	wrapper.Callback = callback
 	world.M_contactManager.M_broadPhase.Query(wrapper.QueryCallback, aabb)
 }
 
-func (world *B2World) RayCast(callback RaycastCallback, point1 Vec2, point2 Vec2) {
+func (world *World) RayCast(callback RaycastCallback, point1 Vec2, point2 Vec2) {
 	// TreeRayCastCallback
 	wrapper := func(input RayCastInput, nodeId int) float64 {
 		userData := world.M_contactManager.M_broadPhase.GetUserData(nodeId)
@@ -996,7 +996,7 @@ func (world *B2World) RayCast(callback RaycastCallback, point1 Vec2, point2 Vec2
 	world.M_contactManager.M_broadPhase.RayCast(wrapper, input)
 }
 
-func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color Color) {
+func (world *World) DrawShape(fixture *Fixture, xf Transform, color Color) {
 	switch fixture.GetType() {
 	case ShapeType.Circle:
 		circle := fixture.GetShape().(*CircleShape)
@@ -1060,7 +1060,7 @@ func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color Color) {
 
 /*
 // TODO: Figure out how to cast Joint to the derived type.
-func (world *B2World) DrawJoint(joint *Joint) {
+func (world *World) DrawJoint(joint *Joint) {
 	bodyA := joint.GetBodyA()
 	bodyB := joint.GetBodyB()
 	xf1 := bodyA.GetTransform()
@@ -1101,7 +1101,7 @@ func (world *B2World) DrawJoint(joint *Joint) {
 }
 */
 
-func (world *B2World) DrawDebugData() {
+func (world *World) DrawDebugData() {
 	if world.G_debugDraw == nil {
 		return
 	}
@@ -1180,23 +1180,23 @@ func (world *B2World) DrawDebugData() {
 	}
 }
 
-func (world B2World) GetProxyCount() int {
+func (world World) GetProxyCount() int {
 	return world.M_contactManager.M_broadPhase.GetProxyCount()
 }
 
-func (world B2World) GetTreeHeight() int {
+func (world World) GetTreeHeight() int {
 	return world.M_contactManager.M_broadPhase.GetTreeHeight()
 }
 
-func (world B2World) GetTreeBalance() int {
+func (world World) GetTreeBalance() int {
 	return world.M_contactManager.M_broadPhase.GetTreeBalance()
 }
 
-func (world B2World) GetTreeQuality() float64 {
+func (world World) GetTreeQuality() float64 {
 	return world.M_contactManager.M_broadPhase.GetTreeQuality()
 }
 
-func (world *B2World) ShiftOrigin(newOrigin Vec2) {
+func (world *World) ShiftOrigin(newOrigin Vec2) {
 	assert((world.M_flags & WorldFlags.Locked) == 0)
 	if (world.M_flags & WorldFlags.Locked) == WorldFlags.Locked {
 		return
@@ -1215,7 +1215,7 @@ func (world *B2World) ShiftOrigin(newOrigin Vec2) {
 	world.M_contactManager.M_broadPhase.ShiftOrigin(newOrigin)
 }
 
-func (world *B2World) Dump() {
+func (world *World) Dump() {
 	if (world.M_flags & WorldFlags.Locked) == WorldFlags.Locked {
 		return
 	}

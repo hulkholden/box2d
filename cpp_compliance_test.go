@@ -15,7 +15,7 @@ func TestCPPCompliance(t *testing.T) {
 	gravity := box2d.MakeVec2(0.0, -10.0)
 
 	// Construct a world object, which will hold and simulate the rigid bodies.
-	world := box2d.MakeB2World(gravity)
+	world := box2d.MakeWorld(gravity)
 
 	characters := make(map[string]*box2d.Body)
 

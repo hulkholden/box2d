@@ -136,7 +136,7 @@ type Body struct {
 	M_force  Vec2
 	M_torque float64
 
-	M_world *B2World
+	M_world *World
 	M_prev  *Body
 	M_next  *Body
 
@@ -467,7 +467,7 @@ func (body *Body) Advance(alpha float64) {
 	body.M_xf.P = Vec2Sub(body.M_sweep.C, RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
 }
 
-func (body Body) GetWorld() *B2World {
+func (body Body) GetWorld() *World {
 	return body.M_world
 }
 
@@ -479,7 +479,7 @@ func (body Body) GetWorld() *B2World {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func NewBody(bd *BodyDef, world *B2World) *Body {
+func NewBody(bd *BodyDef, world *World) *Body {
 	assert(bd.Position.IsValid())
 	assert(bd.LinearVelocity.IsValid())
 	assert(IsValid(bd.Angle))

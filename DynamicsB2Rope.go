@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-type B2RopeDef struct {
+type RopeDef struct {
 	///
 	Vertices []Vec2
 
@@ -27,8 +27,8 @@ type B2RopeDef struct {
 	K3 float64
 }
 
-func MakeB2RopeDef() B2RopeDef {
-	res := B2RopeDef{}
+func MakeRopeDef() RopeDef {
+	res := RopeDef{}
 
 	res.Vertices = nil
 	res.Count = 0
@@ -93,7 +93,7 @@ func (rope *B2Rope) Destroy() {
 	rope.M_as = nil
 }
 
-func (rope *B2Rope) Initialize(def *B2RopeDef) {
+func (rope *B2Rope) Initialize(def *RopeDef) {
 	assert(def.Count >= 3)
 	rope.M_count = def.Count
 	rope.M_ps = make([]Vec2, rope.M_count)

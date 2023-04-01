@@ -770,12 +770,6 @@ func (mat Mat33) Solve33(b Vec3) Vec3 {
 		det = 1.0 / det
 	}
 
-	// Vec3 x;
-	// x.x = det * b2Dot(b, b2Cross(ey, ez));
-	// x.y = det * b2Dot(ex, b2Cross(b, ez));
-	// x.z = det * b2Dot(ex, b2Cross(ey, b));
-	// return x;
-
 	x := det * Vec3Dot(b, Vec3Cross(mat.Ey, mat.Ez))
 	y := det * Vec3Dot(mat.Ex, Vec3Cross(b, mat.Ez))
 	z := det * Vec3Dot(mat.Ex, Vec3Cross(mat.Ey, b))

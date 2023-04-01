@@ -262,7 +262,7 @@ func JointCreate(def JointDefInterface) JointInterface { // def should be back b
 		assert(false)
 
 	case JointType.Prismatic:
-		if typeddef, ok := def.(*B2PrismaticJointDef); ok {
+		if typeddef, ok := def.(*PrismaticJointDef); ok {
 			return MakeB2PrismaticJoint(typeddef)
 		}
 		assert(false)

@@ -149,7 +149,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 
 		coordinateA = aA - aC - res.M_referenceAngleA
 	} else {
-		prismatic := def.Joint1.(*B2PrismaticJoint)
+		prismatic := def.Joint1.(*PrismaticJoint)
 		res.M_localAnchorC = prismatic.M_localAnchorA
 		res.M_localAnchorA = prismatic.M_localAnchorB
 		res.M_referenceAngleA = prismatic.M_referenceAngle
@@ -178,7 +178,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 
 		coordinateB = aB - aD - res.M_referenceAngleB
 	} else {
-		prismatic := def.Joint2.(*B2PrismaticJoint)
+		prismatic := def.Joint2.(*PrismaticJoint)
 		res.M_localAnchorD = prismatic.M_localAnchorA
 		res.M_localAnchorB = prismatic.M_localAnchorB
 		res.M_referenceAngleB = prismatic.M_referenceAngle

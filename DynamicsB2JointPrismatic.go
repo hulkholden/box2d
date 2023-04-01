@@ -11,7 +11,7 @@ import (
 // can violate the constraint slightly. The joint translation is zero
 // when the local anchor points coincide in world space. Using local
 // anchors and a local axis helps when saving and loading a game.
-type B2PrismaticJointDef struct {
+type PrismaticJointDef struct {
 	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
@@ -45,8 +45,8 @@ type B2PrismaticJointDef struct {
 	MotorSpeed float64
 }
 
-func MakeB2PrismaticJointDef() B2PrismaticJointDef {
-	res := B2PrismaticJointDef{
+func MakePrismaticJointDef() PrismaticJointDef {
+	res := PrismaticJointDef{
 		JointDef: MakeJointDef(),
 	}
 
@@ -69,7 +69,7 @@ func MakeB2PrismaticJointDef() B2PrismaticJointDef {
 // along an axis fixed in bodyA. Relative rotation is prevented. You can
 // use a joint limit to restrict the range of motion and a joint motor to
 // drive the motion or to model joint friction.
-type B2PrismaticJoint struct {
+type PrismaticJoint struct {
 	*Joint
 
 	// Solver shared
@@ -105,30 +105,30 @@ type B2PrismaticJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2PrismaticJoint) GetLocalAnchorA() Vec2 {
+func (joint PrismaticJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2PrismaticJoint) GetLocalAnchorB() Vec2 {
+func (joint PrismaticJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
 // The local joint axis relative to bodyA.
-func (joint B2PrismaticJoint) GetLocalAxisA() Vec2 {
+func (joint PrismaticJoint) GetLocalAxisA() Vec2 {
 	return joint.M_localXAxisA
 }
 
 // Get the reference angle.
-func (joint B2PrismaticJoint) GetReferenceAngle() float64 {
+func (joint PrismaticJoint) GetReferenceAngle() float64 {
 	return joint.M_referenceAngle
 }
 
-func (joint B2PrismaticJoint) GetMaxMotorForce() float64 {
+func (joint PrismaticJoint) GetMaxMotorForce() float64 {
 	return joint.M_maxMotorForce
 }
 
-func (joint B2PrismaticJoint) GetMotorSpeed() float64 {
+func (joint PrismaticJoint) GetMotorSpeed() float64 {
 	return joint.M_motorSpeed
 }
 
@@ -198,7 +198,7 @@ func (joint B2PrismaticJoint) GetMotorSpeed() float64 {
 // Now compute impulse to be applied:
 // df = f2 - f1
 
-func (joint *B2PrismaticJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, axis Vec2) {
+func (joint *PrismaticJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, axis Vec2) {
 	joint.BodyA = bA
 	joint.BodyB = bB
 	joint.LocalAnchorA = joint.BodyA.GetLocalPoint(anchor)
@@ -207,8 +207,8 @@ func (joint *B2PrismaticJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, ax
 	joint.ReferenceAngle = joint.BodyB.GetAngle() - joint.BodyA.GetAngle()
 }
 
-func MakeB2PrismaticJoint(def *B2PrismaticJointDef) *B2PrismaticJoint {
-	res := B2PrismaticJoint{
+func MakeB2PrismaticJoint(def *PrismaticJointDef) *PrismaticJoint {
+	res := PrismaticJoint{
 		Joint: MakeJoint(def),
 	}
 
@@ -237,7 +237,7 @@ func MakeB2PrismaticJoint(def *B2PrismaticJointDef) *B2PrismaticJoint {
 	return &res
 }
 
-func (joint *B2PrismaticJoint) InitVelocityConstraints(data SolverData) {
+func (joint *PrismaticJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter
@@ -358,7 +358,7 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2PrismaticJoint) SolveVelocityConstraints(data SolverData) {
+func (joint *PrismaticJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -456,7 +456,7 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data SolverData) {
 //
 // We could take the active state from the velocity solver.However, the joint might push past the limit when the velocity
 // solver indicates the limit is inactive.
-func (joint *B2PrismaticJoint) SolvePositionConstraints(data SolverData) bool {
+func (joint *PrismaticJoint) SolvePositionConstraints(data SolverData) bool {
 	cA := data.Positions[joint.M_indexA].C
 	aA := data.Positions[joint.M_indexA].A
 	cB := data.Positions[joint.M_indexB].C
@@ -571,23 +571,23 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data SolverData) bool {
 	return linearError <= linearSlop && angularError <= angularSlop
 }
 
-func (joint B2PrismaticJoint) GetAnchorA() Vec2 {
+func (joint PrismaticJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2PrismaticJoint) GetAnchorB() Vec2 {
+func (joint PrismaticJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2PrismaticJoint) GetReactionForce(inv_dt float64) Vec2 {
+func (joint PrismaticJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar(inv_dt, Vec2Add(Vec2MulScalar(joint.M_impulse.X, joint.M_perp), Vec2MulScalar(joint.M_motorImpulse+joint.M_impulse.Z, joint.M_axis)))
 }
 
-func (joint B2PrismaticJoint) GetReactionTorque(inv_dt float64) float64 {
+func (joint PrismaticJoint) GetReactionTorque(inv_dt float64) float64 {
 	return inv_dt * joint.M_impulse.Y
 }
 
-func (joint B2PrismaticJoint) GetJointTranslation() float64 {
+func (joint PrismaticJoint) GetJointTranslation() float64 {
 	pA := joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 	pB := joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 	d := Vec2Sub(pB, pA)
@@ -597,7 +597,7 @@ func (joint B2PrismaticJoint) GetJointTranslation() float64 {
 	return translation
 }
 
-func (joint B2PrismaticJoint) GetJointSpeed() float64 {
+func (joint PrismaticJoint) GetJointSpeed() float64 {
 	bA := joint.M_bodyA
 	bB := joint.M_bodyB
 
@@ -618,11 +618,11 @@ func (joint B2PrismaticJoint) GetJointSpeed() float64 {
 	return speed
 }
 
-func (joint B2PrismaticJoint) IsLimitEnabled() bool {
+func (joint PrismaticJoint) IsLimitEnabled() bool {
 	return joint.M_enableLimit
 }
 
-func (joint *B2PrismaticJoint) EnableLimit(flag bool) {
+func (joint *PrismaticJoint) EnableLimit(flag bool) {
 	if flag != joint.M_enableLimit {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -631,15 +631,15 @@ func (joint *B2PrismaticJoint) EnableLimit(flag bool) {
 	}
 }
 
-func (joint B2PrismaticJoint) GetLowerLimit() float64 {
+func (joint PrismaticJoint) GetLowerLimit() float64 {
 	return joint.M_lowerTranslation
 }
 
-func (joint B2PrismaticJoint) GetUpperLimit() float64 {
+func (joint PrismaticJoint) GetUpperLimit() float64 {
 	return joint.M_upperTranslation
 }
 
-func (joint *B2PrismaticJoint) SetLimits(lower float64, upper float64) {
+func (joint *PrismaticJoint) SetLimits(lower float64, upper float64) {
 	assert(lower <= upper)
 	if lower != joint.M_lowerTranslation || upper != joint.M_upperTranslation {
 		joint.M_bodyA.SetAwake(true)
@@ -650,11 +650,11 @@ func (joint *B2PrismaticJoint) SetLimits(lower float64, upper float64) {
 	}
 }
 
-func (joint B2PrismaticJoint) IsMotorEnabled() bool {
+func (joint PrismaticJoint) IsMotorEnabled() bool {
 	return joint.M_enableMotor
 }
 
-func (joint *B2PrismaticJoint) EnableMotor(flag bool) {
+func (joint *PrismaticJoint) EnableMotor(flag bool) {
 	if flag != joint.M_enableMotor {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -662,7 +662,7 @@ func (joint *B2PrismaticJoint) EnableMotor(flag bool) {
 	}
 }
 
-func (joint *B2PrismaticJoint) SetMotorSpeed(speed float64) {
+func (joint *PrismaticJoint) SetMotorSpeed(speed float64) {
 	if speed != joint.M_motorSpeed {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -670,7 +670,7 @@ func (joint *B2PrismaticJoint) SetMotorSpeed(speed float64) {
 	}
 }
 
-func (joint *B2PrismaticJoint) SetMaxMotorForce(force float64) {
+func (joint *PrismaticJoint) SetMaxMotorForce(force float64) {
 	if force != joint.M_maxMotorForce {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -678,11 +678,11 @@ func (joint *B2PrismaticJoint) SetMaxMotorForce(force float64) {
 	}
 }
 
-func (joint B2PrismaticJoint) GetMotorForce(inv_dt float64) float64 {
+func (joint PrismaticJoint) GetMotorForce(inv_dt float64) float64 {
 	return inv_dt * joint.M_motorImpulse
 }
 
-func (joint *B2PrismaticJoint) Dump() {
+func (joint *PrismaticJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 

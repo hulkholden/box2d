@@ -40,7 +40,7 @@ var B2LimitState = struct {
 	E_equalLimits:   4,
 }
 
-type B2Jacobian struct {
+type Jacobian struct {
 	Linear   Vec2
 	AngularA float64
 	AngularB float64

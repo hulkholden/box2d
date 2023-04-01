@@ -12,7 +12,7 @@ type Island struct {
 	M_contacts []ContactInterface // has to be backed by pointers
 	M_joints   []JointInterface   // has to be backed by pointers
 
-	M_positions  []B2Position
+	M_positions  []Position
 	M_velocities []B2Velocity
 
 	M_bodyCount    int
@@ -192,7 +192,7 @@ func MakeIsland(bodyCapacity int, contactCapacity int, jointCapacity int, listen
 	island.M_joints = make([]JointInterface, jointCapacity)
 
 	island.M_velocities = make([]B2Velocity, bodyCapacity)
-	island.M_positions = make([]B2Position, bodyCapacity)
+	island.M_positions = make([]Position, bodyCapacity)
 
 	return island
 }

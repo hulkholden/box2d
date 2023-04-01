@@ -31,7 +31,7 @@ func MakeTimeStep() TimeStep {
 }
 
 // This is an internal structure.
-type B2Position struct {
+type Position struct {
 	C Vec2
 	A float64
 }
@@ -45,7 +45,7 @@ type B2Velocity struct {
 // Solver Data
 type SolverData struct {
 	Step       TimeStep
-	Positions  []B2Position
+	Positions  []Position
 	Velocities []B2Velocity
 }
 

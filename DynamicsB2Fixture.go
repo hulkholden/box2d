@@ -5,7 +5,7 @@ import (
 )
 
 // This holds contact filtering data.
-type B2Filter struct {
+type Filter struct {
 	/// The collision category bits. Normally you would just set one bit.
 	CategoryBits uint16
 
@@ -19,8 +19,8 @@ type B2Filter struct {
 	GroupIndex int16
 }
 
-func MakeB2Filter() B2Filter {
-	return B2Filter{
+func MakeFilter() Filter {
+	return Filter{
 		CategoryBits: 0x0001,
 		MaskBits:     0xFFFF,
 		GroupIndex:   0,
@@ -51,14 +51,14 @@ type FixtureDef struct {
 	IsSensor bool
 
 	/// Contact filtering data.
-	Filter B2Filter
+	Filter Filter
 }
 
 // The constructor sets the default fixture definition values.
 func MakeFixtureDef() FixtureDef {
 	return FixtureDef{
 		Friction: 0.2,
-		Filter:   MakeB2Filter(),
+		Filter:   MakeFilter(),
 	}
 }
 
@@ -89,7 +89,7 @@ type Fixture struct {
 	M_proxies    []FixtureProxy
 	M_proxyCount int
 
-	M_filter B2Filter
+	M_filter Filter
 
 	M_isSensor bool
 
@@ -98,7 +98,7 @@ type Fixture struct {
 
 func MakeFixture() Fixture {
 	return Fixture{
-		M_filter: MakeB2Filter(),
+		M_filter: MakeFilter(),
 	}
 }
 
@@ -119,7 +119,7 @@ func (fix Fixture) IsSensor() bool {
 	return fix.M_isSensor
 }
 
-func (fix Fixture) GetFilterData() B2Filter {
+func (fix Fixture) GetFilterData() Filter {
 	return fix.M_filter
 }
 
@@ -295,7 +295,7 @@ func (fix *Fixture) Synchronize(broadPhase *BroadPhase, transform1 Transform, tr
 	}
 }
 
-func (fix *Fixture) SetFilterData(filter B2Filter) {
+func (fix *Fixture) SetFilterData(filter Filter) {
 	fix.M_filter = filter
 	fix.Refilter()
 }

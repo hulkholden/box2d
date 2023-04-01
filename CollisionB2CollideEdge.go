@@ -141,14 +141,14 @@ var B2EPAxis_Type = struct {
 	E_edgeB:   2,
 }
 
-type B2EPAxis struct {
+type EPAxis struct {
 	Type       uint8
 	Index      int
 	Separation float64
 }
 
-func MakeB2EPAxis() B2EPAxis {
-	return B2EPAxis{}
+func MakeEPAxis() EPAxis {
+	return EPAxis{}
 }
 
 // This holds polygon B expressed in frame A.
@@ -394,7 +394,7 @@ func (collider *B2EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA 
 	k_relativeTol := 0.98
 	k_absoluteTol := 0.001
 
-	primaryAxis := MakeB2EPAxis()
+	primaryAxis := MakeEPAxis()
 	if polygonAxis.Type == B2EPAxis_Type.E_unknown {
 		primaryAxis = edgeAxis
 	} else if polygonAxis.Separation > k_relativeTol*edgeAxis.Separation+k_absoluteTol {
@@ -537,8 +537,8 @@ func (collider *B2EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA 
 	manifold.PointCount = pointCount
 }
 
-func (collider *B2EPCollider) ComputeEdgeSeparation() B2EPAxis {
-	axis := MakeB2EPAxis()
+func (collider *B2EPCollider) ComputeEdgeSeparation() EPAxis {
+	axis := MakeEPAxis()
 	axis.Type = B2EPAxis_Type.E_edgeA
 	if collider.M_front {
 		axis.Index = 0
@@ -557,8 +557,8 @@ func (collider *B2EPCollider) ComputeEdgeSeparation() B2EPAxis {
 	return axis
 }
 
-func (collider *B2EPCollider) ComputePolygonSeparation() B2EPAxis {
-	axis := MakeB2EPAxis()
+func (collider *B2EPCollider) ComputePolygonSeparation() EPAxis {
+	axis := MakeEPAxis()
 	axis.Type = B2EPAxis_Type.E_unknown
 	axis.Index = -1
 	axis.Separation = -maxFloat

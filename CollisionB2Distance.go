@@ -158,16 +158,16 @@ type SimplexVertex struct {
 func MakeSimplexVertex() SimplexVertex { return SimplexVertex{} }
 func NewSimplexVertex() *SimplexVertex { return &SimplexVertex{} }
 
-type B2Simplex struct {
+type Simplex struct {
 	// M_v1, M_v2, M_v3 *SimplexVertex
 	M_vs    [3]SimplexVertex
 	M_count int
 }
 
-func MakeB2Simplex() B2Simplex { return B2Simplex{} }
-func NewB2Simplex() *B2Simplex { return &B2Simplex{} }
+func MakeSimplex() Simplex { return Simplex{} }
+func NewSimplex() *Simplex { return &Simplex{} }
 
-func (simplex *B2Simplex) ReadCache(cache *SimplexCache, proxyA *DistanceProxy, transformA Transform, proxyB *DistanceProxy, transformB Transform) {
+func (simplex *Simplex) ReadCache(cache *SimplexCache, proxyA *DistanceProxy, transformA Transform, proxyB *DistanceProxy, transformB Transform) {
 	assert(cache.Count <= 3)
 
 	// Copy data from cache.
@@ -211,7 +211,7 @@ func (simplex *B2Simplex) ReadCache(cache *SimplexCache, proxyA *DistanceProxy, 
 	}
 }
 
-func (simplex B2Simplex) WriteCache(cache *SimplexCache) {
+func (simplex Simplex) WriteCache(cache *SimplexCache) {
 	cache.Metric = simplex.GetMetric()
 	cache.Count = simplex.M_count
 	vertices := &simplex.M_vs
@@ -221,7 +221,7 @@ func (simplex B2Simplex) WriteCache(cache *SimplexCache) {
 	}
 }
 
-func (simplex B2Simplex) GetSearchDirection() Vec2 {
+func (simplex Simplex) GetSearchDirection() Vec2 {
 	switch simplex.M_count {
 	case 1:
 		return simplex.M_vs[0].W.OperatorNegate()
@@ -245,7 +245,7 @@ func (simplex B2Simplex) GetSearchDirection() Vec2 {
 	}
 }
 
-func (simplex B2Simplex) GetClosestPoint() Vec2 {
+func (simplex Simplex) GetClosestPoint() Vec2 {
 	switch simplex.M_count {
 	case 0:
 		assert(false)
@@ -275,7 +275,7 @@ func (simplex B2Simplex) GetClosestPoint() Vec2 {
 	}
 }
 
-func (simplex B2Simplex) GetWitnessPoints(pA *Vec2, pB *Vec2) {
+func (simplex Simplex) GetWitnessPoints(pA *Vec2, pB *Vec2) {
 	switch simplex.M_count {
 	case 0:
 		assert(false)
@@ -309,7 +309,7 @@ func (simplex B2Simplex) GetWitnessPoints(pA *Vec2, pB *Vec2) {
 	}
 }
 
-func (simplex B2Simplex) GetMetric() float64 {
+func (simplex Simplex) GetMetric() float64 {
 	switch simplex.M_count {
 	case 0:
 		assert(false)
@@ -336,7 +336,7 @@ func (simplex B2Simplex) GetMetric() float64 {
 ////////////////////////////////////////////////////
 
 // Solve a line segment using barycentric coordinates.
-func (simplex *B2Simplex) Solve2() {
+func (simplex *Simplex) Solve2() {
 	w1 := simplex.M_vs[0].W
 	w2 := simplex.M_vs[1].W
 	e12 := Vec2Sub(w2, w1)
@@ -372,7 +372,7 @@ func (simplex *B2Simplex) Solve2() {
 // - edge points[0]-points[2]
 // - edge points[1]-points[2]
 // - inside the triangle
-func (simplex *B2Simplex) Solve3() {
+func (simplex *Simplex) Solve3() {
 	w1 := simplex.M_vs[0].W
 	w2 := simplex.M_vs[1].W
 	w3 := simplex.M_vs[2].W
@@ -484,7 +484,7 @@ func B2Distance(output *DistanceOutput, cache *SimplexCache, input *DistanceInpu
 	transformB := input.TransformB
 
 	// Initialize the simplex.
-	simplex := MakeB2Simplex()
+	simplex := MakeSimplex()
 	simplex.ReadCache(cache, proxyA, transformA, proxyB, transformB)
 
 	// Get simplex vertices as an array.

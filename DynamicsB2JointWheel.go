@@ -161,7 +161,7 @@ func (joint B2WheelJoint) GetSpringDampingRatio() float64 {
 // Cdot = wB - wA
 // J = [0 0 -1 0 0 1]
 
-func (def *B2WheelJointDef) Initialize(bA *B2Body, bB *B2Body, anchor Vec2, axis Vec2) {
+func (def *B2WheelJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, axis Vec2) {
 	def.BodyA = bA
 	def.BodyB = bB
 	def.LocalAnchorA = def.BodyA.GetLocalPoint(anchor)

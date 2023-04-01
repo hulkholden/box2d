@@ -52,7 +52,7 @@ type B2Jacobian struct {
 // maintained in each attached body. Each joint has two joint
 // nodes, one for each attached body.
 type B2JointEdge struct {
-	Other *B2Body          ///< provides quick access to the other body attached.
+	Other *Body            ///< provides quick access to the other body attached.
 	Joint B2JointInterface ///< the joint; backed by pointer
 	Prev  *B2JointEdge     ///< the previous joint edge in the body's joint list
 	Next  *B2JointEdge     ///< the next joint edge in the body's joint list
@@ -67,10 +67,10 @@ type B2JointDef struct {
 	UserData interface{}
 
 	/// The first attached body.
-	BodyA *B2Body
+	BodyA *Body
 
 	/// The second attached body.
-	BodyB *B2Body
+	BodyB *Body
 
 	/// Set this flag to true if the attached bodies should collide.
 	CollideConnected bool
@@ -81,10 +81,10 @@ type B2JointDefInterface interface {
 	SetType(t uint8)
 	GetUserData() interface{}
 	SetUserData(userdata interface{})
-	GetBodyA() *B2Body
-	SetBodyA(body *B2Body)
-	GetBodyB() *B2Body
-	SetBodyB(body *B2Body)
+	GetBodyA() *Body
+	SetBodyA(body *Body)
+	GetBodyB() *Body
+	SetBodyB(body *Body)
 	IsCollideConnected() bool
 	SetCollideConnected(flag bool)
 }
@@ -106,19 +106,19 @@ func (def *B2JointDef) SetUserData(userdata interface{}) {
 	def.UserData = userdata
 }
 
-func (def B2JointDef) GetBodyA() *B2Body {
+func (def B2JointDef) GetBodyA() *Body {
 	return def.BodyA
 }
 
-func (def *B2JointDef) SetBodyA(body *B2Body) {
+func (def *B2JointDef) SetBodyA(body *Body) {
 	def.BodyA = body
 }
 
-func (def B2JointDef) GetBodyB() *B2Body {
+func (def B2JointDef) GetBodyB() *Body {
 	return def.BodyB
 }
 
-func (def *B2JointDef) SetBodyB(body *B2Body) {
+func (def *B2JointDef) SetBodyB(body *Body) {
 	def.BodyB = body
 }
 
@@ -149,8 +149,8 @@ type B2Joint struct {
 	M_next             B2JointInterface // has to be backed by pointer
 	M_edgeA            *B2JointEdge
 	M_edgeB            *B2JointEdge
-	M_bodyA            *B2Body
-	M_bodyB            *B2Body
+	M_bodyA            *Body
+	M_bodyB            *Body
 	M_index            int
 	M_islandFlag       bool
 	M_collideConnected bool
@@ -172,21 +172,21 @@ func (j *B2Joint) SetType(t uint8) {
 	j.M_type = t
 }
 
-func (j B2Joint) GetBodyA() *B2Body {
+func (j B2Joint) GetBodyA() *Body {
 	return j.M_bodyA
 }
 
 // @goadd
-func (j *B2Joint) SetBodyA(body *B2Body) {
+func (j *B2Joint) SetBodyA(body *Body) {
 	j.M_bodyA = body
 }
 
-func (j B2Joint) GetBodyB() *B2Body {
+func (j B2Joint) GetBodyB() *Body {
 	return j.M_bodyB
 }
 
 // @goadd
-func (j *B2Joint) SetBodyB(body *B2Body) {
+func (j *B2Joint) SetBodyB(body *Body) {
 	j.M_bodyB = body
 }
 
@@ -391,11 +391,11 @@ type B2JointInterface interface {
 	GetType() uint8
 	SetType(t uint8)
 
-	GetBodyA() *B2Body
-	SetBodyA(body *B2Body)
+	GetBodyA() *Body
+	SetBodyA(body *Body)
 
-	GetBodyB() *B2Body
-	SetBodyB(body *B2Body)
+	GetBodyB() *Body
+	SetBodyB(body *Body)
 
 	GetIndex() int
 	SetIndex(index int)

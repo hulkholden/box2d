@@ -103,7 +103,7 @@ type B2PulleyJoint struct {
 // K = J * invM * JT
 //   = invMass1 + invI1 * cross(r1, u1)^2 + ratio^2 * (invMass2 + invI2 * cross(r2, u2)^2)
 
-func (def *B2PulleyJointDef) Initialize(bA *B2Body, bB *B2Body, groundA Vec2, groundB Vec2, anchorA Vec2, anchorB Vec2, r float64) {
+func (def *B2PulleyJointDef) Initialize(bA *Body, bB *Body, groundA Vec2, groundB Vec2, anchorA Vec2, anchorB Vec2, r float64) {
 	def.BodyA = bA
 	def.BodyB = bB
 	def.GroundAnchorA = groundA

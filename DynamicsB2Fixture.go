@@ -79,7 +79,7 @@ type B2Fixture struct {
 	M_density float64
 
 	M_next *B2Fixture
-	M_body *B2Body
+	M_body *Body
 
 	M_shape B2ShapeInterface
 
@@ -131,7 +131,7 @@ func (fix *B2Fixture) SetUserData(data interface{}) {
 	fix.M_userData = data
 }
 
-func (fix B2Fixture) GetBody() *B2Body {
+func (fix B2Fixture) GetBody() *Body {
 	return fix.M_body
 }
 
@@ -189,7 +189,7 @@ func (fix B2Fixture) GetAABB(childIndex int) B2AABB {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (fix *B2Fixture) Create(body *B2Body, def *B2FixtureDef) {
+func (fix *B2Fixture) Create(body *Body, def *B2FixtureDef) {
 	fix.M_userData = def.UserData
 	fix.M_friction = def.Friction
 	fix.M_restitution = def.Restitution

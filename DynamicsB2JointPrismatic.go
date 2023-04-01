@@ -198,7 +198,7 @@ func (joint B2PrismaticJoint) GetMotorSpeed() float64 {
 // Now compute impulse to be applied:
 // df = f2 - f1
 
-func (joint *B2PrismaticJointDef) Initialize(bA *B2Body, bB *B2Body, anchor Vec2, axis Vec2) {
+func (joint *B2PrismaticJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, axis Vec2) {
 	joint.BodyA = bA
 	joint.BodyB = bB
 	joint.LocalAnchorA = joint.BodyA.GetLocalPoint(anchor)

@@ -86,7 +86,7 @@ func (joint B2FrictionJoint) GetLocalAnchorB() Vec2 {
 // J = [0 0 -1 0 0 1]
 // K = invI1 + invI2
 
-func (joint *B2FrictionJointDef) Initialize(bA *B2Body, bB *B2Body, anchor Vec2) {
+func (joint *B2FrictionJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
 	joint.BodyA = bA
 	joint.BodyB = bB
 	joint.LocalAnchorA = joint.BodyA.GetLocalPoint(anchor)

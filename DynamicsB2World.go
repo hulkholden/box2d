@@ -27,7 +27,7 @@ type B2World struct {
 
 	M_contactManager B2ContactManager
 
-	M_bodyList  *B2Body          // linked list
+	M_bodyList  *Body            // linked list
 	M_jointList B2JointInterface // has to be backed by pointer
 
 	M_bodyCount  int
@@ -53,7 +53,7 @@ type B2World struct {
 	M_profile B2Profile
 }
 
-func (world B2World) GetBodyList() *B2Body {
+func (world B2World) GetBodyList() *Body {
 	return world.M_bodyList
 }
 
@@ -182,14 +182,14 @@ func (world *B2World) SetDebugDraw(debugDraw B2Draw) {
 	world.G_debugDraw = debugDraw
 }
 
-func (world *B2World) CreateBody(def *BodyDef) *B2Body {
+func (world *B2World) CreateBody(def *BodyDef) *Body {
 	assert(!world.IsLocked())
 
 	if world.IsLocked() {
 		return nil
 	}
 
-	b := NewB2Body(def, world)
+	b := NewBody(def, world)
 
 	// Add to world doubly linked list.
 	b.M_prev = nil
@@ -203,7 +203,7 @@ func (world *B2World) CreateBody(def *BodyDef) *B2Body {
 	return b
 }
 
-func (world *B2World) DestroyBody(b *B2Body) {
+func (world *B2World) DestroyBody(b *Body) {
 	assert(world.M_bodyCount > 0)
 	assert(!world.IsLocked())
 
@@ -453,7 +453,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 
 	// Build and simulate all awake islands.
 	stackSize := world.M_bodyCount
-	stack := make([]*B2Body, stackSize)
+	stack := make([]*Body, stackSize)
 
 	for seed := world.M_bodyList; seed != nil; seed = seed.M_next {
 		if (seed.M_flags & BodyFlags.Island) != 0x0000 {
@@ -768,7 +768,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 		minContact.SetFlags(minContact.GetFlags() | B2Contact_Flag.E_islandFlag)
 
 		// Get contacts on bodyA and bodyB.
-		bodies := [2]*B2Body{bA, bB}
+		bodies := [2]*Body{bA, bB}
 
 		for i := 0; i < 2; i++ {
 			body := bodies[i]

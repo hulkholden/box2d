@@ -82,7 +82,7 @@ type B2MotorJoint struct {
 // J = [0 0 -1 0 0 1]
 // K = invI1 + invI2
 
-func (def *B2MotorJointDef) Initialize(bA *B2Body, bB *B2Body) {
+func (def *B2MotorJointDef) Initialize(bA *Body, bB *Body) {
 	def.BodyA = bA
 	def.BodyB = bB
 	xB := def.BodyB.GetPosition()

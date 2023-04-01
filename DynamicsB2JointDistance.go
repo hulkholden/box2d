@@ -127,7 +127,7 @@ func (joint B2DistanceJoint) GetDampingRatio() float64 {
 // K = J * invM * JT
 //   = invMass1 + invI1 * cross(r1, u)^2 + invMass2 + invI2 * cross(r2, u)^2
 
-func (joint *B2DistanceJointDef) Initialize(b1 *B2Body, b2 *B2Body, anchor1 Vec2, anchor2 Vec2) {
+func (joint *B2DistanceJointDef) Initialize(b1 *Body, b2 *Body, anchor1 Vec2, anchor2 Vec2) {
 	joint.BodyA = b1
 	joint.BodyB = b2
 	joint.LocalAnchorA = joint.BodyA.GetLocalPoint(anchor1)

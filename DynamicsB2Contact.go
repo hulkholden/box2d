@@ -37,7 +37,7 @@ type B2ContactRegister struct {
 // maintained in each attached body. Each contact has two contact
 // nodes, one for each attached body.
 type B2ContactEdge struct {
-	Other   *B2Body            ///< provides quick access to the other body attached.
+	Other   *Body              ///< provides quick access to the other body attached.
 	Contact B2ContactInterface ///< the contact
 	Prev    *B2ContactEdge     ///< the previous contact edge in the body's contact list
 	Next    *B2ContactEdge     ///< the next contact edge in the body's contact list

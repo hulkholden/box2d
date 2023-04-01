@@ -120,7 +120,7 @@ var BodyFlags = struct {
 	TOI:           0x0040,
 }
 
-type B2Body struct {
+type Body struct {
 	M_type uint8
 
 	M_flags uint32
@@ -137,8 +137,8 @@ type B2Body struct {
 	M_torque float64
 
 	M_world *B2World
-	M_prev  *B2Body
-	M_next  *B2Body
+	M_prev  *Body
+	M_next  *Body
 
 	M_fixtureList  *B2Fixture // linked list
 	M_fixtureCount int
@@ -160,31 +160,31 @@ type B2Body struct {
 	M_userData interface{}
 }
 
-func (body B2Body) GetType() uint8 {
+func (body Body) GetType() uint8 {
 	return body.M_type
 }
 
-func (body B2Body) GetTransform() Transform {
+func (body Body) GetTransform() Transform {
 	return body.M_xf
 }
 
-func (body B2Body) GetPosition() Vec2 {
+func (body Body) GetPosition() Vec2 {
 	return body.M_xf.P
 }
 
-func (body B2Body) GetAngle() float64 {
+func (body Body) GetAngle() float64 {
 	return body.M_sweep.A
 }
 
-func (body B2Body) GetWorldCenter() Vec2 {
+func (body Body) GetWorldCenter() Vec2 {
 	return body.M_sweep.C
 }
 
-func (body B2Body) GetLocalCenter() Vec2 {
+func (body Body) GetLocalCenter() Vec2 {
 	return body.M_sweep.LocalCenter
 }
 
-func (body *B2Body) SetLinearVelocity(v Vec2) {
+func (body *Body) SetLinearVelocity(v Vec2) {
 	if body.M_type == BodyType.StaticBody {
 		return
 	}
@@ -196,11 +196,11 @@ func (body *B2Body) SetLinearVelocity(v Vec2) {
 	body.M_linearVelocity = v
 }
 
-func (body B2Body) GetLinearVelocity() Vec2 {
+func (body Body) GetLinearVelocity() Vec2 {
 	return body.M_linearVelocity
 }
 
-func (body *B2Body) SetAngularVelocity(w float64) {
+func (body *Body) SetAngularVelocity(w float64) {
 	if body.M_type == BodyType.StaticBody {
 		return
 	}
@@ -212,19 +212,19 @@ func (body *B2Body) SetAngularVelocity(w float64) {
 	body.M_angularVelocity = w
 }
 
-func (body B2Body) GetAngularVelocity() float64 {
+func (body Body) GetAngularVelocity() float64 {
 	return body.M_angularVelocity
 }
 
-func (body B2Body) GetMass() float64 {
+func (body Body) GetMass() float64 {
 	return body.M_mass
 }
 
-func (body B2Body) GetInertia() float64 {
+func (body Body) GetInertia() float64 {
 	return body.M_I + body.M_mass*Vec2Dot(body.M_sweep.LocalCenter, body.M_sweep.LocalCenter)
 }
 
-func (body B2Body) GetMassData() B2MassData {
+func (body Body) GetMassData() B2MassData {
 	data := MakeMassData()
 	data.Mass = body.M_mass
 	data.I = body.M_I + body.M_mass*Vec2Dot(body.M_sweep.LocalCenter, body.M_sweep.LocalCenter)
@@ -232,55 +232,55 @@ func (body B2Body) GetMassData() B2MassData {
 	return data
 }
 
-func (body B2Body) GetWorldPoint(localPoint Vec2) Vec2 {
+func (body Body) GetWorldPoint(localPoint Vec2) Vec2 {
 	return TransformVec2Mul(body.M_xf, localPoint)
 }
 
-func (body B2Body) GetWorldVector(localVector Vec2) Vec2 {
+func (body Body) GetWorldVector(localVector Vec2) Vec2 {
 	return RotVec2Mul(body.M_xf.Q, localVector)
 }
 
-func (body B2Body) GetLocalPoint(worldPoint Vec2) Vec2 {
+func (body Body) GetLocalPoint(worldPoint Vec2) Vec2 {
 	return TransformVec2MulT(body.M_xf, worldPoint)
 }
 
-func (body B2Body) GetLocalVector(worldVector Vec2) Vec2 {
+func (body Body) GetLocalVector(worldVector Vec2) Vec2 {
 	return RotVec2MulT(body.M_xf.Q, worldVector)
 }
 
-func (body B2Body) GetLinearVelocityFromWorldPoint(worldPoint Vec2) Vec2 {
+func (body Body) GetLinearVelocityFromWorldPoint(worldPoint Vec2) Vec2 {
 	return Vec2Add(body.M_linearVelocity, Vec2CrossScalarVector(body.M_angularVelocity, Vec2Sub(worldPoint, body.M_sweep.C)))
 }
 
-func (body B2Body) GetLinearVelocityFromLocalPoint(localPoint Vec2) Vec2 {
+func (body Body) GetLinearVelocityFromLocalPoint(localPoint Vec2) Vec2 {
 	return body.GetLinearVelocityFromWorldPoint(body.GetWorldPoint(localPoint))
 }
 
-func (body B2Body) GetLinearDamping() float64 {
+func (body Body) GetLinearDamping() float64 {
 	return body.M_linearDamping
 }
 
-func (body *B2Body) SetLinearDamping(linearDamping float64) {
+func (body *Body) SetLinearDamping(linearDamping float64) {
 	body.M_linearDamping = linearDamping
 }
 
-func (body B2Body) GetAngularDamping() float64 {
+func (body Body) GetAngularDamping() float64 {
 	return body.M_angularDamping
 }
 
-func (body *B2Body) SetAngularDamping(angularDamping float64) {
+func (body *Body) SetAngularDamping(angularDamping float64) {
 	body.M_angularDamping = angularDamping
 }
 
-func (body B2Body) GetGravityScale() float64 {
+func (body Body) GetGravityScale() float64 {
 	return body.M_gravityScale
 }
 
-func (body *B2Body) SetGravityScale(scale float64) {
+func (body *Body) SetGravityScale(scale float64) {
 	body.M_gravityScale = scale
 }
 
-func (body *B2Body) SetBullet(flag bool) {
+func (body *Body) SetBullet(flag bool) {
 	if flag {
 		body.M_flags |= BodyFlags.Bullet
 	} else {
@@ -288,11 +288,11 @@ func (body *B2Body) SetBullet(flag bool) {
 	}
 }
 
-func (body B2Body) IsBullet() bool {
+func (body Body) IsBullet() bool {
 	return (body.M_flags & BodyFlags.Bullet) == BodyFlags.Bullet
 }
 
-func (body *B2Body) SetAwake(flag bool) {
+func (body *Body) SetAwake(flag bool) {
 	if flag {
 		body.M_flags |= BodyFlags.Awake
 		body.M_sleepTime = 0.0
@@ -306,19 +306,19 @@ func (body *B2Body) SetAwake(flag bool) {
 	}
 }
 
-func (body B2Body) IsAwake() bool {
+func (body Body) IsAwake() bool {
 	return (body.M_flags & BodyFlags.Awake) == BodyFlags.Awake
 }
 
-func (body B2Body) IsActive() bool {
+func (body Body) IsActive() bool {
 	return (body.M_flags & BodyFlags.Active) == BodyFlags.Active
 }
 
-func (body B2Body) IsFixedRotation() bool {
+func (body Body) IsFixedRotation() bool {
 	return (body.M_flags & BodyFlags.FixedRotation) == BodyFlags.FixedRotation
 }
 
-func (body *B2Body) SetSleepingAllowed(flag bool) {
+func (body *Body) SetSleepingAllowed(flag bool) {
 	if flag {
 		body.M_flags |= BodyFlags.AutoSleep
 	} else {
@@ -327,35 +327,35 @@ func (body *B2Body) SetSleepingAllowed(flag bool) {
 	}
 }
 
-func (body B2Body) IsSleepingAllowed() bool {
+func (body Body) IsSleepingAllowed() bool {
 	return (body.M_flags & BodyFlags.AutoSleep) == BodyFlags.AutoSleep
 }
 
-func (body B2Body) GetFixtureList() *B2Fixture {
+func (body Body) GetFixtureList() *B2Fixture {
 	return body.M_fixtureList
 }
 
-func (body B2Body) GetJointList() *B2JointEdge {
+func (body Body) GetJointList() *B2JointEdge {
 	return body.M_jointList
 }
 
-func (body B2Body) GetContactList() *B2ContactEdge {
+func (body Body) GetContactList() *B2ContactEdge {
 	return body.M_contactList
 }
 
-func (body B2Body) GetNext() *B2Body {
+func (body Body) GetNext() *Body {
 	return body.M_next
 }
 
-func (body *B2Body) SetUserData(data interface{}) {
+func (body *Body) SetUserData(data interface{}) {
 	body.M_userData = data
 }
 
-func (body B2Body) GetUserData() interface{} {
+func (body Body) GetUserData() interface{} {
 	return body.M_userData
 }
 
-func (body *B2Body) ApplyForce(force Vec2, point Vec2, wake bool) {
+func (body *Body) ApplyForce(force Vec2, point Vec2, wake bool) {
 	if body.M_type != BodyType.DynamicBody {
 		return
 	}
@@ -374,7 +374,7 @@ func (body *B2Body) ApplyForce(force Vec2, point Vec2, wake bool) {
 	}
 }
 
-func (body *B2Body) ApplyForceToCenter(force Vec2, wake bool) {
+func (body *Body) ApplyForceToCenter(force Vec2, wake bool) {
 	if body.M_type != BodyType.DynamicBody {
 		return
 	}
@@ -389,7 +389,7 @@ func (body *B2Body) ApplyForceToCenter(force Vec2, wake bool) {
 	}
 }
 
-func (body *B2Body) ApplyTorque(torque float64, wake bool) {
+func (body *Body) ApplyTorque(torque float64, wake bool) {
 	if body.M_type != BodyType.DynamicBody {
 		return
 	}
@@ -404,7 +404,7 @@ func (body *B2Body) ApplyTorque(torque float64, wake bool) {
 	}
 }
 
-func (body *B2Body) ApplyLinearImpulse(impulse Vec2, point Vec2, wake bool) {
+func (body *Body) ApplyLinearImpulse(impulse Vec2, point Vec2, wake bool) {
 	if body.M_type != BodyType.DynamicBody {
 		return
 	}
@@ -423,7 +423,7 @@ func (body *B2Body) ApplyLinearImpulse(impulse Vec2, point Vec2, wake bool) {
 	}
 }
 
-func (body *B2Body) ApplyLinearImpulseToCenter(impulse Vec2, wake bool) {
+func (body *Body) ApplyLinearImpulseToCenter(impulse Vec2, wake bool) {
 	if body.M_type != BodyType.DynamicBody {
 		return
 	}
@@ -438,7 +438,7 @@ func (body *B2Body) ApplyLinearImpulseToCenter(impulse Vec2, wake bool) {
 	}
 }
 
-func (body *B2Body) ApplyAngularImpulse(impulse float64, wake bool) {
+func (body *Body) ApplyAngularImpulse(impulse float64, wake bool) {
 	if body.M_type != BodyType.DynamicBody {
 		return
 	}
@@ -453,12 +453,12 @@ func (body *B2Body) ApplyAngularImpulse(impulse float64, wake bool) {
 	}
 }
 
-func (body *B2Body) SynchronizeTransform() {
+func (body *Body) SynchronizeTransform() {
 	body.M_xf.Q.Set(body.M_sweep.A)
 	body.M_xf.P = Vec2Sub(body.M_sweep.C, RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
 }
 
-func (body *B2Body) Advance(alpha float64) {
+func (body *Body) Advance(alpha float64) {
 	// Advance to the new safe time. This doesn't sync the broad-phase.
 	body.M_sweep.Advance(alpha)
 	body.M_sweep.C = body.M_sweep.C0
@@ -467,7 +467,7 @@ func (body *B2Body) Advance(alpha float64) {
 	body.M_xf.P = Vec2Sub(body.M_sweep.C, RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
 }
 
-func (body B2Body) GetWorld() *B2World {
+func (body Body) GetWorld() *B2World {
 	return body.M_world
 }
 
@@ -479,7 +479,7 @@ func (body B2Body) GetWorld() *B2World {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func NewB2Body(bd *BodyDef, world *B2World) *B2Body {
+func NewBody(bd *BodyDef, world *B2World) *Body {
 	assert(bd.Position.IsValid())
 	assert(bd.LinearVelocity.IsValid())
 	assert(IsValid(bd.Angle))
@@ -487,7 +487,7 @@ func NewB2Body(bd *BodyDef, world *B2World) *B2Body {
 	assert(IsValid(bd.AngularDamping) && bd.AngularDamping >= 0.0)
 	assert(IsValid(bd.LinearDamping) && bd.LinearDamping >= 0.0)
 
-	body := &B2Body{}
+	body := &Body{}
 
 	body.M_flags = 0
 
@@ -561,7 +561,7 @@ func NewB2Body(bd *BodyDef, world *B2World) *B2Body {
 	return body
 }
 
-func (body *B2Body) SetType(bodytype uint8) {
+func (body *Body) SetType(bodytype uint8) {
 	assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return
@@ -608,7 +608,7 @@ func (body *B2Body) SetType(bodytype uint8) {
 	}
 }
 
-func (body *B2Body) CreateFixtureFromDef(def *B2FixtureDef) *B2Fixture {
+func (body *Body) CreateFixtureFromDef(def *B2FixtureDef) *B2Fixture {
 	assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return nil
@@ -640,7 +640,7 @@ func (body *B2Body) CreateFixtureFromDef(def *B2FixtureDef) *B2Fixture {
 	return fixture
 }
 
-func (body *B2Body) CreateFixture(shape B2ShapeInterface, density float64) *B2Fixture {
+func (body *Body) CreateFixture(shape B2ShapeInterface, density float64) *B2Fixture {
 	def := MakeB2FixtureDef()
 	def.Shape = shape
 	def.Density = density
@@ -648,7 +648,7 @@ func (body *B2Body) CreateFixture(shape B2ShapeInterface, density float64) *B2Fi
 	return body.CreateFixtureFromDef(&def)
 }
 
-func (body *B2Body) DestroyFixture(fixture *B2Fixture) {
+func (body *Body) DestroyFixture(fixture *B2Fixture) {
 	if fixture == nil {
 		return
 	}
@@ -708,7 +708,7 @@ func (body *B2Body) DestroyFixture(fixture *B2Fixture) {
 	body.ResetMassData()
 }
 
-func (body *B2Body) ResetMassData() {
+func (body *Body) ResetMassData() {
 	// Compute mass data from shapes. Each shape has its own density.
 	body.M_mass = 0.0
 	body.M_invMass = 0.0
@@ -773,7 +773,7 @@ func (body *B2Body) ResetMassData() {
 	))
 }
 
-func (body *B2Body) SetMassData(massData *B2MassData) {
+func (body *Body) SetMassData(massData *B2MassData) {
 	assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return
@@ -815,7 +815,7 @@ func (body *B2Body) SetMassData(massData *B2MassData) {
 	)
 }
 
-func (body B2Body) ShouldCollide(other *B2Body) bool {
+func (body Body) ShouldCollide(other *Body) bool {
 	// At least one body should be dynamic.
 	if body.M_type != BodyType.DynamicBody && other.M_type != BodyType.DynamicBody {
 		return false
@@ -833,7 +833,7 @@ func (body B2Body) ShouldCollide(other *B2Body) bool {
 	return true
 }
 
-func (body *B2Body) SetTransform(position Vec2, angle float64) {
+func (body *Body) SetTransform(position Vec2, angle float64) {
 	assert(!body.M_world.IsLocked())
 
 	if body.M_world.IsLocked() {
@@ -855,7 +855,7 @@ func (body *B2Body) SetTransform(position Vec2, angle float64) {
 	}
 }
 
-func (body *B2Body) SynchronizeFixtures() {
+func (body *Body) SynchronizeFixtures() {
 	xf1 := MakeTransform()
 	xf1.Q.Set(body.M_sweep.A0)
 	xf1.P = Vec2Sub(body.M_sweep.C0, RotVec2Mul(xf1.Q, body.M_sweep.LocalCenter))
@@ -866,7 +866,7 @@ func (body *B2Body) SynchronizeFixtures() {
 	}
 }
 
-func (body *B2Body) SetActive(flag bool) {
+func (body *Body) SetActive(flag bool) {
 	assert(!body.M_world.IsLocked())
 
 	if flag == body.IsActive() {
@@ -904,7 +904,7 @@ func (body *B2Body) SetActive(flag bool) {
 	}
 }
 
-func (body *B2Body) SetFixedRotation(flag bool) {
+func (body *Body) SetFixedRotation(flag bool) {
 	status := (body.M_flags & BodyFlags.FixedRotation) == BodyFlags.FixedRotation
 
 	if status == flag {
@@ -922,7 +922,7 @@ func (body *B2Body) SetFixedRotation(flag bool) {
 	body.ResetMassData()
 }
 
-func (body *B2Body) Dump() {
+func (body *Body) Dump() {
 	bodyIndex := body.M_islandIndex
 
 	fmt.Print("{\n")

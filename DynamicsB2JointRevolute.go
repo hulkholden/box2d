@@ -143,7 +143,7 @@ func (joint B2RevoluteJoint) GetMotorSpeed() float64 {
 // J = [0 0 -1 0 0 1]
 // K = invI1 + invI2
 
-func (def *B2RevoluteJointDef) Initialize(bA *B2Body, bB *B2Body, anchor Vec2) {
+func (def *B2RevoluteJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
 	def.BodyA = bA
 	def.BodyB = bB
 	def.LocalAnchorA = def.BodyA.GetLocalPoint(anchor)

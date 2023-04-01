@@ -8,7 +8,7 @@ import (
 type B2Island struct {
 	M_listener B2ContactListenerInterface
 
-	M_bodies   []*B2Body
+	M_bodies   []*Body
 	M_contacts []B2ContactInterface // has to be backed by pointers
 	M_joints   []B2JointInterface   // has to be backed by pointers
 
@@ -30,7 +30,7 @@ func (island *B2Island) Clear() {
 	island.M_jointCount = 0
 }
 
-func (island *B2Island) AddBody(body *B2Body) {
+func (island *B2Island) AddBody(body *Body) {
 	assert(island.M_bodyCount < island.M_bodyCapacity)
 	body.M_islandIndex = island.M_bodyCount
 	island.M_bodies[island.M_bodyCount] = body
@@ -187,7 +187,7 @@ func MakeB2Island(bodyCapacity int, contactCapacity int, jointCapacity int, list
 
 	island.M_listener = listener
 
-	island.M_bodies = make([]*B2Body, bodyCapacity)
+	island.M_bodies = make([]*Body, bodyCapacity)
 	island.M_contacts = make([]B2ContactInterface, contactCapacity)
 	island.M_joints = make([]B2JointInterface, jointCapacity)
 

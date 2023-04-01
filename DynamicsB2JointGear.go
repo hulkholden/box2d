@@ -53,8 +53,8 @@ type B2GearJoint struct {
 
 	// Body A is connected to body C
 	// Body B is connected to body D
-	M_bodyC *B2Body
-	M_bodyD *B2Body
+	M_bodyC *Body
+	M_bodyD *Body
 
 	// Solver shared
 	M_localAnchorA Vec2

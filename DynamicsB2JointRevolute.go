@@ -48,7 +48,7 @@ type RevoluteJointDef struct {
 	MaxMotorTorque float64
 }
 
-func MakeB2RevoluteJointDef() RevoluteJointDef {
+func MakeRevoluteJointDef() RevoluteJointDef {
 	res := RevoluteJointDef{
 		JointDef: MakeJointDef(),
 	}

@@ -160,7 +160,7 @@ func (joint *B2MouseJoint) InitVelocityConstraints(data B2SolverData) {
 	mass := joint.M_bodyB.GetMass()
 
 	// Frequency
-	omega := 2.0 * B2_pi * joint.M_frequencyHz
+	omega := 2.0 * Pi * joint.M_frequencyHz
 
 	// Damping coefficient
 	d := 2.0 * mass * joint.M_dampingRatio * omega

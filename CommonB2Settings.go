@@ -15,7 +15,7 @@ func B2Assert(a bool) {
 const (
 	maxFloat   = math.MaxFloat64
 	B2_epsilon = math.SmallestNonzeroFloat64
-	B2_pi      = math.Pi
+	Pi         = math.Pi
 )
 
 /// @file
@@ -48,7 +48,7 @@ const linearSlop = 0.005
 
 // A small angle used as a collision and constraint tolerance. Usually it is
 // chosen to be numerically significant, but visually insignificant.
-const angularSlop = (2.0 / 180.0 * B2_pi)
+const angularSlop = (2.0 / 180.0 * Pi)
 
 // The radius of the polygon/edge shape skin. This should not be modified. Making
 // this smaller means polygons will have an insufficient buffer for continuous collision.
@@ -73,7 +73,7 @@ const maxLinearCorrection = 0.2
 
 // The maximum angular position correction used when solving constraints. This helps to
 // prevent overshoot.
-const maxAngularCorrection = (8.0 / 180.0 * B2_pi)
+const maxAngularCorrection = (8.0 / 180.0 * Pi)
 
 // The maximum linear velocity of a body. This limit is very large and is used
 // to prevent numerical problems. You shouldn't need to adjust this.
@@ -85,7 +85,7 @@ const (
 // The maximum angular velocity of a body. This limit is very large and is used
 // to prevent numerical problems. You shouldn't need to adjust this.
 const (
-	maxRotation        = (0.5 * B2_pi)
+	maxRotation        = (0.5 * Pi)
 	maxRotationSquared = (maxRotation * maxRotation)
 )
 
@@ -106,4 +106,4 @@ const timeToSleep = 0.5
 const linearSleepTolerance = 0.01
 
 // A body cannot sleep if its angular velocity is above this tolerance.
-const angularSleepTolerance = (2.0 / 180.0 * B2_pi)
+const angularSleepTolerance = (2.0 / 180.0 * Pi)

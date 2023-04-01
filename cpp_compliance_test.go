@@ -50,7 +50,7 @@ func TestCPPCompliance(t *testing.T) {
 	// Chain shape
 	{
 		bd := box2d.MakeB2BodyDef()
-		bd.Angle = 0.25 * box2d.B2_pi
+		bd.Angle = 0.25 * box2d.Pi
 		ground := world.CreateBody(&bd)
 
 		vs := make([]box2d.Vec2, 4)
@@ -171,7 +171,7 @@ func TestCPPCompliance(t *testing.T) {
 		body := world.CreateBody(&bd)
 
 		angle := 0.0
-		delta := box2d.B2_pi / 3.0
+		delta := box2d.Pi / 3.0
 		vertices := make([]box2d.Vec2, 6)
 		for i := 0; i < 6; i++ {
 			vertices[i].Set(0.5*math.Cos(angle), 0.5*math.Sin(angle))

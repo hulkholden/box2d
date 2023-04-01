@@ -93,7 +93,7 @@ func (shape B2CircleShape) ComputeAABB(transform B2Transform, childIndex int) B2
 
 func (shape B2CircleShape) ComputeMass(density float64) B2MassData {
 	massData := MakeMassData()
-	massData.Mass = density * B2_pi * shape.M_radius * shape.M_radius
+	massData.Mass = density * Pi * shape.M_radius * shape.M_radius
 	massData.Center = shape.M_p
 
 	// inertia about the local origin

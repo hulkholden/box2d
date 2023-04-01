@@ -205,7 +205,7 @@ func (joint *B2WeldJoint) InitVelocityConstraints(data B2SolverData) {
 		C := aB - aA - joint.M_referenceAngle
 
 		// Frequency
-		omega := 2.0 * B2_pi * joint.M_frequencyHz
+		omega := 2.0 * Pi * joint.M_frequencyHz
 
 		// Damping coefficient
 		d := 2.0 * m * joint.M_dampingRatio * omega

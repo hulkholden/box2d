@@ -251,13 +251,13 @@ func (rope *B2Rope) SolveC3() {
 
 		C := angle - rope.M_as[i]
 
-		for C > B2_pi {
-			angle -= 2 * B2_pi
+		for C > Pi {
+			angle -= 2 * Pi
 			C = angle - rope.M_as[i]
 		}
 
-		for C < -B2_pi {
-			angle += 2.0 * B2_pi
+		for C < -Pi {
+			angle += 2.0 * Pi
 			C = angle - rope.M_as[i]
 		}
 

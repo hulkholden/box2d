@@ -265,7 +265,7 @@ func (joint *B2WheelJoint) InitVelocityConstraints(data B2SolverData) {
 			C := Vec2Dot(d, joint.M_ax)
 
 			// Frequency
-			omega := 2.0 * B2_pi * joint.M_frequencyHz
+			omega := 2.0 * Pi * joint.M_frequencyHz
 
 			// Damping coefficient
 			damp := 2.0 * joint.M_springMass * joint.M_dampingRatio * omega

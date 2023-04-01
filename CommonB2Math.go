@@ -748,7 +748,7 @@ func (sweep *B2Sweep) Advance(alpha float64) {
 
 // Normalize an angle in radians to be between -pi and pi
 func (sweep *B2Sweep) Normalize() {
-	twoPi := 2.0 * B2_pi
+	twoPi := 2.0 * Pi
 	d := twoPi * math.Floor(sweep.A0/twoPi)
 	sweep.A0 -= d
 	sweep.A -= d

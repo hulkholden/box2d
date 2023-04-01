@@ -82,13 +82,13 @@ func (shape CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, 
 	return false
 }
 
-func (shape CircleShape) ComputeAABB(transform Transform, childIndex int) B2AABB {
+func (shape CircleShape) ComputeAABB(transform Transform, childIndex int) AABB {
 	// B2_NOT_USED(childIndex);
 
 	p := Vec2Add(transform.P, RotVec2Mul(transform.Q, shape.M_p))
 	lowerBound := MakeVec2(p.X-shape.M_radius, p.Y-shape.M_radius)
 	upperBound := MakeVec2(p.X+shape.M_radius, p.Y+shape.M_radius)
-	return MakeB2AABB(lowerBound, upperBound)
+	return MakeAABB(lowerBound, upperBound)
 }
 
 func (shape CircleShape) ComputeMass(density float64) MassData {

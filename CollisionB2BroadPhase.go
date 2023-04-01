@@ -61,7 +61,7 @@ func (bp BroadPhase) TestOverlap(proxyIdA int, proxyIdB int) bool {
 	)
 }
 
-func (bp BroadPhase) GetFatAABB(proxyId int) B2AABB {
+func (bp BroadPhase) GetFatAABB(proxyId int) AABB {
 	return bp.M_tree.GetFatAABB(proxyId)
 }
 
@@ -158,7 +158,7 @@ func MakeBroadPhase() BroadPhase {
 	}
 }
 
-func (bp *BroadPhase) CreateProxy(aabb B2AABB, userData interface{}) int {
+func (bp *BroadPhase) CreateProxy(aabb AABB, userData interface{}) int {
 	proxyId := bp.M_tree.CreateProxy(aabb, userData)
 	bp.M_proxyCount++
 	bp.BufferMove(proxyId)
@@ -171,7 +171,7 @@ func (bp *BroadPhase) DestroyProxy(proxyId int) {
 	bp.M_tree.DestroyProxy(proxyId)
 }
 
-func (bp *BroadPhase) MoveProxy(proxyId int, aabb B2AABB, displacement Vec2) {
+func (bp *BroadPhase) MoveProxy(proxyId int, aabb AABB, displacement Vec2) {
 	buffer := bp.M_tree.MoveProxy(proxyId, aabb, displacement)
 	if buffer {
 		bp.BufferMove(proxyId)
@@ -220,7 +220,7 @@ func (bp *BroadPhase) QueryCallback(proxyId int) bool {
 	return true
 }
 
-func (bp *BroadPhase) Query(callback B2TreeQueryCallback, aabb B2AABB) {
+func (bp *BroadPhase) Query(callback B2TreeQueryCallback, aabb AABB) {
 	bp.M_tree.Query(callback, aabb)
 }
 

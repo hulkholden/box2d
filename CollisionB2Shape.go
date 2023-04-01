@@ -76,7 +76,7 @@ type ShapeInterface interface {
 	/// @param xf the world transform of the shape.
 	/// @param childIndex the child shape
 	/// @return the axis aligned box.
-	ComputeAABB(xf Transform, childIndex int) B2AABB
+	ComputeAABB(xf Transform, childIndex int) AABB
 
 	/// Compute the mass properties of this shape using its dimensions and density.
 	/// The inertia tensor is computed about the local origin.

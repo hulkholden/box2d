@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-var result B2AABB
+var result AABB
 
 // BenchmarkPolygonShape_ComputeAABB-12         18483         64324 ns/op
 //

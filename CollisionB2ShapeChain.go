@@ -170,7 +170,7 @@ func (chain ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, x
 	return edgeShape.RayCast(output, input, xf, 0)
 }
 
-func (chain ChainShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
+func (chain ChainShape) ComputeAABB(xf Transform, childIndex int) AABB {
 	assert(childIndex < chain.M_count)
 
 	i1 := childIndex
@@ -182,7 +182,7 @@ func (chain ChainShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	v1 := TransformVec2Mul(xf, chain.M_vertices[i1])
 	v2 := TransformVec2Mul(xf, chain.M_vertices[i2])
 
-	return MakeB2AABB(Vec2Min(v1, v2), Vec2Max(v1, v2))
+	return MakeAABB(Vec2Min(v1, v2), Vec2Max(v1, v2))
 }
 
 func (chain ChainShape) ComputeMass(density float64) MassData {

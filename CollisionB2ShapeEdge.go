@@ -124,7 +124,7 @@ func (edge EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf 
 	return true
 }
 
-func (edge EdgeShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
+func (edge EdgeShape) ComputeAABB(xf Transform, childIndex int) AABB {
 	v1 := TransformVec2Mul(xf, edge.M_vertex1)
 	v2 := TransformVec2Mul(xf, edge.M_vertex2)
 
@@ -134,7 +134,7 @@ func (edge EdgeShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	r := MakeVec2(edge.M_radius, edge.M_radius)
 	lowerBound := Vec2Sub(lower, r)
 	upperBound := Vec2Sub(upper, r)
-	return MakeB2AABB(lowerBound, upperBound)
+	return MakeAABB(lowerBound, upperBound)
 }
 
 func (edge EdgeShape) ComputeMass(density float64) MassData {

@@ -64,7 +64,7 @@ func MakeFixtureDef() FixtureDef {
 
 // This proxy is used internally to connect fixtures to the broad-phase.
 type FixtureProxy struct {
-	Aabb       B2AABB
+	Aabb       AABB
 	Fixture    *Fixture
 	ChildIndex int
 	ProxyId    int
@@ -176,7 +176,7 @@ func (fix Fixture) GetMassData() MassData {
 	return fix.M_shape.ComputeMass(fix.M_density)
 }
 
-func (fix Fixture) GetAABB(childIndex int) B2AABB {
+func (fix Fixture) GetAABB(childIndex int) AABB {
 	assert(0 <= childIndex && childIndex < fix.M_proxyCount)
 	return fix.M_proxies[childIndex].Aabb
 }

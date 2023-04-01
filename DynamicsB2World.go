@@ -963,7 +963,7 @@ func (query *B2WorldQueryWrapper) QueryCallback(proxyId int) bool {
 	return query.Callback(proxy.Fixture)
 }
 
-func (world *B2World) QueryAABB(callback B2BroadPhaseQueryCallback, aabb B2AABB) {
+func (world *B2World) QueryAABB(callback B2BroadPhaseQueryCallback, aabb AABB) {
 	wrapper := MakeB2WorldQueryWrapper()
 	wrapper.BroadPhase = &world.M_contactManager.M_broadPhase
 	wrapper.Callback = callback

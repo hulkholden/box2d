@@ -152,21 +152,21 @@ type B2RayCastOutput struct {
 func MakeB2RayCastOutput() B2RayCastOutput { return B2RayCastOutput{} }
 
 // An axis aligned bounding box.
-type B2AABB struct {
+type AABB struct {
 	LowerBound Vec2 ///< the lower vertex
 	UpperBound Vec2 ///< the upper vertex
 }
 
-func MakeB2AABB(lower, upper Vec2) B2AABB {
-	return B2AABB{
+func MakeAABB(lower, upper Vec2) AABB {
+	return AABB{
 		LowerBound: lower,
 		UpperBound: upper,
 	}
 }
-func NewB2AABB() *B2AABB { return &B2AABB{} }
+func NewAABB() *AABB { return &AABB{} }
 
 // Get the center of the AABB.
-func (bb B2AABB) GetCenter() Vec2 {
+func (bb AABB) GetCenter() Vec2 {
 	return Vec2MulScalar(
 		0.5,
 		Vec2Add(bb.LowerBound, bb.UpperBound),
@@ -174,7 +174,7 @@ func (bb B2AABB) GetCenter() Vec2 {
 }
 
 // Get the extents of the AABB (half-widths).
-func (bb B2AABB) GetExtents() Vec2 {
+func (bb AABB) GetExtents() Vec2 {
 	return Vec2MulScalar(
 		0.5,
 		Vec2Sub(bb.UpperBound, bb.LowerBound),
@@ -182,40 +182,40 @@ func (bb B2AABB) GetExtents() Vec2 {
 }
 
 // Get the perimeter length
-func (bb B2AABB) GetPerimeter() float64 {
+func (bb AABB) GetPerimeter() float64 {
 	wx := bb.UpperBound.X - bb.LowerBound.X
 	wy := bb.UpperBound.Y - bb.LowerBound.Y
 	return 2.0 * (wx + wy)
 }
 
 // Combine an AABB into this one.
-func (bb *B2AABB) CombineInPlace(aabb B2AABB) {
+func (bb *AABB) CombineInPlace(aabb AABB) {
 	bb.LowerBound = Vec2Min(bb.LowerBound, aabb.LowerBound)
 	bb.UpperBound = Vec2Max(bb.UpperBound, aabb.UpperBound)
 }
 
 // Combine two AABBs into this one.
-func (bb *B2AABB) CombineTwoInPlace(aabb1, aabb2 B2AABB) {
+func (bb *AABB) CombineTwoInPlace(aabb1, aabb2 AABB) {
 	bb.LowerBound = Vec2Min(aabb1.LowerBound, aabb2.LowerBound)
 	bb.UpperBound = Vec2Max(aabb1.UpperBound, aabb2.UpperBound)
 }
 
 // Does this aabb contain the provided AABB.
-func (bb B2AABB) Contains(aabb B2AABB) bool {
+func (bb AABB) Contains(aabb AABB) bool {
 	return (bb.LowerBound.X <= aabb.LowerBound.X &&
 		bb.LowerBound.Y <= aabb.LowerBound.Y &&
 		aabb.UpperBound.X <= bb.UpperBound.X &&
 		aabb.UpperBound.Y <= bb.UpperBound.Y)
 }
 
-func (bb B2AABB) IsValid() bool {
+func (bb AABB) IsValid() bool {
 	d := Vec2Sub(bb.UpperBound, bb.LowerBound)
 	valid := d.X >= 0.0 && d.Y >= 0.0
 	valid = valid && bb.LowerBound.IsValid() && bb.UpperBound.IsValid()
 	return valid
 }
 
-func B2TestOverlapBoundingBoxes(a, b B2AABB) bool {
+func B2TestOverlapBoundingBoxes(a, b AABB) bool {
 	d1 := Vec2Sub(b.LowerBound, a.UpperBound)
 	d2 := Vec2Sub(a.LowerBound, b.UpperBound)
 
@@ -350,7 +350,7 @@ func B2GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoin
 }
 
 // From Real-time Collision Detection, p179.
-func (bb B2AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
+func (bb AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
 	tmin := -maxFloat
 	tmax := maxFloat
 

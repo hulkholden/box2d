@@ -12,7 +12,7 @@ const B2_nullNode = -1
 
 type B2TreeNode struct {
 	/// Enlarged AABB
-	Aabb B2AABB
+	Aabb AABB
 
 	UserData interface{}
 
@@ -65,12 +65,12 @@ func (tree B2DynamicTree) GetUserData(proxyId int) interface{} {
 	return tree.M_nodes[proxyId].UserData
 }
 
-func (tree B2DynamicTree) GetFatAABB(proxyId int) B2AABB {
+func (tree B2DynamicTree) GetFatAABB(proxyId int) AABB {
 	assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 	return tree.M_nodes[proxyId].Aabb
 }
 
-func (tree *B2DynamicTree) Query(queryCallback B2TreeQueryCallback, aabb B2AABB) {
+func (tree *B2DynamicTree) Query(queryCallback B2TreeQueryCallback, aabb AABB) {
 	stack := NewB2GrowableStack[int](256)
 	stack.Push(tree.M_root)
 
@@ -113,10 +113,10 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 	maxFraction := input.MaxFraction
 
 	// Build a bounding box for the segment.
-	var segmentAABB B2AABB
+	var segmentAABB AABB
 	{
 		t := Vec2Add(p1, Vec2MulScalar(maxFraction, Vec2Sub(p2, p1)))
-		segmentAABB = MakeB2AABB(Vec2Min(p1, t), Vec2Max(p1, t))
+		segmentAABB = MakeAABB(Vec2Min(p1, t), Vec2Max(p1, t))
 	}
 
 	stack := NewB2GrowableStack[int](256)
@@ -257,7 +257,7 @@ func (tree *B2DynamicTree) FreeNode(nodeId int) {
 // Create a proxy in the tree as a leaf node. We return the index
 // of the node instead of a pointer so that we can grow
 // the node pool.
-func (tree *B2DynamicTree) CreateProxy(aabb B2AABB, userData interface{}) int {
+func (tree *B2DynamicTree) CreateProxy(aabb AABB, userData interface{}) int {
 	proxyId := tree.AllocateNode()
 
 	// Fatten the aabb.
@@ -280,7 +280,7 @@ func (tree *B2DynamicTree) DestroyProxy(proxyId int) {
 	tree.FreeNode(proxyId)
 }
 
-func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb B2AABB, displacement Vec2) bool {
+func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb AABB, displacement Vec2) bool {
 	assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 
 	assert(tree.M_nodes[proxyId].IsLeaf())
@@ -337,7 +337,7 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 
 		area := tree.M_nodes[index].Aabb.GetPerimeter()
 
-		var combinedAABB B2AABB
+		var combinedAABB AABB
 		combinedAABB.CombineTwoInPlace(tree.M_nodes[index].Aabb, leafAABB)
 		combinedArea := combinedAABB.GetPerimeter()
 
@@ -350,11 +350,11 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 		// Cost of descending into child1
 		cost1 := 0.0
 		if tree.M_nodes[child1].IsLeaf() {
-			var aabb B2AABB
+			var aabb AABB
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child1].Aabb)
 			cost1 = aabb.GetPerimeter() + inheritanceCost
 		} else {
-			var aabb B2AABB
+			var aabb AABB
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child1].Aabb)
 			oldArea := tree.M_nodes[child1].Aabb.GetPerimeter()
 			newArea := aabb.GetPerimeter()
@@ -364,11 +364,11 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 		// Cost of descending into child2
 		cost2 := 0.0
 		if tree.M_nodes[child2].IsLeaf() {
-			var aabb B2AABB
+			var aabb AABB
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child2].Aabb)
 			cost2 = aabb.GetPerimeter() + inheritanceCost
 		} else {
-			var aabb B2AABB
+			var aabb AABB
 			aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[child2].Aabb)
 			oldArea := tree.M_nodes[child2].Aabb.GetPerimeter()
 			newArea := aabb.GetPerimeter()
@@ -714,7 +714,7 @@ func (tree B2DynamicTree) ValidateMetrics(index int) {
 	height := 1 + MaxInt(height1, height2)
 	assert(node.Height == height)
 
-	var aabb B2AABB
+	var aabb AABB
 	aabb.CombineTwoInPlace(tree.M_nodes[child1].Aabb, tree.M_nodes[child2].Aabb)
 
 	assert(aabb.LowerBound == node.Aabb.LowerBound)
@@ -791,7 +791,7 @@ func (tree *B2DynamicTree) RebuildBottomUp() {
 
 			for j := i + 1; j < count; j++ {
 				aabbj := tree.M_nodes[nodes[j]].Aabb
-				var b B2AABB
+				var b AABB
 				b.CombineTwoInPlace(aabbi, aabbj)
 				cost := b.GetPerimeter()
 				if cost < minCost {

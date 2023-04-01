@@ -116,16 +116,16 @@ type WorldManifold struct {
 
 func MakeWorldManifold() WorldManifold { return WorldManifold{} }
 
-var B2PointState = struct {
-	B2_nullState    uint8 ///< point does not exist
-	B2_addState     uint8 ///< point was added in the update
-	B2_persistState uint8 ///< point persisted across the update
-	B2_removeState  uint8 ///< point was removed in the update
+var PointState = struct {
+	Null    uint8 ///< point does not exist
+	Add     uint8 ///< point was added in the update
+	Persist uint8 ///< point persisted across the update
+	Remove  uint8 ///< point was removed in the update
 }{
-	B2_nullState:    0,
-	B2_addState:     1,
-	B2_persistState: 2,
-	B2_removeState:  3,
+	Null:    0,
+	Add:     1,
+	Persist: 2,
+	Remove:  3,
 }
 
 // Used for computing contact manifolds.
@@ -316,19 +316,19 @@ func (wm *WorldManifold) Initialize(manifold *Manifold, xfA Transform, radiusA f
 
 func B2GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoints]uint8, manifold1 Manifold, manifold2 Manifold) {
 	for i := 0; i < maxManifoldPoints; i++ {
-		state1[i] = B2PointState.B2_nullState
-		state2[i] = B2PointState.B2_nullState
+		state1[i] = PointState.Null
+		state2[i] = PointState.Null
 	}
 
 	// Detect persists and removes.
 	for i := 0; i < manifold1.PointCount; i++ {
 		id := manifold1.Points[i].Id
 
-		state1[i] = B2PointState.B2_removeState
+		state1[i] = PointState.Remove
 
 		for j := 0; j < manifold2.PointCount; j++ {
 			if manifold2.Points[j].Id.Key() == id.Key() {
-				state1[i] = B2PointState.B2_persistState
+				state1[i] = PointState.Persist
 				break
 			}
 		}
@@ -338,11 +338,11 @@ func B2GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoin
 	for i := 0; i < manifold2.PointCount; i++ {
 		id := manifold2.Points[i].Id
 
-		state2[i] = B2PointState.B2_addState
+		state2[i] = PointState.Add
 
 		for j := 0; j < manifold1.PointCount; j++ {
 			if manifold1.Points[j].Id.Key() == id.Key() {
-				state2[i] = B2PointState.B2_persistState
+				state2[i] = PointState.Persist
 				break
 			}
 		}

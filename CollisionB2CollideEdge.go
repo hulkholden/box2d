@@ -10,7 +10,7 @@ func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA Transf
 	manifold.PointCount = 0
 
 	// Compute circle in frame of edge
-	Q := B2TransformVec2MulT(xfA, TransformVec2Mul(xfB, circleB.M_p))
+	Q := TransformVec2MulT(xfA, TransformVec2Mul(xfB, circleB.M_p))
 
 	A := edgeA.M_vertex1
 	B := edgeA.M_vertex2
@@ -520,7 +520,7 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, 
 			cp := &manifold.Points[pointCount]
 
 			if primaryAxis.Type == B2EPAxis_Type.E_edgeA {
-				cp.LocalPoint = B2TransformVec2MulT(collider.M_xf, clipPoints2[i].V)
+				cp.LocalPoint = TransformVec2MulT(collider.M_xf, clipPoints2[i].V)
 				cp.Id = clipPoints2[i].Id
 			} else {
 				cp.LocalPoint = clipPoints2[i].V

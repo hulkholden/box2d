@@ -95,7 +95,7 @@ func MakeB2MouseJoint(def *B2MouseJointDef) *B2MouseJoint {
 	assert(IsValid(def.DampingRatio) && def.DampingRatio >= 0.0)
 
 	res.M_targetA = def.Target
-	res.M_localAnchorB = B2TransformVec2MulT(res.M_bodyB.GetTransform(), res.M_targetA)
+	res.M_localAnchorB = TransformVec2MulT(res.M_bodyB.GetTransform(), res.M_targetA)
 
 	res.M_maxForce = def.MaxForce
 	res.M_impulse.SetZero()

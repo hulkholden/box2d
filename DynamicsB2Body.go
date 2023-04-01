@@ -241,7 +241,7 @@ func (body B2Body) GetWorldVector(localVector Vec2) Vec2 {
 }
 
 func (body B2Body) GetLocalPoint(worldPoint Vec2) Vec2 {
-	return B2TransformVec2MulT(body.M_xf, worldPoint)
+	return TransformVec2MulT(body.M_xf, worldPoint)
 }
 
 func (body B2Body) GetLocalVector(worldVector Vec2) Vec2 {

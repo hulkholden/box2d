@@ -192,7 +192,7 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA Transfor
 
 		if separation <= totalRadius {
 			cp := &manifold.Points[pointCount]
-			cp.LocalPoint = B2TransformVec2MulT(xf2, clipPoints2[i].V)
+			cp.LocalPoint = TransformVec2MulT(xf2, clipPoints2[i].V)
 			cp.Id = clipPoints2[i].Id
 			if flip != 0 {
 				// Swap features

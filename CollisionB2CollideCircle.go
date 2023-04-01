@@ -29,7 +29,7 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 
 	// Compute circle position in the frame of the polygon.
 	c := TransformVec2Mul(xfB, circleB.M_p)
-	cLocal := B2TransformVec2MulT(xfA, c)
+	cLocal := TransformVec2MulT(xfA, c)
 
 	// Find the min separating edge.
 	normalIndex := 0

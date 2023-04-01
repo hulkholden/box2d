@@ -104,7 +104,7 @@ func MakeB2RopeJoint(def *B2RopeJointDef) *B2RopeJoint {
 
 	res.M_mass = 0.0
 	res.M_impulse = 0.0
-	res.M_state = B2LimitState.E_inactiveLimit
+	res.M_state = LimitState.Inactive
 	res.M_length = 0.0
 
 	return &res
@@ -141,9 +141,9 @@ func (joint *B2RopeJoint) InitVelocityConstraints(data B2SolverData) {
 
 	C := joint.M_length - joint.M_maxLength
 	if C > 0.0 {
-		joint.M_state = B2LimitState.E_atUpperLimit
+		joint.M_state = LimitState.AtUpperLimit
 	} else {
-		joint.M_state = B2LimitState.E_inactiveLimit
+		joint.M_state = LimitState.Inactive
 	}
 
 	if joint.M_length > linearSlop {

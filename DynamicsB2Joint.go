@@ -28,16 +28,16 @@ var JointType = struct {
 	Motor:     12,
 }
 
-var B2LimitState = struct {
-	E_inactiveLimit uint8
-	E_atLowerLimit  uint8
-	E_atUpperLimit  uint8
-	E_equalLimits   uint8
+var LimitState = struct {
+	Inactive     uint8
+	AtLowerLimit uint8
+	AtUpperLimit uint8
+	Equal        uint8
 }{
-	E_inactiveLimit: 1,
-	E_atLowerLimit:  2,
-	E_atUpperLimit:  3,
-	E_equalLimits:   4,
+	Inactive:     1,
+	AtLowerLimit: 2,
+	AtUpperLimit: 3,
+	Equal:        4,
 }
 
 type Jacobian struct {

@@ -229,7 +229,7 @@ func MakeB2PrismaticJoint(def *B2PrismaticJointDef) *B2PrismaticJoint {
 	res.M_motorSpeed = def.MotorSpeed
 	res.M_enableLimit = def.EnableLimit
 	res.M_enableMotor = def.EnableMotor
-	res.M_limitState = B2LimitState.E_inactiveLimit
+	res.M_limitState = LimitState.Inactive
 
 	res.M_axis.SetZero()
 	res.M_perp.SetZero()
@@ -309,23 +309,23 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 	if joint.M_enableLimit {
 		jointTranslation := Vec2Dot(joint.M_axis, d)
 		if math.Abs(joint.M_upperTranslation-joint.M_lowerTranslation) < 2.0*linearSlop {
-			joint.M_limitState = B2LimitState.E_equalLimits
+			joint.M_limitState = LimitState.Equal
 		} else if jointTranslation <= joint.M_lowerTranslation {
-			if joint.M_limitState != B2LimitState.E_atLowerLimit {
-				joint.M_limitState = B2LimitState.E_atLowerLimit
+			if joint.M_limitState != LimitState.AtLowerLimit {
+				joint.M_limitState = LimitState.AtLowerLimit
 				joint.M_impulse.Z = 0.0
 			}
 		} else if jointTranslation >= joint.M_upperTranslation {
-			if joint.M_limitState != B2LimitState.E_atUpperLimit {
-				joint.M_limitState = B2LimitState.E_atUpperLimit
+			if joint.M_limitState != LimitState.AtUpperLimit {
+				joint.M_limitState = LimitState.AtUpperLimit
 				joint.M_impulse.Z = 0.0
 			}
 		} else {
-			joint.M_limitState = B2LimitState.E_inactiveLimit
+			joint.M_limitState = LimitState.Inactive
 			joint.M_impulse.Z = 0.0
 		}
 	} else {
-		joint.M_limitState = B2LimitState.E_inactiveLimit
+		joint.M_limitState = LimitState.Inactive
 		joint.M_impulse.Z = 0.0
 	}
 
@@ -370,7 +370,7 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 	iB := joint.M_invIB
 
 	// Solve linear motor constraint.
-	if joint.M_enableMotor && joint.M_limitState != B2LimitState.E_equalLimits {
+	if joint.M_enableMotor && joint.M_limitState != LimitState.Equal {
 		Cdot := Vec2Dot(joint.M_axis, Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
 		impulse := joint.M_motorMass * (joint.M_motorSpeed - Cdot)
 		oldImpulse := joint.M_motorImpulse
@@ -393,7 +393,7 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 	Cdot1.X = Vec2Dot(joint.M_perp, Vec2Sub(vB, vA)) + joint.M_s2*wB - joint.M_s1*wA
 	Cdot1.Y = wB - wA
 
-	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit {
+	if joint.M_enableLimit && joint.M_limitState != LimitState.Inactive {
 		// Solve prismatic and limit constraint in block form.
 		Cdot2 := 0.0
 		Cdot2 = Vec2Dot(joint.M_axis, Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
@@ -403,9 +403,9 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 		df := joint.M_K.Solve33(Cdot.OperatorNegate())
 		joint.M_impulse.OperatorPlusInplace(df)
 
-		if joint.M_limitState == B2LimitState.E_atLowerLimit {
+		if joint.M_limitState == LimitState.AtLowerLimit {
 			joint.M_impulse.Z = math.Max(joint.M_impulse.Z, 0.0)
-		} else if joint.M_limitState == B2LimitState.E_atUpperLimit {
+		} else if joint.M_limitState == LimitState.AtUpperLimit {
 			joint.M_impulse.Z = math.Min(joint.M_impulse.Z, 0.0)
 		}
 

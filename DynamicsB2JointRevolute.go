@@ -169,7 +169,7 @@ func MakeB2RevoluteJoint(def *B2RevoluteJointDef) *B2RevoluteJoint {
 	res.M_motorSpeed = def.MotorSpeed
 	res.M_enableLimit = def.EnableLimit
 	res.M_enableMotor = def.EnableMotor
-	res.M_limitState = B2LimitState.E_inactiveLimit
+	res.M_limitState = LimitState.Inactive
 
 	return &res
 }
@@ -236,23 +236,23 @@ func (joint *B2RevoluteJoint) InitVelocityConstraints(data B2SolverData) {
 	if joint.M_enableLimit && !fixedRotation {
 		jointAngle := aB - aA - joint.M_referenceAngle
 		if math.Abs(joint.M_upperAngle-joint.M_lowerAngle) < 2.0*angularSlop {
-			joint.M_limitState = B2LimitState.E_equalLimits
+			joint.M_limitState = LimitState.Equal
 		} else if jointAngle <= joint.M_lowerAngle {
-			if joint.M_limitState != B2LimitState.E_atLowerLimit {
+			if joint.M_limitState != LimitState.AtLowerLimit {
 				joint.M_impulse.Z = 0.0
 			}
-			joint.M_limitState = B2LimitState.E_atLowerLimit
+			joint.M_limitState = LimitState.AtLowerLimit
 		} else if jointAngle >= joint.M_upperAngle {
-			if joint.M_limitState != B2LimitState.E_atUpperLimit {
+			if joint.M_limitState != LimitState.AtUpperLimit {
 				joint.M_impulse.Z = 0.0
 			}
-			joint.M_limitState = B2LimitState.E_atUpperLimit
+			joint.M_limitState = LimitState.AtUpperLimit
 		} else {
-			joint.M_limitState = B2LimitState.E_inactiveLimit
+			joint.M_limitState = LimitState.Inactive
 			joint.M_impulse.Z = 0.0
 		}
 	} else {
-		joint.M_limitState = B2LimitState.E_inactiveLimit
+		joint.M_limitState = LimitState.Inactive
 	}
 
 	if data.Step.WarmStarting {
@@ -292,7 +292,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 	fixedRotation := (iA+iB == 0.0)
 
 	// Solve motor constraint.
-	if joint.M_enableMotor && joint.M_limitState != B2LimitState.E_equalLimits && !fixedRotation {
+	if joint.M_enableMotor && joint.M_limitState != LimitState.Equal && !fixedRotation {
 		Cdot := wB - wA - joint.M_motorSpeed
 		impulse := -joint.M_motorMass * Cdot
 		oldImpulse := joint.M_motorImpulse
@@ -305,16 +305,16 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 	}
 
 	// Solve limit constraint.
-	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit && !fixedRotation {
+	if joint.M_enableLimit && joint.M_limitState != LimitState.Inactive && !fixedRotation {
 		Cdot1 := Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 		Cdot2 := wB - wA
 		Cdot := MakeVec3(Cdot1.X, Cdot1.Y, Cdot2)
 
 		impulse := joint.M_mass.Solve33(Cdot).OperatorNegate()
 
-		if joint.M_limitState == B2LimitState.E_equalLimits {
+		if joint.M_limitState == LimitState.Equal {
 			joint.M_impulse.OperatorPlusInplace(impulse)
-		} else if joint.M_limitState == B2LimitState.E_atLowerLimit {
+		} else if joint.M_limitState == LimitState.AtLowerLimit {
 			newImpulse := joint.M_impulse.Z + impulse.Z
 			if newImpulse < 0.0 {
 				rhs := Vec2Add(Cdot1.OperatorNegate(), Vec2MulScalar(joint.M_impulse.Z, MakeVec2(joint.M_mass.Ez.X, joint.M_mass.Ez.Y)))
@@ -328,7 +328,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 			} else {
 				joint.M_impulse.OperatorPlusInplace(impulse)
 			}
-		} else if joint.M_limitState == B2LimitState.E_atUpperLimit {
+		} else if joint.M_limitState == LimitState.AtUpperLimit {
 			newImpulse := joint.M_impulse.Z + impulse.Z
 			if newImpulse > 0.0 {
 				rhs := Vec2Add(Cdot1.OperatorNegate(), Vec2MulScalar(joint.M_impulse.Z, MakeVec2(joint.M_mass.Ez.X, joint.M_mass.Ez.Y)))
@@ -387,23 +387,23 @@ func (joint *B2RevoluteJoint) SolvePositionConstraints(data B2SolverData) bool {
 	fixedRotation := (joint.M_invIA+joint.M_invIB == 0.0)
 
 	// Solve angular limit constraint.
-	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit && !fixedRotation {
+	if joint.M_enableLimit && joint.M_limitState != LimitState.Inactive && !fixedRotation {
 		angle := aB - aA - joint.M_referenceAngle
 		limitImpulse := 0.0
 
-		if joint.M_limitState == B2LimitState.E_equalLimits {
+		if joint.M_limitState == LimitState.Equal {
 			// Prevent large angular corrections
 			C := FloatClamp(angle-joint.M_lowerAngle, -maxAngularCorrection, maxAngularCorrection)
 			limitImpulse = -joint.M_motorMass * C
 			angularError = math.Abs(C)
-		} else if joint.M_limitState == B2LimitState.E_atLowerLimit {
+		} else if joint.M_limitState == LimitState.AtLowerLimit {
 			C := angle - joint.M_lowerAngle
 			angularError = -C
 
 			// Prevent large angular corrections and allow some slop.
 			C = FloatClamp(C+angularSlop, -maxAngularCorrection, 0.0)
 			limitImpulse = -joint.M_motorMass * C
-		} else if joint.M_limitState == B2LimitState.E_atUpperLimit {
+		} else if joint.M_limitState == LimitState.AtUpperLimit {
 			C := angle - joint.M_upperAngle
 			angularError = C
 

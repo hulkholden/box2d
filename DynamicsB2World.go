@@ -278,7 +278,7 @@ func (world *B2World) CreateJoint(def JointDefInterface) B2JointInterface {
 		return nil
 	}
 
-	j := B2JointCreate(def)
+	j := JointCreate(def)
 
 	// Connect to the world list.
 	j.SetPrev(nil)
@@ -392,7 +392,7 @@ func (world *B2World) DestroyJoint(j B2JointInterface) { // j backed by pointer
 	j.GetEdgeB().Prev = nil
 	j.GetEdgeB().Next = nil
 
-	B2JointDestroy(j)
+	JointDestroy(j)
 
 	assert(world.M_jointCount > 0)
 	world.M_jointCount--

@@ -245,8 +245,7 @@ func (j *Joint) SetEdgeB(edge *JointEdge) {
 	j.M_edgeB = edge
 }
 
-func B2JointCreate(def JointDefInterface) B2JointInterface { // def should be back by pointer; a pointer is returned
-
+func JointCreate(def JointDefInterface) B2JointInterface { // def should be back by pointer; a pointer is returned
 	var joint *Joint = nil
 
 	switch def.GetType() {
@@ -323,7 +322,7 @@ func B2JointCreate(def JointDefInterface) B2JointInterface { // def should be ba
 	return joint
 }
 
-func B2JointDestroy(joint B2JointInterface) { // has to be backed by pointer
+func JointDestroy(joint B2JointInterface) { // has to be backed by pointer
 	joint.Destroy()
 }
 

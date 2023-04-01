@@ -76,7 +76,7 @@ type JointDef struct {
 	CollideConnected bool
 }
 
-type B2JointDefInterface interface {
+type JointDefInterface interface {
 	GetType() uint8
 	SetType(t uint8)
 	GetUserData() interface{}
@@ -89,7 +89,7 @@ type B2JointDefInterface interface {
 	SetCollideConnected(flag bool)
 }
 
-// Implementing B2JointDefInterface on B2Joint (used as a base struct)
+// Implementing JointDefInterface on B2Joint (used as a base struct)
 func (def JointDef) GetType() uint8 {
 	return def.Type
 }
@@ -245,7 +245,7 @@ func (j *B2Joint) SetEdgeB(edge *JointEdge) {
 	j.M_edgeB = edge
 }
 
-func B2JointCreate(def B2JointDefInterface) B2JointInterface { // def should be back by pointer; a pointer is returned
+func B2JointCreate(def JointDefInterface) B2JointInterface { // def should be back by pointer; a pointer is returned
 
 	var joint *B2Joint = nil
 
@@ -327,7 +327,7 @@ func B2JointDestroy(joint B2JointInterface) { // has to be backed by pointer
 	joint.Destroy()
 }
 
-func MakeB2Joint(def B2JointDefInterface) *B2Joint { // def has to be backed by pointer
+func MakeB2Joint(def JointDefInterface) *B2Joint { // def has to be backed by pointer
 	assert(def.GetBodyA() != def.GetBodyB())
 
 	res := B2Joint{}

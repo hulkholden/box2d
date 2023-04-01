@@ -272,7 +272,7 @@ func (world *B2World) DestroyBody(b *Body) {
 	world.M_bodyCount--
 }
 
-func (world *B2World) CreateJoint(def B2JointDefInterface) B2JointInterface {
+func (world *B2World) CreateJoint(def JointDefInterface) B2JointInterface {
 	assert(!world.IsLocked())
 	if world.IsLocked() {
 		return nil

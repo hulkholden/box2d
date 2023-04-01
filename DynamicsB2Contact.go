@@ -331,7 +331,7 @@ func ContactInitializeRegisters() {
 	AddType(B2PolygonAndCircleContact_Create, B2PolygonAndCircleContact_Destroy, B2Shape_Type.E_polygon, B2Shape_Type.E_circle)
 	AddType(B2PolygonContact_Create, B2PolygonContact_Destroy, B2Shape_Type.E_polygon, B2Shape_Type.E_polygon)
 	AddType(EdgeAndCircleContact_Create, EdgeAndCircleContact_Destroy, B2Shape_Type.E_edge, B2Shape_Type.E_circle)
-	AddType(B2EdgeAndPolygonContact_Create, B2EdgeAndPolygonContact_Destroy, B2Shape_Type.E_edge, B2Shape_Type.E_polygon)
+	AddType(EdgeAndPolygonContact_Create, EdgeAndPolygonContact_Destroy, B2Shape_Type.E_edge, B2Shape_Type.E_polygon)
 	AddType(ChainAndCircleContact_Create, ChainAndCircleContact_Destroy, B2Shape_Type.E_chain, B2Shape_Type.E_circle)
 	AddType(ChainAndPolygonContact_Create, ChainAndPolygonContact_Destroy, B2Shape_Type.E_chain, B2Shape_Type.E_polygon)
 }

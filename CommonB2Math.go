@@ -378,38 +378,38 @@ func (r Rot) GetYAxis() Vec2 {
 	return MakeVec2(-r.S, r.C)
 }
 
-// B2Transform contains translation and rotation. It is used to represent
+// Transform contains translation and rotation. It is used to represent
 // the position and orientation of rigid frames.
-type B2Transform struct {
+type Transform struct {
 	P Vec2
 	Q Rot
 }
 
 // The default constructor does nothing.
-func MakeB2Transform() B2Transform { return B2Transform{} }
-func NewB2Transform() *B2Transform { return &B2Transform{} }
+func MakeTransform() Transform { return Transform{} }
+func NewTransform() *Transform { return &Transform{} }
 
 // Initialize using a position vector and a rotation.
-func MakeB2TransformByPositionAndRotation(position Vec2, rotation Rot) B2Transform {
-	return B2Transform{
+func MakeTransformByPositionAndRotation(position Vec2, rotation Rot) Transform {
+	return Transform{
 		P: position,
 		Q: rotation,
 	}
 }
 
-func NewB2TransformByPositionAndRotation(position Vec2, rotation Rot) *B2Transform {
-	res := MakeB2TransformByPositionAndRotation(position, rotation)
+func NewTransformByPositionAndRotation(position Vec2, rotation Rot) *Transform {
+	res := MakeTransformByPositionAndRotation(position, rotation)
 	return &res
 }
 
 // Set this to the identity transform.
-func (t *B2Transform) SetIdentity() {
+func (t *Transform) SetIdentity() {
 	t.P.SetZero()
 	t.Q.SetIdentity()
 }
 
 // Set this based on the position and angle.
-func (t *B2Transform) Set(position Vec2, anglerad float64) {
+func (t *Transform) Set(position Vec2, anglerad float64) {
 	t.P = position
 	t.Q.Set(anglerad)
 }
@@ -612,14 +612,14 @@ func RotVec2MulT(q Rot, v Vec2) Vec2 {
 	)
 }
 
-func B2TransformVec2Mul(T B2Transform, v Vec2) Vec2 {
+func TransformVec2Mul(T Transform, v Vec2) Vec2 {
 	return MakeVec2(
 		(T.Q.C*v.X-T.Q.S*v.Y)+T.P.X,
 		(T.Q.S*v.X+T.Q.C*v.Y)+T.P.Y,
 	)
 }
 
-func B2TransformVec2MulT(T B2Transform, v Vec2) Vec2 {
+func TransformVec2MulT(T Transform, v Vec2) Vec2 {
 	px := v.X - T.P.X
 	py := v.Y - T.P.Y
 	x := (T.Q.C*px + T.Q.S*py)
@@ -628,18 +628,18 @@ func B2TransformVec2MulT(T B2Transform, v Vec2) Vec2 {
 	return MakeVec2(x, y)
 }
 
-func B2TransformMul(A, B B2Transform) B2Transform {
+func TransformMul(A, B Transform) Transform {
 	q := RotMul(A.Q, B.Q)
 	p := Vec2Add(RotVec2Mul(A.Q, B.P), A.P)
 
-	return MakeB2TransformByPositionAndRotation(p, q)
+	return MakeTransformByPositionAndRotation(p, q)
 }
 
-func B2TransformMulT(A, B B2Transform) B2Transform {
+func TransformMulT(A, B Transform) Transform {
 	q := RotMulT(A.Q, B.Q)
 	p := RotVec2MulT(A.Q, Vec2Sub(B.P, A.P))
 
-	return MakeB2TransformByPositionAndRotation(p, q)
+	return MakeTransformByPositionAndRotation(p, q)
 }
 
 // Check if the projected testpoint onto the line is on the line segment
@@ -729,7 +729,7 @@ func B2IsPowerOfTwo(x uint32) bool {
 	return x > 0 && (x&(x-1)) == 0
 }
 
-func (sweep B2Sweep) GetTransform(xf *B2Transform, beta float64) {
+func (sweep B2Sweep) GetTransform(xf *Transform, beta float64) {
 	xf.P = Vec2Add(sweep.C0, Vec2MulScalar(beta, Vec2Sub(sweep.C, sweep.C0)))
 	angle := sweep.A0 + (sweep.A-sweep.A0)*beta
 	xf.Q.Set(angle)
@@ -869,11 +869,12 @@ func fastMax(a, b float64) float64 {
 // Legacy type names.
 // TODO: fully migrate to Vec2 and remove.
 type (
-	B2Vec2  = Vec2
-	B2Vec3  = Vec3
-	B2Mat22 = Mat22
-	B2Mat33 = Mat33
-	B2Rot   = Rot
+	B2Vec2      = Vec2
+	B2Vec3      = Vec3
+	B2Mat22     = Mat22
+	B2Mat33     = Mat33
+	B2Rot       = Rot
+	B2Transform = Transform
 )
 
 var (
@@ -937,4 +938,14 @@ var (
 	B2RotMulT     = RotMulT
 	B2RotVec2Mul  = RotVec2Mul
 	B2RotVec2MulT = RotVec2MulT
+
+	MakeB2Transform                      = MakeTransform
+	NewB2Transform                       = NewTransform
+	MakeB2TransformByPositionAndRotation = MakeTransformByPositionAndRotation
+	NewB2TransformByPositionAndRotation  = NewTransformByPositionAndRotation
+
+	B2TransformVec2Mul  = TransformVec2Mul
+	B2TransformVec2MulT = TransformVec2MulT
+	B2TransformMul      = TransformMul
+	B2TransformMulT     = TransformMulT
 )

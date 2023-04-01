@@ -80,7 +80,7 @@ func TestB2SweepGetTransform(t *testing.T) {
 	tests := map[string]struct {
 		sweep box2d.B2Sweep
 		beta  float64
-		want  box2d.B2Transform
+		want  box2d.Transform
 	}{
 		"at 0.0": {
 			sweep: box2d.B2Sweep{
@@ -91,7 +91,7 @@ func TestB2SweepGetTransform(t *testing.T) {
 				Alpha0: 0.0,
 			},
 			beta: 0.0,
-			want: box2d.B2Transform{
+			want: box2d.Transform{
 				P: box2d.MakeVec2(-2.0, 4.0),
 				Q: box2d.MakeRotFromAngle(0.5),
 			},
@@ -105,7 +105,7 @@ func TestB2SweepGetTransform(t *testing.T) {
 				Alpha0: 0.0,
 			},
 			beta: 1.0,
-			want: box2d.B2Transform{
+			want: box2d.Transform{
 				P: box2d.MakeVec2(3.0, 8.0),
 				Q: box2d.MakeRotFromAngle(5.0),
 			},
@@ -114,7 +114,7 @@ func TestB2SweepGetTransform(t *testing.T) {
 
 	for tn, tc := range tests {
 		t.Run(tn, func(t *testing.T) {
-			var got box2d.B2Transform
+			var got box2d.Transform
 			tc.sweep.GetTransform(&got, tc.beta)
 			if !cmp.Equal(got, tc.want, closeEnough) {
 				t.Errorf("GetTransform() = %+v; want %+v", got, tc.want)

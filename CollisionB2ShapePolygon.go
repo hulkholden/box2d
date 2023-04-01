@@ -264,7 +264,7 @@ func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
 	poly.M_centroid = ComputeCentroid(poly.M_vertices[:], m)
 }
 
-func (poly B2PolygonShape) TestPoint(xf B2Transform, p Vec2) bool {
+func (poly B2PolygonShape) TestPoint(xf Transform, p Vec2) bool {
 	pLocal := RotVec2MulT(xf.Q, Vec2Sub(p, xf.P))
 
 	for i := 0; i < poly.M_count; i++ {
@@ -277,7 +277,7 @@ func (poly B2PolygonShape) TestPoint(xf B2Transform, p Vec2) bool {
 	return true
 }
 
-func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf B2Transform, childIndex int) bool {
+func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
 	// Put the ray into the polygon's frame of reference.
 	p1 := RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
 	p2 := RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))
@@ -336,7 +336,7 @@ func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 	return false
 }
 
-func (poly B2PolygonShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
+func (poly B2PolygonShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	lower := B2TransformVec2Mul(xf, poly.M_vertices[0])
 	upper := lower
 

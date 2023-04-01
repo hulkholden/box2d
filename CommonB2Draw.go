@@ -65,7 +65,7 @@ type B2Draw interface {
 
 	// Draw a transform. Choose your own length scale.
 	// @param xf a transform.
-	DrawTransform(xf B2Transform)
+	DrawTransform(xf Transform)
 
 	// Draw a point.
 	DrawPoint(p Vec2, size float64, color B2Color)

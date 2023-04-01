@@ -149,11 +149,11 @@ func (chain B2ChainShape) GetChildEdge(edge *B2EdgeShape, index int) {
 	}
 }
 
-func (chain B2ChainShape) TestPoint(xf B2Transform, p Vec2) bool {
+func (chain B2ChainShape) TestPoint(xf Transform, p Vec2) bool {
 	return false
 }
 
-func (chain B2ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf B2Transform, childIndex int) bool {
+func (chain B2ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
 	assert(childIndex < chain.M_count)
 
 	edgeShape := MakeB2EdgeShape()
@@ -170,7 +170,7 @@ func (chain B2ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput,
 	return edgeShape.RayCast(output, input, xf, 0)
 }
 
-func (chain B2ChainShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
+func (chain B2ChainShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	assert(childIndex < chain.M_count)
 
 	i1 := childIndex

@@ -685,7 +685,7 @@ func MakeB2PositionSolverManifold() B2PositionSolverManifold {
 	return B2PositionSolverManifold{}
 }
 
-func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPositionConstraint, xfA B2Transform, xfB B2Transform, index int) {
+func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPositionConstraint, xfA Transform, xfB Transform, index int) {
 	assert(pc.PointCount > 0)
 
 	switch pc.Type {

@@ -248,7 +248,7 @@ func (fix *B2Fixture) Destroy() {
 	fix.M_shape = nil
 }
 
-func (fix *B2Fixture) CreateProxies(broadPhase *B2BroadPhase, xf B2Transform) {
+func (fix *B2Fixture) CreateProxies(broadPhase *B2BroadPhase, xf Transform) {
 	assert(fix.M_proxyCount == 0)
 
 	// Create proxies in the broad-phase.
@@ -274,7 +274,7 @@ func (fix *B2Fixture) DestroyProxies(broadPhase *B2BroadPhase) {
 	fix.M_proxyCount = 0
 }
 
-func (fix *B2Fixture) Synchronize(broadPhase *B2BroadPhase, transform1 B2Transform, transform2 B2Transform) {
+func (fix *B2Fixture) Synchronize(broadPhase *B2BroadPhase, transform1 Transform, transform2 Transform) {
 	if fix.M_proxyCount == 0 {
 		return
 	}

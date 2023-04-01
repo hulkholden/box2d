@@ -25,7 +25,7 @@ func B2EdgeAndPolygonContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B
 func B2EdgeAndPolygonContact_Destroy(contact B2ContactInterface) { // should be a pointer
 }
 
-func (contact *B2EdgeAndPolygonContact) Evaluate(manifold *B2Manifold, xfA B2Transform, xfB B2Transform) {
+func (contact *B2EdgeAndPolygonContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
 	B2CollideEdgeAndPolygon(
 		manifold,
 		contact.GetFixtureA().GetShape().(*B2EdgeShape), xfA,

@@ -64,7 +64,7 @@ func (edge B2EdgeShape) GetChildCount() int {
 	return 1
 }
 
-func (edge B2EdgeShape) TestPoint(xf B2Transform, p Vec2) bool {
+func (edge B2EdgeShape) TestPoint(xf Transform, p Vec2) bool {
 	return false
 }
 
@@ -72,7 +72,7 @@ func (edge B2EdgeShape) TestPoint(xf B2Transform, p Vec2) bool {
 // v = v1 + s * e
 // p1 + t * d = v1 + s * e
 // s * e - t * d = p1 - v1
-func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf B2Transform, childIndex int) bool {
+func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
 	// Put the ray into the edge's frame of reference.
 	p1 := RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
 	p2 := RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))
@@ -124,7 +124,7 @@ func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, x
 	return true
 }
 
-func (edge B2EdgeShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
+func (edge B2EdgeShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	v1 := B2TransformVec2Mul(xf, edge.M_vertex1)
 	v2 := B2TransformVec2Mul(xf, edge.M_vertex2)
 

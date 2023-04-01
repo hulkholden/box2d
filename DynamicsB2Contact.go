@@ -134,7 +134,7 @@ type B2ContactInterface interface {
 	IsEnabled() bool
 	SetEnabled(bool)
 
-	Evaluate(manifold *B2Manifold, xfA B2Transform, xfB B2Transform)
+	Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform)
 
 	FlagForFiltering()
 

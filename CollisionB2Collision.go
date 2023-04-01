@@ -238,7 +238,7 @@ func B2TestOverlapBoundingBoxes(a, b B2AABB) bool {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, radiusA float64, xfB B2Transform, radiusB float64) {
+func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA Transform, radiusA float64, xfB Transform, radiusB float64) {
 	if manifold.PointCount == 0 {
 		return
 	}
@@ -447,7 +447,7 @@ func B2ClipSegmentToLine(vOut []B2ClipVertex, vIn []B2ClipVertex, normal Vec2, o
 	return numOut
 }
 
-func B2TestOverlapShapes(shapeA B2ShapeInterface, indexA int, shapeB B2ShapeInterface, indexB int, xfA B2Transform, xfB B2Transform) bool {
+func B2TestOverlapShapes(shapeA B2ShapeInterface, indexA int, shapeB B2ShapeInterface, indexB int, xfA Transform, xfB Transform) bool {
 	input := MakeB2DistanceInput()
 	input.ProxyA.Set(shapeA, indexA)
 	input.ProxyB.Set(shapeB, indexB)

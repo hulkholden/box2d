@@ -996,7 +996,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 Vec2, point2 Ve
 	world.M_contactManager.M_broadPhase.RayCast(wrapper, input)
 }
 
-func (world *B2World) DrawShape(fixture *B2Fixture, xf B2Transform, color B2Color) {
+func (world *B2World) DrawShape(fixture *B2Fixture, xf Transform, color B2Color) {
 	switch fixture.GetType() {
 	case B2Shape_Type.E_circle:
 		circle := fixture.GetShape().(*B2CircleShape)

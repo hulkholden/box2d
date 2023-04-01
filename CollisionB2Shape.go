@@ -63,20 +63,20 @@ type B2ShapeInterface interface {
 	/// Test a point for containment in this shape. This only works for convex shapes.
 	/// @param xf the shape world transform.
 	/// @param p a point in world coordinates.
-	TestPoint(xf B2Transform, p Vec2) bool
+	TestPoint(xf Transform, p Vec2) bool
 
 	/// Cast a ray against a child shape.
 	/// @param output the ray-cast results.
 	/// @param input the ray-cast input parameters.
 	/// @param transform the transform to be applied to the shape.
 	/// @param childIndex the child shape index
-	RayCast(output *B2RayCastOutput, input B2RayCastInput, transform B2Transform, childIndex int) bool
+	RayCast(output *B2RayCastOutput, input B2RayCastInput, transform Transform, childIndex int) bool
 
 	/// Given a transform, compute the associated axis aligned bounding box for a child shape.
 	/// @param xf the world transform of the shape.
 	/// @param childIndex the child shape
 	/// @return the axis aligned box.
-	ComputeAABB(xf B2Transform, childIndex int) B2AABB
+	ComputeAABB(xf Transform, childIndex int) B2AABB
 
 	/// Compute the mass properties of this shape using its dimensions and density.
 	/// The inertia tensor is computed about the local origin.

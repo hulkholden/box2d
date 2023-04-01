@@ -39,7 +39,7 @@ func (shape B2CircleShape) GetChildCount() int {
 	return 1
 }
 
-func (shape B2CircleShape) TestPoint(transform B2Transform, p Vec2) bool {
+func (shape B2CircleShape) TestPoint(transform Transform, p Vec2) bool {
 	center := Vec2Add(transform.P, RotVec2Mul(transform.Q, shape.M_p))
 	d := Vec2Sub(p, center)
 	return Vec2Dot(d, d) <= shape.M_radius*shape.M_radius
@@ -49,7 +49,7 @@ func (shape B2CircleShape) TestPoint(transform B2Transform, p Vec2) bool {
 // From Section 3.1.2
 // x = s + a * r
 // norm(x) = radius
-func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, transform B2Transform, childIndex int) bool {
+func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, transform Transform, childIndex int) bool {
 	// B2_NOT_USED(childIndex);
 
 	position := Vec2Add(transform.P, RotVec2Mul(transform.Q, shape.M_p))
@@ -82,7 +82,7 @@ func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 	return false
 }
 
-func (shape B2CircleShape) ComputeAABB(transform B2Transform, childIndex int) B2AABB {
+func (shape B2CircleShape) ComputeAABB(transform Transform, childIndex int) B2AABB {
 	// B2_NOT_USED(childIndex);
 
 	p := Vec2Add(transform.P, RotVec2Mul(transform.Q, shape.M_p))

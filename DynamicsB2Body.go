@@ -127,8 +127,8 @@ type B2Body struct {
 
 	M_islandIndex int
 
-	M_xf    B2Transform // the body origin transform
-	M_sweep B2Sweep     // the swept motion for CCD
+	M_xf    Transform // the body origin transform
+	M_sweep B2Sweep   // the swept motion for CCD
 
 	M_linearVelocity  Vec2
 	M_angularVelocity float64
@@ -164,7 +164,7 @@ func (body B2Body) GetType() uint8 {
 	return body.M_type
 }
 
-func (body B2Body) GetTransform() B2Transform {
+func (body B2Body) GetTransform() Transform {
 	return body.M_xf
 }
 

@@ -38,8 +38,8 @@ func NewB2SimplexCache() *B2SimplexCache { return &B2SimplexCache{} }
 type B2DistanceInput struct {
 	ProxyA     B2DistanceProxy
 	ProxyB     B2DistanceProxy
-	TransformA B2Transform
-	TransformB B2Transform
+	TransformA Transform
+	TransformB Transform
 	UseRadii   bool
 }
 
@@ -167,7 +167,7 @@ type B2Simplex struct {
 func MakeB2Simplex() B2Simplex { return B2Simplex{} }
 func NewB2Simplex() *B2Simplex { return &B2Simplex{} }
 
-func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *B2DistanceProxy, transformA B2Transform, proxyB *B2DistanceProxy, transformB B2Transform) {
+func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *B2DistanceProxy, transformA Transform, proxyB *B2DistanceProxy, transformB Transform) {
 	assert(cache.Count <= 3)
 
 	// Copy data from cache.

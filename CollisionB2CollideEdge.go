@@ -6,7 +6,7 @@ import (
 
 // Compute contact points for edge versus circle.
 // This accounts for edge connectivity.
-func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Transform, circleB *B2CircleShape, xfB B2Transform) {
+func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA Transform, circleB *B2CircleShape, xfB Transform) {
 	manifold.PointCount = 0
 
 	// Compute circle in frame of edge
@@ -191,7 +191,7 @@ var B2EPCollider_VertexType = struct {
 type B2EPCollider struct {
 	M_polygonB B2TempPolygon
 
-	M_xf                            B2Transform
+	M_xf                            Transform
 	M_centroidB                     Vec2
 	M_v0, M_v1, M_v2, M_v3          Vec2
 	M_normal0, M_normal1, M_normal2 Vec2
@@ -215,7 +215,7 @@ func MakeB2EPCollider() B2EPCollider {
 // 6. Visit each separating axes, only accept axes within the range
 // 7. Return if _any_ axis indicates separation
 // 8. Clip
-func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Transform, polygonB *B2PolygonShape, xfB B2Transform) {
+func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, xfA Transform, polygonB *B2PolygonShape, xfB Transform) {
 	collider.M_xf = B2TransformMulT(xfA, xfB)
 
 	collider.M_centroidB = B2TransformVec2Mul(collider.M_xf, polygonB.M_centroid)
@@ -601,7 +601,7 @@ func (collider *B2EPCollider) ComputePolygonSeparation() B2EPAxis {
 	return axis
 }
 
-func B2CollideEdgeAndPolygon(manifold *B2Manifold, edgeA *B2EdgeShape, xfA B2Transform, polygonB *B2PolygonShape, xfB B2Transform) {
+func B2CollideEdgeAndPolygon(manifold *B2Manifold, edgeA *B2EdgeShape, xfA Transform, polygonB *B2PolygonShape, xfB Transform) {
 	collider := MakeB2EPCollider()
 	collider.Collide(manifold, edgeA, xfA, polygonB, xfB)
 }

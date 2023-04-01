@@ -1,6 +1,6 @@
 package box2d
 
-func B2CollideCircles(manifold *B2Manifold, circleA *B2CircleShape, xfA B2Transform, circleB *B2CircleShape, xfB B2Transform) {
+func B2CollideCircles(manifold *B2Manifold, circleA *B2CircleShape, xfA Transform, circleB *B2CircleShape, xfB Transform) {
 	manifold.PointCount = 0
 
 	pA := B2TransformVec2Mul(xfA, circleA.M_p)
@@ -24,7 +24,7 @@ func B2CollideCircles(manifold *B2Manifold, circleA *B2CircleShape, xfA B2Transf
 	manifold.Points[0].Id.SetKey(0)
 }
 
-func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, xfA B2Transform, circleB *B2CircleShape, xfB B2Transform) {
+func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, xfA Transform, circleB *B2CircleShape, xfB Transform) {
 	manifold.PointCount = 0
 
 	// Compute circle position in the frame of the polygon.

@@ -44,7 +44,7 @@ var DrawFlags = struct {
 
 // Implement and register this class with a b2World to provide debug drawing of physics
 // entities in your game.
-type B2Draw interface {
+type Draw interface {
 	// Get the drawing flags.
 	GetFlags() uint32
 

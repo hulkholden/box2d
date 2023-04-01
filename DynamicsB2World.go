@@ -37,7 +37,7 @@ type B2World struct {
 	M_allowSleep bool
 
 	M_destructionListener DestructionListenerInterface
-	G_debugDraw           B2Draw
+	G_debugDraw           Draw
 
 	// This is used to compute the time step ratio to
 	// support a variable time step.
@@ -178,7 +178,7 @@ func (world *B2World) SetContactListener(listener ContactListenerInterface) {
 	world.M_contactManager.M_contactListener = listener
 }
 
-func (world *B2World) SetDebugDraw(debugDraw B2Draw) {
+func (world *B2World) SetDebugDraw(debugDraw Draw) {
 	world.G_debugDraw = debugDraw
 }
 

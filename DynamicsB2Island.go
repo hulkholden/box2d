@@ -477,7 +477,7 @@ func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB in
 	island.Report(contactSolver.M_velocityConstraints)
 }
 
-func (island *B2Island) Report(constraints []B2ContactVelocityConstraint) {
+func (island *B2Island) Report(constraints []ContactVelocityConstraint) {
 	if island.M_listener == nil {
 		return
 	}

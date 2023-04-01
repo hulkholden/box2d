@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-type B2VelocityConstraintPoint struct {
+type VelocityConstraintPoint struct {
 	RA             Vec2
 	RB             Vec2
 	NormalImpulse  float64
@@ -14,8 +14,8 @@ type B2VelocityConstraintPoint struct {
 	VelocityBias   float64
 }
 
-type B2ContactVelocityConstraint struct {
-	Points             [maxManifoldPoints]B2VelocityConstraintPoint
+type ContactVelocityConstraint struct {
+	Points             [maxManifoldPoints]VelocityConstraintPoint
 	Normal             Vec2
 	NormalMass         Mat22
 	K                  Mat22
@@ -47,7 +47,7 @@ type ContactSolver struct {
 	M_positions           []B2Position
 	M_velocities          []B2Velocity
 	M_positionConstraints []B2ContactPositionConstraint
-	M_velocityConstraints []B2ContactVelocityConstraint
+	M_velocityConstraints []ContactVelocityConstraint
 	M_contacts            []ContactInterface // has to be backed by pointers
 	M_count               int
 }
@@ -85,7 +85,7 @@ func MakeContactSolver(def *ContactSolverDef) ContactSolver {
 	solver.M_step = def.Step
 	solver.M_count = def.Count
 	solver.M_positionConstraints = make([]B2ContactPositionConstraint, solver.M_count)
-	solver.M_velocityConstraints = make([]B2ContactVelocityConstraint, solver.M_count)
+	solver.M_velocityConstraints = make([]ContactVelocityConstraint, solver.M_count)
 	solver.M_positions = def.Positions
 	solver.M_velocities = def.Velocities
 	solver.M_contacts = def.Contacts

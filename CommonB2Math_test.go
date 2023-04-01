@@ -76,14 +76,14 @@ func TestVec2(t *testing.T) {
 	}
 }
 
-func TestB2SweepGetTransform(t *testing.T) {
+func TestSweepGetTransform(t *testing.T) {
 	tests := map[string]struct {
-		sweep box2d.B2Sweep
+		sweep box2d.Sweep
 		beta  float64
 		want  box2d.Transform
 	}{
 		"at 0.0": {
-			sweep: box2d.B2Sweep{
+			sweep: box2d.Sweep{
 				C0:     box2d.MakeVec2(-2.0, 4.0),
 				C:      box2d.MakeVec2(3.0, 8.0),
 				A0:     0.5,
@@ -97,7 +97,7 @@ func TestB2SweepGetTransform(t *testing.T) {
 			},
 		},
 		"at 1.0": {
-			sweep: box2d.B2Sweep{
+			sweep: box2d.Sweep{
 				C0:     box2d.MakeVec2(-2.0, 4.0),
 				C:      box2d.MakeVec2(3.0, 8.0),
 				A0:     0.5,

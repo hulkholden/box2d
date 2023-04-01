@@ -128,7 +128,7 @@ type B2Body struct {
 	M_islandIndex int
 
 	M_xf    Transform // the body origin transform
-	M_sweep B2Sweep   // the swept motion for CCD
+	M_sweep Sweep     // the swept motion for CCD
 
 	M_linearVelocity  Vec2
 	M_angularVelocity float64

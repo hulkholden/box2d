@@ -421,7 +421,7 @@ func (t *Transform) Set(position Vec2, anglerad float64) {
 /// we must interpolate the center of mass position.
 ///////////////////////////////////////////////////////////////////////////////
 
-type B2Sweep struct {
+type Sweep struct {
 	LocalCenter Vec2    ///< local center of mass position
 	C0, C       Vec2    ///< center world positions
 	A0, A       float64 ///< world angles
@@ -729,7 +729,7 @@ func B2IsPowerOfTwo(x uint32) bool {
 	return x > 0 && (x&(x-1)) == 0
 }
 
-func (sweep B2Sweep) GetTransform(xf *Transform, beta float64) {
+func (sweep Sweep) GetTransform(xf *Transform, beta float64) {
 	xf.P = Vec2Add(sweep.C0, Vec2MulScalar(beta, Vec2Sub(sweep.C, sweep.C0)))
 	angle := sweep.A0 + (sweep.A-sweep.A0)*beta
 	xf.Q.Set(angle)
@@ -738,7 +738,7 @@ func (sweep B2Sweep) GetTransform(xf *Transform, beta float64) {
 	xf.P.OperatorMinusInplace(RotVec2Mul(xf.Q, sweep.LocalCenter))
 }
 
-func (sweep *B2Sweep) Advance(alpha float64) {
+func (sweep *Sweep) Advance(alpha float64) {
 	assert(sweep.Alpha0 < 1.0)
 	beta := (alpha - sweep.Alpha0) / (1.0 - sweep.Alpha0)
 	sweep.C0.OperatorPlusInplace(Vec2MulScalar(beta, Vec2Sub(sweep.C, sweep.C0)))
@@ -747,7 +747,7 @@ func (sweep *B2Sweep) Advance(alpha float64) {
 }
 
 // Normalize an angle in radians to be between -pi and pi
-func (sweep *B2Sweep) Normalize() {
+func (sweep *Sweep) Normalize() {
 	twoPi := 2.0 * Pi
 	d := twoPi * math.Floor(sweep.A0/twoPi)
 	sweep.A0 -= d
@@ -875,6 +875,7 @@ type (
 	B2Mat33     = Mat33
 	B2Rot       = Rot
 	B2Transform = Transform
+	B2Sweep     = Sweep
 )
 
 var (

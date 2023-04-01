@@ -12,7 +12,7 @@ import (
 // slightly. This helps when saving and loading a game.
 // @warning Do not use a zero or short length.
 type B2DistanceJointDef struct {
-	B2JointDef
+	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
 	LocalAnchorA Vec2
@@ -33,7 +33,7 @@ type B2DistanceJointDef struct {
 
 func MakeB2DistanceJointDef() B2DistanceJointDef {
 	res := B2DistanceJointDef{
-		B2JointDef: MakeB2JointDef(),
+		JointDef: MakeJointDef(),
 	}
 
 	res.Type = B2JointType.E_distanceJoint

@@ -17,7 +17,7 @@ import (
 //  2. if you add/remove shapes from a body and recompute the mass,
 //     the joints will be broken.
 type B2RevoluteJointDef struct {
-	B2JointDef
+	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
 	LocalAnchorA Vec2
@@ -50,7 +50,7 @@ type B2RevoluteJointDef struct {
 
 func MakeB2RevoluteJointDef() B2RevoluteJointDef {
 	res := B2RevoluteJointDef{
-		B2JointDef: MakeB2JointDef(),
+		JointDef: MakeJointDef(),
 	}
 
 	res.Type = B2JointType.E_revoluteJoint

@@ -7,7 +7,7 @@ import (
 // Gear joint definition. This definition requires two existing
 // revolute or prismatic joints (any combination will work).
 type B2GearJointDef struct {
-	B2JointDef
+	JointDef
 
 	/// The first revolute/prismatic joint attached to the gear joint.
 	Joint1 B2JointInterface // has to be backed by pointer
@@ -22,7 +22,7 @@ type B2GearJointDef struct {
 
 func MakeB2GearJointDef() B2GearJointDef {
 	res := B2GearJointDef{
-		B2JointDef: MakeB2JointDef(),
+		JointDef: MakeJointDef(),
 	}
 
 	res.Type = B2JointType.E_gearJoint

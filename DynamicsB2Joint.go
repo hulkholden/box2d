@@ -59,7 +59,7 @@ type B2JointEdge struct {
 }
 
 // Joint definitions are used to construct joints.
-type B2JointDef struct {
+type JointDef struct {
 	/// The joint type is set automatically for concrete joint types.
 	Type uint8
 
@@ -90,48 +90,48 @@ type B2JointDefInterface interface {
 }
 
 // Implementing B2JointDefInterface on B2Joint (used as a base struct)
-func (def B2JointDef) GetType() uint8 {
+func (def JointDef) GetType() uint8 {
 	return def.Type
 }
 
-func (def *B2JointDef) SetType(t uint8) {
+func (def *JointDef) SetType(t uint8) {
 	def.Type = t
 }
 
-func (def B2JointDef) GetUserData() interface{} {
+func (def JointDef) GetUserData() interface{} {
 	return def.UserData
 }
 
-func (def *B2JointDef) SetUserData(userdata interface{}) {
+func (def *JointDef) SetUserData(userdata interface{}) {
 	def.UserData = userdata
 }
 
-func (def B2JointDef) GetBodyA() *Body {
+func (def JointDef) GetBodyA() *Body {
 	return def.BodyA
 }
 
-func (def *B2JointDef) SetBodyA(body *Body) {
+func (def *JointDef) SetBodyA(body *Body) {
 	def.BodyA = body
 }
 
-func (def B2JointDef) GetBodyB() *Body {
+func (def JointDef) GetBodyB() *Body {
 	return def.BodyB
 }
 
-func (def *B2JointDef) SetBodyB(body *Body) {
+func (def *JointDef) SetBodyB(body *Body) {
 	def.BodyB = body
 }
 
-func (def B2JointDef) IsCollideConnected() bool {
+func (def JointDef) IsCollideConnected() bool {
 	return def.CollideConnected
 }
 
-func (def *B2JointDef) SetCollideConnected(flag bool) {
+func (def *JointDef) SetCollideConnected(flag bool) {
 	def.CollideConnected = flag
 }
 
-func MakeB2JointDef() B2JointDef {
-	res := B2JointDef{}
+func MakeJointDef() JointDef {
+	res := JointDef{}
 	res.Type = B2JointType.E_unknownJoint
 	res.UserData = nil
 	res.BodyA = nil

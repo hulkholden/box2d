@@ -6,7 +6,7 @@ import (
 
 // Friction joint definition.
 type B2FrictionJointDef struct {
-	B2JointDef
+	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
 	LocalAnchorA Vec2
@@ -23,7 +23,7 @@ type B2FrictionJointDef struct {
 
 func MakeB2FrictionJointDef() B2FrictionJointDef {
 	res := B2FrictionJointDef{
-		B2JointDef: MakeB2JointDef(),
+		JointDef: MakeJointDef(),
 	}
 
 	res.Type = B2JointType.E_frictionJoint

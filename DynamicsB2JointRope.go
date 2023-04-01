@@ -10,7 +10,7 @@ import (
 // Note: by default the connected objects will not collide.
 // see collideConnected in b2JointDef.
 type B2RopeJointDef struct {
-	B2JointDef
+	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
 	LocalAnchorA Vec2
@@ -26,7 +26,7 @@ type B2RopeJointDef struct {
 
 func MakeB2RopeJointDef() B2RopeJointDef {
 	res := B2RopeJointDef{
-		B2JointDef: MakeB2JointDef(),
+		JointDef: MakeJointDef(),
 	}
 	res.Type = B2JointType.E_ropeJoint
 	res.LocalAnchorA.Set(-1.0, 0.0)

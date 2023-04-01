@@ -10,7 +10,7 @@ const B2MinPulleyLength = 2.0
 // Pulley joint definition. This requires two ground anchors,
 // two dynamic body anchor points, and a pulley ratio.
 type B2PulleyJointDef struct {
-	B2JointDef
+	JointDef
 
 	/// The first ground anchor in world coordinates. This point never moves.
 	GroundAnchorA Vec2
@@ -36,7 +36,7 @@ type B2PulleyJointDef struct {
 
 func MakeB2PulleyJointDef() B2PulleyJointDef {
 	res := B2PulleyJointDef{
-		B2JointDef: MakeB2JointDef(),
+		JointDef: MakeJointDef(),
 	}
 
 	res.Type = B2JointType.E_pulleyJoint

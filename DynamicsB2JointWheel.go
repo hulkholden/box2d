@@ -12,7 +12,7 @@ import (
 // when the local anchor points coincide in world space. Using local
 // anchors and a local axis helps when saving and loading a game.
 type B2WheelJointDef struct {
-	B2JointDef
+	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
 	LocalAnchorA Vec2
@@ -41,7 +41,7 @@ type B2WheelJointDef struct {
 
 func MakeB2WheelJointDef() B2WheelJointDef {
 	res := B2WheelJointDef{
-		B2JointDef: MakeB2JointDef(),
+		JointDef: MakeJointDef(),
 	}
 
 	res.Type = B2JointType.E_wheelJoint

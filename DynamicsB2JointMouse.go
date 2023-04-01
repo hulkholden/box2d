@@ -7,7 +7,7 @@ import (
 // Mouse joint definition. This requires a world target point,
 // tuning parameters, and the time step.
 type B2MouseJointDef struct {
-	B2JointDef
+	JointDef
 
 	/// The initial world target point. This is assumed
 	/// to coincide with the body anchor initially.
@@ -27,7 +27,7 @@ type B2MouseJointDef struct {
 
 func MakeB2MouseJointDef() B2MouseJointDef {
 	res := B2MouseJointDef{
-		B2JointDef: MakeB2JointDef(),
+		JointDef: MakeJointDef(),
 	}
 
 	res.Type = B2JointType.E_mouseJoint

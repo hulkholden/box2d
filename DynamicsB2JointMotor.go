@@ -6,7 +6,7 @@ import (
 
 // Motor joint definition.
 type B2MotorJointDef struct {
-	B2JointDef
+	JointDef
 
 	/// Position of bodyB minus the position of bodyA, in bodyA's frame, in meters.
 	LinearOffset Vec2

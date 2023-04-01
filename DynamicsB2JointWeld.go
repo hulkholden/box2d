@@ -9,7 +9,7 @@ import (
 // where they are attached and the relative body angle. The position
 // of the anchor points is important for computing the reaction torque.
 type B2WeldJointDef struct {
-	B2JointDef
+	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
 	LocalAnchorA Vec2
@@ -30,7 +30,7 @@ type B2WeldJointDef struct {
 
 func MakeB2WeldJointDef() B2WeldJointDef {
 	res := B2WeldJointDef{
-		B2JointDef: MakeB2JointDef(),
+		JointDef: MakeJointDef(),
 	}
 
 	res.Type = B2JointType.E_weldJoint

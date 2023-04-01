@@ -996,7 +996,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 Vec2, point2 Ve
 	world.M_contactManager.M_broadPhase.RayCast(wrapper, input)
 }
 
-func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color B2Color) {
+func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color Color) {
 	switch fixture.GetType() {
 	case B2Shape_Type.E_circle:
 		circle := fixture.GetShape().(*CircleShape)
@@ -1018,7 +1018,7 @@ func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color B2Color) {
 		count := chain.M_count
 		vertices := chain.M_vertices
 
-		ghostColor := MakeB2ColorRGBA(0.75*color.R, 0.75*color.G, 0.75*color.B, color.A)
+		ghostColor := MakeColorRGBA(0.75*color.R, 0.75*color.G, 0.75*color.B, color.A)
 
 		v1 := TransformVec2Mul(xf, vertices[0])
 		world.G_debugDraw.DrawPoint(v1, 4.0, color)
@@ -1068,7 +1068,7 @@ func (world *B2World) DrawJoint(joint *B2Joint) {
 	x1 := xf1.P
 	x2 := xf2.P
 
-	color := MakeB2ColorRGB(0.5, 0.8, 0.8)
+	color := MakeColorRGB(0.5, 0.8, 0.8)
 
 	switch joint.GetType() {
 	case B2JointType.E_distanceJoint:
@@ -1113,15 +1113,15 @@ func (world *B2World) DrawDebugData() {
 			xf := b.GetTransform()
 			for f := b.GetFixtureList(); f != nil; f = f.GetNext() {
 				if !b.IsActive() {
-					world.DrawShape(f, xf, MakeB2ColorRGB(0.5, 0.5, 0.3))
+					world.DrawShape(f, xf, MakeColorRGB(0.5, 0.5, 0.3))
 				} else if b.GetType() == BodyType.StaticBody {
-					world.DrawShape(f, xf, MakeB2ColorRGB(0.5, 0.9, 0.5))
+					world.DrawShape(f, xf, MakeColorRGB(0.5, 0.9, 0.5))
 				} else if b.GetType() == BodyType.KinematicBody {
-					world.DrawShape(f, xf, MakeB2ColorRGB(0.5, 0.5, 0.9))
+					world.DrawShape(f, xf, MakeColorRGB(0.5, 0.5, 0.9))
 				} else if !b.IsAwake() {
-					world.DrawShape(f, xf, MakeB2ColorRGB(0.6, 0.6, 0.6))
+					world.DrawShape(f, xf, MakeColorRGB(0.6, 0.6, 0.6))
 				} else {
-					world.DrawShape(f, xf, MakeB2ColorRGB(0.9, 0.7, 0.7))
+					world.DrawShape(f, xf, MakeColorRGB(0.9, 0.7, 0.7))
 				}
 			}
 		}
@@ -1134,7 +1134,7 @@ func (world *B2World) DrawDebugData() {
 	}
 
 	if (flags & B2Draw_Flags.E_pairBit) != 0 {
-		// color := MakeB2ColorRGB(0.3, 0.9, 0.9)
+		// color := MakeColorRGB(0.3, 0.9, 0.9)
 		for c := world.M_contactManager.M_contactList; c != nil; c = c.GetNext() {
 			// fixtureA := c.GetFixtureA()
 			// fixtureB := c.GetFixtureB()
@@ -1147,7 +1147,7 @@ func (world *B2World) DrawDebugData() {
 	}
 
 	if (flags & B2Draw_Flags.E_aabbBit) != 0 {
-		color := MakeB2ColorRGB(0.9, 0.3, 0.9)
+		color := MakeColorRGB(0.9, 0.3, 0.9)
 		bp := &world.M_contactManager.M_broadPhase
 
 		for b := world.M_bodyList; b != nil; b = b.GetNext() {

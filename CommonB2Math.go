@@ -716,7 +716,7 @@ func FloatClamp(a, low, high float64) float64 {
 // that recursively "folds" the upper bits into the lower bits. This process yields a bit vector with
 // the same most significant 1 as x, but all 1's below it. Adding 1 to that value yields the next
 // largest power of 2. For a 32-bit value:"
-func B2NextPowerOfTwo(x uint32) uint32 {
+func NextPowerOfTwo(x uint32) uint32 {
 	x |= (x >> 1)
 	x |= (x >> 2)
 	x |= (x >> 4)

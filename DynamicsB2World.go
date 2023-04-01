@@ -739,7 +739,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 		bB.Advance(minAlpha)
 
 		// The TOI contact likely has some new contact points.
-		B2ContactUpdate(minContact, world.M_contactManager.M_contactListener)
+		ContactUpdate(minContact, world.M_contactManager.M_contactListener)
 		minContact.SetFlags(minContact.GetFlags() & ^ContactFlags.TOI)
 		minContact.SetTOICount(minContact.GetTOICount() + 1)
 
@@ -809,7 +809,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 					}
 
 					// Update the contact points
-					B2ContactUpdate(contact, world.M_contactManager.M_contactListener)
+					ContactUpdate(contact, world.M_contactManager.M_contactListener)
 
 					// Was the contact disabled by the user?
 					if !contact.IsEnabled() {

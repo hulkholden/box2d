@@ -141,7 +141,7 @@ func (mgr *B2ContactManager) Collide() {
 		}
 
 		// The contact persists.
-		B2ContactUpdate(c, mgr.M_contactListener)
+		ContactUpdate(c, mgr.M_contactListener)
 		c = c.GetNext()
 	}
 }

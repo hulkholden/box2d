@@ -198,8 +198,8 @@ func (solver *B2ContactSolver) InitializeVelocityConstraints() {
 
 		assert(manifold.PointCount > 0)
 
-		xfA := MakeB2Transform()
-		xfB := MakeB2Transform()
+		xfA := MakeTransform()
+		xfB := MakeTransform()
 		xfA.Q.Set(aA)
 		xfB.Q.Set(aB)
 		xfA.P = Vec2Sub(cA, RotVec2Mul(xfA.Q, localCenterA))
@@ -743,8 +743,8 @@ func (solver *B2ContactSolver) SolvePositionConstraints() bool {
 
 		// Solve normal constraints
 		for j := 0; j < pointCount; j++ {
-			xfA := MakeB2Transform()
-			xfB := MakeB2Transform()
+			xfA := MakeTransform()
+			xfB := MakeTransform()
 
 			xfA.Q.Set(aA)
 			xfB.Q.Set(aB)
@@ -834,8 +834,8 @@ func (solver *B2ContactSolver) SolveTOIPositionConstraints(toiIndexA int, toiInd
 
 		// Solve normal constraints
 		for j := 0; j < pointCount; j++ {
-			xfA := MakeB2Transform()
-			xfB := MakeB2Transform()
+			xfA := MakeTransform()
+			xfB := MakeTransform()
 
 			xfA.Q.Set(aA)
 			xfB.Q.Set(aB)

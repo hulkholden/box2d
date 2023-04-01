@@ -18,7 +18,7 @@ func BenchmarkB2PolygonShape_ComputeAABB(b *testing.B) {
 		polys[i] = p
 	}
 
-	tfm := MakeB2Transform()
+	tfm := MakeTransform()
 
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {

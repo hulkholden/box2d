@@ -856,7 +856,7 @@ func (body *B2Body) SetTransform(position Vec2, angle float64) {
 }
 
 func (body *B2Body) SynchronizeFixtures() {
-	xf1 := MakeB2Transform()
+	xf1 := MakeTransform()
 	xf1.Q.Set(body.M_sweep.A0)
 	xf1.P = Vec2Sub(body.M_sweep.C0, RotVec2Mul(xf1.Q, body.M_sweep.LocalCenter))
 

@@ -85,8 +85,8 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 	sepfunc.M_sweepA = sweepA
 	sepfunc.M_sweepB = sweepB
 
-	xfA := MakeB2Transform()
-	xfB := MakeB2Transform()
+	xfA := MakeTransform()
+	xfB := MakeTransform()
 	sepfunc.M_sweepA.GetTransform(&xfA, t1)
 	sepfunc.M_sweepB.GetTransform(&xfB, t1)
 
@@ -153,8 +153,8 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 }
 
 func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int, t float64) float64 {
-	xfA := MakeB2Transform()
-	xfB := MakeB2Transform()
+	xfA := MakeTransform()
+	xfB := MakeTransform()
 
 	sepfunc.M_sweepA.GetTransform(&xfA, t)
 	sepfunc.M_sweepB.GetTransform(&xfB, t)
@@ -221,8 +221,8 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 }
 
 func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64) float64 {
-	xfA := MakeB2Transform()
-	xfB := MakeB2Transform()
+	xfA := MakeTransform()
+	xfB := MakeTransform()
 
 	sepfunc.M_sweepA.GetTransform(&xfA, t)
 	sepfunc.M_sweepB.GetTransform(&xfB, t)
@@ -319,8 +319,8 @@ func B2TimeOfImpact(output *B2TOIOutput, input *B2TOIInput) {
 	// This loop terminates when an axis is repeated (no progress is made).
 	for {
 
-		xfA := MakeB2Transform()
-		xfB := MakeB2Transform()
+		xfA := MakeTransform()
+		xfB := MakeTransform()
 
 		sweepA.GetTransform(&xfA, t1)
 		sweepB.GetTransform(&xfB, t1)

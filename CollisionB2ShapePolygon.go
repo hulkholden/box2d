@@ -82,7 +82,7 @@ func (poly *B2PolygonShape) SetAsBoxFromCenterAndAngle(hx float64, hy float64, c
 	poly.M_normals[3].Set(-1.0, 0.0)
 	poly.M_centroid = center
 
-	xf := MakeB2Transform()
+	xf := MakeTransform()
 	xf.P = center
 	xf.Q.Set(angle)
 

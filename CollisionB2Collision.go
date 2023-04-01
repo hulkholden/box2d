@@ -140,7 +140,7 @@ type RayCastInput struct {
 	MaxFraction float64
 }
 
-func MakeB2RayCastInput() RayCastInput { return RayCastInput{} }
+func MakeRayCastInput() RayCastInput { return RayCastInput{} }
 
 // Ray-cast output data. The ray hits at p1 + fraction * (p2 - p1), where p1 and p2
 // come from b2RayCastInput.

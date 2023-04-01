@@ -145,7 +145,7 @@ func (tree DynamicTree) RayCast(rayCastCallback TreeRayCastCallback, input RayCa
 		}
 
 		if node.IsLeaf() {
-			subInput := MakeB2RayCastInput()
+			subInput := MakeRayCastInput()
 			subInput.P1 = input.P1
 			subInput.P2 = input.P2
 			subInput.MaxFraction = maxFraction

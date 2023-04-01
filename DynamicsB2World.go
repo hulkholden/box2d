@@ -989,7 +989,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 Vec2, point2 Ve
 		return input.MaxFraction
 	}
 
-	input := MakeB2RayCastInput()
+	input := MakeRayCastInput()
 	input.MaxFraction = 1.0
 	input.P1 = point1
 	input.P2 = point2

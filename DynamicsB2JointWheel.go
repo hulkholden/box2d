@@ -39,7 +39,7 @@ type WheelJointDef struct {
 	DampingRatio float64
 }
 
-func MakeB2WheelJointDef() WheelJointDef {
+func MakeWheelJointDef.() WheelJointDef {
 	res := WheelJointDef{
 		JointDef: MakeJointDef(),
 	}

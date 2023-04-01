@@ -34,11 +34,11 @@ type PairByLessThan []Pair
 func (a PairByLessThan) Len() int      { return len(a) }
 func (a PairByLessThan) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 func (a PairByLessThan) Less(i, j int) bool {
-	return B2PairLessThan(a[i], a[j])
+	return PairLessThan(a[i], a[j])
 }
 
 // This is used to sort pairs.
-func B2PairLessThan(pair1 Pair, pair2 Pair) bool {
+func PairLessThan(pair1 Pair, pair2 Pair) bool {
 	if pair1.ProxyIdA < pair2.ProxyIdA {
 		return true
 	}

@@ -545,7 +545,7 @@ func (collider *B2EPCollider) ComputeEdgeSeparation() B2EPAxis {
 	} else {
 		axis.Index = 1
 	}
-	axis.Separation = B2_maxFloat
+	axis.Separation = maxFloat
 
 	for i := 0; i < collider.M_polygonB.Count; i++ {
 		s := Vec2Dot(collider.M_normal, Vec2Sub(collider.M_polygonB.Vertices[i], collider.M_v1))
@@ -561,7 +561,7 @@ func (collider *B2EPCollider) ComputePolygonSeparation() B2EPAxis {
 	axis := MakeB2EPAxis()
 	axis.Type = B2EPAxis_Type.E_unknown
 	axis.Index = -1
-	axis.Separation = -B2_maxFloat
+	axis.Separation = -maxFloat
 
 	perp := MakeVec2(-collider.M_normal.Y, collider.M_normal.X)
 

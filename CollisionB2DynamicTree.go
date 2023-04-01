@@ -782,7 +782,7 @@ func (tree *B2DynamicTree) RebuildBottomUp() {
 	}
 
 	for count > 1 {
-		minCost := B2_maxFloat
+		minCost := maxFloat
 		iMin := -1
 		jMin := -1
 

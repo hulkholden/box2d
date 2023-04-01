@@ -357,7 +357,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2,
 	island.Report(contactSolver.M_velocityConstraints)
 
 	if allowSleep {
-		minSleepTime := B2_maxFloat
+		minSleepTime := maxFloat
 
 		linTolSqr := linearSleepTolerance * linearSleepTolerance
 		angTolSqr := angularSleepTolerance * angularSleepTolerance

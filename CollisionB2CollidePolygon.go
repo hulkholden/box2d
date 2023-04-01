@@ -11,14 +11,14 @@ func B2FindMaxSeparation(edgeIndex *int, poly1 *B2PolygonShape, xf1 B2Transform,
 	xf := B2TransformMulT(xf2, xf1)
 
 	bestIndex := 0
-	maxSeparation := -B2_maxFloat
+	maxSeparation := -maxFloat
 	for i := 0; i < count1; i++ {
 		// Get poly1 normal in frame2.
 		n := B2RotVec2Mul(xf.Q, n1s[i])
 		v1 := B2TransformVec2Mul(xf, v1s[i])
 
 		// Find deepest point for normal i.
-		si := B2_maxFloat
+		si := maxFloat
 		for j := 0; j < count2; j++ {
 			sij := Vec2Dot(n, Vec2Sub(v2s[j], v1))
 			if sij < si {
@@ -50,7 +50,7 @@ func B2FindIncidentEdge(c []B2ClipVertex, poly1 *B2PolygonShape, xf1 B2Transform
 
 	// Find the incident edge on poly2.
 	index := 0
-	minDot := B2_maxFloat
+	minDot := maxFloat
 	for i := 0; i < count2; i++ {
 		dot := Vec2Dot(normal1, normals2[i])
 		if dot < minDot {

@@ -33,7 +33,7 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 
 	// Find the min separating edge.
 	normalIndex := 0
-	separation := -B2_maxFloat
+	separation := -maxFloat
 	radius := polygonA.M_radius + circleB.M_radius
 	vertexCount := polygonA.M_count
 	vertices := polygonA.M_vertices

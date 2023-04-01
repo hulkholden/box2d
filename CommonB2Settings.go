@@ -13,9 +13,9 @@ func B2Assert(a bool) {
 }
 
 const (
-	B2_maxFloat = math.MaxFloat64
-	B2_epsilon  = math.SmallestNonzeroFloat64
-	B2_pi       = math.Pi
+	maxFloat   = math.MaxFloat64
+	B2_epsilon = math.SmallestNonzeroFloat64
+	B2_pi      = math.Pi
 )
 
 /// @file

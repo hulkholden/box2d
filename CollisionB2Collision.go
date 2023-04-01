@@ -351,8 +351,8 @@ func B2GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoin
 
 // From Real-time Collision Detection, p179.
 func (bb B2AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
-	tmin := -B2_maxFloat
-	tmax := B2_maxFloat
+	tmin := -maxFloat
+	tmax := maxFloat
 
 	p := input.P1
 	d := Vec2Sub(input.P2, input.P1)

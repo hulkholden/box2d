@@ -970,7 +970,7 @@ func (world *B2World) QueryAABB(callback BroadPhaseQueryCallback, aabb AABB) {
 	world.M_contactManager.M_broadPhase.Query(wrapper.QueryCallback, aabb)
 }
 
-func (world *B2World) RayCast(callback B2RaycastCallback, point1 Vec2, point2 Vec2) {
+func (world *B2World) RayCast(callback RaycastCallback, point1 Vec2, point2 Vec2) {
 	// TreeRayCastCallback
 	wrapper := func(input RayCastInput, nodeId int) float64 {
 		userData := world.M_contactManager.M_broadPhase.GetUserData(nodeId)

@@ -159,7 +159,7 @@ type TempPolygon struct {
 }
 
 // Reference face used for clipping
-type B2ReferenceFace struct {
+type ReferenceFace struct {
 	I1, I2 int
 
 	V1, V2 Vec2
@@ -173,8 +173,8 @@ type B2ReferenceFace struct {
 	SideOffset2 float64
 }
 
-func MakeB2ReferenceFace() B2ReferenceFace {
-	return B2ReferenceFace{}
+func MakeReferenceFace() ReferenceFace {
+	return ReferenceFace{}
 }
 
 var B2EPCollider_VertexType = struct {
@@ -404,7 +404,7 @@ func (collider *B2EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA 
 	}
 
 	ie := make([]ClipVertex, 2)
-	rf := MakeB2ReferenceFace()
+	rf := MakeReferenceFace()
 	if primaryAxis.Type == B2EPAxis_Type.E_edgeA {
 		manifold.Type = ManifoldType.FaceA
 

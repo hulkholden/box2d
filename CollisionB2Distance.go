@@ -10,15 +10,15 @@ package box2d
 
 // A distance proxy is used by the GJK algorithm.
 // It encapsulates any shape.
-type B2DistanceProxy struct {
+type DistanceProxy struct {
 	M_buffer   [2]Vec2
 	M_vertices []Vec2 // is a memory blob using pointer arithmetic in original implementation
 	M_count    int
 	M_radius   float64
 }
 
-func MakeB2DistanceProxy() B2DistanceProxy { return B2DistanceProxy{} }
-func NewB2DistanceProxy() *B2DistanceProxy { return &B2DistanceProxy{} }
+func MakeDistanceProxy() DistanceProxy { return DistanceProxy{} }
+func NewDistanceProxy() *DistanceProxy { return &DistanceProxy{} }
 
 // Used to warm start b2Distance.
 // Set count to zero on first call.
@@ -36,8 +36,8 @@ func NewB2SimplexCache() *B2SimplexCache { return &B2SimplexCache{} }
 // You have to option to use the shape radii
 // in the computation. Even
 type B2DistanceInput struct {
-	ProxyA     B2DistanceProxy
-	ProxyB     B2DistanceProxy
+	ProxyA     DistanceProxy
+	ProxyB     DistanceProxy
 	TransformA Transform
 	TransformB Transform
 	UseRadii   bool
@@ -57,16 +57,16 @@ type B2DistanceOutput struct {
 func MakeB2DistanceOutput() B2DistanceOutput { return B2DistanceOutput{} }
 func NewB2DistanceOutput() *B2DistanceOutput { return &B2DistanceOutput{} }
 
-func (p B2DistanceProxy) GetVertexCount() int {
+func (p DistanceProxy) GetVertexCount() int {
 	return p.M_count
 }
 
-func (p B2DistanceProxy) GetVertex(index int) Vec2 {
+func (p DistanceProxy) GetVertex(index int) Vec2 {
 	assert(0 <= index && index < p.M_count)
 	return p.M_vertices[index]
 }
 
-func (p B2DistanceProxy) GetSupport(d Vec2) int {
+func (p DistanceProxy) GetSupport(d Vec2) int {
 	bestIndex := 0
 	bestValue := Vec2Dot(p.M_vertices[0], d)
 	for i := 1; i < p.M_count; i++ {
@@ -80,7 +80,7 @@ func (p B2DistanceProxy) GetSupport(d Vec2) int {
 	return bestIndex
 }
 
-func (p B2DistanceProxy) GetSupportVertex(d Vec2) Vec2 {
+func (p DistanceProxy) GetSupportVertex(d Vec2) Vec2 {
 	bestIndex := 0
 	bestValue := Vec2Dot(p.M_vertices[0], d)
 
@@ -106,7 +106,7 @@ func (p B2DistanceProxy) GetSupportVertex(d Vec2) Vec2 {
 // GJK using Voronoi regions (Christer Ericson) and Barycentric coordinates.
 var b2_gjkCalls, b2_gjkIters, b2_gjkMaxIters int
 
-func (p *B2DistanceProxy) Set(shape ShapeInterface, index int) {
+func (p *DistanceProxy) Set(shape ShapeInterface, index int) {
 	switch shape.GetType() {
 	case ShapeType.Circle:
 		circle := (shape).(*CircleShape)
@@ -167,7 +167,7 @@ type B2Simplex struct {
 func MakeB2Simplex() B2Simplex { return B2Simplex{} }
 func NewB2Simplex() *B2Simplex { return &B2Simplex{} }
 
-func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *B2DistanceProxy, transformA Transform, proxyB *B2DistanceProxy, transformB Transform) {
+func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *DistanceProxy, transformA Transform, proxyB *DistanceProxy, transformB Transform) {
 	assert(cache.Count <= 3)
 
 	// Copy data from cache.

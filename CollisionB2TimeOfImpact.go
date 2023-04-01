@@ -6,8 +6,8 @@ import (
 
 // Input parameters for b2TimeOfImpact
 type B2TOIInput struct {
-	ProxyA B2DistanceProxy
-	ProxyB B2DistanceProxy
+	ProxyA DistanceProxy
+	ProxyB DistanceProxy
 	SweepA Sweep
 	SweepB Sweep
 	TMax   float64 // defines sweep interval [0, tMax]
@@ -67,8 +67,8 @@ var B2SeparationFunction_Type = struct {
 }
 
 type B2SeparationFunction struct {
-	M_proxyA           *B2DistanceProxy
-	M_proxyB           *B2DistanceProxy
+	M_proxyA           *DistanceProxy
+	M_proxyB           *DistanceProxy
 	M_sweepA, M_sweepB Sweep
 	M_type             uint8
 	M_localPoint       Vec2
@@ -76,7 +76,7 @@ type B2SeparationFunction struct {
 }
 
 // TODO_ERIN might not need to return the separation
-func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B2DistanceProxy, sweepA Sweep, proxyB *B2DistanceProxy, sweepB Sweep, t1 float64) float64 {
+func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *DistanceProxy, sweepA Sweep, proxyB *DistanceProxy, sweepB Sweep, t1 float64) float64 {
 	sepfunc.M_proxyA = proxyA
 	sepfunc.M_proxyB = proxyB
 	count := cache.Count

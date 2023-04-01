@@ -256,7 +256,7 @@ func JointCreate(def JointDefInterface) JointInterface { // def should be back b
 		assert(false)
 
 	case JointType.Mouse:
-		if typeddef, ok := def.(*B2MouseJointDef); ok {
+		if typeddef, ok := def.(*MouseJointDef); ok {
 			return MakeB2MouseJoint(typeddef)
 		}
 		assert(false)

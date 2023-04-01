@@ -39,7 +39,7 @@ func MakeB2PulleyJointDef() B2PulleyJointDef {
 		JointDef: MakeJointDef(),
 	}
 
-	res.Type = B2JointType.E_pulleyJoint
+	res.Type = JointType.Pulley
 	res.GroundAnchorA.Set(-1.0, 1.0)
 	res.GroundAnchorB.Set(1.0, 1.0)
 	res.LocalAnchorA.Set(-1.0, 0.0)

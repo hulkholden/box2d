@@ -25,7 +25,7 @@ func MakeB2GearJointDef() B2GearJointDef {
 		JointDef: MakeJointDef(),
 	}
 
-	res.Type = B2JointType.E_gearJoint
+	res.Type = JointType.Gear
 	res.Joint1 = nil
 	res.Joint2 = nil
 	res.Ratio = 1.0
@@ -123,8 +123,8 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 	res.M_typeA = res.M_joint1.GetType()
 	res.M_typeB = res.M_joint2.GetType()
 
-	assert(res.M_typeA == B2JointType.E_revoluteJoint || res.M_typeA == B2JointType.E_prismaticJoint)
-	assert(res.M_typeB == B2JointType.E_revoluteJoint || res.M_typeB == B2JointType.E_prismaticJoint)
+	assert(res.M_typeA == JointType.Revolute || res.M_typeA == JointType.Prismatic)
+	assert(res.M_typeB == JointType.Revolute || res.M_typeB == JointType.Prismatic)
 
 	coordinateA := 0.0
 	coordinateB := 0.0
@@ -140,7 +140,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 	xfC := res.M_bodyC.M_xf
 	aC := res.M_bodyC.M_sweep.A
 
-	if res.M_typeA == B2JointType.E_revoluteJoint {
+	if res.M_typeA == JointType.Revolute {
 		revolute := def.Joint1.(*B2RevoluteJoint)
 		res.M_localAnchorC = revolute.M_localAnchorA
 		res.M_localAnchorA = revolute.M_localAnchorB
@@ -169,7 +169,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 	xfD := res.M_bodyD.M_xf
 	aD := res.M_bodyD.M_sweep.A
 
-	if res.M_typeB == B2JointType.E_revoluteJoint {
+	if res.M_typeB == JointType.Revolute {
 		revolute := def.Joint2.(*B2RevoluteJoint)
 		res.M_localAnchorD = revolute.M_localAnchorA
 		res.M_localAnchorB = revolute.M_localAnchorB
@@ -239,7 +239,7 @@ func (joint *B2GearJoint) InitVelocityConstraints(data B2SolverData) {
 
 	joint.M_mass = 0.0
 
-	if joint.M_typeA == B2JointType.E_revoluteJoint {
+	if joint.M_typeA == JointType.Revolute {
 		joint.M_JvAC.SetZero()
 		joint.M_JwA = 1.0
 		joint.M_JwC = 1.0
@@ -254,7 +254,7 @@ func (joint *B2GearJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_mass += joint.M_mC + joint.M_mA + joint.M_iC*joint.M_JwC*joint.M_JwC + joint.M_iA*joint.M_JwA*joint.M_JwA
 	}
 
-	if joint.M_typeB == B2JointType.E_revoluteJoint {
+	if joint.M_typeB == JointType.Revolute {
 		joint.M_JvBD.SetZero()
 		joint.M_JwB = joint.M_ratio
 		joint.M_JwD = joint.M_ratio
@@ -359,7 +359,7 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 	var JwA, JwB, JwC, JwD float64
 	mass := 0.0
 
-	if joint.M_typeA == B2JointType.E_revoluteJoint {
+	if joint.M_typeA == JointType.Revolute {
 		JvAC.SetZero()
 		JwA = 1.0
 		JwC = 1.0
@@ -380,7 +380,7 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 		coordinateA = Vec2Dot(Vec2Sub(pA, pC), joint.M_localAxisC)
 	}
 
-	if joint.M_typeB == B2JointType.E_revoluteJoint {
+	if joint.M_typeB == JointType.Revolute {
 		JvBD.SetZero()
 		JwB = joint.M_ratio
 		JwD = joint.M_ratio

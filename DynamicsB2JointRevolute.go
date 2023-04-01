@@ -53,7 +53,7 @@ func MakeB2RevoluteJointDef() B2RevoluteJointDef {
 		JointDef: MakeJointDef(),
 	}
 
-	res.Type = B2JointType.E_revoluteJoint
+	res.Type = JointType.Revolute
 	res.LocalAnchorA.Set(0.0, 0.0)
 	res.LocalAnchorB.Set(0.0, 0.0)
 	res.ReferenceAngle = 0.0

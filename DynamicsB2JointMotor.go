@@ -26,7 +26,7 @@ type B2MotorJointDef struct {
 
 func MakeB2MotorJointDef() B2MotorJointDef {
 	res := B2MotorJointDef{}
-	res.Type = B2JointType.E_motorJoint
+	res.Type = JointType.Motor
 	res.LinearOffset.SetZero()
 	res.AngularOffset = 0.0
 	res.MaxForce = 1.0

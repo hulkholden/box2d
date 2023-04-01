@@ -28,7 +28,7 @@ func MakeB2RopeJointDef() B2RopeJointDef {
 	res := B2RopeJointDef{
 		JointDef: MakeJointDef(),
 	}
-	res.Type = B2JointType.E_ropeJoint
+	res.Type = JointType.Rope
 	res.LocalAnchorA.Set(-1.0, 0.0)
 	res.LocalAnchorB.Set(1.0, 0.0)
 	res.MaxLength = 0.0

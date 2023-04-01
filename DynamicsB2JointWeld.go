@@ -33,7 +33,7 @@ func MakeB2WeldJointDef() B2WeldJointDef {
 		JointDef: MakeJointDef(),
 	}
 
-	res.Type = B2JointType.E_weldJoint
+	res.Type = JointType.Weld
 	res.LocalAnchorA.Set(0.0, 0.0)
 	res.LocalAnchorB.Set(0.0, 0.0)
 	res.ReferenceAngle = 0.0

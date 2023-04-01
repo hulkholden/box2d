@@ -50,7 +50,7 @@ func MakeB2PrismaticJointDef() B2PrismaticJointDef {
 		JointDef: MakeJointDef(),
 	}
 
-	res.Type = B2JointType.E_prismaticJoint
+	res.Type = JointType.Prismatic
 	res.LocalAnchorA.SetZero()
 	res.LocalAnchorB.SetZero()
 	res.LocalAxisA.Set(1.0, 0.0)

@@ -30,7 +30,7 @@ func MakeB2MouseJointDef() B2MouseJointDef {
 		JointDef: MakeJointDef(),
 	}
 
-	res.Type = B2JointType.E_mouseJoint
+	res.Type = JointType.Mouse
 	res.Target.Set(0.0, 0.0)
 	res.MaxForce = 0.0
 	res.FrequencyHz = 5.0

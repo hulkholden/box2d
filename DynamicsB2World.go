@@ -1071,14 +1071,14 @@ func (world *B2World) DrawJoint(joint *Joint) {
 	color := MakeColorRGB(0.5, 0.8, 0.8)
 
 	switch joint.GetType() {
-	case B2JointType.E_distanceJoint:
+	case JointType.Distance:
 		distance := joint.(*B2DistanceJoint)
 		p1 := distance.GetAnchorA()
 		p2 := distance.GetAnchorB()
 
 		world.G_debugDraw.DrawSegment(p1, p2, color)
 
-	case B2JointType.E_pulleyJoint:
+	case JointType.Pulley:
 
 		pulley := joint.(*B2PulleyJoint)
 		p1 := pulley.GetAnchorA()
@@ -1090,7 +1090,7 @@ func (world *B2World) DrawJoint(joint *Joint) {
 		world.G_debugDraw.DrawSegment(s2, p2, color)
 		world.G_debugDraw.DrawSegment(s1, s2, color)
 
-	case B2JointType.E_mouseJoint:
+	case JointType.Mouse:
 		// Don't draw this
 
 	default:
@@ -1242,7 +1242,7 @@ func (world *B2World) Dump() {
 
 	// First pass on joints, skip gear joints.
 	for j := world.M_jointList; j != nil; j = j.GetNext() {
-		if j.GetType() == B2JointType.E_gearJoint {
+		if j.GetType() == JointType.Gear {
 			continue
 		}
 
@@ -1253,7 +1253,7 @@ func (world *B2World) Dump() {
 
 	// Second pass on joints, only gear joints.
 	for j := world.M_jointList; j != nil; j = j.GetNext() {
-		if j.GetType() != B2JointType.E_gearJoint {
+		if j.GetType() != JointType.Gear {
 			continue
 		}
 

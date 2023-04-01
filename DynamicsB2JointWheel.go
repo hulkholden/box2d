@@ -44,7 +44,7 @@ func MakeB2WheelJointDef() B2WheelJointDef {
 		JointDef: MakeJointDef(),
 	}
 
-	res.Type = B2JointType.E_wheelJoint
+	res.Type = JointType.Wheel
 	res.LocalAnchorA.SetZero()
 	res.LocalAnchorB.SetZero()
 	res.LocalAxisA.Set(1.0, 0.0)

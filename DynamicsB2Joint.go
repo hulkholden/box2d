@@ -1,31 +1,31 @@
 package box2d
 
-var B2JointType = struct {
-	E_unknownJoint   uint8
-	E_revoluteJoint  uint8
-	E_prismaticJoint uint8
-	E_distanceJoint  uint8
-	E_pulleyJoint    uint8
-	E_mouseJoint     uint8
-	E_gearJoint      uint8
-	E_wheelJoint     uint8
-	E_weldJoint      uint8
-	E_frictionJoint  uint8
-	E_ropeJoint      uint8
-	E_motorJoint     uint8
+var JointType = struct {
+	Unknown   uint8
+	Revolute  uint8
+	Prismatic uint8
+	Distance  uint8
+	Pulley    uint8
+	Mouse     uint8
+	Gear      uint8
+	Wheel     uint8
+	Weld      uint8
+	Friction  uint8
+	Rope      uint8
+	Motor     uint8
 }{
-	E_unknownJoint:   1,
-	E_revoluteJoint:  2,
-	E_prismaticJoint: 3,
-	E_distanceJoint:  4,
-	E_pulleyJoint:    5,
-	E_mouseJoint:     6,
-	E_gearJoint:      7,
-	E_wheelJoint:     8,
-	E_weldJoint:      9,
-	E_frictionJoint:  10,
-	E_ropeJoint:      11,
-	E_motorJoint:     12,
+	Unknown:   1,
+	Revolute:  2,
+	Prismatic: 3,
+	Distance:  4,
+	Pulley:    5,
+	Mouse:     6,
+	Gear:      7,
+	Wheel:     8,
+	Weld:      9,
+	Friction:  10,
+	Rope:      11,
+	Motor:     12,
 }
 
 var B2LimitState = struct {
@@ -132,7 +132,7 @@ func (def *JointDef) SetCollideConnected(flag bool) {
 
 func MakeJointDef() JointDef {
 	res := JointDef{}
-	res.Type = B2JointType.E_unknownJoint
+	res.Type = JointType.Unknown
 	res.UserData = nil
 	res.BodyA = nil
 	res.BodyB = nil
@@ -249,67 +249,67 @@ func JointCreate(def JointDefInterface) B2JointInterface { // def should be back
 	var joint *Joint = nil
 
 	switch def.GetType() {
-	case B2JointType.E_distanceJoint:
+	case JointType.Distance:
 		if typeddef, ok := def.(*B2DistanceJointDef); ok {
 			return MakeB2DistanceJoint(typeddef)
 		}
 		assert(false)
 
-	case B2JointType.E_mouseJoint:
+	case JointType.Mouse:
 		if typeddef, ok := def.(*B2MouseJointDef); ok {
 			return MakeB2MouseJoint(typeddef)
 		}
 		assert(false)
 
-	case B2JointType.E_prismaticJoint:
+	case JointType.Prismatic:
 		if typeddef, ok := def.(*B2PrismaticJointDef); ok {
 			return MakeB2PrismaticJoint(typeddef)
 		}
 		assert(false)
 
-	case B2JointType.E_revoluteJoint:
+	case JointType.Revolute:
 		if typeddef, ok := def.(*B2RevoluteJointDef); ok {
 			return MakeB2RevoluteJoint(typeddef)
 		}
 		assert(false)
 
-	case B2JointType.E_pulleyJoint:
+	case JointType.Pulley:
 		if typeddef, ok := def.(*B2PulleyJointDef); ok {
 			return MakeB2PulleyJoint(typeddef)
 		}
 		assert(false)
 
-	case B2JointType.E_gearJoint:
+	case JointType.Gear:
 		if typeddef, ok := def.(*B2GearJointDef); ok {
 			return MakeB2GearJoint(typeddef)
 		}
 		assert(false)
 
-	case B2JointType.E_wheelJoint:
+	case JointType.Wheel:
 		if typeddef, ok := def.(*B2WheelJointDef); ok {
 			return MakeB2WheelJoint(typeddef)
 		}
 		assert(false)
 
-	case B2JointType.E_weldJoint:
+	case JointType.Weld:
 		if typeddef, ok := def.(*B2WeldJointDef); ok {
 			return MakeB2WeldJoint(typeddef)
 		}
 		assert(false)
 
-	case B2JointType.E_frictionJoint:
+	case JointType.Friction:
 		if typeddef, ok := def.(*B2FrictionJointDef); ok {
 			return MakeB2FrictionJoint(typeddef)
 		}
 		assert(false)
 
-	case B2JointType.E_ropeJoint:
+	case JointType.Rope:
 		if typeddef, ok := def.(*B2RopeJointDef); ok {
 			return MakeB2RopeJoint(typeddef)
 		}
 		assert(false)
 
-	case B2JointType.E_motorJoint:
+	case JointType.Motor:
 		if typeddef, ok := def.(*B2MotorJointDef); ok {
 			return MakeB2MotorJoint(typeddef)
 		}

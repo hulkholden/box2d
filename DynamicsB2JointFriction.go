@@ -26,7 +26,7 @@ func MakeB2FrictionJointDef() B2FrictionJointDef {
 		JointDef: MakeJointDef(),
 	}
 
-	res.Type = B2JointType.E_frictionJoint
+	res.Type = JointType.Friction
 	res.LocalAnchorA.SetZero()
 	res.LocalAnchorB.SetZero()
 	res.MaxForce = 0.0

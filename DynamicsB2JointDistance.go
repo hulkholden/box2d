@@ -36,7 +36,7 @@ func MakeB2DistanceJointDef() B2DistanceJointDef {
 		JointDef: MakeJointDef(),
 	}
 
-	res.Type = B2JointType.E_distanceJoint
+	res.Type = JointType.Distance
 	res.LocalAnchorA.Set(0.0, 0.0)
 	res.LocalAnchorB.Set(0.0, 0.0)
 	res.Length = 1.0

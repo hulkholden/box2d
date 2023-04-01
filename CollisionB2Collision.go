@@ -24,16 +24,16 @@ var ContactFeatureType = struct {
 
 // The features that intersect to form the contact point
 // This must be 4 bytes or less.
-type B2ContactFeature struct {
+type ContactFeature struct {
 	IndexA uint8 ///< Feature index on shapeA
 	IndexB uint8 ///< Feature index on shapeB
 	TypeA  uint8 ///< The feature type on shapeA
 	TypeB  uint8 ///< The feature type on shapeB
 }
 
-func MakeB2ContactFeature() B2ContactFeature { return B2ContactFeature{} }
+func MakeContactFeature() ContactFeature { return ContactFeature{} }
 
-type ContactID B2ContactFeature
+type ContactID ContactFeature
 
 // Contact ids to facilitate warm starting.
 // < Used to quickly compare contact ids.

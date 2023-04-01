@@ -22,7 +22,7 @@ func CollideEdgeAndCircle(manifold *Manifold, edgeA *EdgeShape, xfA Transform, c
 
 	radius := edgeA.M_radius + circleB.M_radius
 
-	cf := MakeB2ContactFeature()
+	cf := MakeContactFeature()
 	cf.IndexB = 0
 	cf.TypeB = ContactFeatureType.Vertex
 

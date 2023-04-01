@@ -29,5 +29,5 @@ func (contact *ChainAndPolygonContact) Evaluate(manifold *Manifold, xfA Transfor
 	chain := contact.GetFixtureA().GetShape().(*ChainShape)
 	edge := MakeEdgeShape()
 	chain.GetChildEdge(&edge, contact.M_indexA)
-	B2CollideEdgeAndPolygon(manifold, &edge, xfA, contact.GetFixtureB().GetShape().(*PolygonShape), xfB)
+	CollideEdgeAndPolygon(manifold, &edge, xfA, contact.GetFixtureB().GetShape().(*PolygonShape), xfB)
 }

@@ -601,7 +601,7 @@ func (collider *B2EPCollider) ComputePolygonSeparation() B2EPAxis {
 	return axis
 }
 
-func B2CollideEdgeAndPolygon(manifold *Manifold, edgeA *EdgeShape, xfA Transform, polygonB *PolygonShape, xfB Transform) {
+func CollideEdgeAndPolygon(manifold *Manifold, edgeA *EdgeShape, xfA Transform, polygonB *PolygonShape, xfB Transform) {
 	collider := MakeB2EPCollider()
 	collider.Collide(manifold, edgeA, xfA, polygonB, xfB)
 }

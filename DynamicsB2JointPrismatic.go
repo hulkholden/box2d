@@ -100,7 +100,7 @@ type B2PrismaticJoint struct {
 	M_axis, M_perp Vec2
 	M_s1, M_s2     float64
 	M_a1, M_a2     float64
-	M_K            B2Mat33
+	M_K            Mat33
 	M_motorMass    float64
 }
 
@@ -525,7 +525,7 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 		k23 := iA*a1 + iB*a2
 		k33 := mA + mB + iA*a1*a1 + iB*a2*a2
 
-		K := MakeB2Mat33()
+		K := MakeMat33()
 		K.Ex.Set(k11, k12, k13)
 		K.Ey.Set(k12, k22, k23)
 		K.Ez.Set(k13, k23, k33)

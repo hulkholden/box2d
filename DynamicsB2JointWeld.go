@@ -70,7 +70,7 @@ type B2WeldJoint struct {
 	M_invMassB     float64
 	M_invIA        float64
 	M_invIB        float64
-	M_mass         B2Mat33
+	M_mass         Mat33
 }
 
 // The local anchor point relative to bodyA's origin.
@@ -182,7 +182,7 @@ func (joint *B2WeldJoint) InitVelocityConstraints(data B2SolverData) {
 	iA := joint.M_invIA
 	iB := joint.M_invIB
 
-	var K B2Mat33
+	var K Mat33
 	K.Ex.X = mA + mB + joint.M_rA.Y*joint.M_rA.Y*iA + joint.M_rB.Y*joint.M_rB.Y*iB
 	K.Ey.X = -joint.M_rA.Y*joint.M_rA.X*iA - joint.M_rB.Y*joint.M_rB.X*iB
 	K.Ez.X = -joint.M_rA.Y*iA - joint.M_rB.Y*iB
@@ -336,7 +336,7 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data B2SolverData) bool {
 	positionError := 0.0
 	angularError := 0.0
 
-	var K B2Mat33
+	var K Mat33
 	K.Ex.X = mA + mB + rA.Y*rA.Y*iA + rB.Y*rB.Y*iB
 	K.Ey.X = -rA.Y*rA.X*iA - rB.Y*rB.X*iB
 	K.Ez.X = -rA.Y*iA - rB.Y*iB

@@ -102,7 +102,7 @@ type B2RevoluteJoint struct {
 	M_invMassB     float64
 	M_invIA        float64
 	M_invIB        float64
-	M_mass         B2Mat33 // effective mass for point-to-point constraint.
+	M_mass         Mat33   // effective mass for point-to-point constraint.
 	M_motorMass    float64 // effective mass for motor/limit angular constraint.
 	M_limitState   uint8
 }

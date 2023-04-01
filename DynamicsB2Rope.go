@@ -94,7 +94,7 @@ func (rope *B2Rope) Destroy() {
 }
 
 func (rope *B2Rope) Initialize(def *B2RopeDef) {
-	B2Assert(def.Count >= 3)
+	assert(def.Count >= 3)
 	rope.M_count = def.Count
 	rope.M_ps = make([]Vec2, rope.M_count)
 	rope.M_p0s = make([]Vec2, rope.M_count)

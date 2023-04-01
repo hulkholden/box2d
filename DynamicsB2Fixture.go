@@ -140,7 +140,7 @@ func (fix B2Fixture) GetNext() *B2Fixture {
 }
 
 func (fix *B2Fixture) SetDensity(density float64) {
-	B2Assert(IsValid(density) && density >= 0.0)
+	assert(IsValid(density) && density >= 0.0)
 	fix.M_density = density
 }
 
@@ -177,7 +177,7 @@ func (fix B2Fixture) GetMassData() B2MassData {
 }
 
 func (fix B2Fixture) GetAABB(childIndex int) B2AABB {
-	B2Assert(0 <= childIndex && childIndex < fix.M_proxyCount)
+	assert(0 <= childIndex && childIndex < fix.M_proxyCount)
 	return fix.M_proxies[childIndex].Aabb
 }
 
@@ -218,7 +218,7 @@ func (fix *B2Fixture) Create(body *B2Body, def *B2FixtureDef) {
 
 func (fix *B2Fixture) Destroy() {
 	// The proxies must be destroyed before calling this.
-	B2Assert(fix.M_proxyCount == 0)
+	assert(fix.M_proxyCount == 0)
 
 	// Free the proxy array.
 	fix.M_proxies = nil
@@ -242,14 +242,14 @@ func (fix *B2Fixture) Destroy() {
 		s.Destroy()
 
 	default:
-		B2Assert(false)
+		assert(false)
 	}
 
 	fix.M_shape = nil
 }
 
 func (fix *B2Fixture) CreateProxies(broadPhase *B2BroadPhase, xf B2Transform) {
-	B2Assert(fix.M_proxyCount == 0)
+	assert(fix.M_proxyCount == 0)
 
 	// Create proxies in the broad-phase.
 	fix.M_proxyCount = fix.M_shape.GetChildCount()

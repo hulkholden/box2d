@@ -183,7 +183,7 @@ func (world *B2World) SetDebugDraw(debugDraw B2Draw) {
 }
 
 func (world *B2World) CreateBody(def *B2BodyDef) *B2Body {
-	B2Assert(!world.IsLocked())
+	assert(!world.IsLocked())
 
 	if world.IsLocked() {
 		return nil
@@ -204,8 +204,8 @@ func (world *B2World) CreateBody(def *B2BodyDef) *B2Body {
 }
 
 func (world *B2World) DestroyBody(b *B2Body) {
-	B2Assert(world.M_bodyCount > 0)
-	B2Assert(!world.IsLocked())
+	assert(world.M_bodyCount > 0)
+	assert(!world.IsLocked())
 
 	if world.IsLocked() {
 		return
@@ -273,7 +273,7 @@ func (world *B2World) DestroyBody(b *B2Body) {
 }
 
 func (world *B2World) CreateJoint(def B2JointDefInterface) B2JointInterface {
-	B2Assert(!world.IsLocked())
+	assert(!world.IsLocked())
 	if world.IsLocked() {
 		return nil
 	}
@@ -332,7 +332,7 @@ func (world *B2World) CreateJoint(def B2JointDefInterface) B2JointInterface {
 }
 
 func (world *B2World) DestroyJoint(j B2JointInterface) { // j backed by pointer
-	B2Assert(!world.IsLocked())
+	assert(!world.IsLocked())
 	if world.IsLocked() {
 		return
 	}
@@ -394,7 +394,7 @@ func (world *B2World) DestroyJoint(j B2JointInterface) { // j backed by pointer
 
 	B2JointDestroy(j)
 
-	B2Assert(world.M_jointCount > 0)
+	assert(world.M_jointCount > 0)
 	world.M_jointCount--
 
 	// If the joint prevents collisions, then flag any contacts for filtering.
@@ -481,7 +481,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 			// Grab the next body off the stack and add it to the island.
 			stackCount--
 			b := stack[stackCount]
-			B2Assert(b.IsActive())
+			assert(b.IsActive())
 			island.AddBody(b)
 
 			// Make sure the body is awake (without resetting sleep timer).
@@ -525,7 +525,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 					continue
 				}
 
-				B2Assert(stackCount < stackSize)
+				assert(stackCount < stackSize)
 				stack[stackCount] = other
 				stackCount++
 				other.M_flags |= B2Body_Flags.E_islandFlag
@@ -552,7 +552,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 					continue
 				}
 
-				B2Assert(stackCount < stackSize)
+				assert(stackCount < stackSize)
 				stack[stackCount] = other
 				stackCount++
 				other.M_flags |= B2Body_Flags.E_islandFlag
@@ -655,7 +655,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 				typeA := bA.M_type
 				typeB := bB.M_type
-				B2Assert(typeA == B2BodyType.B2_dynamicBody || typeB == B2BodyType.B2_dynamicBody)
+				assert(typeA == B2BodyType.B2_dynamicBody || typeB == B2BodyType.B2_dynamicBody)
 
 				activeA := bA.IsAwake() && typeA != B2BodyType.B2_staticBody
 				activeB := bB.IsAwake() && typeB != B2BodyType.B2_staticBody
@@ -685,7 +685,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 					bB.M_sweep.Advance(alpha0)
 				}
 
-				B2Assert(alpha0 < 1.0)
+				assert(alpha0 < 1.0)
 
 				indexA := c.GetChildIndexA()
 				indexB := c.GetChildIndexB()
@@ -1045,7 +1045,7 @@ func (world *B2World) DrawShape(fixture *B2Fixture, xf B2Transform, color B2Colo
 	case B2Shape_Type.E_polygon:
 		poly := fixture.GetShape().(*B2PolygonShape)
 		vertexCount := poly.M_count
-		B2Assert(vertexCount <= maxPolygonVertices)
+		assert(vertexCount <= maxPolygonVertices)
 		var vertices [maxPolygonVertices]Vec2
 
 		for i := 0; i < vertexCount; i++ {
@@ -1197,7 +1197,7 @@ func (world B2World) GetTreeQuality() float64 {
 }
 
 func (world *B2World) ShiftOrigin(newOrigin Vec2) {
-	B2Assert((world.M_flags & B2World_Flags.E_locked) == 0)
+	assert((world.M_flags & B2World_Flags.E_locked) == 0)
 	if (world.M_flags & B2World_Flags.E_locked) == B2World_Flags.E_locked {
 		return
 	}

@@ -62,7 +62,7 @@ func (p B2DistanceProxy) GetVertexCount() int {
 }
 
 func (p B2DistanceProxy) GetVertex(index int) Vec2 {
-	B2Assert(0 <= index && index < p.M_count)
+	assert(0 <= index && index < p.M_count)
 	return p.M_vertices[index]
 }
 
@@ -122,7 +122,7 @@ func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 
 	case B2Shape_Type.E_chain:
 		chain := shape.(*B2ChainShape)
-		B2Assert(0 <= index && index < chain.M_count)
+		assert(0 <= index && index < chain.M_count)
 
 		p.M_buffer[0] = chain.M_vertices[index]
 		if index+1 < chain.M_count {
@@ -142,7 +142,7 @@ func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 		p.M_radius = edge.M_radius
 
 	default:
-		B2Assert(false)
+		assert(false)
 	}
 }
 
@@ -168,7 +168,7 @@ func MakeB2Simplex() B2Simplex { return B2Simplex{} }
 func NewB2Simplex() *B2Simplex { return &B2Simplex{} }
 
 func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *B2DistanceProxy, transformA B2Transform, proxyB *B2DistanceProxy, transformB B2Transform) {
-	B2Assert(cache.Count <= 3)
+	assert(cache.Count <= 3)
 
 	// Copy data from cache.
 	simplex.M_count = cache.Count
@@ -240,7 +240,7 @@ func (simplex B2Simplex) GetSearchDirection() Vec2 {
 		}
 
 	default:
-		B2Assert(false)
+		assert(false)
 		return Vec2{}
 	}
 }
@@ -248,7 +248,7 @@ func (simplex B2Simplex) GetSearchDirection() Vec2 {
 func (simplex B2Simplex) GetClosestPoint() Vec2 {
 	switch simplex.M_count {
 	case 0:
-		B2Assert(false)
+		assert(false)
 		return Vec2{}
 
 	case 1:
@@ -270,7 +270,7 @@ func (simplex B2Simplex) GetClosestPoint() Vec2 {
 		return Vec2{}
 
 	default:
-		B2Assert(false)
+		assert(false)
 		return Vec2{}
 	}
 }
@@ -278,7 +278,7 @@ func (simplex B2Simplex) GetClosestPoint() Vec2 {
 func (simplex B2Simplex) GetWitnessPoints(pA *Vec2, pB *Vec2) {
 	switch simplex.M_count {
 	case 0:
-		B2Assert(false)
+		assert(false)
 
 	case 1:
 		*pA = simplex.M_vs[0].WA
@@ -305,14 +305,14 @@ func (simplex B2Simplex) GetWitnessPoints(pA *Vec2, pB *Vec2) {
 		*pB = *pA
 
 	default:
-		B2Assert(false)
+		assert(false)
 	}
 }
 
 func (simplex B2Simplex) GetMetric() float64 {
 	switch simplex.M_count {
 	case 0:
-		B2Assert(false)
+		assert(false)
 		return 0.0
 
 	case 1:
@@ -328,7 +328,7 @@ func (simplex B2Simplex) GetMetric() float64 {
 		)
 
 	default:
-		B2Assert(false)
+		assert(false)
 		return 0.0
 	}
 }
@@ -514,7 +514,7 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 		case 3:
 			simplex.Solve3()
 		default:
-			B2Assert(false)
+			assert(false)
 		}
 
 		// If we have 3 points, then the origin is in the corresponding triangle.

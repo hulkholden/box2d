@@ -31,7 +31,7 @@ func NewB2PolygonShape() *B2PolygonShape {
 }
 
 func (poly *B2PolygonShape) GetVertex(index int) *Vec2 {
-	B2Assert(0 <= index && index < poly.M_count)
+	assert(0 <= index && index < poly.M_count)
 	return &poly.M_vertices[index]
 }
 
@@ -98,7 +98,7 @@ func (poly B2PolygonShape) GetChildCount() int {
 }
 
 func ComputeCentroid(vs []Vec2, count int) Vec2 {
-	B2Assert(count >= 3)
+	assert(count >= 3)
 
 	c := MakeVec2(0, 0)
 	area := 0.0
@@ -139,13 +139,13 @@ func ComputeCentroid(vs []Vec2, count int) Vec2 {
 	}
 
 	// Centroid
-	B2Assert(area > epsilon)
+	assert(area > epsilon)
 	c.OperatorScalarMulInplace(1.0 / area)
 	return c
 }
 
 func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
-	B2Assert(3 <= count && count <= maxPolygonVertices)
+	assert(3 <= count && count <= maxPolygonVertices)
 	if count < 3 {
 		poly.SetAsBox(1.0, 1.0)
 		return
@@ -177,7 +177,7 @@ func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
 	n = tempCount
 	if n < 3 {
 		// Polygon is degenerate.
-		B2Assert(false)
+		assert(false)
 		poly.SetAsBox(1.0, 1.0)
 		return
 	}
@@ -201,7 +201,7 @@ func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
 	ih := i0
 
 	for {
-		B2Assert(m < maxPolygonVertices)
+		assert(m < maxPolygonVertices)
 		hull[m] = ih
 
 		ie := 0
@@ -234,7 +234,7 @@ func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
 
 	if m < 3 {
 		// Polygon is degenerate.
-		B2Assert(false)
+		assert(false)
 		poly.SetAsBox(1.0, 1.0)
 		return
 	}
@@ -255,7 +255,7 @@ func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
 		}
 
 		edge := Vec2Sub(poly.M_vertices[i2], poly.M_vertices[i1])
-		B2Assert(edge.LengthSquared() > epsilon*epsilon)
+		assert(edge.LengthSquared() > epsilon*epsilon)
 		poly.M_normals[i] = Vec2CrossVectorScalar(edge, 1.0)
 		poly.M_normals[i].Normalize()
 	}
@@ -325,7 +325,7 @@ func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 		}
 	}
 
-	B2Assert(0.0 <= lower && lower <= input.MaxFraction)
+	assert(0.0 <= lower && lower <= input.MaxFraction)
 
 	if index >= 0 {
 		output.Fraction = lower
@@ -377,7 +377,7 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 	//
 	// The rest of the derivation is handled by computer algebra.
 
-	B2Assert(poly.M_count >= 3)
+	assert(poly.M_count >= 3)
 
 	center := MakeVec2(0, 0)
 
@@ -433,7 +433,7 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 	massData.Mass = density * area
 
 	// Center of mass
-	B2Assert(area > epsilon)
+	assert(area > epsilon)
 	center.OperatorScalarMulInplace(1.0 / area)
 	massData.Center = Vec2Add(center, s)
 

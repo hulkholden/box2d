@@ -348,8 +348,8 @@ func B2ContactInitializeRegisters() {
 }
 
 func AddType(createFcn B2ContactCreateFcn, destroyFcn B2ContactDestroyFcn, type1 uint8, type2 uint8) {
-	B2Assert(type1 < B2Shape_Type.E_typeCount)
-	B2Assert(type2 < B2Shape_Type.E_typeCount)
+	assert(type1 < B2Shape_Type.E_typeCount)
+	assert(type2 < B2Shape_Type.E_typeCount)
 
 	s_registers[type1][type2].CreateFcn = createFcn
 	s_registers[type1][type2].DestroyFcn = destroyFcn
@@ -372,8 +372,8 @@ func B2ContactFactory(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, inde
 	type1 := fixtureA.GetType()
 	type2 := fixtureB.GetType()
 
-	B2Assert(type1 < B2Shape_Type.E_typeCount)
-	B2Assert(type2 < B2Shape_Type.E_typeCount)
+	assert(type1 < B2Shape_Type.E_typeCount)
+	assert(type2 < B2Shape_Type.E_typeCount)
 
 	createFcn := s_registers[type1][type2].CreateFcn
 	if createFcn != nil {
@@ -388,7 +388,7 @@ func B2ContactFactory(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, inde
 }
 
 func B2ContactDestroy(contact B2ContactInterface) {
-	B2Assert(s_initialized)
+	assert(s_initialized)
 
 	fixtureA := contact.GetFixtureA()
 	fixtureB := contact.GetFixtureB()
@@ -401,8 +401,8 @@ func B2ContactDestroy(contact B2ContactInterface) {
 	typeA := fixtureA.GetType()
 	typeB := fixtureB.GetType()
 
-	B2Assert(typeA < B2Shape_Type.E_typeCount)
-	B2Assert(typeB < B2Shape_Type.E_typeCount)
+	assert(typeA < B2Shape_Type.E_typeCount)
+	assert(typeB < B2Shape_Type.E_typeCount)
 
 	destroyFcn := s_registers[typeA][typeB].DestroyFcn
 	destroyFcn(contact)

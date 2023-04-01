@@ -480,12 +480,12 @@ func (body B2Body) GetWorld() *B2World {
 ///////////////////////////////////////////////////////////////////////////////
 
 func NewB2Body(bd *B2BodyDef, world *B2World) *B2Body {
-	B2Assert(bd.Position.IsValid())
-	B2Assert(bd.LinearVelocity.IsValid())
-	B2Assert(IsValid(bd.Angle))
-	B2Assert(IsValid(bd.AngularVelocity))
-	B2Assert(IsValid(bd.AngularDamping) && bd.AngularDamping >= 0.0)
-	B2Assert(IsValid(bd.LinearDamping) && bd.LinearDamping >= 0.0)
+	assert(bd.Position.IsValid())
+	assert(bd.LinearVelocity.IsValid())
+	assert(IsValid(bd.Angle))
+	assert(IsValid(bd.AngularVelocity))
+	assert(IsValid(bd.AngularDamping) && bd.AngularDamping >= 0.0)
+	assert(IsValid(bd.LinearDamping) && bd.LinearDamping >= 0.0)
 
 	body := &B2Body{}
 
@@ -562,7 +562,7 @@ func NewB2Body(bd *B2BodyDef, world *B2World) *B2Body {
 }
 
 func (body *B2Body) SetType(bodytype uint8) {
-	B2Assert(!body.M_world.IsLocked())
+	assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return
 	}
@@ -609,7 +609,7 @@ func (body *B2Body) SetType(bodytype uint8) {
 }
 
 func (body *B2Body) CreateFixtureFromDef(def *B2FixtureDef) *B2Fixture {
-	B2Assert(!body.M_world.IsLocked())
+	assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return nil
 	}
@@ -653,15 +653,15 @@ func (body *B2Body) DestroyFixture(fixture *B2Fixture) {
 		return
 	}
 
-	B2Assert(!body.M_world.IsLocked())
+	assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return
 	}
 
-	B2Assert(fixture.M_body == body)
+	assert(fixture.M_body == body)
 
 	// Remove the fixture from this body's singly linked list.
-	B2Assert(body.M_fixtureCount > 0)
+	assert(body.M_fixtureCount > 0)
 	node := &body.M_fixtureList
 	found := false
 	for *node != nil {
@@ -675,7 +675,7 @@ func (body *B2Body) DestroyFixture(fixture *B2Fixture) {
 	}
 
 	// You tried to remove a shape that is not attached to this body.
-	B2Assert(found)
+	assert(found)
 
 	// Destroy any contacts associated with the fixture.
 	edge := body.M_contactList
@@ -724,7 +724,7 @@ func (body *B2Body) ResetMassData() {
 		return
 	}
 
-	B2Assert(body.M_type == B2BodyType.B2_dynamicBody)
+	assert(body.M_type == B2BodyType.B2_dynamicBody)
 
 	// Accumulate mass over all fixtures.
 	localCenter := MakeVec2(0, 0)
@@ -752,7 +752,7 @@ func (body *B2Body) ResetMassData() {
 	if body.M_I > 0.0 && (body.M_flags&B2Body_Flags.E_fixedRotationFlag) == 0 {
 		// Center the inertia about the center of mass.
 		body.M_I -= body.M_mass * Vec2Dot(localCenter, localCenter)
-		B2Assert(body.M_I > 0.0)
+		assert(body.M_I > 0.0)
 		body.M_invI = 1.0 / body.M_I
 
 	} else {
@@ -774,7 +774,7 @@ func (body *B2Body) ResetMassData() {
 }
 
 func (body *B2Body) SetMassData(massData *B2MassData) {
-	B2Assert(!body.M_world.IsLocked())
+	assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return
 	}
@@ -796,7 +796,7 @@ func (body *B2Body) SetMassData(massData *B2MassData) {
 
 	if massData.I > 0.0 && (body.M_flags&B2Body_Flags.E_fixedRotationFlag) == 0 {
 		body.M_I = massData.I - body.M_mass*Vec2Dot(massData.Center, massData.Center)
-		B2Assert(body.M_I > 0.0)
+		assert(body.M_I > 0.0)
 		body.M_invI = 1.0 / body.M_I
 	}
 
@@ -834,7 +834,7 @@ func (body B2Body) ShouldCollide(other *B2Body) bool {
 }
 
 func (body *B2Body) SetTransform(position Vec2, angle float64) {
-	B2Assert(!body.M_world.IsLocked())
+	assert(!body.M_world.IsLocked())
 
 	if body.M_world.IsLocked() {
 		return
@@ -867,7 +867,7 @@ func (body *B2Body) SynchronizeFixtures() {
 }
 
 func (body *B2Body) SetActive(flag bool) {
-	B2Assert(!body.M_world.IsLocked())
+	assert(!body.M_world.IsLocked())
 
 	if flag == body.IsActive() {
 		return

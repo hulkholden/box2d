@@ -123,8 +123,8 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 	res.M_typeA = res.M_joint1.GetType()
 	res.M_typeB = res.M_joint2.GetType()
 
-	B2Assert(res.M_typeA == B2JointType.E_revoluteJoint || res.M_typeA == B2JointType.E_prismaticJoint)
-	B2Assert(res.M_typeB == B2JointType.E_revoluteJoint || res.M_typeB == B2JointType.E_prismaticJoint)
+	assert(res.M_typeA == B2JointType.E_revoluteJoint || res.M_typeA == B2JointType.E_prismaticJoint)
+	assert(res.M_typeB == B2JointType.E_revoluteJoint || res.M_typeB == B2JointType.E_prismaticJoint)
 
 	coordinateA := 0.0
 	coordinateB := 0.0
@@ -449,7 +449,7 @@ func (joint B2GearJoint) GetReactionTorque(inv_dt float64) float64 {
 }
 
 func (joint *B2GearJoint) SetRatio(ratio float64) {
-	B2Assert(IsValid(ratio))
+	assert(IsValid(ratio))
 	joint.M_ratio = ratio
 }
 

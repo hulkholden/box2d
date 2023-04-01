@@ -43,7 +43,7 @@ func B2FindIncidentEdge(c []B2ClipVertex, poly1 *B2PolygonShape, xf1 B2Transform
 	vertices2 := poly2.M_vertices
 	normals2 := poly2.M_normals
 
-	B2Assert(0 <= edge1 && edge1 < poly1.M_count)
+	assert(0 <= edge1 && edge1 < poly1.M_count)
 
 	// Get the normal of the reference edge in poly2's frame.
 	normal1 := B2RotVec2MulT(xf2.Q, B2RotVec2Mul(xf1.Q, normals1[edge1]))

@@ -254,70 +254,70 @@ func B2JointCreate(def B2JointDefInterface) B2JointInterface { // def should be 
 		if typeddef, ok := def.(*B2DistanceJointDef); ok {
 			return MakeB2DistanceJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	case B2JointType.E_mouseJoint:
 		if typeddef, ok := def.(*B2MouseJointDef); ok {
 			return MakeB2MouseJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	case B2JointType.E_prismaticJoint:
 		if typeddef, ok := def.(*B2PrismaticJointDef); ok {
 			return MakeB2PrismaticJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	case B2JointType.E_revoluteJoint:
 		if typeddef, ok := def.(*B2RevoluteJointDef); ok {
 			return MakeB2RevoluteJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	case B2JointType.E_pulleyJoint:
 		if typeddef, ok := def.(*B2PulleyJointDef); ok {
 			return MakeB2PulleyJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	case B2JointType.E_gearJoint:
 		if typeddef, ok := def.(*B2GearJointDef); ok {
 			return MakeB2GearJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	case B2JointType.E_wheelJoint:
 		if typeddef, ok := def.(*B2WheelJointDef); ok {
 			return MakeB2WheelJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	case B2JointType.E_weldJoint:
 		if typeddef, ok := def.(*B2WeldJointDef); ok {
 			return MakeB2WeldJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	case B2JointType.E_frictionJoint:
 		if typeddef, ok := def.(*B2FrictionJointDef); ok {
 			return MakeB2FrictionJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	case B2JointType.E_ropeJoint:
 		if typeddef, ok := def.(*B2RopeJointDef); ok {
 			return MakeB2RopeJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	case B2JointType.E_motorJoint:
 		if typeddef, ok := def.(*B2MotorJointDef); ok {
 			return MakeB2MotorJoint(typeddef)
 		}
-		B2Assert(false)
+		assert(false)
 
 	default:
-		B2Assert(false)
+		assert(false)
 	}
 
 	return joint
@@ -328,7 +328,7 @@ func B2JointDestroy(joint B2JointInterface) { // has to be backed by pointer
 }
 
 func MakeB2Joint(def B2JointDefInterface) *B2Joint { // def has to be backed by pointer
-	B2Assert(def.GetBodyA() != def.GetBodyB())
+	assert(def.GetBodyA() != def.GetBodyB())
 
 	res := B2Joint{}
 

@@ -80,7 +80,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 	sepfunc.M_proxyA = proxyA
 	sepfunc.M_proxyB = proxyB
 	count := cache.Count
-	B2Assert(0 < count && count < 3)
+	assert(0 < count && count < 3)
 
 	sepfunc.M_sweepA = sweepA
 	sepfunc.M_sweepB = sweepB
@@ -213,7 +213,7 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 		}
 
 	default:
-		B2Assert(false)
+		assert(false)
 		*indexA = -1
 		*indexB = -1
 		return 0.0
@@ -265,7 +265,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 		}
 
 	default:
-		B2Assert(false)
+		assert(false)
 		return 0.0
 	}
 }
@@ -301,7 +301,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *B2TOIInput) {
 	totalRadius := proxyA.M_radius + proxyB.M_radius
 	target := math.Max(linearSlop, totalRadius-3.0*linearSlop)
 	tolerance := 0.25 * linearSlop
-	B2Assert(target > tolerance)
+	assert(target > tolerance)
 
 	t1 := 0.0
 	k_maxIterations := 20 // TODO_ERIN b2Settings

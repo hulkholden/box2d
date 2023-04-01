@@ -54,8 +54,8 @@ func (chain *B2ChainShape) Clear() {
 }
 
 func (chain *B2ChainShape) CreateLoop(vertices []Vec2, count int) {
-	B2Assert(chain.M_vertices == nil && chain.M_count == 0)
-	B2Assert(count >= 3)
+	assert(chain.M_vertices == nil && chain.M_count == 0)
+	assert(count >= 3)
 	if count < 3 {
 		return
 	}
@@ -64,7 +64,7 @@ func (chain *B2ChainShape) CreateLoop(vertices []Vec2, count int) {
 		v1 := vertices[i-1]
 		v2 := vertices[i]
 		// If the code crashes here, it means your vertices are too close together.
-		B2Assert(Vec2DistanceSquared(v1, v2) > linearSlop*linearSlop)
+		assert(Vec2DistanceSquared(v1, v2) > linearSlop*linearSlop)
 	}
 
 	chain.M_count = count + 1
@@ -79,11 +79,11 @@ func (chain *B2ChainShape) CreateLoop(vertices []Vec2, count int) {
 }
 
 func (chain *B2ChainShape) CreateChain(vertices []Vec2, count int) {
-	B2Assert(chain.M_vertices == nil && chain.M_count == 0)
-	B2Assert(count >= 2)
+	assert(chain.M_vertices == nil && chain.M_count == 0)
+	assert(count >= 2)
 	for i := 1; i < count; i++ {
 		// If the code crashes here, it means your vertices are too close together.
-		B2Assert(Vec2DistanceSquared(vertices[i-1], vertices[i]) > linearSlop*linearSlop)
+		assert(Vec2DistanceSquared(vertices[i-1], vertices[i]) > linearSlop*linearSlop)
 	}
 
 	chain.M_count = count
@@ -124,7 +124,7 @@ func (chain B2ChainShape) GetChildCount() int {
 }
 
 func (chain B2ChainShape) GetChildEdge(edge *B2EdgeShape, index int) {
-	B2Assert(0 <= index && index < chain.M_count-1)
+	assert(0 <= index && index < chain.M_count-1)
 
 	edge.M_type = B2Shape_Type.E_edge
 	edge.M_radius = chain.M_radius
@@ -154,7 +154,7 @@ func (chain B2ChainShape) TestPoint(xf B2Transform, p Vec2) bool {
 }
 
 func (chain B2ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf B2Transform, childIndex int) bool {
-	B2Assert(childIndex < chain.M_count)
+	assert(childIndex < chain.M_count)
 
 	edgeShape := MakeB2EdgeShape()
 
@@ -171,7 +171,7 @@ func (chain B2ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput,
 }
 
 func (chain B2ChainShape) ComputeAABB(xf B2Transform, childIndex int) B2AABB {
-	B2Assert(childIndex < chain.M_count)
+	assert(childIndex < chain.M_count)
 
 	i1 := childIndex
 	i2 := childIndex + 1

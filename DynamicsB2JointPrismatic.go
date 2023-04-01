@@ -640,7 +640,7 @@ func (joint B2PrismaticJoint) GetUpperLimit() float64 {
 }
 
 func (joint *B2PrismaticJoint) SetLimits(lower float64, upper float64) {
-	B2Assert(lower <= upper)
+	assert(lower <= upper)
 	if lower != joint.M_lowerTranslation || upper != joint.M_upperTranslation {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)

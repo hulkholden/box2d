@@ -61,12 +61,12 @@ type B2DynamicTree struct {
 }
 
 func (tree B2DynamicTree) GetUserData(proxyId int) interface{} {
-	B2Assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
+	assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 	return tree.M_nodes[proxyId].UserData
 }
 
 func (tree B2DynamicTree) GetFatAABB(proxyId int) B2AABB {
-	B2Assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
+	assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 	return tree.M_nodes[proxyId].Aabb
 }
 
@@ -100,7 +100,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 	p1 := input.P1
 	p2 := input.P2
 	r := Vec2Sub(p2, p1)
-	B2Assert(r.LengthSquared() > 0.0)
+	assert(r.LengthSquared() > 0.0)
 	r.Normalize()
 
 	// v is perpendicular to the segment.
@@ -213,7 +213,7 @@ func MakeB2DynamicTree() B2DynamicTree {
 func (tree *B2DynamicTree) AllocateNode() int {
 	// Expand the node pool as needed.
 	if tree.M_freeList == B2_nullNode {
-		B2Assert(tree.M_nodeCount == tree.M_nodeCapacity)
+		assert(tree.M_nodeCount == tree.M_nodeCapacity)
 
 		// The free list is empty. Rebuild a bigger pool.
 		tree.M_nodes = append(tree.M_nodes, make([]B2TreeNode, tree.M_nodeCapacity)...)
@@ -246,8 +246,8 @@ func (tree *B2DynamicTree) AllocateNode() int {
 
 // Return a node to the pool.
 func (tree *B2DynamicTree) FreeNode(nodeId int) {
-	B2Assert(0 <= nodeId && nodeId < tree.M_nodeCapacity)
-	B2Assert(0 < tree.M_nodeCount)
+	assert(0 <= nodeId && nodeId < tree.M_nodeCapacity)
+	assert(0 < tree.M_nodeCount)
 	tree.M_nodes[nodeId].Next = tree.M_freeList
 	tree.M_nodes[nodeId].Height = -1
 	tree.M_freeList = nodeId
@@ -273,17 +273,17 @@ func (tree *B2DynamicTree) CreateProxy(aabb B2AABB, userData interface{}) int {
 }
 
 func (tree *B2DynamicTree) DestroyProxy(proxyId int) {
-	B2Assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
-	B2Assert(tree.M_nodes[proxyId].IsLeaf())
+	assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
+	assert(tree.M_nodes[proxyId].IsLeaf())
 
 	tree.RemoveLeaf(proxyId)
 	tree.FreeNode(proxyId)
 }
 
 func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb B2AABB, displacement Vec2) bool {
-	B2Assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
+	assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 
-	B2Assert(tree.M_nodes[proxyId].IsLeaf())
+	assert(tree.M_nodes[proxyId].IsLeaf())
 
 	if tree.M_nodes[proxyId].Aabb.Contains(aabb) {
 		return false
@@ -427,8 +427,8 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 		child1 := tree.M_nodes[index].Child1
 		child2 := tree.M_nodes[index].Child2
 
-		B2Assert(child1 != B2_nullNode)
-		B2Assert(child2 != B2_nullNode)
+		assert(child1 != B2_nullNode)
+		assert(child2 != B2_nullNode)
 
 		tree.M_nodes[index].Height = 1 + MaxInt(tree.M_nodes[child1].Height, tree.M_nodes[child2].Height)
 		tree.M_nodes[index].Aabb.CombineTwoInPlace(tree.M_nodes[child1].Aabb, tree.M_nodes[child2].Aabb)
@@ -489,7 +489,7 @@ func (tree *B2DynamicTree) RemoveLeaf(leaf int) {
 // Perform a left or right rotation if node A is imbalanced.
 // Returns the new root index.
 func (tree *B2DynamicTree) Balance(iA int) int {
-	B2Assert(iA != B2_nullNode)
+	assert(iA != B2_nullNode)
 
 	A := &tree.M_nodes[iA]
 	if A.IsLeaf() || A.Height < 2 {
@@ -498,8 +498,8 @@ func (tree *B2DynamicTree) Balance(iA int) int {
 
 	iB := A.Child1
 	iC := A.Child2
-	B2Assert(0 <= iB && iB < tree.M_nodeCapacity)
-	B2Assert(0 <= iC && iC < tree.M_nodeCapacity)
+	assert(0 <= iB && iB < tree.M_nodeCapacity)
+	assert(0 <= iC && iC < tree.M_nodeCapacity)
 
 	B := &tree.M_nodes[iB]
 	C := &tree.M_nodes[iC]
@@ -510,8 +510,8 @@ func (tree *B2DynamicTree) Balance(iA int) int {
 	if balance > 1 {
 		iF := C.Child1
 		iG := C.Child2
-		B2Assert(0 <= iF && iF < tree.M_nodeCapacity)
-		B2Assert(0 <= iG && iG < tree.M_nodeCapacity)
+		assert(0 <= iF && iF < tree.M_nodeCapacity)
+		assert(0 <= iG && iG < tree.M_nodeCapacity)
 		F := &tree.M_nodes[iF]
 		G := &tree.M_nodes[iG]
 
@@ -525,7 +525,7 @@ func (tree *B2DynamicTree) Balance(iA int) int {
 			if tree.M_nodes[C.Parent].Child1 == iA {
 				tree.M_nodes[C.Parent].Child1 = iC
 			} else {
-				B2Assert(tree.M_nodes[C.Parent].Child2 == iA)
+				assert(tree.M_nodes[C.Parent].Child2 == iA)
 				tree.M_nodes[C.Parent].Child2 = iC
 			}
 		} else {
@@ -560,8 +560,8 @@ func (tree *B2DynamicTree) Balance(iA int) int {
 	if balance < -1 {
 		iD := B.Child1
 		iE := B.Child2
-		B2Assert(0 <= iD && iD < tree.M_nodeCapacity)
-		B2Assert(0 <= iE && iE < tree.M_nodeCapacity)
+		assert(0 <= iD && iD < tree.M_nodeCapacity)
+		assert(0 <= iE && iE < tree.M_nodeCapacity)
 
 		D := &tree.M_nodes[iD]
 		E := &tree.M_nodes[iE]
@@ -576,7 +576,7 @@ func (tree *B2DynamicTree) Balance(iA int) int {
 			if tree.M_nodes[B.Parent].Child1 == iA {
 				tree.M_nodes[B.Parent].Child1 = iB
 			} else {
-				B2Assert(tree.M_nodes[B.Parent].Child2 == iA)
+				assert(tree.M_nodes[B.Parent].Child2 == iA)
 				tree.M_nodes[B.Parent].Child2 = iB
 			}
 		} else {
@@ -642,7 +642,7 @@ func (tree B2DynamicTree) GetAreaRatio() float64 {
 
 // Compute the height of a sub-tree.
 func (tree B2DynamicTree) ComputeHeight(nodeId int) int {
-	B2Assert(0 <= nodeId && nodeId < tree.M_nodeCapacity)
+	assert(0 <= nodeId && nodeId < tree.M_nodeCapacity)
 	node := &tree.M_nodes[nodeId]
 
 	if node.IsLeaf() {
@@ -664,7 +664,7 @@ func (tree B2DynamicTree) ValidateStructure(index int) {
 	}
 
 	if index == tree.M_root {
-		B2Assert(tree.M_nodes[index].Parent == B2_nullNode)
+		assert(tree.M_nodes[index].Parent == B2_nullNode)
 	}
 
 	node := &tree.M_nodes[index]
@@ -673,17 +673,17 @@ func (tree B2DynamicTree) ValidateStructure(index int) {
 	child2 := node.Child2
 
 	if node.IsLeaf() {
-		B2Assert(child1 == B2_nullNode)
-		B2Assert(child2 == B2_nullNode)
-		B2Assert(node.Height == 0)
+		assert(child1 == B2_nullNode)
+		assert(child2 == B2_nullNode)
+		assert(node.Height == 0)
 		return
 	}
 
-	B2Assert(0 <= child1 && child1 < tree.M_nodeCapacity)
-	B2Assert(0 <= child2 && child2 < tree.M_nodeCapacity)
+	assert(0 <= child1 && child1 < tree.M_nodeCapacity)
+	assert(0 <= child2 && child2 < tree.M_nodeCapacity)
 
-	B2Assert(tree.M_nodes[child1].Parent == index)
-	B2Assert(tree.M_nodes[child2].Parent == index)
+	assert(tree.M_nodes[child1].Parent == index)
+	assert(tree.M_nodes[child2].Parent == index)
 
 	tree.ValidateStructure(child1)
 	tree.ValidateStructure(child2)
@@ -700,25 +700,25 @@ func (tree B2DynamicTree) ValidateMetrics(index int) {
 	child2 := node.Child2
 
 	if node.IsLeaf() {
-		B2Assert(child1 == B2_nullNode)
-		B2Assert(child2 == B2_nullNode)
-		B2Assert(node.Height == 0)
+		assert(child1 == B2_nullNode)
+		assert(child2 == B2_nullNode)
+		assert(node.Height == 0)
 		return
 	}
 
-	B2Assert(0 <= child1 && child1 < tree.M_nodeCapacity)
-	B2Assert(0 <= child2 && child2 < tree.M_nodeCapacity)
+	assert(0 <= child1 && child1 < tree.M_nodeCapacity)
+	assert(0 <= child2 && child2 < tree.M_nodeCapacity)
 
 	height1 := tree.M_nodes[child1].Height
 	height2 := tree.M_nodes[child2].Height
 	height := 1 + MaxInt(height1, height2)
-	B2Assert(node.Height == height)
+	assert(node.Height == height)
 
 	var aabb B2AABB
 	aabb.CombineTwoInPlace(tree.M_nodes[child1].Aabb, tree.M_nodes[child2].Aabb)
 
-	B2Assert(aabb.LowerBound == node.Aabb.LowerBound)
-	B2Assert(aabb.UpperBound == node.Aabb.UpperBound)
+	assert(aabb.LowerBound == node.Aabb.LowerBound)
+	assert(aabb.UpperBound == node.Aabb.UpperBound)
 
 	tree.ValidateMetrics(child1)
 	tree.ValidateMetrics(child2)
@@ -731,14 +731,14 @@ func (tree B2DynamicTree) Validate() {
 	freeCount := 0
 	freeIndex := tree.M_freeList
 	for freeIndex != B2_nullNode {
-		B2Assert(0 <= freeIndex && freeIndex < tree.M_nodeCapacity)
+		assert(0 <= freeIndex && freeIndex < tree.M_nodeCapacity)
 		freeIndex = tree.M_nodes[freeIndex].Next
 		freeCount++
 	}
 
-	B2Assert(tree.GetHeight() == tree.ComputeTotalHeight())
+	assert(tree.GetHeight() == tree.ComputeTotalHeight())
 
-	B2Assert(tree.M_nodeCount+freeCount == tree.M_nodeCapacity)
+	assert(tree.M_nodeCount+freeCount == tree.M_nodeCapacity)
 }
 
 func (tree B2DynamicTree) GetMaxBalance() int {
@@ -749,7 +749,7 @@ func (tree B2DynamicTree) GetMaxBalance() int {
 			continue
 		}
 
-		B2Assert(!node.IsLeaf())
+		assert(!node.IsLeaf())
 
 		child1 := node.Child1
 		child2 := node.Child2

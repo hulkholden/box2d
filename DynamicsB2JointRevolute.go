@@ -537,7 +537,7 @@ func (joint B2RevoluteJoint) GetUpperLimit() float64 {
 }
 
 func (joint *B2RevoluteJoint) SetLimits(lower float64, upper float64) {
-	B2Assert(lower <= upper)
+	assert(lower <= upper)
 
 	if lower != joint.M_lowerAngle || upper != joint.M_upperAngle {
 		joint.M_bodyA.SetAwake(true)

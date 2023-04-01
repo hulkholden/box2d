@@ -105,7 +105,7 @@ func MakeB2ContactSolver(def *B2ContactSolverDef) B2ContactSolver {
 		manifold := contact.GetManifold()
 
 		pointCount := manifold.PointCount
-		B2Assert(pointCount > 0)
+		assert(pointCount > 0)
 
 		vc := &solver.M_velocityConstraints[i]
 		vc.Friction = contact.GetFriction()
@@ -196,7 +196,7 @@ func (solver *B2ContactSolver) InitializeVelocityConstraints() {
 		vB := solver.M_velocities[indexB].V
 		wB := solver.M_velocities[indexB].W
 
-		B2Assert(manifold.PointCount > 0)
+		assert(manifold.PointCount > 0)
 
 		xfA := MakeB2Transform()
 		xfB := MakeB2Transform()
@@ -348,7 +348,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 		tangent := Vec2CrossVectorScalar(normal, 1.0)
 		friction := vc.Friction
 
-		B2Assert(pointCount == 1 || pointCount == 2)
+		assert(pointCount == 1 || pointCount == 2)
 
 		// Solve tangent constraints first because non-penetration is more important
 		// than friction.
@@ -459,7 +459,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 			cp2 := &vc.Points[1]
 
 			a := MakeVec2(cp1.NormalImpulse, cp2.NormalImpulse)
-			B2Assert(a.X >= 0.0 && a.Y >= 0.0)
+			assert(a.X >= 0.0 && a.Y >= 0.0)
 
 			// Relative velocity at contact
 			dv1 := Vec2Add(vB, Vec2Sub(Vec2Sub(Vec2CrossScalarVector(wB, cp1.RB), vA), Vec2CrossScalarVector(wA, cp1.RA)))
@@ -535,8 +535,8 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 						vn1 = Vec2Dot(dv1, normal)
 						vn2 = Vec2Dot(dv2, normal)
 
-						B2Assert(math.Abs(vn1-cp1.VelocityBias) < k_errorTol)
-						B2Assert(math.Abs(vn2-cp2.VelocityBias) < k_errorTol)
+						assert(math.Abs(vn1-cp1.VelocityBias) < k_errorTol)
+						assert(math.Abs(vn2-cp2.VelocityBias) < k_errorTol)
 					}
 					break
 				}
@@ -575,7 +575,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 						// Compute normal velocity
 						vn1 = Vec2Dot(dv1, normal)
 
-						B2Assert(math.Abs(vn1-cp1.VelocityBias) < k_errorTol)
+						assert(math.Abs(vn1-cp1.VelocityBias) < k_errorTol)
 					}
 					break
 				}
@@ -615,7 +615,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 						// Compute normal velocity
 						vn2 = Vec2Dot(dv2, normal)
 
-						B2Assert(math.Abs(vn2-cp2.VelocityBias) < k_errorTol)
+						assert(math.Abs(vn2-cp2.VelocityBias) < k_errorTol)
 					}
 
 					break
@@ -686,7 +686,7 @@ func MakeB2PositionSolverManifold() B2PositionSolverManifold {
 }
 
 func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPositionConstraint, xfA B2Transform, xfB B2Transform, index int) {
-	B2Assert(pc.PointCount > 0)
+	assert(pc.PointCount > 0)
 
 	switch pc.Type {
 	case B2Manifold_Type.E_circles:

@@ -739,7 +739,7 @@ func (sweep B2Sweep) GetTransform(xf *B2Transform, beta float64) {
 }
 
 func (sweep *B2Sweep) Advance(alpha float64) {
-	B2Assert(sweep.Alpha0 < 1.0)
+	assert(sweep.Alpha0 < 1.0)
 	beta := (alpha - sweep.Alpha0) / (1.0 - sweep.Alpha0)
 	sweep.C0.OperatorPlusInplace(Vec2MulScalar(beta, Vec2Sub(sweep.C, sweep.C0)))
 	sweep.A0 += beta * (sweep.A - sweep.A0)

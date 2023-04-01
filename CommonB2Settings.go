@@ -6,9 +6,9 @@ import "math"
 const B2DEBUG = false
 
 // @port(OK)
-func B2Assert(a bool) {
+func assert(a bool) {
 	if !a {
-		panic("B2Assert")
+		panic("assert")
 	}
 }
 

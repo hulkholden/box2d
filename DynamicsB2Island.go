@@ -31,20 +31,20 @@ func (island *B2Island) Clear() {
 }
 
 func (island *B2Island) AddBody(body *B2Body) {
-	B2Assert(island.M_bodyCount < island.M_bodyCapacity)
+	assert(island.M_bodyCount < island.M_bodyCapacity)
 	body.M_islandIndex = island.M_bodyCount
 	island.M_bodies[island.M_bodyCount] = body
 	island.M_bodyCount++
 }
 
 func (island *B2Island) AddContact(contact B2ContactInterface) { // contact has to be a pointer
-	B2Assert(island.M_contactCount < island.M_contactCapacity)
+	assert(island.M_contactCount < island.M_contactCapacity)
 	island.M_contacts[island.M_contactCount] = contact
 	island.M_contactCount++
 }
 
 func (island *B2Island) Add(joint B2JointInterface) { // joint has to be a pointer
-	B2Assert(island.M_jointCount < island.M_jointCapacity)
+	assert(island.M_jointCount < island.M_jointCapacity)
 	island.M_joints[island.M_jointCount] = joint
 	island.M_jointCount++
 }
@@ -387,8 +387,8 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2,
 }
 
 func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB int) {
-	B2Assert(toiIndexA < island.M_bodyCount)
-	B2Assert(toiIndexB < island.M_bodyCount)
+	assert(toiIndexA < island.M_bodyCount)
+	assert(toiIndexB < island.M_bodyCount)
 
 	// Initialize the body state.
 	for i := 0; i < island.M_bodyCount; i++ {

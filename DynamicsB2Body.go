@@ -635,7 +635,7 @@ func (body *Body) CreateFixtureFromDef(def *FixtureDef) *Fixture {
 
 	// Let the world know we have a new fixture. This will cause new contacts
 	// to be created at the beginning of the next time step.
-	body.M_world.M_flags |= B2World_Flags.E_newFixture
+	body.M_world.M_flags |= WorldFlags.NewFixture
 
 	return fixture
 }

@@ -9,14 +9,14 @@ import (
 /// and asynchronous queries. The world also contains efficient memory
 /// management facilities.
 
-var B2World_Flags = struct {
-	E_newFixture  int
-	E_locked      int
-	E_clearForces int
+var WorldFlags = struct {
+	NewFixture  int
+	Locked      int
+	ClearForces int
 }{
-	E_newFixture:  0x0001,
-	E_locked:      0x0002,
-	E_clearForces: 0x0004,
+	NewFixture:  0x0001,
+	Locked:      0x0002,
+	ClearForces: 0x0004,
 }
 
 // The world class manages all physics entities, dynamic simulation,
@@ -86,20 +86,20 @@ func (world B2World) GetGravity() Vec2 {
 }
 
 func (world B2World) IsLocked() bool {
-	return (world.M_flags & B2World_Flags.E_locked) == B2World_Flags.E_locked
+	return (world.M_flags & WorldFlags.Locked) == WorldFlags.Locked
 }
 
 func (world *B2World) SetAutoClearForces(flag bool) {
 	if flag {
-		world.M_flags |= B2World_Flags.E_clearForces
+		world.M_flags |= WorldFlags.ClearForces
 	} else {
-		world.M_flags &= ^B2World_Flags.E_clearForces
+		world.M_flags &= ^WorldFlags.ClearForces
 	}
 }
 
 // Get the flag that controls automatic clearing of forces after each time step.
 func (world B2World) GetAutoClearForces() bool {
-	return (world.M_flags & B2World_Flags.E_clearForces) == B2World_Flags.E_clearForces
+	return (world.M_flags & WorldFlags.ClearForces) == WorldFlags.ClearForces
 }
 
 func (world B2World) GetContactManager() ContactManager {
@@ -139,7 +139,7 @@ func MakeB2World(gravity Vec2) B2World {
 	world.M_allowSleep = true
 	world.M_gravity = gravity
 
-	world.M_flags = B2World_Flags.E_clearForces
+	world.M_flags = WorldFlags.ClearForces
 
 	world.M_inv_dt0 = 0.0
 
@@ -887,12 +887,12 @@ func (world *B2World) Step(dt float64, velocityIterations int, positionIteration
 	stepTimer := MakeB2Timer()
 
 	// If new fixtures were added, we need to find the new contacts.
-	if (world.M_flags & B2World_Flags.E_newFixture) != 0x0000 {
+	if (world.M_flags & WorldFlags.NewFixture) != 0x0000 {
 		world.M_contactManager.FindNewContacts()
-		world.M_flags &= ^B2World_Flags.E_newFixture
+		world.M_flags &= ^WorldFlags.NewFixture
 	}
 
-	world.M_flags |= B2World_Flags.E_locked
+	world.M_flags |= WorldFlags.Locked
 
 	step := MakeTimeStep()
 	step.Dt = dt
@@ -933,11 +933,11 @@ func (world *B2World) Step(dt float64, velocityIterations int, positionIteration
 		world.M_inv_dt0 = step.Inv_dt
 	}
 
-	if (world.M_flags & B2World_Flags.E_clearForces) != 0x0000 {
+	if (world.M_flags & WorldFlags.ClearForces) != 0x0000 {
 		world.ClearForces()
 	}
 
-	world.M_flags &= ^B2World_Flags.E_locked
+	world.M_flags &= ^WorldFlags.Locked
 
 	world.M_profile.Step = stepTimer.GetMilliseconds()
 }
@@ -1197,8 +1197,8 @@ func (world B2World) GetTreeQuality() float64 {
 }
 
 func (world *B2World) ShiftOrigin(newOrigin Vec2) {
-	assert((world.M_flags & B2World_Flags.E_locked) == 0)
-	if (world.M_flags & B2World_Flags.E_locked) == B2World_Flags.E_locked {
+	assert((world.M_flags & WorldFlags.Locked) == 0)
+	if (world.M_flags & WorldFlags.Locked) == WorldFlags.Locked {
 		return
 	}
 
@@ -1216,7 +1216,7 @@ func (world *B2World) ShiftOrigin(newOrigin Vec2) {
 }
 
 func (world *B2World) Dump() {
-	if (world.M_flags & B2World_Flags.E_locked) == B2World_Flags.E_locked {
+	if (world.M_flags & WorldFlags.Locked) == WorldFlags.Locked {
 		return
 	}
 

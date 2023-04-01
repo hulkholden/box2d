@@ -37,7 +37,7 @@ type Position struct {
 }
 
 // This is an internal structure.
-type B2Velocity struct {
+type Velocity struct {
 	V Vec2
 	W float64
 }
@@ -46,7 +46,7 @@ type B2Velocity struct {
 type SolverData struct {
 	Step       TimeStep
 	Positions  []Position
-	Velocities []B2Velocity
+	Velocities []Velocity
 }
 
 func MakeB2SolverData() SolverData {

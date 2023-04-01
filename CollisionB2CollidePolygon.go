@@ -8,7 +8,7 @@ func B2FindMaxSeparation(edgeIndex *int, poly1 *B2PolygonShape, xf1 Transform, p
 	v1s := poly1.M_vertices
 	v2s := poly2.M_vertices
 
-	xf := B2TransformMulT(xf2, xf1)
+	xf := TransformMulT(xf2, xf1)
 
 	bestIndex := 0
 	maxSeparation := -maxFloat

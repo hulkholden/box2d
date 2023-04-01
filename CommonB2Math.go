@@ -944,8 +944,8 @@ var (
 	MakeB2TransformByPositionAndRotation = MakeTransformByPositionAndRotation
 	NewB2TransformByPositionAndRotation  = NewTransformByPositionAndRotation
 
-	B2TransformVec2Mul  = TransformVec2Mul
-	TransformB2Vec2MulT = TransformVec2MulT
-	B2TransformMul      = TransformMul
-	B2TransformMulT     = TransformMulT
+	B2TransformVec2Mul    = TransformVec2Mul
+	B2TransformB2Vec2MulT = TransformVec2MulT
+	B2TransformMul        = TransformMul
+	B2TransformMulT       = TransformMulT
 )

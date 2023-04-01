@@ -216,7 +216,7 @@ func MakeB2EPCollider() B2EPCollider {
 // 7. Return if _any_ axis indicates separation
 // 8. Clip
 func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, xfA Transform, polygonB *B2PolygonShape, xfB Transform) {
-	collider.M_xf = B2TransformMulT(xfA, xfB)
+	collider.M_xf = TransformMulT(xfA, xfB)
 
 	collider.M_centroidB = TransformVec2Mul(collider.M_xf, polygonB.M_centroid)
 

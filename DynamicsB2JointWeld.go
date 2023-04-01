@@ -28,7 +28,7 @@ type WeldJointDef struct {
 	DampingRatio float64
 }
 
-func MakeB2WeldJointDef() WeldJointDef {
+func MakeWeldJointDef() WeldJointDef {
 	res := WeldJointDef{
 		JointDef: MakeJointDef(),
 	}

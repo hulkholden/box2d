@@ -1,7 +1,7 @@
 package box2d
 
 // Find the max separation between poly1 and poly2 using edge normals from poly1.
-func B2FindMaxSeparation(edgeIndex *int, poly1 *PolygonShape, xf1 Transform, poly2 *PolygonShape, xf2 Transform) float64 {
+func FindMaxSeparation(edgeIndex *int, poly1 *PolygonShape, xf1 Transform, poly2 *PolygonShape, xf2 Transform) float64 {
 	count1 := poly1.M_count
 	count2 := poly2.M_count
 	n1s := poly1.M_normals
@@ -91,13 +91,13 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *PolygonShape, xfA Transform,
 	totalRadius := polyA.M_radius + polyB.M_radius
 
 	edgeA := 0
-	separationA := B2FindMaxSeparation(&edgeA, polyA, xfA, polyB, xfB)
+	separationA := FindMaxSeparation(&edgeA, polyA, xfA, polyB, xfB)
 	if separationA > totalRadius {
 		return
 	}
 
 	edgeB := 0
-	separationB := B2FindMaxSeparation(&edgeB, polyB, xfB, polyA, xfA)
+	separationB := FindMaxSeparation(&edgeB, polyB, xfB, polyA, xfA)
 	if separationB > totalRadius {
 		return
 	}

@@ -156,7 +156,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 		res.M_localAxisC = prismatic.M_localXAxisA
 
 		pC := res.M_localAnchorC
-		pA := B2RotVec2MulT(xfC.Q, Vec2Add(B2RotVec2Mul(xfA.Q, res.M_localAnchorA), Vec2Sub(xfA.P, xfC.P)))
+		pA := RotVec2MulT(xfC.Q, Vec2Add(RotVec2Mul(xfA.Q, res.M_localAnchorA), Vec2Sub(xfA.P, xfC.P)))
 		coordinateA = Vec2Dot(Vec2Sub(pA, pC), res.M_localAxisC)
 	}
 
@@ -185,7 +185,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 		res.M_localAxisD = prismatic.M_localXAxisA
 
 		pD := res.M_localAnchorD
-		pB := B2RotVec2MulT(xfD.Q, Vec2Add(B2RotVec2Mul(xfB.Q, res.M_localAnchorB), Vec2Sub(xfB.P, xfD.P)))
+		pB := RotVec2MulT(xfD.Q, Vec2Add(RotVec2Mul(xfB.Q, res.M_localAnchorB), Vec2Sub(xfB.P, xfD.P)))
 		coordinateB = Vec2Dot(Vec2Sub(pB, pD), res.M_localAxisD)
 	}
 
@@ -245,9 +245,9 @@ func (joint *B2GearJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_JwC = 1.0
 		joint.M_mass += joint.M_iA + joint.M_iC
 	} else {
-		u := B2RotVec2Mul(qC, joint.M_localAxisC)
-		rC := B2RotVec2Mul(qC, Vec2Sub(joint.M_localAnchorC, joint.M_lcC))
-		rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_lcA))
+		u := RotVec2Mul(qC, joint.M_localAxisC)
+		rC := RotVec2Mul(qC, Vec2Sub(joint.M_localAnchorC, joint.M_lcC))
+		rA := RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_lcA))
 		joint.M_JvAC = u
 		joint.M_JwC = Vec2Cross(rC, u)
 		joint.M_JwA = Vec2Cross(rA, u)
@@ -260,9 +260,9 @@ func (joint *B2GearJoint) InitVelocityConstraints(data B2SolverData) {
 		joint.M_JwD = joint.M_ratio
 		joint.M_mass += joint.M_ratio * joint.M_ratio * (joint.M_iB + joint.M_iD)
 	} else {
-		u := B2RotVec2Mul(qD, joint.M_localAxisD)
-		rD := B2RotVec2Mul(qD, Vec2Sub(joint.M_localAnchorD, joint.M_lcD))
-		rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_lcB))
+		u := RotVec2Mul(qD, joint.M_localAxisD)
+		rD := RotVec2Mul(qD, Vec2Sub(joint.M_localAnchorD, joint.M_lcD))
+		rB := RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_lcB))
 		joint.M_JvBD = Vec2MulScalar(joint.M_ratio, u)
 		joint.M_JwD = joint.M_ratio * Vec2Cross(rD, u)
 		joint.M_JwB = joint.M_ratio * Vec2Cross(rB, u)
@@ -367,16 +367,16 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 		coordinateA = aA - aC - joint.M_referenceAngleA
 	} else {
-		u := B2RotVec2Mul(qC, joint.M_localAxisC)
-		rC := B2RotVec2Mul(qC, Vec2Sub(joint.M_localAnchorC, joint.M_lcC))
-		rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_lcA))
+		u := RotVec2Mul(qC, joint.M_localAxisC)
+		rC := RotVec2Mul(qC, Vec2Sub(joint.M_localAnchorC, joint.M_lcC))
+		rA := RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_lcA))
 		JvAC = u
 		JwC = Vec2Cross(rC, u)
 		JwA = Vec2Cross(rA, u)
 		mass += joint.M_mC + joint.M_mA + joint.M_iC*JwC*JwC + joint.M_iA*JwA*JwA
 
 		pC := Vec2Sub(joint.M_localAnchorC, joint.M_lcC)
-		pA := B2RotVec2MulT(qC, Vec2Add(rA, Vec2Sub(cA, cC)))
+		pA := RotVec2MulT(qC, Vec2Add(rA, Vec2Sub(cA, cC)))
 		coordinateA = Vec2Dot(Vec2Sub(pA, pC), joint.M_localAxisC)
 	}
 
@@ -388,16 +388,16 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 
 		coordinateB = aB - aD - joint.M_referenceAngleB
 	} else {
-		u := B2RotVec2Mul(qD, joint.M_localAxisD)
-		rD := B2RotVec2Mul(qD, Vec2Sub(joint.M_localAnchorD, joint.M_lcD))
-		rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_lcB))
+		u := RotVec2Mul(qD, joint.M_localAxisD)
+		rD := RotVec2Mul(qD, Vec2Sub(joint.M_localAnchorD, joint.M_lcD))
+		rB := RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_lcB))
 		JvBD = Vec2MulScalar(joint.M_ratio, u)
 		JwD = joint.M_ratio * Vec2Cross(rD, u)
 		JwB = joint.M_ratio * Vec2Cross(rB, u)
 		mass += joint.M_ratio*joint.M_ratio*(joint.M_mD+joint.M_mB) + joint.M_iD*JwD*JwD + joint.M_iB*JwB*JwB
 
 		pD := Vec2Sub(joint.M_localAnchorD, joint.M_lcD)
-		pB := B2RotVec2MulT(qD, Vec2Add(rB, Vec2Sub(cB, cD)))
+		pB := RotVec2MulT(qD, Vec2Add(rB, Vec2Sub(cB, cD)))
 		coordinateB = Vec2Dot(Vec2Sub(pB, pD), joint.M_localAxisD)
 	}
 

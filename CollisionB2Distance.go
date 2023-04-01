@@ -539,11 +539,11 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 		// Compute a tentative new simplex vertex using support points.
 		vertex := &vertices[simplex.M_count]
 		vertex.IndexA = proxyA.GetSupport(
-			B2RotVec2MulT(transformA.Q, d.OperatorNegate()),
+			RotVec2MulT(transformA.Q, d.OperatorNegate()),
 		)
 		vertex.WA = B2TransformVec2Mul(transformA, proxyA.GetVertex(vertex.IndexA))
 		// b2Vec2 wBLocal;
-		vertex.IndexB = proxyB.GetSupport(B2RotVec2MulT(transformB.Q, d))
+		vertex.IndexB = proxyB.GetSupport(RotVec2MulT(transformB.Q, d))
 		vertex.WB = B2TransformVec2Mul(transformB, proxyB.GetVertex(vertex.IndexB))
 		vertex.W = Vec2Sub(vertex.WB, vertex.WA)
 

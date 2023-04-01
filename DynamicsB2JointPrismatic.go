@@ -261,8 +261,8 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 	qB := MakeB2RotFromAngle(aB)
 
 	// Compute the effective masses.
-	rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	rA := RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	rB := RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 	d := Vec2Sub(Vec2Add(Vec2Sub(cB, cA), rB), rA)
 
 	mA := joint.M_invMassA
@@ -272,7 +272,7 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 
 	// Compute motor Jacobian and effective mass.
 	{
-		joint.M_axis = B2RotVec2Mul(qA, joint.M_localXAxisA)
+		joint.M_axis = RotVec2Mul(qA, joint.M_localXAxisA)
 		joint.M_a1 = Vec2Cross(Vec2Add(d, rA), joint.M_axis)
 		joint.M_a2 = Vec2Cross(rB, joint.M_axis)
 
@@ -284,7 +284,7 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 
 	// Prismatic constraint.
 	{
-		joint.M_perp = B2RotVec2Mul(qA, joint.M_localYAxisA)
+		joint.M_perp = RotVec2Mul(qA, joint.M_localYAxisA)
 
 		joint.M_s1 = Vec2Cross(Vec2Add(d, rA), joint.M_perp)
 		joint.M_s2 = Vec2Cross(rB, joint.M_perp)
@@ -471,14 +471,14 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	iB := joint.M_invIB
 
 	// Compute fresh Jacobians
-	rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	rA := RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	rB := RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 	d := Vec2Sub(Vec2Sub(Vec2Add(cB, rB), cA), rA)
 
-	axis := B2RotVec2Mul(qA, joint.M_localXAxisA)
+	axis := RotVec2Mul(qA, joint.M_localXAxisA)
 	a1 := Vec2Cross(Vec2Add(d, rA), axis)
 	a2 := Vec2Cross(rB, axis)
-	perp := B2RotVec2Mul(qA, joint.M_localYAxisA)
+	perp := RotVec2Mul(qA, joint.M_localYAxisA)
 
 	s1 := Vec2Cross(Vec2Add(d, rA), perp)
 	s2 := Vec2Cross(rB, perp)
@@ -601,12 +601,12 @@ func (joint B2PrismaticJoint) GetJointSpeed() float64 {
 	bA := joint.M_bodyA
 	bB := joint.M_bodyB
 
-	rA := B2RotVec2Mul(bA.M_xf.Q, Vec2Sub(joint.M_localAnchorA, bA.M_sweep.LocalCenter))
-	rB := B2RotVec2Mul(bB.M_xf.Q, Vec2Sub(joint.M_localAnchorB, bB.M_sweep.LocalCenter))
+	rA := RotVec2Mul(bA.M_xf.Q, Vec2Sub(joint.M_localAnchorA, bA.M_sweep.LocalCenter))
+	rB := RotVec2Mul(bB.M_xf.Q, Vec2Sub(joint.M_localAnchorB, bB.M_sweep.LocalCenter))
 	p1 := Vec2Add(bA.M_sweep.C, rA)
 	p2 := Vec2Add(bB.M_sweep.C, rB)
 	d := Vec2Sub(p2, p1)
-	axis := B2RotVec2Mul(bA.M_xf.Q, joint.M_localXAxisA)
+	axis := RotVec2Mul(bA.M_xf.Q, joint.M_localXAxisA)
 
 	vA := bA.M_linearVelocity
 	vB := bB.M_linearVelocity

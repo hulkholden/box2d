@@ -231,13 +231,13 @@ func (joint *B2WheelJoint) InitVelocityConstraints(data B2SolverData) {
 	qB := MakeB2RotFromAngle(aB)
 
 	// Compute the effective masses.
-	rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	rA := RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	rB := RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 	d := Vec2Sub(Vec2Sub(Vec2Add(cB, rB), cA), rA)
 
 	// Point to line constraint
 	{
-		joint.M_ay = B2RotVec2Mul(qA, joint.M_localYAxisA)
+		joint.M_ay = RotVec2Mul(qA, joint.M_localYAxisA)
 		joint.M_sAy = Vec2Cross(Vec2Add(d, rA), joint.M_ay)
 		joint.M_sBy = Vec2Cross(rB, joint.M_ay)
 
@@ -253,7 +253,7 @@ func (joint *B2WheelJoint) InitVelocityConstraints(data B2SolverData) {
 	joint.M_bias = 0.0
 	joint.M_gamma = 0.0
 	if joint.M_frequencyHz > 0.0 {
-		joint.M_ax = B2RotVec2Mul(qA, joint.M_localXAxisA)
+		joint.M_ax = RotVec2Mul(qA, joint.M_localXAxisA)
 		joint.M_sAx = Vec2Cross(Vec2Add(d, rA), joint.M_ax)
 		joint.M_sBx = Vec2Cross(rB, joint.M_ax)
 
@@ -403,11 +403,11 @@ func (joint *B2WheelJoint) SolvePositionConstraints(data B2SolverData) bool {
 	qA := MakeB2RotFromAngle(aA)
 	qB := MakeB2RotFromAngle(aB)
 
-	rA := B2RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
-	rB := B2RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
+	rA := RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
+	rB := RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
 	d := Vec2Sub(Vec2Add(Vec2Sub(cB, cA), rB), rA)
 
-	ay := B2RotVec2Mul(qA, joint.M_localYAxisA)
+	ay := RotVec2Mul(qA, joint.M_localYAxisA)
 
 	sAy := Vec2Cross(Vec2Add(d, rA), ay)
 	sBy := Vec2Cross(rB, ay)
@@ -473,12 +473,12 @@ func (joint B2WheelJoint) GetJointLinearSpeed() float64 {
 	bA := joint.M_bodyA
 	bB := joint.M_bodyB
 
-	rA := B2RotVec2Mul(bA.M_xf.Q, Vec2Sub(joint.M_localAnchorA, bA.M_sweep.LocalCenter))
-	rB := B2RotVec2Mul(bB.M_xf.Q, Vec2Sub(joint.M_localAnchorB, bB.M_sweep.LocalCenter))
+	rA := RotVec2Mul(bA.M_xf.Q, Vec2Sub(joint.M_localAnchorA, bA.M_sweep.LocalCenter))
+	rB := RotVec2Mul(bB.M_xf.Q, Vec2Sub(joint.M_localAnchorB, bB.M_sweep.LocalCenter))
 	p1 := Vec2Add(bA.M_sweep.C, rA)
 	p2 := Vec2Add(bB.M_sweep.C, rB)
 	d := Vec2Sub(p2, p1)
-	axis := B2RotVec2Mul(bA.M_xf.Q, joint.M_localXAxisA)
+	axis := RotVec2Mul(bA.M_xf.Q, joint.M_localXAxisA)
 
 	vA := bA.M_linearVelocity
 	vB := bB.M_linearVelocity

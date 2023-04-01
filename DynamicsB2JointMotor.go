@@ -135,8 +135,8 @@ func (joint *B2MotorJoint) InitVelocityConstraints(data B2SolverData) {
 	qB := MakeB2RotFromAngle(aB)
 
 	// Compute the effective mass matrix.
-	joint.M_rA = B2RotVec2Mul(qA, Vec2Sub(joint.M_linearOffset, joint.M_localCenterA))
-	joint.M_rB = B2RotVec2Mul(qB, joint.M_localCenterB.OperatorNegate())
+	joint.M_rA = RotVec2Mul(qA, Vec2Sub(joint.M_linearOffset, joint.M_localCenterA))
+	joint.M_rB = RotVec2Mul(qB, joint.M_localCenterB.OperatorNegate())
 
 	// J = [-I -r1_skew I r2_skew]
 	// r_skew = [-ry; rx]

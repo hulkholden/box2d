@@ -89,7 +89,7 @@ func (poly *B2PolygonShape) SetAsBoxFromCenterAndAngle(hx float64, hy float64, c
 	// Transform vertices and normals.
 	for i := 0; i < poly.M_count; i++ {
 		poly.M_vertices[i] = B2TransformVec2Mul(xf, poly.M_vertices[i])
-		poly.M_normals[i] = B2RotVec2Mul(xf.Q, poly.M_normals[i])
+		poly.M_normals[i] = RotVec2Mul(xf.Q, poly.M_normals[i])
 	}
 }
 
@@ -265,7 +265,7 @@ func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
 }
 
 func (poly B2PolygonShape) TestPoint(xf B2Transform, p Vec2) bool {
-	pLocal := B2RotVec2MulT(xf.Q, Vec2Sub(p, xf.P))
+	pLocal := RotVec2MulT(xf.Q, Vec2Sub(p, xf.P))
 
 	for i := 0; i < poly.M_count; i++ {
 		dot := Vec2Dot(poly.M_normals[i], Vec2Sub(pLocal, poly.M_vertices[i]))
@@ -279,8 +279,8 @@ func (poly B2PolygonShape) TestPoint(xf B2Transform, p Vec2) bool {
 
 func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf B2Transform, childIndex int) bool {
 	// Put the ray into the polygon's frame of reference.
-	p1 := B2RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
-	p2 := B2RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))
+	p1 := RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
+	p2 := RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))
 	d := Vec2Sub(p2, p1)
 
 	lower := 0.0
@@ -329,7 +329,7 @@ func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 
 	if index >= 0 {
 		output.Fraction = lower
-		output.Normal = B2RotVec2Mul(xf.Q, poly.M_normals[index])
+		output.Normal = RotVec2Mul(xf.Q, poly.M_normals[index])
 		return true
 	}
 

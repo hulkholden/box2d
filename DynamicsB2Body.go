@@ -237,7 +237,7 @@ func (body B2Body) GetWorldPoint(localPoint Vec2) Vec2 {
 }
 
 func (body B2Body) GetWorldVector(localVector Vec2) Vec2 {
-	return B2RotVec2Mul(body.M_xf.Q, localVector)
+	return RotVec2Mul(body.M_xf.Q, localVector)
 }
 
 func (body B2Body) GetLocalPoint(worldPoint Vec2) Vec2 {
@@ -245,7 +245,7 @@ func (body B2Body) GetLocalPoint(worldPoint Vec2) Vec2 {
 }
 
 func (body B2Body) GetLocalVector(worldVector Vec2) Vec2 {
-	return B2RotVec2MulT(body.M_xf.Q, worldVector)
+	return RotVec2MulT(body.M_xf.Q, worldVector)
 }
 
 func (body B2Body) GetLinearVelocityFromWorldPoint(worldPoint Vec2) Vec2 {
@@ -455,7 +455,7 @@ func (body *B2Body) ApplyAngularImpulse(impulse float64, wake bool) {
 
 func (body *B2Body) SynchronizeTransform() {
 	body.M_xf.Q.Set(body.M_sweep.A)
-	body.M_xf.P = Vec2Sub(body.M_sweep.C, B2RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
+	body.M_xf.P = Vec2Sub(body.M_sweep.C, RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
 }
 
 func (body *B2Body) Advance(alpha float64) {
@@ -464,7 +464,7 @@ func (body *B2Body) Advance(alpha float64) {
 	body.M_sweep.C = body.M_sweep.C0
 	body.M_sweep.A = body.M_sweep.A0
 	body.M_xf.Q.Set(body.M_sweep.A)
-	body.M_xf.P = Vec2Sub(body.M_sweep.C, B2RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
+	body.M_xf.P = Vec2Sub(body.M_sweep.C, RotVec2Mul(body.M_xf.Q, body.M_sweep.LocalCenter))
 }
 
 func (body B2Body) GetWorld() *B2World {
@@ -858,7 +858,7 @@ func (body *B2Body) SetTransform(position Vec2, angle float64) {
 func (body *B2Body) SynchronizeFixtures() {
 	xf1 := MakeB2Transform()
 	xf1.Q.Set(body.M_sweep.A0)
-	xf1.P = Vec2Sub(body.M_sweep.C0, B2RotVec2Mul(xf1.Q, body.M_sweep.LocalCenter))
+	xf1.P = Vec2Sub(body.M_sweep.C0, RotVec2Mul(xf1.Q, body.M_sweep.LocalCenter))
 
 	broadPhase := &body.M_world.M_contactManager.M_broadPhase
 	for f := body.M_fixtureList; f != nil; f = f.M_next {

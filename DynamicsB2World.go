@@ -1003,7 +1003,7 @@ func (world *B2World) DrawShape(fixture *B2Fixture, xf B2Transform, color B2Colo
 
 		center := B2TransformVec2Mul(xf, circle.M_p)
 		radius := circle.M_radius
-		axis := B2RotVec2Mul(xf.Q, MakeVec2(1.0, 0.0))
+		axis := RotVec2Mul(xf.Q, MakeVec2(1.0, 0.0))
 
 		world.G_debugDraw.DrawSolidCircle(center, radius, axis, color)
 

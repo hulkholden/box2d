@@ -202,8 +202,8 @@ func (solver *B2ContactSolver) InitializeVelocityConstraints() {
 		xfB := MakeB2Transform()
 		xfA.Q.Set(aA)
 		xfB.Q.Set(aB)
-		xfA.P = Vec2Sub(cA, B2RotVec2Mul(xfA.Q, localCenterA))
-		xfB.P = Vec2Sub(cB, B2RotVec2Mul(xfB.Q, localCenterB))
+		xfA.P = Vec2Sub(cA, RotVec2Mul(xfA.Q, localCenterA))
+		xfB.P = Vec2Sub(cB, RotVec2Mul(xfB.Q, localCenterB))
 
 		worldManifold := MakeB2WorldManifold()
 		worldManifold.Initialize(manifold, xfA, radiusA, xfB, radiusB)
@@ -698,7 +698,7 @@ func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPosition
 		solvermanifold.Separation = Vec2Dot(Vec2Sub(pointB, pointA), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
 
 	case B2Manifold_Type.E_faceA:
-		solvermanifold.Normal = B2RotVec2Mul(xfA.Q, pc.LocalNormal)
+		solvermanifold.Normal = RotVec2Mul(xfA.Q, pc.LocalNormal)
 		planePoint := B2TransformVec2Mul(xfA, pc.LocalPoint)
 
 		clipPoint := B2TransformVec2Mul(xfB, pc.LocalPoints[index])
@@ -706,7 +706,7 @@ func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPosition
 		solvermanifold.Point = clipPoint
 
 	case B2Manifold_Type.E_faceB:
-		solvermanifold.Normal = B2RotVec2Mul(xfB.Q, pc.LocalNormal)
+		solvermanifold.Normal = RotVec2Mul(xfB.Q, pc.LocalNormal)
 		planePoint := B2TransformVec2Mul(xfB, pc.LocalPoint)
 
 		clipPoint := B2TransformVec2Mul(xfA, pc.LocalPoints[index])
@@ -748,8 +748,8 @@ func (solver *B2ContactSolver) SolvePositionConstraints() bool {
 
 			xfA.Q.Set(aA)
 			xfB.Q.Set(aB)
-			xfA.P = Vec2Sub(cA, B2RotVec2Mul(xfA.Q, localCenterA))
-			xfB.P = Vec2Sub(cB, B2RotVec2Mul(xfB.Q, localCenterB))
+			xfA.P = Vec2Sub(cA, RotVec2Mul(xfA.Q, localCenterA))
+			xfB.P = Vec2Sub(cB, RotVec2Mul(xfB.Q, localCenterB))
 
 			psm := MakeB2PositionSolverManifold()
 			psm.Initialize(pc, xfA, xfB, j)
@@ -839,8 +839,8 @@ func (solver *B2ContactSolver) SolveTOIPositionConstraints(toiIndexA int, toiInd
 
 			xfA.Q.Set(aA)
 			xfB.Q.Set(aB)
-			xfB.P = Vec2Sub(cB, B2RotVec2Mul(xfB.Q, localCenterB))
-			xfA.P = Vec2Sub(cA, B2RotVec2Mul(xfA.Q, localCenterA))
+			xfB.P = Vec2Sub(cB, RotVec2Mul(xfB.Q, localCenterB))
+			xfA.P = Vec2Sub(cA, RotVec2Mul(xfA.Q, localCenterA))
 
 			psm := MakeB2PositionSolverManifold()
 			psm.Initialize(pc, xfA, xfB, j)

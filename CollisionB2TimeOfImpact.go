@@ -111,7 +111,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 		)
 
 		sepfunc.M_axis.Normalize()
-		normal := B2RotVec2Mul(xfB.Q, sepfunc.M_axis)
+		normal := RotVec2Mul(xfB.Q, sepfunc.M_axis)
 
 		sepfunc.M_localPoint = Vec2MulScalar(0.5, Vec2Add(localPointB1, localPointB2))
 		pointB := B2TransformVec2Mul(xfB, sepfunc.M_localPoint)
@@ -134,7 +134,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *B
 
 		sepfunc.M_axis = Vec2CrossVectorScalar(Vec2Sub(localPointA2, localPointA1), 1.0)
 		sepfunc.M_axis.Normalize()
-		normal := B2RotVec2Mul(xfA.Q, sepfunc.M_axis)
+		normal := RotVec2Mul(xfA.Q, sepfunc.M_axis)
 
 		sepfunc.M_localPoint = Vec2MulScalar(0.5, Vec2Add(localPointA1, localPointA2))
 		pointA := B2TransformVec2Mul(xfA, sepfunc.M_localPoint)
@@ -162,8 +162,8 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 	switch sepfunc.M_type {
 	case B2SeparationFunction_Type.E_points:
 		{
-			axisA := B2RotVec2MulT(xfA.Q, sepfunc.M_axis)
-			axisB := B2RotVec2MulT(xfB.Q, sepfunc.M_axis.OperatorNegate())
+			axisA := RotVec2MulT(xfA.Q, sepfunc.M_axis)
+			axisB := RotVec2MulT(xfB.Q, sepfunc.M_axis.OperatorNegate())
 
 			*indexA = sepfunc.M_proxyA.GetSupport(axisA)
 			*indexB = sepfunc.M_proxyB.GetSupport(axisB)
@@ -180,10 +180,10 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 
 	case B2SeparationFunction_Type.E_faceA:
 		{
-			normal := B2RotVec2Mul(xfA.Q, sepfunc.M_axis)
+			normal := RotVec2Mul(xfA.Q, sepfunc.M_axis)
 			pointA := B2TransformVec2Mul(xfA, sepfunc.M_localPoint)
 
-			axisB := B2RotVec2MulT(xfB.Q, normal.OperatorNegate())
+			axisB := RotVec2MulT(xfB.Q, normal.OperatorNegate())
 
 			*indexA = -1
 			*indexB = sepfunc.M_proxyB.GetSupport(axisB)
@@ -197,10 +197,10 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 
 	case B2SeparationFunction_Type.E_faceB:
 		{
-			normal := B2RotVec2Mul(xfB.Q, sepfunc.M_axis)
+			normal := RotVec2Mul(xfB.Q, sepfunc.M_axis)
 			pointB := B2TransformVec2Mul(xfB, sepfunc.M_localPoint)
 
-			axisA := B2RotVec2MulT(xfA.Q, normal.OperatorNegate())
+			axisA := RotVec2MulT(xfA.Q, normal.OperatorNegate())
 
 			*indexB = -1
 			*indexA = sepfunc.M_proxyA.GetSupport(axisA)
@@ -242,7 +242,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 
 	case B2SeparationFunction_Type.E_faceA:
 		{
-			normal := B2RotVec2Mul(xfA.Q, sepfunc.M_axis)
+			normal := RotVec2Mul(xfA.Q, sepfunc.M_axis)
 			pointA := B2TransformVec2Mul(xfA, sepfunc.M_localPoint)
 
 			localPointB := sepfunc.M_proxyB.GetVertex(indexB)
@@ -254,7 +254,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 
 	case B2SeparationFunction_Type.E_faceB:
 		{
-			normal := B2RotVec2Mul(xfB.Q, sepfunc.M_axis)
+			normal := RotVec2Mul(xfB.Q, sepfunc.M_axis)
 			pointB := B2TransformVec2Mul(xfB, sepfunc.M_localPoint)
 
 			localPointA := sepfunc.M_proxyA.GetVertex(indexA)

@@ -263,7 +263,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 
 	case B2Manifold_Type.E_faceA:
 		{
-			wm.Normal = B2RotVec2Mul(xfA.Q, manifold.LocalNormal)
+			wm.Normal = RotVec2Mul(xfA.Q, manifold.LocalNormal)
 			planePoint := B2TransformVec2Mul(xfA, manifold.LocalPoint)
 
 			for i := 0; i < manifold.PointCount; i++ {
@@ -289,7 +289,7 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA B2Transform, rad
 
 	case B2Manifold_Type.E_faceB:
 		{
-			wm.Normal = B2RotVec2Mul(xfB.Q, manifold.LocalNormal)
+			wm.Normal = RotVec2Mul(xfB.Q, manifold.LocalNormal)
 			planePoint := B2TransformVec2Mul(xfB, manifold.LocalPoint)
 
 			for i := 0; i < manifold.PointCount; i++ {

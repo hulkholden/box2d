@@ -367,7 +367,7 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, 
 	collider.M_polygonB.Count = polygonB.M_count
 	for i := 0; i < polygonB.M_count; i++ {
 		collider.M_polygonB.Vertices[i] = B2TransformVec2Mul(collider.M_xf, polygonB.M_vertices[i])
-		collider.M_polygonB.Normals[i] = B2RotVec2Mul(collider.M_xf.Q, polygonB.M_normals[i])
+		collider.M_polygonB.Normals[i] = RotVec2Mul(collider.M_xf.Q, polygonB.M_normals[i])
 	}
 
 	collider.M_radius = polygonB.M_radius + edgeA.M_radius

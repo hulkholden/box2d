@@ -74,8 +74,8 @@ func (edge B2EdgeShape) TestPoint(xf B2Transform, p Vec2) bool {
 // s * e - t * d = p1 - v1
 func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf B2Transform, childIndex int) bool {
 	// Put the ray into the edge's frame of reference.
-	p1 := B2RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
-	p2 := B2RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))
+	p1 := RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
+	p2 := RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))
 	d := Vec2Sub(p2, p1)
 
 	v1 := edge.M_vertex1
@@ -116,9 +116,9 @@ func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, x
 
 	output.Fraction = t
 	if numerator > 0.0 {
-		output.Normal = B2RotVec2Mul(xf.Q, normal).OperatorNegate()
+		output.Normal = RotVec2Mul(xf.Q, normal).OperatorNegate()
 	} else {
-		output.Normal = B2RotVec2Mul(xf.Q, normal)
+		output.Normal = RotVec2Mul(xf.Q, normal)
 	}
 
 	return true

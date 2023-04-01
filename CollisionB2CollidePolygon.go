@@ -14,7 +14,7 @@ func B2FindMaxSeparation(edgeIndex *int, poly1 *B2PolygonShape, xf1 B2Transform,
 	maxSeparation := -maxFloat
 	for i := 0; i < count1; i++ {
 		// Get poly1 normal in frame2.
-		n := B2RotVec2Mul(xf.Q, n1s[i])
+		n := RotVec2Mul(xf.Q, n1s[i])
 		v1 := B2TransformVec2Mul(xf, v1s[i])
 
 		// Find deepest point for normal i.
@@ -46,7 +46,7 @@ func B2FindIncidentEdge(c []B2ClipVertex, poly1 *B2PolygonShape, xf1 B2Transform
 	assert(0 <= edge1 && edge1 < poly1.M_count)
 
 	// Get the normal of the reference edge in poly2's frame.
-	normal1 := B2RotVec2MulT(xf2.Q, B2RotVec2Mul(xf1.Q, normals1[edge1]))
+	normal1 := RotVec2MulT(xf2.Q, RotVec2Mul(xf1.Q, normals1[edge1]))
 
 	// Find the incident edge on poly2.
 	index := 0
@@ -150,7 +150,7 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA B2Transf
 	localNormal := Vec2CrossVectorScalar(localTangent, 1.0)
 	planePoint := Vec2MulScalar(0.5, Vec2Add(v11, v12))
 
-	tangent := B2RotVec2Mul(xf1.Q, localTangent)
+	tangent := RotVec2Mul(xf1.Q, localTangent)
 	normal := Vec2CrossVectorScalar(tangent, 1.0)
 
 	v11 = B2TransformVec2Mul(xf1, v11)

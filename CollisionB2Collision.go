@@ -447,7 +447,7 @@ func ClipSegmentToLine(vOut []ClipVertex, vIn []ClipVertex, normal Vec2, offset 
 	return numOut
 }
 
-func B2TestOverlapShapes(shapeA ShapeInterface, indexA int, shapeB ShapeInterface, indexB int, xfA Transform, xfB Transform) bool {
+func TestOverlapShapes(shapeA ShapeInterface, indexA int, shapeB ShapeInterface, indexB int, xfA Transform, xfB Transform) bool {
 	input := MakeDistanceInput()
 	input.ProxyA.Set(shapeA, indexA)
 	input.ProxyB.Set(shapeB, indexB)

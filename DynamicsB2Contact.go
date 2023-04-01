@@ -460,7 +460,7 @@ func ContactUpdate(contact ContactInterface, listener B2ContactListenerInterface
 	if sensor {
 		shapeA := contact.GetFixtureA().GetShape()
 		shapeB := contact.GetFixtureB().GetShape()
-		touching = B2TestOverlapShapes(shapeA, contact.GetChildIndexA(), shapeB, contact.GetChildIndexB(), xfA, xfB)
+		touching = TestOverlapShapes(shapeA, contact.GetChildIndexA(), shapeB, contact.GetChildIndexB(), xfA, xfB)
 
 		// Sensors don't generate manifolds.
 		contact.GetManifold().PointCount = 0

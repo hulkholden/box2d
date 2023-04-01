@@ -131,14 +131,14 @@ func CollideEdgeAndCircle(manifold *Manifold, edgeA *EdgeShape, xfA Transform, c
 }
 
 // This structure is used to keep track of the best separating axis.
-var B2EPAxis_Type = struct {
-	E_unknown uint8
-	E_edgeA   uint8
-	E_edgeB   uint8
+var EPAxisType = struct {
+	Unknown uint8
+	EdgeA   uint8
+	EdgeB   uint8
 }{
-	E_unknown: 0,
-	E_edgeA:   1,
-	E_edgeB:   2,
+	Unknown: 0,
+	EdgeA:   1,
+	EdgeB:   2,
 }
 
 type EPAxis struct {
@@ -377,7 +377,7 @@ func (collider *EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA Tr
 	edgeAxis := collider.ComputeEdgeSeparation()
 
 	// If no valid normal can be found than this edge should not collide.
-	if edgeAxis.Type == B2EPAxis_Type.E_unknown {
+	if edgeAxis.Type == EPAxisType.Unknown {
 		return
 	}
 
@@ -386,7 +386,7 @@ func (collider *EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA Tr
 	}
 
 	polygonAxis := collider.ComputePolygonSeparation()
-	if polygonAxis.Type != B2EPAxis_Type.E_unknown && polygonAxis.Separation > collider.M_radius {
+	if polygonAxis.Type != EPAxisType.Unknown && polygonAxis.Separation > collider.M_radius {
 		return
 	}
 
@@ -395,7 +395,7 @@ func (collider *EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA Tr
 	k_absoluteTol := 0.001
 
 	primaryAxis := MakeEPAxis()
-	if polygonAxis.Type == B2EPAxis_Type.E_unknown {
+	if polygonAxis.Type == EPAxisType.Unknown {
 		primaryAxis = edgeAxis
 	} else if polygonAxis.Separation > k_relativeTol*edgeAxis.Separation+k_absoluteTol {
 		primaryAxis = polygonAxis
@@ -405,7 +405,7 @@ func (collider *EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA Tr
 
 	ie := make([]ClipVertex, 2)
 	rf := MakeReferenceFace()
-	if primaryAxis.Type == B2EPAxis_Type.E_edgeA {
+	if primaryAxis.Type == EPAxisType.EdgeA {
 		manifold.Type = ManifoldType.FaceA
 
 		// Search for the polygon normal that is most anti-parallel to the edge normal.
@@ -502,7 +502,7 @@ func (collider *EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA Tr
 	}
 
 	// Now clipPoints2 contains the clipped points.
-	if primaryAxis.Type == B2EPAxis_Type.E_edgeA {
+	if primaryAxis.Type == EPAxisType.EdgeA {
 		manifold.LocalNormal = rf.Normal
 		manifold.LocalPoint = rf.V1
 	} else {
@@ -519,7 +519,7 @@ func (collider *EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA Tr
 		if separation <= collider.M_radius {
 			cp := &manifold.Points[pointCount]
 
-			if primaryAxis.Type == B2EPAxis_Type.E_edgeA {
+			if primaryAxis.Type == EPAxisType.EdgeA {
 				cp.LocalPoint = TransformVec2MulT(collider.M_xf, clipPoints2[i].V)
 				cp.Id = clipPoints2[i].Id
 			} else {
@@ -539,7 +539,7 @@ func (collider *EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA Tr
 
 func (collider *EPCollider) ComputeEdgeSeparation() EPAxis {
 	axis := MakeEPAxis()
-	axis.Type = B2EPAxis_Type.E_edgeA
+	axis.Type = EPAxisType.EdgeA
 	if collider.M_front {
 		axis.Index = 0
 	} else {
@@ -559,7 +559,7 @@ func (collider *EPCollider) ComputeEdgeSeparation() EPAxis {
 
 func (collider *EPCollider) ComputePolygonSeparation() EPAxis {
 	axis := MakeEPAxis()
-	axis.Type = B2EPAxis_Type.E_unknown
+	axis.Type = EPAxisType.Unknown
 	axis.Index = -1
 	axis.Separation = -maxFloat
 
@@ -574,7 +574,7 @@ func (collider *EPCollider) ComputePolygonSeparation() EPAxis {
 
 		if s > collider.M_radius {
 			// No collision
-			axis.Type = B2EPAxis_Type.E_edgeB
+			axis.Type = EPAxisType.EdgeB
 			axis.Index = i
 			axis.Separation = s
 			return axis
@@ -592,7 +592,7 @@ func (collider *EPCollider) ComputePolygonSeparation() EPAxis {
 		}
 
 		if s > axis.Separation {
-			axis.Type = B2EPAxis_Type.E_edgeB
+			axis.Type = EPAxisType.EdgeB
 			axis.Index = i
 			axis.Separation = s
 		}

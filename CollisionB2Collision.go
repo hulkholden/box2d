@@ -63,7 +63,7 @@ func (v *ContactID) SetKey(key uint32) {
 // This structure is stored across time steps, so we keep it small.
 // Note: the impulses are used for internal caching and may not
 // provide reliable contact forces, especially for high speed collisions.
-type B2ManifoldPoint struct {
+type ManifoldPoint struct {
 	LocalPoint     Vec2      ///< usage depends on manifold type
 	NormalImpulse  float64   ///< the non-penetration impulse
 	TangentImpulse float64   ///< the friction impulse
@@ -98,11 +98,11 @@ var ManifoldType = struct {
 }
 
 type Manifold struct {
-	Points      [maxManifoldPoints]B2ManifoldPoint ///< the points of contact
-	LocalNormal Vec2                               ///< not use for Type::e_points
-	LocalPoint  Vec2                               ///< usage depends on manifold type
-	Type        uint8                              // ManifoldType
-	PointCount  int                                ///< the number of manifold points
+	Points      [maxManifoldPoints]ManifoldPoint ///< the points of contact
+	LocalNormal Vec2                             ///< not use for Type::e_points
+	LocalPoint  Vec2                             ///< usage depends on manifold type
+	Type        uint8                            // ManifoldType
+	PointCount  int                              ///< the number of manifold points
 }
 
 func NewManifold() *Manifold { return &Manifold{} }

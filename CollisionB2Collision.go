@@ -314,7 +314,7 @@ func (wm *WorldManifold) Initialize(manifold *Manifold, xfA Transform, radiusA f
 	}
 }
 
-func B2GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoints]uint8, manifold1 Manifold, manifold2 Manifold) {
+func GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoints]uint8, manifold1 Manifold, manifold2 Manifold) {
 	for i := 0; i < maxManifoldPoints; i++ {
 		state1[i] = PointState.Null
 		state2[i] = PointState.Null

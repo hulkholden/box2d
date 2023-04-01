@@ -431,7 +431,7 @@ func (joint *B2RevoluteJoint) SolvePositionConstraints(data B2SolverData) bool {
 		iA := joint.M_invIA
 		iB := joint.M_invIB
 
-		var K B2Mat22
+		var K Mat22
 		K.Ex.X = mA + mB + iA*rA.Y*rA.Y + iB*rB.Y*rB.Y
 		K.Ex.Y = -iA*rA.X*rA.Y - iB*rB.X*rB.Y
 		K.Ey.X = K.Ex.Y

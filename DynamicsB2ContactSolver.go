@@ -17,8 +17,8 @@ type B2VelocityConstraintPoint struct {
 type B2ContactVelocityConstraint struct {
 	Points             [maxManifoldPoints]B2VelocityConstraintPoint
 	Normal             Vec2
-	NormalMass         B2Mat22
-	K                  B2Mat22
+	NormalMass         Mat22
+	K                  Mat22
 	IndexA             int
 	IndexB             int
 	InvMassA, InvMassB float64

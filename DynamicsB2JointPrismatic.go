@@ -544,7 +544,7 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 			k22 = 1.0
 		}
 
-		K := MakeB2Mat22()
+		K := MakeMat22()
 		K.Ex.Set(k11, k12)
 		K.Ey.Set(k12, k22)
 

@@ -67,7 +67,7 @@ type B2MouseJoint struct {
 	M_localCenterB Vec2
 	M_invMassB     float64
 	M_invIB        float64
-	M_mass         B2Mat22
+	M_mass         Mat22
 	M_C            Vec2
 }
 
@@ -185,7 +185,7 @@ func (joint *B2MouseJoint) InitVelocityConstraints(data B2SolverData) {
 	// K    = [(1/m1 + 1/m2) * eye(2) - skew(r1) * invI1 * skew(r1) - skew(r2) * invI2 * skew(r2)]
 	//      = [1/m1+1/m2     0    ] + invI1 * [r1.y*r1.y -r1.x*r1.y] + invI2 * [r1.y*r1.y -r1.x*r1.y]
 	//        [    0     1/m1+1/m2]           [-r1.x*r1.y r1.x*r1.x]           [-r1.x*r1.y r1.x*r1.x]
-	var K B2Mat22
+	var K Mat22
 	K.Ex.X = joint.M_invMassB + joint.M_invIB*joint.M_rB.Y*joint.M_rB.Y + joint.M_gamma
 	K.Ex.Y = -joint.M_invIB * joint.M_rB.X * joint.M_rB.Y
 	K.Ey.X = K.Ex.Y

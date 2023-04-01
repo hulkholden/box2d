@@ -60,7 +60,7 @@ type B2FrictionJoint struct {
 	M_invMassB     float64
 	M_invIA        float64
 	M_invIB        float64
-	M_linearMass   B2Mat22
+	M_linearMass   Mat22
 	M_angularMass  float64
 }
 
@@ -149,7 +149,7 @@ func (joint *B2FrictionJoint) InitVelocityConstraints(data B2SolverData) {
 	iA := joint.M_invIA
 	iB := joint.M_invIB
 
-	var K B2Mat22
+	var K Mat22
 	K.Ex.X = mA + mB + iA*joint.M_rA.Y*joint.M_rA.Y + iB*joint.M_rB.Y*joint.M_rB.Y
 	K.Ex.Y = -iA*joint.M_rA.X*joint.M_rA.Y - iB*joint.M_rB.X*joint.M_rB.Y
 	K.Ey.X = K.Ex.Y

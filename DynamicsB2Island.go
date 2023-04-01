@@ -258,7 +258,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2,
 	solverData.Velocities = island.M_velocities
 
 	// Initialize velocity constraints.
-	contactSolverDef := MakeB2ContactSolverDef()
+	contactSolverDef := MakeContactSolverDef()
 	contactSolverDef.Step = step
 	contactSolverDef.Contacts = island.M_contacts
 	contactSolverDef.Count = island.M_contactCount
@@ -399,7 +399,7 @@ func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB in
 		island.M_velocities[i].W = b.M_angularVelocity
 	}
 
-	contactSolverDef := MakeB2ContactSolverDef()
+	contactSolverDef := MakeContactSolverDef()
 
 	contactSolverDef.Contacts = island.M_contacts
 	contactSolverDef.Count = island.M_contactCount

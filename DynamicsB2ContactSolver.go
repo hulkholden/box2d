@@ -30,7 +30,7 @@ type B2ContactVelocityConstraint struct {
 	ContactIndex       int
 }
 
-type B2ContactSolverDef struct {
+type ContactSolverDef struct {
 	Step       B2TimeStep
 	Contacts   []ContactInterface // has to be backed by pointers
 	Count      int
@@ -38,8 +38,8 @@ type B2ContactSolverDef struct {
 	Velocities []B2Velocity
 }
 
-func MakeB2ContactSolverDef() B2ContactSolverDef {
-	return B2ContactSolverDef{}
+func MakeContactSolverDef() ContactSolverDef {
+	return ContactSolverDef{}
 }
 
 type ContactSolver struct {
@@ -79,7 +79,7 @@ type B2ContactPositionConstraint struct {
 	PointCount                 int
 }
 
-func MakeContactSolver(def *B2ContactSolverDef) ContactSolver {
+func MakeContactSolver(def *ContactSolverDef) ContactSolver {
 	solver := ContactSolver{}
 
 	solver.M_step = def.Step

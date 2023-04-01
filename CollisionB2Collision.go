@@ -108,13 +108,13 @@ type Manifold struct {
 func NewManifold() *Manifold { return &Manifold{} }
 
 // This is used to compute the current state of a contact manifold.
-type B2WorldManifold struct {
+type WorldManifold struct {
 	Normal      Vec2                       ///< world vector pointing from A to B
 	Points      [maxManifoldPoints]Vec2    ///< world contact point (point of intersection)
 	Separations [maxManifoldPoints]float64 ///< a negative value indicates overlap, in meters
 }
 
-func MakeB2WorldManifold() B2WorldManifold { return B2WorldManifold{} }
+func MakeWorldManifold() WorldManifold { return WorldManifold{} }
 
 var B2PointState = struct {
 	B2_nullState    uint8 ///< point does not exist
@@ -238,7 +238,7 @@ func B2TestOverlapBoundingBoxes(a, b AABB) bool {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (wm *B2WorldManifold) Initialize(manifold *Manifold, xfA Transform, radiusA float64, xfB Transform, radiusB float64) {
+func (wm *WorldManifold) Initialize(manifold *Manifold, xfA Transform, radiusA float64, xfB Transform, radiusB float64) {
 	if manifold.PointCount == 0 {
 		return
 	}

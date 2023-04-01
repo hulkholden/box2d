@@ -127,7 +127,7 @@ type ContactInterface interface {
 
 	FlagForFiltering()
 
-	GetWorldManifold(worldManifold *B2WorldManifold)
+	GetWorldManifold(worldManifold *WorldManifold)
 }
 
 type Contact struct {
@@ -284,7 +284,7 @@ func (contact *Contact) SetTangentSpeed(speed float64) {
 	contact.M_tangentSpeed = speed
 }
 
-func (contact Contact) GetWorldManifold(worldManifold *B2WorldManifold) {
+func (contact Contact) GetWorldManifold(worldManifold *WorldManifold) {
 	bodyA := contact.M_fixtureA.GetBody()
 	bodyB := contact.M_fixtureB.GetBody()
 	shapeA := contact.M_fixtureA.GetShape()

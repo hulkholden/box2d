@@ -205,7 +205,7 @@ func (solver *ContactSolver) InitializeVelocityConstraints() {
 		xfA.P = Vec2Sub(cA, RotVec2Mul(xfA.Q, localCenterA))
 		xfB.P = Vec2Sub(cB, RotVec2Mul(xfB.Q, localCenterB))
 
-		worldManifold := MakeB2WorldManifold()
+		worldManifold := MakeWorldManifold()
 		worldManifold.Initialize(manifold, xfA, radiusA, xfB, radiusB)
 
 		vc.Normal = worldManifold.Normal

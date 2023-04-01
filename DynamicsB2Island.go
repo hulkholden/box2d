@@ -200,7 +200,7 @@ func MakeIsland(bodyCapacity int, contactCapacity int, jointCapacity int, listen
 func (island *Island) Destroy() {
 }
 
-func (island *Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2, allowSleep bool) {
+func (island *Island) Solve(profile *B2Profile, step TimeStep, gravity Vec2, allowSleep bool) {
 	timer := MakeB2Timer()
 
 	h := step.Dt
@@ -386,7 +386,7 @@ func (island *Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2, a
 	}
 }
 
-func (island *Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB int) {
+func (island *Island) SolveTOI(subStep TimeStep, toiIndexA int, toiIndexB int) {
 	assert(toiIndexA < island.M_bodyCount)
 	assert(toiIndexB < island.M_bodyCount)
 

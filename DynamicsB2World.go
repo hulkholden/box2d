@@ -426,7 +426,7 @@ func (world *B2World) SetAllowSleeping(flag bool) {
 }
 
 // Find islands, integrate and solve constraints, solve position constraints
-func (world *B2World) Solve(step B2TimeStep) {
+func (world *B2World) Solve(step TimeStep) {
 	world.M_profile.SolveInit = 0.0
 	world.M_profile.SolveVelocity = 0.0
 	world.M_profile.SolvePosition = 0.0
@@ -602,7 +602,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 }
 
 // Find TOI contacts and solve them.
-func (world *B2World) SolveTOI(step B2TimeStep) {
+func (world *B2World) SolveTOI(step TimeStep) {
 	island := MakeIsland(2*maxTOIContacts, maxTOIContacts, 0, world.M_contactManager.M_contactListener)
 
 	if world.M_stepComplete {
@@ -846,7 +846,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 			}
 		}
 
-		subStep := MakeB2TimeStep()
+		subStep := MakeTimeStep()
 		subStep.Dt = (1.0 - minAlpha) * step.Dt
 		subStep.Inv_dt = 1.0 / subStep.Dt
 		subStep.DtRatio = 1.0
@@ -894,7 +894,7 @@ func (world *B2World) Step(dt float64, velocityIterations int, positionIteration
 
 	world.M_flags |= B2World_Flags.E_locked
 
-	step := MakeB2TimeStep()
+	step := MakeTimeStep()
 	step.Dt = dt
 	step.VelocityIterations = velocityIterations
 	step.PositionIterations = positionIterations

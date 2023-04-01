@@ -17,7 +17,7 @@ func MakeB2Profile() B2Profile {
 }
 
 // This is an internal structure.
-type B2TimeStep struct {
+type TimeStep struct {
 	Dt                 float64 // time step
 	Inv_dt             float64 // inverse time step (0 if dt == 0).
 	DtRatio            float64 // dt * inv_dt0
@@ -26,8 +26,8 @@ type B2TimeStep struct {
 	WarmStarting       bool
 }
 
-func MakeB2TimeStep() B2TimeStep {
-	return B2TimeStep{}
+func MakeTimeStep() TimeStep {
+	return TimeStep{}
 }
 
 // This is an internal structure.
@@ -44,7 +44,7 @@ type B2Velocity struct {
 
 // Solver Data
 type SolverData struct {
-	Step       B2TimeStep
+	Step       TimeStep
 	Positions  []B2Position
 	Velocities []B2Velocity
 }

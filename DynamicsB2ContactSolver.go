@@ -31,7 +31,7 @@ type ContactVelocityConstraint struct {
 }
 
 type ContactSolverDef struct {
-	Step       B2TimeStep
+	Step       TimeStep
 	Contacts   []ContactInterface // has to be backed by pointers
 	Count      int
 	Positions  []B2Position
@@ -43,7 +43,7 @@ func MakeContactSolverDef() ContactSolverDef {
 }
 
 type ContactSolver struct {
-	M_step                B2TimeStep
+	M_step                TimeStep
 	M_positions           []B2Position
 	M_velocities          []B2Velocity
 	M_positionConstraints []ContactPositionConstraint

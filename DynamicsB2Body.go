@@ -927,7 +927,7 @@ func (body *Body) Dump() {
 
 	fmt.Print("{\n")
 	fmt.Print("  BodyDef bd;\n")
-	fmt.Printf("  bd.type = b2BodyType(%d);\n", body.M_type)
+	fmt.Printf("  bd.type = BodyType(%d);\n", body.M_type)
 	fmt.Printf("  bd.position.Set(%.15f, %.15f);\n", body.M_xf.P.X, body.M_xf.P.Y)
 	fmt.Printf("  bd.angle = %.15f;\n", body.M_sweep.A)
 	fmt.Printf("  bd.linearVelocity.Set(%.15f, %.15f);\n", body.M_linearVelocity.X, body.M_linearVelocity.Y)

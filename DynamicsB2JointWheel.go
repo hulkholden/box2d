@@ -11,7 +11,7 @@ import (
 // can violate the constraint slightly. The joint translation is zero
 // when the local anchor points coincide in world space. Using local
 // anchors and a local axis helps when saving and loading a game.
-type B2WheelJointDef struct {
+type WheelJointDef struct {
 	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
@@ -39,8 +39,8 @@ type B2WheelJointDef struct {
 	DampingRatio float64
 }
 
-func MakeB2WheelJointDef() B2WheelJointDef {
-	res := B2WheelJointDef{
+func MakeB2WheelJointDef() WheelJointDef {
+	res := WheelJointDef{
 		JointDef: MakeJointDef(),
 	}
 
@@ -61,7 +61,7 @@ func MakeB2WheelJointDef() B2WheelJointDef {
 // along an axis fixed in bodyA and rotation in the plane. In other words, it is a point to
 // line constraint with a rotational motor and a linear spring/damper.
 // This joint is designed for vehicle suspensions.
-type B2WheelJoint struct {
+type WheelJoint struct {
 	*Joint
 
 	M_frequencyHz  float64
@@ -107,41 +107,41 @@ type B2WheelJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2WheelJoint) GetLocalAnchorA() Vec2 {
+func (joint WheelJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2WheelJoint) GetLocalAnchorB() Vec2 {
+func (joint WheelJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
 // The local joint axis relative to bodyA.
-func (joint B2WheelJoint) GetLocalAxisA() Vec2 {
+func (joint WheelJoint) GetLocalAxisA() Vec2 {
 	return joint.M_localXAxisA
 }
 
-func (joint B2WheelJoint) GetMotorSpeed() float64 {
+func (joint WheelJoint) GetMotorSpeed() float64 {
 	return joint.M_motorSpeed
 }
 
-func (joint B2WheelJoint) GetMaxMotorTorque() float64 {
+func (joint WheelJoint) GetMaxMotorTorque() float64 {
 	return joint.M_maxMotorTorque
 }
 
-func (joint *B2WheelJoint) SetSpringFrequencyHz(hz float64) {
+func (joint *WheelJoint) SetSpringFrequencyHz(hz float64) {
 	joint.M_frequencyHz = hz
 }
 
-func (joint B2WheelJoint) GetSpringFrequencyHz() float64 {
+func (joint WheelJoint) GetSpringFrequencyHz() float64 {
 	return joint.M_frequencyHz
 }
 
-func (joint *B2WheelJoint) SetSpringDampingRatio(ratio float64) {
+func (joint *WheelJoint) SetSpringDampingRatio(ratio float64) {
 	joint.M_dampingRatio = ratio
 }
 
-func (joint B2WheelJoint) GetSpringDampingRatio() float64 {
+func (joint WheelJoint) GetSpringDampingRatio() float64 {
 	return joint.M_dampingRatio
 }
 
@@ -161,7 +161,7 @@ func (joint B2WheelJoint) GetSpringDampingRatio() float64 {
 // Cdot = wB - wA
 // J = [0 0 -1 0 0 1]
 
-func (def *B2WheelJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, axis Vec2) {
+func (def *WheelJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, axis Vec2) {
 	def.BodyA = bA
 	def.BodyB = bB
 	def.LocalAnchorA = def.BodyA.GetLocalPoint(anchor)
@@ -169,8 +169,8 @@ func (def *B2WheelJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, axis Vec
 	def.LocalAxisA = def.BodyA.GetLocalVector(axis)
 }
 
-func MakeB2WheelJoint(def *B2WheelJointDef) *B2WheelJoint {
-	res := B2WheelJoint{
+func MakeWheelJoint(def *WheelJointDef) *WheelJoint {
+	res := WheelJoint{
 		Joint: MakeJoint(def),
 	}
 
@@ -202,7 +202,7 @@ func MakeB2WheelJoint(def *B2WheelJointDef) *B2WheelJoint {
 	return &res
 }
 
-func (joint *B2WheelJoint) InitVelocityConstraints(data SolverData) {
+func (joint *WheelJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter
@@ -329,7 +329,7 @@ func (joint *B2WheelJoint) InitVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2WheelJoint) SolveVelocityConstraints(data SolverData) {
+func (joint *WheelJoint) SolveVelocityConstraints(data SolverData) {
 	mA := joint.M_invMassA
 	mB := joint.M_invMassB
 	iA := joint.M_invIA
@@ -394,7 +394,7 @@ func (joint *B2WheelJoint) SolveVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2WheelJoint) SolvePositionConstraints(data SolverData) bool {
+func (joint *WheelJoint) SolvePositionConstraints(data SolverData) bool {
 	cA := data.Positions[joint.M_indexA].C
 	aA := data.Positions[joint.M_indexA].A
 	cB := data.Positions[joint.M_indexB].C
@@ -440,23 +440,23 @@ func (joint *B2WheelJoint) SolvePositionConstraints(data SolverData) bool {
 	return math.Abs(C) <= linearSlop
 }
 
-func (joint B2WheelJoint) GetAnchorA() Vec2 {
+func (joint WheelJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2WheelJoint) GetAnchorB() Vec2 {
+func (joint WheelJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2WheelJoint) GetReactionForce(inv_dt float64) Vec2 {
+func (joint WheelJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar(inv_dt, Vec2Add(Vec2MulScalar(joint.M_impulse, joint.M_ay), Vec2MulScalar(joint.M_springImpulse, joint.M_ax)))
 }
 
-func (joint B2WheelJoint) GetReactionTorque(inv_dt float64) float64 {
+func (joint WheelJoint) GetReactionTorque(inv_dt float64) float64 {
 	return inv_dt * joint.M_motorImpulse
 }
 
-func (joint B2WheelJoint) GetJointTranslation() float64 {
+func (joint WheelJoint) GetJointTranslation() float64 {
 	bA := joint.M_bodyA
 	bB := joint.M_bodyB
 
@@ -469,7 +469,7 @@ func (joint B2WheelJoint) GetJointTranslation() float64 {
 	return translation
 }
 
-func (joint B2WheelJoint) GetJointLinearSpeed() float64 {
+func (joint WheelJoint) GetJointLinearSpeed() float64 {
 	bA := joint.M_bodyA
 	bB := joint.M_bodyB
 
@@ -489,23 +489,23 @@ func (joint B2WheelJoint) GetJointLinearSpeed() float64 {
 	return speed
 }
 
-func (joint B2WheelJoint) GetJointAngle() float64 {
+func (joint WheelJoint) GetJointAngle() float64 {
 	bA := joint.M_bodyA
 	bB := joint.M_bodyB
 	return bB.M_sweep.A - bA.M_sweep.A
 }
 
-func (joint B2WheelJoint) GetJointAngularSpeed() float64 {
+func (joint WheelJoint) GetJointAngularSpeed() float64 {
 	wA := joint.M_bodyA.M_angularVelocity
 	wB := joint.M_bodyB.M_angularVelocity
 	return wB - wA
 }
 
-func (joint B2WheelJoint) IsMotorEnabled() bool {
+func (joint WheelJoint) IsMotorEnabled() bool {
 	return joint.M_enableMotor
 }
 
-func (joint *B2WheelJoint) EnableMotor(flag bool) {
+func (joint *WheelJoint) EnableMotor(flag bool) {
 	if flag != joint.M_enableMotor {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -513,7 +513,7 @@ func (joint *B2WheelJoint) EnableMotor(flag bool) {
 	}
 }
 
-func (joint *B2WheelJoint) SetMotorSpeed(speed float64) {
+func (joint *WheelJoint) SetMotorSpeed(speed float64) {
 	if speed != joint.M_motorSpeed {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -521,7 +521,7 @@ func (joint *B2WheelJoint) SetMotorSpeed(speed float64) {
 	}
 }
 
-func (joint *B2WheelJoint) SetMaxMotorTorque(torque float64) {
+func (joint *WheelJoint) SetMaxMotorTorque(torque float64) {
 	if torque != joint.M_maxMotorTorque {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -529,11 +529,11 @@ func (joint *B2WheelJoint) SetMaxMotorTorque(torque float64) {
 	}
 }
 
-func (joint B2WheelJoint) GetMotorTorque(inv_dt float64) float64 {
+func (joint WheelJoint) GetMotorTorque(inv_dt float64) float64 {
 	return inv_dt * joint.M_motorImpulse
 }
 
-func (joint *B2WheelJoint) Dump() {
+func (joint *WheelJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 

@@ -19,18 +19,18 @@ func MakeTOIInput() TOIInput {
 
 // Output parameters for b2TimeOfImpact.
 
-var B2TOIOutput_State = struct {
-	E_unknown    uint8
-	E_failed     uint8
-	E_overlapped uint8
-	E_touching   uint8
-	E_separated  uint8
+var TOIOutputState = struct {
+	Unknown    uint8
+	Failed     uint8
+	Overlapped uint8
+	Touching   uint8
+	Separated  uint8
 }{
-	E_unknown:    1,
-	E_failed:     2,
-	E_overlapped: 3,
-	E_touching:   4,
-	E_separated:  5,
+	Unknown:    1,
+	Failed:     2,
+	Overlapped: 3,
+	Touching:   4,
+	Separated:  5,
 }
 
 type B2TOIOutput struct {
@@ -282,7 +282,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *TOIInput) {
 
 	B2_toiCalls++
 
-	output.State = B2TOIOutput_State.E_unknown
+	output.State = TOIOutputState.Unknown
 	output.T = input.TMax
 
 	proxyA := &input.ProxyA
@@ -335,14 +335,14 @@ func B2TimeOfImpact(output *B2TOIOutput, input *TOIInput) {
 		// If the shapes are overlapped, we give up on continuous collision.
 		if distanceOutput.Distance <= 0.0 {
 			// Failure!
-			output.State = B2TOIOutput_State.E_overlapped
+			output.State = TOIOutputState.E_overlapped
 			output.T = 0.0
 			break
 		}
 
 		if distanceOutput.Distance < target+tolerance {
 			// Victory!
-			output.State = B2TOIOutput_State.E_touching
+			output.State = TOIOutputState.Touching
 			output.T = t1
 			break
 		}
@@ -364,7 +364,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *TOIInput) {
 			// Is the final configuration separated?
 			if s2 > target+tolerance {
 				// Victory!
-				output.State = B2TOIOutput_State.E_separated
+				output.State = TOIOutputState.Separated
 				output.T = tMax
 				done = true
 				break
@@ -383,7 +383,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *TOIInput) {
 			// Check for initial overlap. This might happen if the root finder
 			// runs out of iterations.
 			if s1 < target-tolerance {
-				output.State = B2TOIOutput_State.E_failed
+				output.State = TOIOutputState.Failed
 				output.T = t1
 				done = true
 				break
@@ -392,7 +392,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *TOIInput) {
 			// Check for touching
 			if s1 <= target+tolerance {
 				// Victory! t1 should hold the TOI (could be 0.0).
-				output.State = B2TOIOutput_State.E_touching
+				output.State = TOIOutputState.Touching
 				output.T = t1
 				done = true
 				break
@@ -458,7 +458,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *TOIInput) {
 
 		if iter == k_maxIterations {
 			// Root finder got stuck. Semi-victory.
-			output.State = B2TOIOutput_State.E_failed
+			output.State = TOIOutputState.Failed
 			output.T = t1
 			break
 		}

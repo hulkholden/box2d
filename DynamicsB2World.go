@@ -703,7 +703,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 				// Beta is the fraction of the remaining portion of the .
 				beta := output.T
-				if output.State == B2TOIOutput_State.E_touching {
+				if output.State == TOIOutputState.Touching {
 					alpha = math.Min(alpha0+(1.0-alpha0)*beta, 1.0)
 				} else {
 					alpha = 1.0

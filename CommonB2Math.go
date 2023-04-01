@@ -725,7 +725,7 @@ func NextPowerOfTwo(x uint32) uint32 {
 	return x + 1
 }
 
-func B2IsPowerOfTwo(x uint32) bool {
+func IsPowerOfTwo(x uint32) bool {
 	return x > 0 && (x&(x-1)) == 0
 }
 

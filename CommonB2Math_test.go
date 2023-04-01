@@ -93,7 +93,7 @@ func TestB2SweepGetTransform(t *testing.T) {
 			beta: 0.0,
 			want: box2d.B2Transform{
 				P: box2d.MakeVec2(-2.0, 4.0),
-				Q: box2d.MakeB2RotFromAngle(0.5),
+				Q: box2d.MakeRotFromAngle(0.5),
 			},
 		},
 		"at 1.0": {
@@ -107,7 +107,7 @@ func TestB2SweepGetTransform(t *testing.T) {
 			beta: 1.0,
 			want: box2d.B2Transform{
 				P: box2d.MakeVec2(3.0, 8.0),
-				Q: box2d.MakeB2RotFromAngle(5.0),
+				Q: box2d.MakeRotFromAngle(5.0),
 			},
 		},
 	}

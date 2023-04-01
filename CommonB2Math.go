@@ -329,52 +329,52 @@ func (m *Mat33) SetZero() {
 	m.Ez.SetZero()
 }
 
-// B2Rot represents a rotation.
-type B2Rot struct {
+// Rot represents a rotation.
+type Rot struct {
 	/// Sine and cosine
 	S, C float64
 }
 
-func MakeB2Rot() B2Rot { return B2Rot{} }
-func NewB2Rot() *B2Rot { return &B2Rot{} }
+func MakeRot() Rot { return Rot{} }
+func NewRot() *Rot { return &Rot{} }
 
 // Initialize from an angle in radians
-func MakeB2RotFromAngle(anglerad float64) B2Rot {
-	return B2Rot{
+func MakeRotFromAngle(anglerad float64) Rot {
+	return Rot{
 		S: math.Sin(anglerad),
 		C: math.Cos(anglerad),
 	}
 }
 
-func NewB2RotFromAngle(anglerad float64) *B2Rot {
-	res := MakeB2RotFromAngle(anglerad)
+func NewRotFromAngle(anglerad float64) *Rot {
+	res := MakeRotFromAngle(anglerad)
 	return &res
 }
 
 // Set using an angle in radians.
-func (r *B2Rot) Set(anglerad float64) {
+func (r *Rot) Set(anglerad float64) {
 	r.S = math.Sin(anglerad)
 	r.C = math.Cos(anglerad)
 }
 
 // Set to the identity rotation
-func (r *B2Rot) SetIdentity() {
+func (r *Rot) SetIdentity() {
 	r.S = 0.0
 	r.C = 1.0
 }
 
 // Get the angle in radians
-func (r B2Rot) GetAngle() float64 {
+func (r Rot) GetAngle() float64 {
 	return math.Atan2(r.S, r.C)
 }
 
 // Get the x-axis
-func (r B2Rot) GetXAxis() Vec2 {
+func (r Rot) GetXAxis() Vec2 {
 	return MakeVec2(r.C, r.S)
 }
 
 // Get the u-axis
-func (r B2Rot) GetYAxis() Vec2 {
+func (r Rot) GetYAxis() Vec2 {
 	return MakeVec2(-r.S, r.C)
 }
 
@@ -382,7 +382,7 @@ func (r B2Rot) GetYAxis() Vec2 {
 // the position and orientation of rigid frames.
 type B2Transform struct {
 	P Vec2
-	Q B2Rot
+	Q Rot
 }
 
 // The default constructor does nothing.
@@ -390,14 +390,14 @@ func MakeB2Transform() B2Transform { return B2Transform{} }
 func NewB2Transform() *B2Transform { return &B2Transform{} }
 
 // Initialize using a position vector and a rotation.
-func MakeB2TransformByPositionAndRotation(position Vec2, rotation B2Rot) B2Transform {
+func MakeB2TransformByPositionAndRotation(position Vec2, rotation Rot) B2Transform {
 	return B2Transform{
 		P: position,
 		Q: rotation,
 	}
 }
 
-func NewB2TransformByPositionAndRotation(position Vec2, rotation B2Rot) *B2Transform {
+func NewB2TransformByPositionAndRotation(position Vec2, rotation Rot) *B2Transform {
 	res := MakeB2TransformByPositionAndRotation(position, rotation)
 	return &res
 }
@@ -581,23 +581,23 @@ func Vec2Mul22(A Mat33, v Vec2) Vec2 {
 }
 
 // Multiply two rotations: q * r
-func B2RotMul(q, r B2Rot) B2Rot {
-	return B2Rot{
+func RotMul(q, r Rot) Rot {
+	return Rot{
 		S: q.S*r.C + q.C*r.S,
 		C: q.C*r.C - q.S*r.S,
 	}
 }
 
 // Transpose multiply two rotations: qT * r
-func B2RotMulT(q, r B2Rot) B2Rot {
-	return B2Rot{
+func RotMulT(q, r Rot) Rot {
+	return Rot{
 		S: q.C*r.S - q.S*r.C,
 		C: q.C*r.C + q.S*r.S,
 	}
 }
 
 // Rotate a vector
-func B2RotVec2Mul(q B2Rot, v Vec2) Vec2 {
+func RotVec2Mul(q Rot, v Vec2) Vec2 {
 	return MakeVec2(
 		q.C*v.X-q.S*v.Y,
 		q.S*v.X+q.C*v.Y,
@@ -605,7 +605,7 @@ func B2RotVec2Mul(q B2Rot, v Vec2) Vec2 {
 }
 
 // Inverse rotate a vector
-func B2RotVec2MulT(q B2Rot, v Vec2) Vec2 {
+func RotVec2MulT(q Rot, v Vec2) Vec2 {
 	return MakeVec2(
 		q.C*v.X+q.S*v.Y,
 		-q.S*v.X+q.C*v.Y,
@@ -629,15 +629,15 @@ func B2TransformVec2MulT(T B2Transform, v Vec2) Vec2 {
 }
 
 func B2TransformMul(A, B B2Transform) B2Transform {
-	q := B2RotMul(A.Q, B.Q)
-	p := Vec2Add(B2RotVec2Mul(A.Q, B.P), A.P)
+	q := RotMul(A.Q, B.Q)
+	p := Vec2Add(RotVec2Mul(A.Q, B.P), A.P)
 
 	return MakeB2TransformByPositionAndRotation(p, q)
 }
 
 func B2TransformMulT(A, B B2Transform) B2Transform {
-	q := B2RotMulT(A.Q, B.Q)
-	p := B2RotVec2MulT(A.Q, Vec2Sub(B.P, A.P))
+	q := RotMulT(A.Q, B.Q)
+	p := RotVec2MulT(A.Q, Vec2Sub(B.P, A.P))
 
 	return MakeB2TransformByPositionAndRotation(p, q)
 }
@@ -735,7 +735,7 @@ func (sweep B2Sweep) GetTransform(xf *B2Transform, beta float64) {
 	xf.Q.Set(angle)
 
 	// Shift to origin
-	xf.P.OperatorMinusInplace(B2RotVec2Mul(xf.Q, sweep.LocalCenter))
+	xf.P.OperatorMinusInplace(RotVec2Mul(xf.Q, sweep.LocalCenter))
 }
 
 func (sweep *B2Sweep) Advance(alpha float64) {
@@ -873,6 +873,7 @@ type (
 	B2Vec3  = Vec3
 	B2Mat22 = Mat22
 	B2Mat33 = Mat33
+	B2Rot   = Rot
 )
 
 var (
@@ -926,4 +927,14 @@ var (
 	NewB2Mat33             = NewMat33
 	MakeB2Mat33FromColumns = MakeMat33FromColumns
 	NewB2Mat33FromColumns  = NewMat33FromColumns
+
+	MakeB2Rot          = MakeRot
+	NewB2Rot           = NewRot
+	MakeB2RotFromAngle = MakeRotFromAngle
+	NewB2RotFromAngle  = NewRotFromAngle
+
+	B2RotMul      = RotMul
+	B2RotMulT     = RotMulT
+	B2RotVec2Mul  = RotVec2Mul
+	B2RotVec2MulT = RotVec2MulT
 )

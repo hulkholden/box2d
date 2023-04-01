@@ -14,7 +14,7 @@ type B2Pair struct {
 const E_nullProxy = -1
 
 type BroadPhase struct {
-	M_tree B2DynamicTree
+	M_tree DynamicTree
 
 	M_proxyCount int
 
@@ -142,7 +142,7 @@ func MakeBroadPhase() BroadPhase {
 	pairCapacity := 16
 	moveCapacity := 16
 
-	tree := MakeB2DynamicTree()
+	tree := MakeDynamicTree()
 
 	return BroadPhase{
 		M_tree:       tree,

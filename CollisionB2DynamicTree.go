@@ -41,7 +41,7 @@ func (node TreeNode) IsLeaf() bool {
 // object to move by small amounts without triggering a tree update.
 //
 // Nodes are pooled and relocatable, so we use node indices rather than pointers.
-type B2DynamicTree struct {
+type DynamicTree struct {
 	// Public members:
 	// None
 
@@ -60,17 +60,17 @@ type B2DynamicTree struct {
 	M_insertionCount int
 }
 
-func (tree B2DynamicTree) GetUserData(proxyId int) interface{} {
+func (tree DynamicTree) GetUserData(proxyId int) interface{} {
 	assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 	return tree.M_nodes[proxyId].UserData
 }
 
-func (tree B2DynamicTree) GetFatAABB(proxyId int) AABB {
+func (tree DynamicTree) GetFatAABB(proxyId int) AABB {
 	assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 	return tree.M_nodes[proxyId].Aabb
 }
 
-func (tree *B2DynamicTree) Query(queryCallback TreeQueryCallback, aabb AABB) {
+func (tree *DynamicTree) Query(queryCallback TreeQueryCallback, aabb AABB) {
 	stack := NewB2GrowableStack[int](256)
 	stack.Push(tree.M_root)
 
@@ -96,7 +96,7 @@ func (tree *B2DynamicTree) Query(queryCallback TreeQueryCallback, aabb AABB) {
 	}
 }
 
-func (tree B2DynamicTree) RayCast(rayCastCallback TreeRayCastCallback, input B2RayCastInput) {
+func (tree DynamicTree) RayCast(rayCastCallback TreeRayCastCallback, input B2RayCastInput) {
 	p1 := input.P1
 	p2 := input.P2
 	r := Vec2Sub(p2, p1)
@@ -174,13 +174,13 @@ func (tree B2DynamicTree) RayCast(rayCastCallback TreeRayCastCallback, input B2R
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-// B2DynamicTree.cpp
+// DynamicTree.cpp
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func MakeB2DynamicTree() B2DynamicTree {
-	tree := B2DynamicTree{}
+func MakeDynamicTree() DynamicTree {
+	tree := DynamicTree{}
 	tree.M_root = nullNode
 
 	tree.M_nodeCapacity = 16
@@ -204,13 +204,13 @@ func MakeB2DynamicTree() B2DynamicTree {
 	return tree
 }
 
-// func (tree *B2DynamicTree) ~b2DynamicTree() {
+// func (tree *DynamicTree) ~DynamicTree() {
 // 	// This frees the entire tree in one shot.
 // 	b2Free(tree.M_nodes);
 // }
 
 // Allocate a node from the pool. Grow the pool if necessary.
-func (tree *B2DynamicTree) AllocateNode() int {
+func (tree *DynamicTree) AllocateNode() int {
 	// Expand the node pool as needed.
 	if tree.M_freeList == nullNode {
 		assert(tree.M_nodeCount == tree.M_nodeCapacity)
@@ -245,7 +245,7 @@ func (tree *B2DynamicTree) AllocateNode() int {
 }
 
 // Return a node to the pool.
-func (tree *B2DynamicTree) FreeNode(nodeId int) {
+func (tree *DynamicTree) FreeNode(nodeId int) {
 	assert(0 <= nodeId && nodeId < tree.M_nodeCapacity)
 	assert(0 < tree.M_nodeCount)
 	tree.M_nodes[nodeId].Next = tree.M_freeList
@@ -257,7 +257,7 @@ func (tree *B2DynamicTree) FreeNode(nodeId int) {
 // Create a proxy in the tree as a leaf node. We return the index
 // of the node instead of a pointer so that we can grow
 // the node pool.
-func (tree *B2DynamicTree) CreateProxy(aabb AABB, userData interface{}) int {
+func (tree *DynamicTree) CreateProxy(aabb AABB, userData interface{}) int {
 	proxyId := tree.AllocateNode()
 
 	// Fatten the aabb.
@@ -272,7 +272,7 @@ func (tree *B2DynamicTree) CreateProxy(aabb AABB, userData interface{}) int {
 	return proxyId
 }
 
-func (tree *B2DynamicTree) DestroyProxy(proxyId int) {
+func (tree *DynamicTree) DestroyProxy(proxyId int) {
 	assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 	assert(tree.M_nodes[proxyId].IsLeaf())
 
@@ -280,7 +280,7 @@ func (tree *B2DynamicTree) DestroyProxy(proxyId int) {
 	tree.FreeNode(proxyId)
 }
 
-func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb AABB, displacement Vec2) bool {
+func (tree *DynamicTree) MoveProxy(proxyId int, aabb AABB, displacement Vec2) bool {
 	assert(0 <= proxyId && proxyId < tree.M_nodeCapacity)
 
 	assert(tree.M_nodes[proxyId].IsLeaf())
@@ -319,7 +319,7 @@ func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb AABB, displacement Vec2) 
 	return true
 }
 
-func (tree *B2DynamicTree) InsertLeaf(leaf int) {
+func (tree *DynamicTree) InsertLeaf(leaf int) {
 	tree.M_insertionCount++
 
 	if tree.M_root == nullNode {
@@ -439,7 +439,7 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 	// Validate();
 }
 
-func (tree *B2DynamicTree) RemoveLeaf(leaf int) {
+func (tree *DynamicTree) RemoveLeaf(leaf int) {
 	if leaf == tree.M_root {
 		tree.M_root = nullNode
 		return
@@ -488,7 +488,7 @@ func (tree *B2DynamicTree) RemoveLeaf(leaf int) {
 
 // Perform a left or right rotation if node A is imbalanced.
 // Returns the new root index.
-func (tree *B2DynamicTree) Balance(iA int) int {
+func (tree *DynamicTree) Balance(iA int) int {
 	assert(iA != nullNode)
 
 	A := &tree.M_nodes[iA]
@@ -610,7 +610,7 @@ func (tree *B2DynamicTree) Balance(iA int) int {
 	return iA
 }
 
-func (tree B2DynamicTree) GetHeight() int {
+func (tree DynamicTree) GetHeight() int {
 	if tree.M_root == nullNode {
 		return 0
 	}
@@ -618,7 +618,7 @@ func (tree B2DynamicTree) GetHeight() int {
 	return tree.M_nodes[tree.M_root].Height
 }
 
-func (tree B2DynamicTree) GetAreaRatio() float64 {
+func (tree DynamicTree) GetAreaRatio() float64 {
 	if tree.M_root == nullNode {
 		return 0.0
 	}
@@ -641,7 +641,7 @@ func (tree B2DynamicTree) GetAreaRatio() float64 {
 }
 
 // Compute the height of a sub-tree.
-func (tree B2DynamicTree) ComputeHeight(nodeId int) int {
+func (tree DynamicTree) ComputeHeight(nodeId int) int {
 	assert(0 <= nodeId && nodeId < tree.M_nodeCapacity)
 	node := &tree.M_nodes[nodeId]
 
@@ -654,11 +654,11 @@ func (tree B2DynamicTree) ComputeHeight(nodeId int) int {
 	return 1 + MaxInt(height1, height2)
 }
 
-func (tree B2DynamicTree) ComputeTotalHeight() int {
+func (tree DynamicTree) ComputeTotalHeight() int {
 	return tree.ComputeHeight(tree.M_root)
 }
 
-func (tree B2DynamicTree) ValidateStructure(index int) {
+func (tree DynamicTree) ValidateStructure(index int) {
 	if index == nullNode {
 		return
 	}
@@ -689,7 +689,7 @@ func (tree B2DynamicTree) ValidateStructure(index int) {
 	tree.ValidateStructure(child2)
 }
 
-func (tree B2DynamicTree) ValidateMetrics(index int) {
+func (tree DynamicTree) ValidateMetrics(index int) {
 	if index == nullNode {
 		return
 	}
@@ -724,7 +724,7 @@ func (tree B2DynamicTree) ValidateMetrics(index int) {
 	tree.ValidateMetrics(child2)
 }
 
-func (tree B2DynamicTree) Validate() {
+func (tree DynamicTree) Validate() {
 	tree.ValidateStructure(tree.M_root)
 	tree.ValidateMetrics(tree.M_root)
 
@@ -741,7 +741,7 @@ func (tree B2DynamicTree) Validate() {
 	assert(tree.M_nodeCount+freeCount == tree.M_nodeCapacity)
 }
 
-func (tree B2DynamicTree) GetMaxBalance() int {
+func (tree DynamicTree) GetMaxBalance() int {
 	maxBalance := 0
 	for i := 0; i < tree.M_nodeCapacity; i++ {
 		node := &tree.M_nodes[i]
@@ -760,7 +760,7 @@ func (tree B2DynamicTree) GetMaxBalance() int {
 	return maxBalance
 }
 
-func (tree *B2DynamicTree) RebuildBottomUp() {
+func (tree *DynamicTree) RebuildBottomUp() {
 	// int* nodes = (int*)b2Alloc(m_nodeCount * sizeof(int));
 	nodes := make([]int, tree.M_nodeCount)
 	count := 0
@@ -829,7 +829,7 @@ func (tree *B2DynamicTree) RebuildBottomUp() {
 	tree.Validate()
 }
 
-func (tree *B2DynamicTree) ShiftOrigin(newOrigin Vec2) {
+func (tree *DynamicTree) ShiftOrigin(newOrigin Vec2) {
 	// Build array of leaves. Free the rest.
 	for i := 0; i < tree.M_nodeCapacity; i++ {
 		tree.M_nodes[i].Aabb.LowerBound.OperatorMinusInplace(newOrigin)

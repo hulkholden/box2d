@@ -251,19 +251,19 @@ func JointCreate(def JointDefInterface) JointInterface { // def should be back b
 	switch def.GetType() {
 	case JointType.Distance:
 		if typeddef, ok := def.(*DistanceJointDef); ok {
-			return MakeB2DistanceJoint(typeddef)
+			return MakeDistanceJoint(typeddef)
 		}
 		assert(false)
 
 	case JointType.Mouse:
 		if typeddef, ok := def.(*MouseJointDef); ok {
-			return MakeB2MouseJoint(typeddef)
+			return MakeMouseJoint(typeddef)
 		}
 		assert(false)
 
 	case JointType.Prismatic:
 		if typeddef, ok := def.(*PrismaticJointDef); ok {
-			return MakeB2PrismaticJoint(typeddef)
+			return MakePrismaticJoint(typeddef)
 		}
 		assert(false)
 

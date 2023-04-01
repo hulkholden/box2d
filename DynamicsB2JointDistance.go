@@ -136,7 +136,7 @@ func (joint *DistanceJointDef) Initialize(b1 *Body, b2 *Body, anchor1 Vec2, anch
 	joint.Length = d.Length()
 }
 
-func MakeB2DistanceJoint(def *DistanceJointDef) *DistanceJoint {
+func MakeDistanceJoint(def *DistanceJointDef) *DistanceJoint {
 	res := DistanceJoint{
 		Joint: MakeJoint(def),
 	}

@@ -207,7 +207,7 @@ func (joint *PrismaticJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, axis
 	joint.ReferenceAngle = joint.BodyB.GetAngle() - joint.BodyA.GetAngle()
 }
 
-func MakeB2PrismaticJoint(def *PrismaticJointDef) *PrismaticJoint {
+func MakePrismaticJoint(def *PrismaticJointDef) *PrismaticJoint {
 	res := PrismaticJoint{
 		Joint: MakeJoint(def),
 	}

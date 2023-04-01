@@ -84,7 +84,7 @@ func (def *MouseJoint) Dump() {
 // Identity used:
 // w k % (rx i + ry j) = w * (-ry i + rx j)
 
-func MakeB2MouseJoint(def *MouseJointDef) *MouseJoint {
+func MakeMouseJoint(def *MouseJointDef) *MouseJoint {
 	res := MouseJoint{
 		Joint: MakeJoint(def),
 	}

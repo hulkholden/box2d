@@ -252,7 +252,7 @@ func (island *Island) Solve(profile *Profile, step TimeStep, gravity Vec2, allow
 	timer.Reset()
 
 	// Solver data
-	solverData := MakeB2SolverData()
+	solverData := MakeSolverData()
 	solverData.Step = step
 	solverData.Positions = island.M_positions
 	solverData.Velocities = island.M_velocities

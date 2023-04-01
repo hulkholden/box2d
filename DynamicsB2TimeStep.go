@@ -49,6 +49,6 @@ type SolverData struct {
 	Velocities []Velocity
 }
 
-func MakeB2SolverData() SolverData {
+func MakeSolverData() SolverData {
 	return SolverData{}
 }

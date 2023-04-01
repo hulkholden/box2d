@@ -5,7 +5,7 @@ type B2DestructionListenerInterface interface {
 	/// to the destruction of its parent body.
 	SayGoodbyeToFixture(fixture *Fixture)
 
-	SayGoodbyeToJoint(joint B2JointInterface) // backed by pointer
+	SayGoodbyeToJoint(joint JointInterface) // backed by pointer
 }
 
 type B2ContactFilterInterface interface {

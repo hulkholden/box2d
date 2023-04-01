@@ -10,7 +10,7 @@ type Island struct {
 
 	M_bodies   []*Body
 	M_contacts []ContactInterface // has to be backed by pointers
-	M_joints   []B2JointInterface // has to be backed by pointers
+	M_joints   []JointInterface   // has to be backed by pointers
 
 	M_positions  []B2Position
 	M_velocities []B2Velocity
@@ -43,7 +43,7 @@ func (island *Island) AddContact(contact ContactInterface) { // contact has to b
 	island.M_contactCount++
 }
 
-func (island *Island) Add(joint B2JointInterface) { // joint has to be a pointer
+func (island *Island) Add(joint JointInterface) { // joint has to be a pointer
 	assert(island.M_jointCount < island.M_jointCapacity)
 	island.M_joints[island.M_jointCount] = joint
 	island.M_jointCount++
@@ -189,7 +189,7 @@ func MakeIsland(bodyCapacity int, contactCapacity int, jointCapacity int, listen
 
 	island.M_bodies = make([]*Body, bodyCapacity)
 	island.M_contacts = make([]ContactInterface, contactCapacity)
-	island.M_joints = make([]B2JointInterface, jointCapacity)
+	island.M_joints = make([]JointInterface, jointCapacity)
 
 	island.M_velocities = make([]B2Velocity, bodyCapacity)
 	island.M_positions = make([]B2Position, bodyCapacity)

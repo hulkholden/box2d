@@ -27,8 +27,8 @@ type B2World struct {
 
 	M_contactManager ContactManager
 
-	M_bodyList  *Body            // linked list
-	M_jointList B2JointInterface // has to be backed by pointer
+	M_bodyList  *Body          // linked list
+	M_jointList JointInterface // has to be backed by pointer
 
 	M_bodyCount  int
 	M_jointCount int
@@ -57,7 +57,7 @@ func (world B2World) GetBodyList() *Body {
 	return world.M_bodyList
 }
 
-func (world B2World) GetJointList() B2JointInterface { // returns a pointer
+func (world B2World) GetJointList() JointInterface { // returns a pointer
 	return world.M_jointList
 }
 
@@ -272,7 +272,7 @@ func (world *B2World) DestroyBody(b *Body) {
 	world.M_bodyCount--
 }
 
-func (world *B2World) CreateJoint(def JointDefInterface) B2JointInterface {
+func (world *B2World) CreateJoint(def JointDefInterface) JointInterface {
 	assert(!world.IsLocked())
 	if world.IsLocked() {
 		return nil
@@ -331,7 +331,7 @@ func (world *B2World) CreateJoint(def JointDefInterface) B2JointInterface {
 	return j
 }
 
-func (world *B2World) DestroyJoint(j B2JointInterface) { // j backed by pointer
+func (world *B2World) DestroyJoint(j JointInterface) { // j backed by pointer
 	assert(!world.IsLocked())
 	if world.IsLocked() {
 		return

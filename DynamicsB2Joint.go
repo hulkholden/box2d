@@ -52,10 +52,10 @@ type Jacobian struct {
 // maintained in each attached body. Each joint has two joint
 // nodes, one for each attached body.
 type JointEdge struct {
-	Other *Body            ///< provides quick access to the other body attached.
-	Joint B2JointInterface ///< the joint; backed by pointer
-	Prev  *JointEdge       ///< the previous joint edge in the body's joint list
-	Next  *JointEdge       ///< the next joint edge in the body's joint list
+	Other *Body          ///< provides quick access to the other body attached.
+	Joint JointInterface ///< the joint; backed by pointer
+	Prev  *JointEdge     ///< the previous joint edge in the body's joint list
+	Next  *JointEdge     ///< the next joint edge in the body's joint list
 }
 
 // Joint definitions are used to construct joints.
@@ -145,8 +145,8 @@ func MakeJointDef() JointDef {
 // various fashions. Some joints also feature limits and motors.
 type Joint struct {
 	M_type             uint8
-	M_prev             B2JointInterface // has to be backed by pointer
-	M_next             B2JointInterface // has to be backed by pointer
+	M_prev             JointInterface // has to be backed by pointer
+	M_next             JointInterface // has to be backed by pointer
 	M_edgeA            *JointEdge
 	M_edgeB            *JointEdge
 	M_bodyA            *Body
@@ -190,21 +190,21 @@ func (j *Joint) SetBodyB(body *Body) {
 	j.M_bodyB = body
 }
 
-func (j Joint) GetNext() B2JointInterface { // returns pointer
+func (j Joint) GetNext() JointInterface { // returns pointer
 	return j.M_next
 }
 
 // @goadd
-func (j *Joint) SetNext(next B2JointInterface) { // has to be backed by pointer
+func (j *Joint) SetNext(next JointInterface) { // has to be backed by pointer
 	j.M_next = next
 }
 
-func (j Joint) GetPrev() B2JointInterface { // returns pointer
+func (j Joint) GetPrev() JointInterface { // returns pointer
 	return j.M_prev
 }
 
 // @goadd
-func (j *Joint) SetPrev(prev B2JointInterface) { // prev has to be backed by pointer
+func (j *Joint) SetPrev(prev JointInterface) { // prev has to be backed by pointer
 	j.M_prev = prev
 }
 
@@ -245,7 +245,7 @@ func (j *Joint) SetEdgeB(edge *JointEdge) {
 	j.M_edgeB = edge
 }
 
-func JointCreate(def JointDefInterface) B2JointInterface { // def should be back by pointer; a pointer is returned
+func JointCreate(def JointDefInterface) JointInterface { // def should be back by pointer; a pointer is returned
 	var joint *Joint = nil
 
 	switch def.GetType() {
@@ -322,7 +322,7 @@ func JointCreate(def JointDefInterface) B2JointInterface { // def should be back
 	return joint
 }
 
-func JointDestroy(joint B2JointInterface) { // has to be backed by pointer
+func JointDestroy(joint JointInterface) { // has to be backed by pointer
 	joint.Destroy()
 }
 
@@ -380,7 +380,7 @@ func (j *Joint) SetIslandFlag(flag bool) {
 	j.M_islandFlag = flag
 }
 
-type B2JointInterface interface {
+type JointInterface interface {
 	/// Dump this joint to the log file.
 	Dump()
 
@@ -399,11 +399,11 @@ type B2JointInterface interface {
 	GetIndex() int
 	SetIndex(index int)
 
-	GetNext() B2JointInterface     // backed by pointer
-	SetNext(next B2JointInterface) // backed by pointer
+	GetNext() JointInterface     // backed by pointer
+	SetNext(next JointInterface) // backed by pointer
 
-	GetPrev() B2JointInterface     // backed by pointer
-	SetPrev(prev B2JointInterface) // backed by pointer
+	GetPrev() JointInterface     // backed by pointer
+	SetPrev(prev JointInterface) // backed by pointer
 
 	GetEdgeA() *JointEdge
 	SetEdgeA(edge *JointEdge)

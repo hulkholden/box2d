@@ -10,10 +10,10 @@ type B2GearJointDef struct {
 	JointDef
 
 	/// The first revolute/prismatic joint attached to the gear joint.
-	Joint1 B2JointInterface // has to be backed by pointer
+	Joint1 JointInterface // has to be backed by pointer
 
 	/// The second revolute/prismatic joint attached to the gear joint.
-	Joint2 B2JointInterface // has to be backed by pointer
+	Joint2 JointInterface // has to be backed by pointer
 
 	/// The gear ratio.
 	/// @see b2GearJoint for explanation.
@@ -45,8 +45,8 @@ func MakeB2GearJointDef() B2GearJointDef {
 type B2GearJoint struct {
 	*Joint
 
-	M_joint1 B2JointInterface // backed by pointer
-	M_joint2 B2JointInterface // backed by pointer
+	M_joint1 JointInterface // backed by pointer
+	M_joint2 JointInterface // backed by pointer
 
 	M_typeA uint8
 	M_typeB uint8
@@ -84,12 +84,12 @@ type B2GearJoint struct {
 }
 
 // Get the first joint.
-func (joint B2GearJoint) GetJoint1() B2JointInterface { // returns a pointer
+func (joint B2GearJoint) GetJoint1() JointInterface { // returns a pointer
 	return joint.M_joint1
 }
 
 // Get the second joint.
-func (joint B2GearJoint) GetJoint2() B2JointInterface { // returns a pointer
+func (joint B2GearJoint) GetJoint2() JointInterface { // returns a pointer
 	return joint.M_joint2
 }
 

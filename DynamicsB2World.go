@@ -977,7 +977,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 Vec2, point2 Ve
 		proxy := userData.(*FixtureProxy)
 		fixture := proxy.Fixture
 		index := proxy.ChildIndex
-		output := MakeB2RayCastOutput()
+		output := MakeRayCastOutput()
 		hit := fixture.RayCast(&output, input, index)
 
 		if hit {

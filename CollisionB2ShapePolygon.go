@@ -277,7 +277,7 @@ func (poly PolygonShape) TestPoint(xf Transform, p Vec2) bool {
 	return true
 }
 
-func (poly PolygonShape) RayCast(output *B2RayCastOutput, input RayCastInput, xf Transform, childIndex int) bool {
+func (poly PolygonShape) RayCast(output *RayCastOutput, input RayCastInput, xf Transform, childIndex int) bool {
 	// Put the ray into the polygon's frame of reference.
 	p1 := RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
 	p2 := RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))

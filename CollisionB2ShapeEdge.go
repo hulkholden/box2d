@@ -72,7 +72,7 @@ func (edge EdgeShape) TestPoint(xf Transform, p Vec2) bool {
 // v = v1 + s * e
 // p1 + t * d = v1 + s * e
 // s * e - t * d = p1 - v1
-func (edge EdgeShape) RayCast(output *B2RayCastOutput, input RayCastInput, xf Transform, childIndex int) bool {
+func (edge EdgeShape) RayCast(output *RayCastOutput, input RayCastInput, xf Transform, childIndex int) bool {
 	// Put the ray into the edge's frame of reference.
 	p1 := RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
 	p2 := RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))

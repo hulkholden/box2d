@@ -144,12 +144,12 @@ func MakeRayCastInput() RayCastInput { return RayCastInput{} }
 
 // Ray-cast output data. The ray hits at p1 + fraction * (p2 - p1), where p1 and p2
 // come from b2RayCastInput.
-type B2RayCastOutput struct {
+type RayCastOutput struct {
 	Normal   Vec2
 	Fraction float64
 }
 
-func MakeB2RayCastOutput() B2RayCastOutput { return B2RayCastOutput{} }
+func MakeRayCastOutput() RayCastOutput { return RayCastOutput{} }
 
 // An axis aligned bounding box.
 type AABB struct {
@@ -350,7 +350,7 @@ func B2GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoin
 }
 
 // From Real-time Collision Detection, p179.
-func (bb AABB) RayCast(output *B2RayCastOutput, input RayCastInput) bool {
+func (bb AABB) RayCast(output *RayCastOutput, input RayCastInput) bool {
 	tmin := -maxFloat
 	tmax := maxFloat
 

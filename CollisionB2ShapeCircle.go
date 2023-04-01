@@ -49,7 +49,7 @@ func (shape CircleShape) TestPoint(transform Transform, p Vec2) bool {
 // From Section 3.1.2
 // x = s + a * r
 // norm(x) = radius
-func (shape CircleShape) RayCast(output *B2RayCastOutput, input RayCastInput, transform Transform, childIndex int) bool {
+func (shape CircleShape) RayCast(output *RayCastOutput, input RayCastInput, transform Transform, childIndex int) bool {
 	// B2_NOT_USED(childIndex);
 
 	position := Vec2Add(transform.P, RotVec2Mul(transform.Q, shape.M_p))

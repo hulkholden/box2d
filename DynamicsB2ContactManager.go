@@ -151,8 +151,8 @@ func (mgr *B2ContactManager) FindNewContacts() {
 }
 
 func (mgr *B2ContactManager) AddPair(proxyUserDataA interface{}, proxyUserDataB interface{}) {
-	proxyA := proxyUserDataA.(*B2FixtureProxy)
-	proxyB := proxyUserDataB.(*B2FixtureProxy)
+	proxyA := proxyUserDataA.(*FixtureProxy)
+	proxyB := proxyUserDataB.(*FixtureProxy)
 
 	fixtureA := proxyA.Fixture
 	fixtureB := proxyB.Fixture

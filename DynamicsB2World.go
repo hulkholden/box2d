@@ -959,7 +959,7 @@ func MakeB2WorldQueryWrapper() B2WorldQueryWrapper {
 }
 
 func (query *B2WorldQueryWrapper) QueryCallback(proxyId int) bool {
-	proxy := query.BroadPhase.GetUserData(proxyId).(*B2FixtureProxy)
+	proxy := query.BroadPhase.GetUserData(proxyId).(*FixtureProxy)
 	return query.Callback(proxy.Fixture)
 }
 
@@ -974,7 +974,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 Vec2, point2 Ve
 	// B2TreeRayCastCallback
 	wrapper := func(input B2RayCastInput, nodeId int) float64 {
 		userData := world.M_contactManager.M_broadPhase.GetUserData(nodeId)
-		proxy := userData.(*B2FixtureProxy)
+		proxy := userData.(*FixtureProxy)
 		fixture := proxy.Fixture
 		index := proxy.ChildIndex
 		output := MakeB2RayCastOutput()

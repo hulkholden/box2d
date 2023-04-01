@@ -63,7 +63,7 @@ func MakeFixtureDef() FixtureDef {
 }
 
 // This proxy is used internally to connect fixtures to the broad-phase.
-type B2FixtureProxy struct {
+type FixtureProxy struct {
 	Aabb       B2AABB
 	Fixture    *B2Fixture
 	ChildIndex int
@@ -86,7 +86,7 @@ type B2Fixture struct {
 	M_friction    float64
 	M_restitution float64
 
-	M_proxies    []B2FixtureProxy
+	M_proxies    []FixtureProxy
 	M_proxyCount int
 
 	M_filter B2Filter
@@ -205,7 +205,7 @@ func (fix *B2Fixture) Create(body *Body, def *FixtureDef) {
 
 	// Reserve proxy space
 	childCount := fix.M_shape.GetChildCount()
-	fix.M_proxies = make([]B2FixtureProxy, childCount)
+	fix.M_proxies = make([]FixtureProxy, childCount)
 
 	for i := 0; i < childCount; i++ {
 		fix.M_proxies[i].Fixture = nil

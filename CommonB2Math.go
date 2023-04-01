@@ -643,7 +643,7 @@ func TransformMulT(A, B Transform) Transform {
 }
 
 // Check if the projected testpoint onto the line is on the line segment
-func B2IsProjectedPointOnLineSegment(v1 Vec2, v2 Vec2, p Vec2) bool {
+func IsProjectedPointOnLineSegment(v1 Vec2, v2 Vec2, p Vec2) bool {
 	e1 := Vec2{v2.X - v1.X, v2.Y - v1.Y}
 	recArea := Vec2Dot(e1, e1)
 	e2 := Vec2{p.X - v1.X, p.Y - v1.Y}

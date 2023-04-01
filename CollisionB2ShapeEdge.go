@@ -137,7 +137,7 @@ func (edge EdgeShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	return MakeB2AABB(lowerBound, upperBound)
 }
 
-func (edge EdgeShape) ComputeMass(density float64) B2MassData {
+func (edge EdgeShape) ComputeMass(density float64) MassData {
 	massData := MakeMassData()
 	massData.Mass = 0.0
 	massData.Center = Vec2MulScalar(0.5, Vec2Add(edge.M_vertex1, edge.M_vertex2))

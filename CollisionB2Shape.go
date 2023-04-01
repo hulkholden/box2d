@@ -1,7 +1,7 @@
 package box2d
 
 // This holds the mass data computed for a shape.
-type B2MassData struct {
+type MassData struct {
 	/// The mass of the shape, usually in kilograms.
 	Mass float64
 
@@ -12,15 +12,15 @@ type B2MassData struct {
 	I float64
 }
 
-func MakeMassData() B2MassData {
-	return B2MassData{
+func MakeMassData() MassData {
+	return MassData{
 		Mass:   0.0,
 		Center: MakeVec2(0, 0),
 		I:      0.0,
 	}
 }
 
-func NewMassData() *B2MassData {
+func NewMassData() *MassData {
 	res := MakeMassData()
 	return &res
 }
@@ -82,7 +82,7 @@ type B2ShapeInterface interface {
 	/// The inertia tensor is computed about the local origin.
 	/// @param density the density in kilograms per meter squared.
 	/// @return the mass data for this shape.
-	ComputeMass(density float64) B2MassData
+	ComputeMass(density float64) MassData
 }
 
 type B2Shape struct {

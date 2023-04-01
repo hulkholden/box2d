@@ -352,7 +352,7 @@ func (poly PolygonShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	return MakeB2AABB(lowerBound, upperBound)
 }
 
-func (poly PolygonShape) ComputeMass(density float64) B2MassData {
+func (poly PolygonShape) ComputeMass(density float64) MassData {
 	// Polygon mass, centroid, and inertia.
 	// Let rho be the polygon density in mass per unit area.
 	// Then:

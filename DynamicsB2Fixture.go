@@ -172,7 +172,7 @@ func (fix Fixture) RayCast(output *B2RayCastOutput, input B2RayCastInput, childI
 	return fix.M_shape.RayCast(output, input, fix.M_body.GetTransform(), childIndex)
 }
 
-func (fix Fixture) GetMassData() B2MassData {
+func (fix Fixture) GetMassData() MassData {
 	return fix.M_shape.ComputeMass(fix.M_density)
 }
 

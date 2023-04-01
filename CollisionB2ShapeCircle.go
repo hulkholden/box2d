@@ -91,7 +91,7 @@ func (shape CircleShape) ComputeAABB(transform Transform, childIndex int) B2AABB
 	return MakeB2AABB(lowerBound, upperBound)
 }
 
-func (shape CircleShape) ComputeMass(density float64) B2MassData {
+func (shape CircleShape) ComputeMass(density float64) MassData {
 	massData := MakeMassData()
 	massData.Mass = density * Pi * shape.M_radius * shape.M_radius
 	massData.Center = shape.M_p

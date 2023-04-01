@@ -224,7 +224,7 @@ func (body Body) GetInertia() float64 {
 	return body.M_I + body.M_mass*Vec2Dot(body.M_sweep.LocalCenter, body.M_sweep.LocalCenter)
 }
 
-func (body Body) GetMassData() B2MassData {
+func (body Body) GetMassData() MassData {
 	data := MakeMassData()
 	data.Mass = body.M_mass
 	data.I = body.M_I + body.M_mass*Vec2Dot(body.M_sweep.LocalCenter, body.M_sweep.LocalCenter)
@@ -773,7 +773,7 @@ func (body *Body) ResetMassData() {
 	))
 }
 
-func (body *Body) SetMassData(massData *B2MassData) {
+func (body *Body) SetMassData(massData *MassData) {
 	assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return

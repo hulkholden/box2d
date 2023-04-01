@@ -1,6 +1,6 @@
 package box2d
 
-type B2ChainAndPolygonContact struct {
+type ChainAndPolygonContact struct {
 	Contact
 }
 
@@ -12,20 +12,20 @@ type B2ChainAndPolygonContact struct {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func B2ChainAndPolygonContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface {
+func ChainAndPolygonContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface {
 	assert(fixtureA.GetType() == B2Shape_Type.E_chain)
 	assert(fixtureB.GetType() == B2Shape_Type.E_polygon)
-	res := &B2ChainAndPolygonContact{
+	res := &ChainAndPolygonContact{
 		Contact: MakeContact(fixtureA, indexA, fixtureB, indexB),
 	}
 
 	return res
 }
 
-func B2ChainAndPolygonContact_Destroy(contact ContactInterface) { // should be a pointer
+func ChainAndPolygonContact_Destroy(contact ContactInterface) { // should be a pointer
 }
 
-func (contact *B2ChainAndPolygonContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
+func (contact *ChainAndPolygonContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
 	chain := contact.GetFixtureA().GetShape().(*ChainShape)
 	edge := MakeEdgeShape()
 	chain.GetChildEdge(&edge, contact.M_indexA)

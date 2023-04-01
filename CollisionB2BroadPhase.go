@@ -6,7 +6,7 @@ import (
 
 type BroadPhaseAddPairCallback func(userDataA interface{}, userDataB interface{})
 
-type B2Pair struct {
+type Pair struct {
 	ProxyIdA int
 	ProxyIdB int
 }
@@ -22,14 +22,14 @@ type BroadPhase struct {
 	M_moveCapacity int
 	M_moveCount    int
 
-	M_pairBuffer   []B2Pair
+	M_pairBuffer   []Pair
 	M_pairCapacity int
 	M_pairCount    int
 
 	M_queryProxyId int
 }
 
-type PairByLessThan []B2Pair
+type PairByLessThan []Pair
 
 func (a PairByLessThan) Len() int      { return len(a) }
 func (a PairByLessThan) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
@@ -38,7 +38,7 @@ func (a PairByLessThan) Less(i, j int) bool {
 }
 
 // This is used to sort pairs.
-func B2PairLessThan(pair1 B2Pair, pair2 B2Pair) bool {
+func B2PairLessThan(pair1 Pair, pair2 Pair) bool {
 	if pair1.ProxyIdA < pair2.ProxyIdA {
 		return true
 	}
@@ -150,7 +150,7 @@ func MakeBroadPhase() BroadPhase {
 
 		M_pairCapacity: pairCapacity,
 		M_pairCount:    0,
-		M_pairBuffer:   make([]B2Pair, pairCapacity),
+		M_pairBuffer:   make([]Pair, pairCapacity),
 
 		M_moveCapacity: moveCapacity,
 		M_moveCount:    0,
@@ -209,7 +209,7 @@ func (bp *BroadPhase) QueryCallback(proxyId int) bool {
 
 	// Grow the pair buffer as needed.
 	if bp.M_pairCount == bp.M_pairCapacity {
-		bp.M_pairBuffer = append(bp.M_pairBuffer, make([]B2Pair, bp.M_pairCapacity)...)
+		bp.M_pairBuffer = append(bp.M_pairBuffer, make([]Pair, bp.M_pairCapacity)...)
 		bp.M_pairCapacity *= 2
 	}
 

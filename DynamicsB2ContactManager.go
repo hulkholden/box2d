@@ -98,7 +98,7 @@ func (mgr *B2ContactManager) Collide() {
 		bodyB := fixtureB.GetBody()
 
 		// Is this contact flagged for filtering?
-		if (c.GetFlags() & B2Contact_Flag.E_filterFlag) != 0x0000 {
+		if (c.GetFlags() & ContactFlags.Filter) != 0x0000 {
 			// Should these bodies collide?
 			if !bodyB.ShouldCollide(bodyA) {
 				cNuke := c
@@ -116,7 +116,7 @@ func (mgr *B2ContactManager) Collide() {
 			}
 
 			// Clear the filtering flag.
-			c.SetFlags(c.GetFlags() & ^B2Contact_Flag.E_filterFlag)
+			c.SetFlags(c.GetFlags() & ^ContactFlags.Filter)
 		}
 
 		activeA := bodyA.IsAwake() && bodyA.M_type != BodyType.StaticBody

@@ -47,31 +47,20 @@ func NewB2ContactEdge() *B2ContactEdge {
 	return &B2ContactEdge{}
 }
 
-var B2Contact_Flag = struct {
-	// Used when crawling contact graph when forming islands.
-	E_islandFlag uint32
-
-	// Set when the shapes are touching.
-	E_touchingFlag uint32
-
-	// This contact can be disabled (by user)
-	E_enabledFlag uint32
-
-	// This contact needs filtering because a fixture filter was changed.
-	E_filterFlag uint32
-
-	// This bullet contact had a TOI event
-	E_bulletHitFlag uint32
-
-	// This contact has a valid TOI in m_toi
-	E_toiFlag uint32
+var ContactFlags = struct {
+	Island    uint32 // Used when crawling contact graph when forming islands.
+	Touching  uint32 // Set when the shapes are touching.
+	Enabled   uint32 // This contact can be disabled (by user)
+	Filter    uint32 // This contact needs filtering because a fixture filter was changed.
+	BulletHit uint32 // This bullet contact had a TOI event
+	TOI       uint32 // This contact has a valid TOI in m_toi
 }{
-	E_islandFlag:    0x0001,
-	E_touchingFlag:  0x0002,
-	E_enabledFlag:   0x0004,
-	E_filterFlag:    0x0008,
-	E_bulletHitFlag: 0x0010,
-	E_toiFlag:       0x0020,
+	Island:    0x0001,
+	Touching:  0x0002,
+	Enabled:   0x0004,
+	Filter:    0x0008,
+	BulletHit: 0x0010,
+	TOI:       0x0020,
 }
 
 // The class manages contact between two shapes. A contact exists for each overlapping
@@ -306,22 +295,22 @@ func (contact B2Contact) GetWorldManifold(worldManifold *B2WorldManifold) {
 
 func (contact *B2Contact) SetEnabled(flag bool) {
 	if flag {
-		contact.M_flags |= B2Contact_Flag.E_enabledFlag
+		contact.M_flags |= ContactFlags.Enabled
 	} else {
-		contact.M_flags &= ^B2Contact_Flag.E_enabledFlag
+		contact.M_flags &= ^ContactFlags.Enabled
 	}
 }
 
 func (contact B2Contact) IsEnabled() bool {
-	return (contact.M_flags & B2Contact_Flag.E_enabledFlag) == B2Contact_Flag.E_enabledFlag
+	return (contact.M_flags & ContactFlags.Enabled) == ContactFlags.Enabled
 }
 
 func (contact B2Contact) IsTouching() bool {
-	return (contact.M_flags & B2Contact_Flag.E_touchingFlag) == B2Contact_Flag.E_touchingFlag
+	return (contact.M_flags & ContactFlags.Touching) == ContactFlags.Touching
 }
 
 func (contact *B2Contact) FlagForFiltering() {
-	contact.M_flags |= B2Contact_Flag.E_filterFlag
+	contact.M_flags |= ContactFlags.Filter
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -410,7 +399,7 @@ func B2ContactDestroy(contact B2ContactInterface) {
 
 func MakeB2Contact(fA *B2Fixture, indexA int, fB *B2Fixture, indexB int) B2Contact {
 	contact := B2Contact{}
-	contact.M_flags = B2Contact_Flag.E_enabledFlag
+	contact.M_flags = ContactFlags.Enabled
 
 	contact.M_fixtureA = fA
 	contact.M_fixtureB = fB
@@ -454,10 +443,10 @@ func B2ContactUpdate(contact B2ContactInterface, listener B2ContactListenerInter
 	oldManifold := *contact.GetManifold()
 
 	// Re-enable this contact.
-	contact.SetFlags(contact.GetFlags() | B2Contact_Flag.E_enabledFlag)
+	contact.SetFlags(contact.GetFlags() | ContactFlags.Enabled)
 
 	touching := false
-	wasTouching := (contact.GetFlags() & B2Contact_Flag.E_touchingFlag) == B2Contact_Flag.E_touchingFlag
+	wasTouching := (contact.GetFlags() & ContactFlags.Touching) == ContactFlags.Touching
 
 	sensorA := contact.GetFixtureA().IsSensor()
 	sensorB := contact.GetFixtureB().IsSensor()
@@ -510,9 +499,9 @@ func B2ContactUpdate(contact B2ContactInterface, listener B2ContactListenerInter
 	}
 
 	if touching {
-		contact.SetFlags(contact.GetFlags() | B2Contact_Flag.E_touchingFlag)
+		contact.SetFlags(contact.GetFlags() | ContactFlags.Touching)
 	} else {
-		contact.SetFlags(contact.GetFlags() & ^B2Contact_Flag.E_touchingFlag)
+		contact.SetFlags(contact.GetFlags() & ^ContactFlags.Touching)
 	}
 
 	if !wasTouching && touching && listener != nil {

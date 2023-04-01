@@ -613,7 +613,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 		for c := world.M_contactManager.M_contactList; c != nil; c = c.GetNext() {
 			// Invalidate TOI
-			c.SetFlags(c.GetFlags() & ^(B2Contact_Flag.E_toiFlag | B2Contact_Flag.E_islandFlag))
+			c.SetFlags(c.GetFlags() & ^(ContactFlags.TOI | ContactFlags.Island))
 			c.SetTOICount(0)
 			c.SetTOI(1.0)
 		}
@@ -638,7 +638,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 			}
 
 			alpha := 1.0
-			if (c.GetFlags() & B2Contact_Flag.E_toiFlag) != 0x0000 {
+			if (c.GetFlags() & ContactFlags.TOI) != 0x0000 {
 				// This contact has a valid cached TOI.
 				alpha = c.GetTOI()
 			} else {
@@ -710,7 +710,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 				}
 
 				c.SetTOI(alpha)
-				c.SetFlags(c.GetFlags() | B2Contact_Flag.E_toiFlag)
+				c.SetFlags(c.GetFlags() | ContactFlags.TOI)
 			}
 
 			if alpha < minAlpha {
@@ -740,7 +740,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 		// The TOI contact likely has some new contact points.
 		B2ContactUpdate(minContact, world.M_contactManager.M_contactListener)
-		minContact.SetFlags(minContact.GetFlags() & ^B2Contact_Flag.E_toiFlag)
+		minContact.SetFlags(minContact.GetFlags() & ^ContactFlags.TOI)
 		minContact.SetTOICount(minContact.GetTOICount() + 1)
 
 		// Is the contact solid?
@@ -765,7 +765,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 		bA.M_flags |= BodyFlags.Island
 		bB.M_flags |= BodyFlags.Island
-		minContact.SetFlags(minContact.GetFlags() | B2Contact_Flag.E_islandFlag)
+		minContact.SetFlags(minContact.GetFlags() | ContactFlags.Island)
 
 		// Get contacts on bodyA and bodyB.
 		bodies := [2]*Body{bA, bB}
@@ -785,7 +785,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 					contact := ce.Contact
 
 					// Has this contact already been added to the island?
-					if (contact.GetFlags() & B2Contact_Flag.E_islandFlag) != 0x0000 {
+					if (contact.GetFlags() & ContactFlags.Island) != 0x0000 {
 						continue
 					}
 
@@ -826,7 +826,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 					}
 
 					// Add the contact to the island
-					contact.SetFlags(contact.GetFlags() | B2Contact_Flag.E_islandFlag)
+					contact.SetFlags(contact.GetFlags() | ContactFlags.Island)
 					island.AddContact(contact)
 
 					// Has the other body already been added to the island?
@@ -868,7 +868,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 			// Invalidate all contact TOIs on this displaced body.
 			for ce := body.M_contactList; ce != nil; ce = ce.Next {
-				ce.Contact.SetFlags(ce.Contact.GetFlags() & ^(B2Contact_Flag.E_toiFlag | B2Contact_Flag.E_islandFlag))
+				ce.Contact.SetFlags(ce.Contact.GetFlags() & ^(ContactFlags.TOI | ContactFlags.Island))
 			}
 		}
 

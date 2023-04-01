@@ -8,7 +8,7 @@ type B2TreeQueryCallback func(nodeId int) bool
 
 type B2TreeRayCastCallback func(input B2RayCastInput, nodeId int) float64
 
-const B2_nullNode = -1
+const nullNode = -1
 
 type B2TreeNode struct {
 	/// Enlarged AABB
@@ -30,7 +30,7 @@ type B2TreeNode struct {
 }
 
 func (node B2TreeNode) IsLeaf() bool {
-	return node.Child1 == B2_nullNode
+	return node.Child1 == nullNode
 }
 
 // A dynamic AABB tree broad-phase, inspired by Nathanael Presson's btDbvt.
@@ -76,7 +76,7 @@ func (tree *B2DynamicTree) Query(queryCallback B2TreeQueryCallback, aabb AABB) {
 
 	for stack.GetCount() > 0 {
 		nodeId := stack.Pop()
-		if nodeId == B2_nullNode {
+		if nodeId == nullNode {
 			continue
 		}
 
@@ -124,7 +124,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 
 	for stack.GetCount() > 0 {
 		nodeId := stack.Pop()
-		if nodeId == B2_nullNode {
+		if nodeId == nullNode {
 			continue
 		}
 
@@ -181,7 +181,7 @@ func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B
 
 func MakeB2DynamicTree() B2DynamicTree {
 	tree := B2DynamicTree{}
-	tree.M_root = B2_nullNode
+	tree.M_root = nullNode
 
 	tree.M_nodeCapacity = 16
 	tree.M_nodeCount = 0
@@ -193,7 +193,7 @@ func MakeB2DynamicTree() B2DynamicTree {
 		tree.M_nodes[i].Height = -1
 	}
 
-	tree.M_nodes[tree.M_nodeCapacity-1].Next = B2_nullNode
+	tree.M_nodes[tree.M_nodeCapacity-1].Next = nullNode
 	tree.M_nodes[tree.M_nodeCapacity-1].Height = -1
 	tree.M_freeList = 0
 
@@ -212,7 +212,7 @@ func MakeB2DynamicTree() B2DynamicTree {
 // Allocate a node from the pool. Grow the pool if necessary.
 func (tree *B2DynamicTree) AllocateNode() int {
 	// Expand the node pool as needed.
-	if tree.M_freeList == B2_nullNode {
+	if tree.M_freeList == nullNode {
 		assert(tree.M_nodeCount == tree.M_nodeCapacity)
 
 		// The free list is empty. Rebuild a bigger pool.
@@ -226,7 +226,7 @@ func (tree *B2DynamicTree) AllocateNode() int {
 			tree.M_nodes[i].Height = -1
 		}
 
-		tree.M_nodes[tree.M_nodeCapacity-1].Next = B2_nullNode
+		tree.M_nodes[tree.M_nodeCapacity-1].Next = nullNode
 		tree.M_nodes[tree.M_nodeCapacity-1].Height = -1
 		tree.M_freeList = tree.M_nodeCount
 	}
@@ -234,9 +234,9 @@ func (tree *B2DynamicTree) AllocateNode() int {
 	// Peel a node off the free list.
 	nodeId := tree.M_freeList
 	tree.M_freeList = tree.M_nodes[nodeId].Next
-	tree.M_nodes[nodeId].Parent = B2_nullNode
-	tree.M_nodes[nodeId].Child1 = B2_nullNode
-	tree.M_nodes[nodeId].Child2 = B2_nullNode
+	tree.M_nodes[nodeId].Parent = nullNode
+	tree.M_nodes[nodeId].Child1 = nullNode
+	tree.M_nodes[nodeId].Child2 = nullNode
 	tree.M_nodes[nodeId].Height = 0
 	tree.M_nodes[nodeId].UserData = nil
 	tree.M_nodeCount++
@@ -322,9 +322,9 @@ func (tree *B2DynamicTree) MoveProxy(proxyId int, aabb AABB, displacement Vec2) 
 func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 	tree.M_insertionCount++
 
-	if tree.M_root == B2_nullNode {
+	if tree.M_root == nullNode {
 		tree.M_root = leaf
-		tree.M_nodes[tree.M_root].Parent = B2_nullNode
+		tree.M_nodes[tree.M_root].Parent = nullNode
 		return
 	}
 
@@ -398,7 +398,7 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 	tree.M_nodes[newParent].Aabb.CombineTwoInPlace(leafAABB, tree.M_nodes[sibling].Aabb)
 	tree.M_nodes[newParent].Height = tree.M_nodes[sibling].Height + 1
 
-	if oldParent != B2_nullNode {
+	if oldParent != nullNode {
 		// The sibling was not the root.
 		if tree.M_nodes[oldParent].Child1 == sibling {
 			tree.M_nodes[oldParent].Child1 = newParent
@@ -421,14 +421,14 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 
 	// Walk back up the tree fixing heights and AABBs
 	index = tree.M_nodes[leaf].Parent
-	for index != B2_nullNode {
+	for index != nullNode {
 		index = tree.Balance(index)
 
 		child1 := tree.M_nodes[index].Child1
 		child2 := tree.M_nodes[index].Child2
 
-		assert(child1 != B2_nullNode)
-		assert(child2 != B2_nullNode)
+		assert(child1 != nullNode)
+		assert(child2 != nullNode)
 
 		tree.M_nodes[index].Height = 1 + MaxInt(tree.M_nodes[child1].Height, tree.M_nodes[child2].Height)
 		tree.M_nodes[index].Aabb.CombineTwoInPlace(tree.M_nodes[child1].Aabb, tree.M_nodes[child2].Aabb)
@@ -441,7 +441,7 @@ func (tree *B2DynamicTree) InsertLeaf(leaf int) {
 
 func (tree *B2DynamicTree) RemoveLeaf(leaf int) {
 	if leaf == tree.M_root {
-		tree.M_root = B2_nullNode
+		tree.M_root = nullNode
 		return
 	}
 
@@ -454,7 +454,7 @@ func (tree *B2DynamicTree) RemoveLeaf(leaf int) {
 		sibling = tree.M_nodes[parent].Child1
 	}
 
-	if grandParent != B2_nullNode {
+	if grandParent != nullNode {
 		// Destroy parent and connect sibling to grandParent.
 		if tree.M_nodes[grandParent].Child1 == parent {
 			tree.M_nodes[grandParent].Child1 = sibling
@@ -466,7 +466,7 @@ func (tree *B2DynamicTree) RemoveLeaf(leaf int) {
 
 		// Adjust ancestor bounds.
 		index := grandParent
-		for index != B2_nullNode {
+		for index != nullNode {
 			index = tree.Balance(index)
 
 			child1 := tree.M_nodes[index].Child1
@@ -479,7 +479,7 @@ func (tree *B2DynamicTree) RemoveLeaf(leaf int) {
 		}
 	} else {
 		tree.M_root = sibling
-		tree.M_nodes[sibling].Parent = B2_nullNode
+		tree.M_nodes[sibling].Parent = nullNode
 		tree.FreeNode(parent)
 	}
 
@@ -489,7 +489,7 @@ func (tree *B2DynamicTree) RemoveLeaf(leaf int) {
 // Perform a left or right rotation if node A is imbalanced.
 // Returns the new root index.
 func (tree *B2DynamicTree) Balance(iA int) int {
-	assert(iA != B2_nullNode)
+	assert(iA != nullNode)
 
 	A := &tree.M_nodes[iA]
 	if A.IsLeaf() || A.Height < 2 {
@@ -521,7 +521,7 @@ func (tree *B2DynamicTree) Balance(iA int) int {
 		A.Parent = iC
 
 		// A's old parent should point to C
-		if C.Parent != B2_nullNode {
+		if C.Parent != nullNode {
 			if tree.M_nodes[C.Parent].Child1 == iA {
 				tree.M_nodes[C.Parent].Child1 = iC
 			} else {
@@ -572,7 +572,7 @@ func (tree *B2DynamicTree) Balance(iA int) int {
 		A.Parent = iB
 
 		// A's old parent should point to B
-		if B.Parent != B2_nullNode {
+		if B.Parent != nullNode {
 			if tree.M_nodes[B.Parent].Child1 == iA {
 				tree.M_nodes[B.Parent].Child1 = iB
 			} else {
@@ -611,7 +611,7 @@ func (tree *B2DynamicTree) Balance(iA int) int {
 }
 
 func (tree B2DynamicTree) GetHeight() int {
-	if tree.M_root == B2_nullNode {
+	if tree.M_root == nullNode {
 		return 0
 	}
 
@@ -619,7 +619,7 @@ func (tree B2DynamicTree) GetHeight() int {
 }
 
 func (tree B2DynamicTree) GetAreaRatio() float64 {
-	if tree.M_root == B2_nullNode {
+	if tree.M_root == nullNode {
 		return 0.0
 	}
 
@@ -659,12 +659,12 @@ func (tree B2DynamicTree) ComputeTotalHeight() int {
 }
 
 func (tree B2DynamicTree) ValidateStructure(index int) {
-	if index == B2_nullNode {
+	if index == nullNode {
 		return
 	}
 
 	if index == tree.M_root {
-		assert(tree.M_nodes[index].Parent == B2_nullNode)
+		assert(tree.M_nodes[index].Parent == nullNode)
 	}
 
 	node := &tree.M_nodes[index]
@@ -673,8 +673,8 @@ func (tree B2DynamicTree) ValidateStructure(index int) {
 	child2 := node.Child2
 
 	if node.IsLeaf() {
-		assert(child1 == B2_nullNode)
-		assert(child2 == B2_nullNode)
+		assert(child1 == nullNode)
+		assert(child2 == nullNode)
 		assert(node.Height == 0)
 		return
 	}
@@ -690,7 +690,7 @@ func (tree B2DynamicTree) ValidateStructure(index int) {
 }
 
 func (tree B2DynamicTree) ValidateMetrics(index int) {
-	if index == B2_nullNode {
+	if index == nullNode {
 		return
 	}
 
@@ -700,8 +700,8 @@ func (tree B2DynamicTree) ValidateMetrics(index int) {
 	child2 := node.Child2
 
 	if node.IsLeaf() {
-		assert(child1 == B2_nullNode)
-		assert(child2 == B2_nullNode)
+		assert(child1 == nullNode)
+		assert(child2 == nullNode)
 		assert(node.Height == 0)
 		return
 	}
@@ -730,7 +730,7 @@ func (tree B2DynamicTree) Validate() {
 
 	freeCount := 0
 	freeIndex := tree.M_freeList
-	for freeIndex != B2_nullNode {
+	for freeIndex != nullNode {
 		assert(0 <= freeIndex && freeIndex < tree.M_nodeCapacity)
 		freeIndex = tree.M_nodes[freeIndex].Next
 		freeCount++
@@ -773,7 +773,7 @@ func (tree *B2DynamicTree) RebuildBottomUp() {
 		}
 
 		if tree.M_nodes[i].IsLeaf() {
-			tree.M_nodes[i].Parent = B2_nullNode
+			tree.M_nodes[i].Parent = nullNode
 			nodes[count] = i
 			count++
 		} else {
@@ -813,7 +813,7 @@ func (tree *B2DynamicTree) RebuildBottomUp() {
 		parent.Child2 = index2
 		parent.Height = 1 + MaxInt(child1.Height, child2.Height)
 		parent.Aabb.CombineTwoInPlace(child1.Aabb, child2.Aabb)
-		parent.Parent = B2_nullNode
+		parent.Parent = nullNode
 
 		child1.Parent = parentIndex
 		child2.Parent = parentIndex

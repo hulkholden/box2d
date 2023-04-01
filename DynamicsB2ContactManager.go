@@ -9,7 +9,7 @@ type ContactManager struct {
 }
 
 var (
-	b2_defaultFilter   = &B2ContactFilter{}
+	b2_defaultFilter   = &ContactFilter{}
 	b2_defaultListener ContactListenerInterface
 )
 

@@ -63,11 +63,11 @@ type ContactListenerInterface interface {
 
 type BroadPhaseQueryCallback func(fixture *Fixture) bool
 
-type B2ContactFilter struct{}
+type ContactFilter struct{}
 
 // Return true if contact calculations should be performed between these two shapes.
 // If you implement your own collision filter you may want to build from this implementation.
-func (cf *B2ContactFilter) ShouldCollide(fixtureA *Fixture, fixtureB *Fixture) bool {
+func (cf *ContactFilter) ShouldCollide(fixtureA *Fixture, fixtureB *Fixture) bool {
 	filterA := fixtureA.GetFilterData()
 	filterB := fixtureB.GetFilterData()
 

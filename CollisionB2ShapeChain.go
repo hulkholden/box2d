@@ -8,7 +8,7 @@ package box2d
 /// WARNING: The chain will not collide properly if there are self-intersections.
 
 // A circle shape.
-type B2ChainShape struct {
+type ChainShape struct {
 	B2Shape
 
 	/// The vertices. Owned by this class.
@@ -23,8 +23,8 @@ type B2ChainShape struct {
 	M_hasNextVertex bool
 }
 
-func MakeB2ChainShape() B2ChainShape {
-	return B2ChainShape{
+func MakeChainShape() ChainShape {
+	return ChainShape{
 		B2Shape: B2Shape{
 			M_type:   B2Shape_Type.E_chain,
 			M_radius: polygonRadius,
@@ -39,21 +39,21 @@ func MakeB2ChainShape() B2ChainShape {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-// B2ChainShape.cpp
+// ChainShape.cpp
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (chain *B2ChainShape) Destroy() {
+func (chain *ChainShape) Destroy() {
 	chain.Clear()
 }
 
-func (chain *B2ChainShape) Clear() {
+func (chain *ChainShape) Clear() {
 	chain.M_vertices = nil
 	chain.M_count = 0
 }
 
-func (chain *B2ChainShape) CreateLoop(vertices []Vec2, count int) {
+func (chain *ChainShape) CreateLoop(vertices []Vec2, count int) {
 	assert(chain.M_vertices == nil && chain.M_count == 0)
 	assert(count >= 3)
 	if count < 3 {
@@ -78,7 +78,7 @@ func (chain *B2ChainShape) CreateLoop(vertices []Vec2, count int) {
 	chain.M_hasNextVertex = true
 }
 
-func (chain *B2ChainShape) CreateChain(vertices []Vec2, count int) {
+func (chain *ChainShape) CreateChain(vertices []Vec2, count int) {
 	assert(chain.M_vertices == nil && chain.M_count == 0)
 	assert(count >= 2)
 	for i := 1; i < count; i++ {
@@ -97,18 +97,18 @@ func (chain *B2ChainShape) CreateChain(vertices []Vec2, count int) {
 	chain.M_nextVertex.SetZero()
 }
 
-func (chain *B2ChainShape) SetPrevVertex(prevVertex Vec2) {
+func (chain *ChainShape) SetPrevVertex(prevVertex Vec2) {
 	chain.M_prevVertex = prevVertex
 	chain.M_hasPrevVertex = true
 }
 
-func (chain *B2ChainShape) SetNextVertex(nextVertex Vec2) {
+func (chain *ChainShape) SetNextVertex(nextVertex Vec2) {
 	chain.M_nextVertex = nextVertex
 	chain.M_hasNextVertex = true
 }
 
-func (chain B2ChainShape) Clone() B2ShapeInterface {
-	clone := MakeB2ChainShape()
+func (chain ChainShape) Clone() B2ShapeInterface {
+	clone := MakeChainShape()
 	clone.CreateChain(chain.M_vertices, chain.M_count)
 	clone.M_prevVertex = chain.M_prevVertex
 	clone.M_nextVertex = chain.M_nextVertex
@@ -118,12 +118,12 @@ func (chain B2ChainShape) Clone() B2ShapeInterface {
 	return &clone
 }
 
-func (chain B2ChainShape) GetChildCount() int {
+func (chain ChainShape) GetChildCount() int {
 	// edge count = vertex count - 1
 	return chain.M_count - 1
 }
 
-func (chain B2ChainShape) GetChildEdge(edge *B2EdgeShape, index int) {
+func (chain ChainShape) GetChildEdge(edge *B2EdgeShape, index int) {
 	assert(0 <= index && index < chain.M_count-1)
 
 	edge.M_type = B2Shape_Type.E_edge
@@ -149,11 +149,11 @@ func (chain B2ChainShape) GetChildEdge(edge *B2EdgeShape, index int) {
 	}
 }
 
-func (chain B2ChainShape) TestPoint(xf Transform, p Vec2) bool {
+func (chain ChainShape) TestPoint(xf Transform, p Vec2) bool {
 	return false
 }
 
-func (chain B2ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
+func (chain ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
 	assert(childIndex < chain.M_count)
 
 	edgeShape := MakeB2EdgeShape()
@@ -170,7 +170,7 @@ func (chain B2ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput,
 	return edgeShape.RayCast(output, input, xf, 0)
 }
 
-func (chain B2ChainShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
+func (chain ChainShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	assert(childIndex < chain.M_count)
 
 	i1 := childIndex
@@ -185,7 +185,7 @@ func (chain B2ChainShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	return MakeB2AABB(Vec2Min(v1, v2), Vec2Max(v1, v2))
 }
 
-func (chain B2ChainShape) ComputeMass(density float64) B2MassData {
+func (chain ChainShape) ComputeMass(density float64) B2MassData {
 	massData := MakeMassData()
 	massData.Mass = 0.0
 	massData.Center.SetZero()

@@ -121,7 +121,7 @@ func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 		p.M_radius = polygon.M_radius
 
 	case B2Shape_Type.E_chain:
-		chain := shape.(*B2ChainShape)
+		chain := shape.(*ChainShape)
 		assert(0 <= index && index < chain.M_count)
 
 		p.M_buffer[0] = chain.M_vertices[index]

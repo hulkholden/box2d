@@ -238,7 +238,7 @@ func (fix *Fixture) Destroy() {
 		s.Destroy()
 
 	case B2Shape_Type.E_chain:
-		s := fix.M_shape.(*B2ChainShape)
+		s := fix.M_shape.(*ChainShape)
 		s.Destroy()
 
 	default:
@@ -376,7 +376,7 @@ func (fix *Fixture) Dump(bodyIndex int) {
 		fmt.Printf("    shape.Set(vs, %d);\n", s.M_count)
 
 	case B2Shape_Type.E_chain:
-		s := fix.M_shape.(*B2ChainShape)
+		s := fix.M_shape.(*ChainShape)
 		fmt.Printf("    b2ChainShape shape;\n")
 		fmt.Printf("    b2Vec2 vs[%d];\n", s.M_count)
 		for i := 0; i < s.M_count; i++ {

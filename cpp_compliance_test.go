@@ -58,7 +58,7 @@ func TestCPPCompliance(t *testing.T) {
 		vs[1].Set(6.0, 8.0)
 		vs[2].Set(7.0, 8.0)
 		vs[3].Set(8.0, 7.0)
-		shape := box2d.MakeB2ChainShape()
+		shape := box2d.MakeChainShape()
 		shape.CreateChain(vs, 4)
 		ground.CreateFixture(&shape, 0.0)
 		characters["02_chainshape"] = ground
@@ -91,7 +91,7 @@ func TestCPPCompliance(t *testing.T) {
 		vs[1].Set(1.0, 3.0)
 		vs[2].Set(1.0, 5.0)
 		vs[3].Set(-1.0, 5.0)
-		shape := box2d.MakeB2ChainShape()
+		shape := box2d.MakeChainShape()
 		shape.CreateLoop(vs, 4)
 		ground.CreateFixture(&shape, 0.0)
 		characters["04_edgeloopsquare"] = ground
@@ -114,7 +114,7 @@ func TestCPPCompliance(t *testing.T) {
 		vs[7].Set(-4.0, 3.0)
 		vs[8].Set(-6.0, 2.0)
 		vs[9].Set(-6.0, 0.0)
-		shape := box2d.MakeB2ChainShape()
+		shape := box2d.MakeChainShape()
 		shape.CreateLoop(vs, 10)
 		ground.CreateFixture(&shape, 0.0)
 		characters["05_edgelooppoly"] = ground

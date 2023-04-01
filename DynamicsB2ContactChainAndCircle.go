@@ -26,7 +26,7 @@ func B2ChainAndCircleContact_Destroy(contact ContactInterface) { // should be a 
 }
 
 func (contact *B2ChainAndCircleContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
-	chain := contact.GetFixtureA().GetShape().(*B2ChainShape)
+	chain := contact.GetFixtureA().GetShape().(*ChainShape)
 	edge := MakeB2EdgeShape()
 	chain.GetChildEdge(&edge, contact.M_indexA)
 	B2CollideEdgeAndCircle(

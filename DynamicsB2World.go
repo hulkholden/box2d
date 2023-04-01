@@ -1014,7 +1014,7 @@ func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color B2Color) {
 		world.G_debugDraw.DrawSegment(v1, v2, color)
 
 	case B2Shape_Type.E_chain:
-		chain := fixture.GetShape().(*B2ChainShape)
+		chain := fixture.GetShape().(*ChainShape)
 		count := chain.M_count
 		vertices := chain.M_vertices
 

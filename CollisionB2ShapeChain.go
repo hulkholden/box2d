@@ -9,7 +9,7 @@ package box2d
 
 // A circle shape.
 type ChainShape struct {
-	B2Shape
+	Shape
 
 	/// The vertices. Owned by this class.
 	M_vertices []Vec2
@@ -25,7 +25,7 @@ type ChainShape struct {
 
 func MakeChainShape() ChainShape {
 	return ChainShape{
-		B2Shape: B2Shape{
+		Shape: Shape{
 			M_type:   ShapeType.Chain,
 			M_radius: polygonRadius,
 		},

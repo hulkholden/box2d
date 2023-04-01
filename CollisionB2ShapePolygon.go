@@ -6,7 +6,7 @@ package box2d
 /// In most cases you should not need many vertices for a convex polygon.
 
 type PolygonShape struct {
-	B2Shape
+	Shape
 
 	M_centroid Vec2
 	M_vertices [maxPolygonVertices]Vec2
@@ -16,7 +16,7 @@ type PolygonShape struct {
 
 func MakePolygonShape() PolygonShape {
 	return PolygonShape{
-		B2Shape: B2Shape{
+		Shape: Shape{
 			M_type:   ShapeType.Polygon,
 			M_radius: polygonRadius,
 		},

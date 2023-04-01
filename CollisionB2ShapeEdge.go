@@ -4,7 +4,7 @@ package box2d
 // to other edge shapes. The connectivity information is used to ensure
 // correct contact normals.
 type EdgeShape struct {
-	B2Shape
+	Shape
 	/// These are the edge vertices
 	M_vertex1, M_vertex2 Vec2
 
@@ -15,7 +15,7 @@ type EdgeShape struct {
 
 func MakeEdgeShape() EdgeShape {
 	return EdgeShape{
-		B2Shape: B2Shape{
+		Shape: Shape{
 			M_type:   ShapeType.Edge,
 			M_radius: polygonRadius,
 		},

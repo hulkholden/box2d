@@ -6,14 +6,14 @@ import (
 
 // A circle shape.
 type CircleShape struct {
-	B2Shape
+	Shape
 	/// Position
 	M_p Vec2
 }
 
 func MakeCircleShape() CircleShape {
 	return CircleShape{
-		B2Shape: B2Shape{
+		Shape: Shape{
 			M_type:   ShapeType.Circle,
 			M_radius: 0.0,
 		},

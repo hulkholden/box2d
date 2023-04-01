@@ -85,7 +85,7 @@ type ShapeInterface interface {
 	ComputeMass(density float64) MassData
 }
 
-type B2Shape struct {
+type Shape struct {
 	M_type uint8
 
 	/// Radius of a shape. For polygonal shapes this must be b2_polygonRadius. There is no support for
@@ -93,15 +93,15 @@ type B2Shape struct {
 	M_radius float64
 }
 
-func (shape B2Shape) GetType() uint8 {
+func (shape Shape) GetType() uint8 {
 	return shape.M_type
 }
 
-func (shape B2Shape) GetRadius() float64 {
+func (shape Shape) GetRadius() float64 {
 	return shape.M_radius
 }
 
 // @addedgo
-func (shape *B2Shape) SetRadius(r float64) {
+func (shape *Shape) SetRadius(r float64) {
 	shape.M_radius = r
 }

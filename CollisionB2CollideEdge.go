@@ -152,7 +152,7 @@ func MakeEPAxis() EPAxis {
 }
 
 // This holds polygon B expressed in frame A.
-type B2TempPolygon struct {
+type TempPolygon struct {
 	Vertices [maxPolygonVertices]Vec2
 	Normals  [maxPolygonVertices]Vec2
 	Count    int
@@ -189,7 +189,7 @@ var B2EPCollider_VertexType = struct {
 
 // This class collides and edge and a polygon, taking into account edge adjacency.
 type B2EPCollider struct {
-	M_polygonB B2TempPolygon
+	M_polygonB TempPolygon
 
 	M_xf                            Transform
 	M_centroidB                     Vec2

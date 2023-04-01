@@ -46,7 +46,7 @@ func MakeB2WeldJointDef() B2WeldJointDef {
 // A weld joint essentially glues two bodies together. A weld joint may
 // distort somewhat because the island constraint solver is approximate.
 type B2WeldJoint struct {
-	*B2Joint
+	*Joint
 
 	M_frequencyHz  float64
 	M_dampingRatio float64
@@ -130,7 +130,7 @@ func (def *B2WeldJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
 
 func MakeB2WeldJoint(def *B2WeldJointDef) *B2WeldJoint {
 	res := B2WeldJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	res.M_localAnchorA = def.LocalAnchorA

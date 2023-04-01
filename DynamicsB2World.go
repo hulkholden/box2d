@@ -1059,8 +1059,8 @@ func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color Color) {
 }
 
 /*
-// TODO: Figure out how to cast B2Joint to the derived type.
-func (world *B2World) DrawJoint(joint *B2Joint) {
+// TODO: Figure out how to cast Joint to the derived type.
+func (world *B2World) DrawJoint(joint *Joint) {
 	bodyA := joint.GetBodyA()
 	bodyB := joint.GetBodyB()
 	xf1 := bodyA.GetTransform()

@@ -70,7 +70,7 @@ func MakeB2PrismaticJointDef() B2PrismaticJointDef {
 // use a joint limit to restrict the range of motion and a joint motor to
 // drive the motion or to model joint friction.
 type B2PrismaticJoint struct {
-	*B2Joint
+	*Joint
 
 	// Solver shared
 	M_localAnchorA     Vec2
@@ -209,7 +209,7 @@ func (joint *B2PrismaticJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, ax
 
 func MakeB2PrismaticJoint(def *B2PrismaticJointDef) *B2PrismaticJoint {
 	res := B2PrismaticJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	res.M_localAnchorA = def.LocalAnchorA

@@ -74,7 +74,7 @@ func MakeB2RevoluteJointDef() B2RevoluteJointDef {
 // to drive the relative rotation about the shared point. A maximum motor torque
 // is provided so that infinite forces are not generated.
 type B2RevoluteJoint struct {
-	*B2Joint
+	*Joint
 
 	// Solver shared
 	M_localAnchorA Vec2
@@ -153,7 +153,7 @@ func (def *B2RevoluteJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
 
 func MakeB2RevoluteJoint(def *B2RevoluteJointDef) *B2RevoluteJoint {
 	res := B2RevoluteJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	res.M_localAnchorA = def.LocalAnchorA

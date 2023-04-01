@@ -44,7 +44,7 @@ func MakeB2RopeJointDef() B2RopeJointDef {
 // that way. See b2DistanceJoint if you want to dynamically
 // control length.
 type B2RopeJoint struct {
-	*B2Joint
+	*Joint
 
 	// Solver shared
 	M_localAnchorA Vec2
@@ -94,7 +94,7 @@ func (joint *B2RopeJoint) SetMaxLength(length float64) {
 
 func MakeB2RopeJoint(def *B2RopeJointDef) *B2RopeJoint {
 	res := B2RopeJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	res.M_localAnchorA = def.LocalAnchorA

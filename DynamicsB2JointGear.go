@@ -43,7 +43,7 @@ func MakeB2GearJointDef() B2GearJointDef {
 // @warning You have to manually destroy the gear joint if joint1 or joint2
 // is destroyed.
 type B2GearJoint struct {
-	*B2Joint
+	*Joint
 
 	M_joint1 B2JointInterface // backed by pointer
 	M_joint2 B2JointInterface // backed by pointer
@@ -114,7 +114,7 @@ func (joint B2GearJoint) GetJoint2() B2JointInterface { // returns a pointer
 
 func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 	res := B2GearJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	res.M_joint1 = def.Joint1

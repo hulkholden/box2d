@@ -61,7 +61,7 @@ func MakeB2PulleyJointDef() B2PulleyJointDef {
 // the anchor points with static shapes to prevent one side from going to
 // zero length.
 type B2PulleyJoint struct {
-	*B2Joint
+	*Joint
 
 	M_groundAnchorA Vec2
 	M_groundAnchorB Vec2
@@ -120,7 +120,7 @@ func (def *B2PulleyJointDef) Initialize(bA *Body, bB *Body, groundA Vec2, ground
 
 func MakeB2PulleyJoint(def *B2PulleyJointDef) *B2PulleyJoint {
 	res := B2PulleyJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	res.M_groundAnchorA = def.GroundAnchorA

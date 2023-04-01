@@ -89,7 +89,7 @@ type JointDefInterface interface {
 	SetCollideConnected(flag bool)
 }
 
-// Implementing JointDefInterface on B2Joint (used as a base struct)
+// Implementing JointDefInterface on Joint (used as a base struct)
 func (def JointDef) GetType() uint8 {
 	return def.Type
 }
@@ -143,7 +143,7 @@ func MakeJointDef() JointDef {
 
 // The base joint class. Joints are used to constraint two bodies together in
 // various fashions. Some joints also feature limits and motors.
-type B2Joint struct {
+type Joint struct {
 	M_type             uint8
 	M_prev             B2JointInterface // has to be backed by pointer
 	M_next             B2JointInterface // has to be backed by pointer
@@ -158,96 +158,96 @@ type B2Joint struct {
 }
 
 // Dump this joint to the log file.
-func (j B2Joint) Dump() {}
+func (j Joint) Dump() {}
 
 // Shift the origin for any points stored in world coordinates.
-func (j B2Joint) ShiftOrigin(newOrigin Vec2) {}
+func (j Joint) ShiftOrigin(newOrigin Vec2) {}
 
-func (j B2Joint) GetType() uint8 {
+func (j Joint) GetType() uint8 {
 	return j.M_type
 }
 
 // @goadd
-func (j *B2Joint) SetType(t uint8) {
+func (j *Joint) SetType(t uint8) {
 	j.M_type = t
 }
 
-func (j B2Joint) GetBodyA() *Body {
+func (j Joint) GetBodyA() *Body {
 	return j.M_bodyA
 }
 
 // @goadd
-func (j *B2Joint) SetBodyA(body *Body) {
+func (j *Joint) SetBodyA(body *Body) {
 	j.M_bodyA = body
 }
 
-func (j B2Joint) GetBodyB() *Body {
+func (j Joint) GetBodyB() *Body {
 	return j.M_bodyB
 }
 
 // @goadd
-func (j *B2Joint) SetBodyB(body *Body) {
+func (j *Joint) SetBodyB(body *Body) {
 	j.M_bodyB = body
 }
 
-func (j B2Joint) GetNext() B2JointInterface { // returns pointer
+func (j Joint) GetNext() B2JointInterface { // returns pointer
 	return j.M_next
 }
 
 // @goadd
-func (j *B2Joint) SetNext(next B2JointInterface) { // has to be backed by pointer
+func (j *Joint) SetNext(next B2JointInterface) { // has to be backed by pointer
 	j.M_next = next
 }
 
-func (j B2Joint) GetPrev() B2JointInterface { // returns pointer
+func (j Joint) GetPrev() B2JointInterface { // returns pointer
 	return j.M_prev
 }
 
 // @goadd
-func (j *B2Joint) SetPrev(prev B2JointInterface) { // prev has to be backed by pointer
+func (j *Joint) SetPrev(prev B2JointInterface) { // prev has to be backed by pointer
 	j.M_prev = prev
 }
 
-func (j B2Joint) GetUserData() interface{} {
+func (j Joint) GetUserData() interface{} {
 	return j.M_userData
 }
 
-func (j *B2Joint) SetUserData(data interface{}) {
+func (j *Joint) SetUserData(data interface{}) {
 	j.M_userData = data
 }
 
-func (j B2Joint) IsCollideConnected() bool {
+func (j Joint) IsCollideConnected() bool {
 	return j.M_collideConnected
 }
 
 // @goadd
-func (j *B2Joint) SetCollideConnected(flag bool) {
+func (j *Joint) SetCollideConnected(flag bool) {
 	j.M_collideConnected = flag
 }
 
 // @goadd
-func (j B2Joint) GetEdgeA() *JointEdge {
+func (j Joint) GetEdgeA() *JointEdge {
 	return j.M_edgeA
 }
 
 // @goadd
-func (j *B2Joint) SetEdgeA(edge *JointEdge) {
+func (j *Joint) SetEdgeA(edge *JointEdge) {
 	j.M_edgeA = edge
 }
 
 // @goadd
-func (j B2Joint) GetEdgeB() *JointEdge {
+func (j Joint) GetEdgeB() *JointEdge {
 	return j.M_edgeB
 }
 
 // @goadd
-func (j *B2Joint) SetEdgeB(edge *JointEdge) {
+func (j *Joint) SetEdgeB(edge *JointEdge) {
 	j.M_edgeB = edge
 }
 
 func B2JointCreate(def JointDefInterface) B2JointInterface { // def should be back by pointer; a pointer is returned
 
-	var joint *B2Joint = nil
+	var joint *Joint = nil
 
 	switch def.GetType() {
 	case B2JointType.E_distanceJoint:
@@ -327,10 +327,10 @@ func B2JointDestroy(joint B2JointInterface) { // has to be backed by pointer
 	joint.Destroy()
 }
 
-func MakeB2Joint(def JointDefInterface) *B2Joint { // def has to be backed by pointer
+func MakeJoint(def JointDefInterface) *Joint { // def has to be backed by pointer
 	assert(def.GetBodyA() != def.GetBodyB())
 
-	res := B2Joint{}
+	res := Joint{}
 
 	res.M_type = def.GetType()
 	res.M_prev = nil
@@ -348,36 +348,36 @@ func MakeB2Joint(def JointDefInterface) *B2Joint { // def has to be backed by po
 	return &res
 }
 
-func (j B2Joint) IsActive() bool {
+func (j Joint) IsActive() bool {
 	return j.M_bodyA.IsActive() && j.M_bodyB.IsActive()
 }
 
 // @goadd
-func (j *B2Joint) Destroy() {
+func (j *Joint) Destroy() {
 }
 
 // @goadd
-func (j B2Joint) GetIndex() int {
+func (j Joint) GetIndex() int {
 	return j.M_index
 }
 
-func (j *B2Joint) SetIndex(index int) {
+func (j *Joint) SetIndex(index int) {
 	j.M_index = index
 }
 
-func (j *B2Joint) InitVelocityConstraints(data B2SolverData) {}
+func (j *Joint) InitVelocityConstraints(data B2SolverData) {}
 
-func (j *B2Joint) SolveVelocityConstraints(data B2SolverData) {}
+func (j *Joint) SolveVelocityConstraints(data B2SolverData) {}
 
-func (j *B2Joint) SolvePositionConstraints(data B2SolverData) bool {
+func (j *Joint) SolvePositionConstraints(data B2SolverData) bool {
 	return false
 }
 
-func (j B2Joint) GetIslandFlag() bool {
+func (j Joint) GetIslandFlag() bool {
 	return j.M_islandFlag
 }
 
-func (j *B2Joint) SetIslandFlag(flag bool) {
+func (j *Joint) SetIslandFlag(flag bool) {
 	j.M_islandFlag = flag
 }
 

@@ -39,7 +39,7 @@ func MakeB2MotorJointDef() B2MotorJointDef {
 // between two bodies. A typical usage is to control the movement
 // of a dynamic body with respect to the ground.
 type B2MotorJoint struct {
-	*B2Joint
+	*Joint
 
 	// Solver shared
 	M_linearOffset     Vec2
@@ -95,7 +95,7 @@ func (def *B2MotorJointDef) Initialize(bA *Body, bB *Body) {
 
 func MakeB2MotorJoint(def *B2MotorJointDef) *B2MotorJoint {
 	res := B2MotorJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	res.M_linearOffset = def.LinearOffset

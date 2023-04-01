@@ -47,7 +47,7 @@ func MakeB2MouseJointDef() B2MouseJointDef {
 // developed to be used in the testbed. If you want to learn how to
 // use the mouse joint, look at the testbed.
 type B2MouseJoint struct {
-	*B2Joint
+	*Joint
 
 	M_localAnchorB Vec2
 	M_targetA      Vec2
@@ -86,7 +86,7 @@ func (def *B2MouseJoint) Dump() {
 
 func MakeB2MouseJoint(def *B2MouseJointDef) *B2MouseJoint {
 	res := B2MouseJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	assert(def.Target.IsValid())

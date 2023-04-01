@@ -38,7 +38,7 @@ func MakeB2FrictionJointDef() B2FrictionJointDef {
 // Friction joint. This is used for top-down friction.
 // It provides 2D translational friction and angular friction.
 type B2FrictionJoint struct {
-	*B2Joint
+	*Joint
 
 	M_localAnchorA Vec2
 	M_localAnchorB Vec2
@@ -95,7 +95,7 @@ func (joint *B2FrictionJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
 
 func MakeB2FrictionJoint(def *B2FrictionJointDef) *B2FrictionJoint {
 	res := B2FrictionJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	res.M_localAnchorA = def.LocalAnchorA

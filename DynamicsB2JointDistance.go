@@ -50,7 +50,7 @@ func MakeB2DistanceJointDef() B2DistanceJointDef {
 // to remain at a fixed distance from each other. You can view
 // this as a massless, rigid rod.
 type B2DistanceJoint struct {
-	*B2Joint
+	*Joint
 
 	M_frequencyHz  float64
 	M_dampingRatio float64
@@ -138,7 +138,7 @@ func (joint *B2DistanceJointDef) Initialize(b1 *Body, b2 *Body, anchor1 Vec2, an
 
 func MakeB2DistanceJoint(def *B2DistanceJointDef) *B2DistanceJoint {
 	res := B2DistanceJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	res.M_localAnchorA = def.LocalAnchorA

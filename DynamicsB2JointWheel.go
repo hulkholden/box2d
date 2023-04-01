@@ -62,7 +62,7 @@ func MakeB2WheelJointDef() B2WheelJointDef {
 // line constraint with a rotational motor and a linear spring/damper.
 // This joint is designed for vehicle suspensions.
 type B2WheelJoint struct {
-	*B2Joint
+	*Joint
 
 	M_frequencyHz  float64
 	M_dampingRatio float64
@@ -171,7 +171,7 @@ func (def *B2WheelJointDef) Initialize(bA *Body, bB *Body, anchor Vec2, axis Vec
 
 func MakeB2WheelJoint(def *B2WheelJointDef) *B2WheelJoint {
 	res := B2WheelJoint{
-		B2Joint: MakeB2Joint(def),
+		Joint: MakeJoint(def),
 	}
 
 	res.M_localAnchorA = def.LocalAnchorA

@@ -6,7 +6,7 @@ import (
 
 // Compute contact points for edge versus circle.
 // This accounts for edge connectivity.
-func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform, circleB *CircleShape, xfB Transform) {
+func CollideEdgeAndCircle(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform, circleB *CircleShape, xfB Transform) {
 	manifold.PointCount = 0
 
 	// Compute circle in frame of edge

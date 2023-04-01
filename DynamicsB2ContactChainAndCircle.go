@@ -29,7 +29,7 @@ func (contact *B2ChainAndCircleContact) Evaluate(manifold *B2Manifold, xfA Trans
 	chain := contact.GetFixtureA().GetShape().(*ChainShape)
 	edge := MakeEdgeShape()
 	chain.GetChildEdge(&edge, contact.M_indexA)
-	B2CollideEdgeAndCircle(
+	CollideEdgeAndCircle(
 		manifold,
 		&edge, xfA,
 		contact.GetFixtureB().GetShape().(*CircleShape), xfB,

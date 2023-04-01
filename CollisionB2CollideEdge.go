@@ -177,7 +177,7 @@ func MakeReferenceFace() ReferenceFace {
 	return ReferenceFace{}
 }
 
-var B2EPCollider_VertexType = struct {
+var EPCollider_VertexType = struct {
 	E_isolated uint8
 	E_concave  uint8
 	E_convex   uint8
@@ -188,7 +188,7 @@ var B2EPCollider_VertexType = struct {
 }
 
 // This class collides and edge and a polygon, taking into account edge adjacency.
-type B2EPCollider struct {
+type EPCollider struct {
 	M_polygonB TempPolygon
 
 	M_xf                            Transform
@@ -202,8 +202,8 @@ type B2EPCollider struct {
 	M_front                         bool
 }
 
-func MakeB2EPCollider() B2EPCollider {
-	return B2EPCollider{}
+func MakeEPCollider() EPCollider {
+	return EPCollider{}
 }
 
 // Algorithm:
@@ -215,7 +215,7 @@ func MakeB2EPCollider() B2EPCollider {
 // 6. Visit each separating axes, only accept axes within the range
 // 7. Return if _any_ axis indicates separation
 // 8. Clip
-func (collider *B2EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA Transform, polygonB *PolygonShape, xfB Transform) {
+func (collider *EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA Transform, polygonB *PolygonShape, xfB Transform) {
 	collider.M_xf = TransformMulT(xfA, xfB)
 
 	collider.M_centroidB = TransformVec2Mul(collider.M_xf, polygonB.M_centroid)
@@ -537,7 +537,7 @@ func (collider *B2EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA 
 	manifold.PointCount = pointCount
 }
 
-func (collider *B2EPCollider) ComputeEdgeSeparation() EPAxis {
+func (collider *EPCollider) ComputeEdgeSeparation() EPAxis {
 	axis := MakeEPAxis()
 	axis.Type = B2EPAxis_Type.E_edgeA
 	if collider.M_front {
@@ -557,7 +557,7 @@ func (collider *B2EPCollider) ComputeEdgeSeparation() EPAxis {
 	return axis
 }
 
-func (collider *B2EPCollider) ComputePolygonSeparation() EPAxis {
+func (collider *EPCollider) ComputePolygonSeparation() EPAxis {
 	axis := MakeEPAxis()
 	axis.Type = B2EPAxis_Type.E_unknown
 	axis.Index = -1
@@ -602,6 +602,6 @@ func (collider *B2EPCollider) ComputePolygonSeparation() EPAxis {
 }
 
 func CollideEdgeAndPolygon(manifold *Manifold, edgeA *EdgeShape, xfA Transform, polygonB *PolygonShape, xfB Transform) {
-	collider := MakeB2EPCollider()
+	collider := MakeEPCollider()
 	collider.Collide(manifold, edgeA, xfA, polygonB, xfB)
 }

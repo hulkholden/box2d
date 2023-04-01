@@ -10,7 +10,7 @@ type B2TreeRayCastCallback func(input B2RayCastInput, nodeId int) float64
 
 const nullNode = -1
 
-type B2TreeNode struct {
+type TreeNode struct {
 	/// Enlarged AABB
 	Aabb AABB
 
@@ -29,7 +29,7 @@ type B2TreeNode struct {
 	Height int
 }
 
-func (node B2TreeNode) IsLeaf() bool {
+func (node TreeNode) IsLeaf() bool {
 	return node.Child1 == nullNode
 }
 
@@ -48,7 +48,7 @@ type B2DynamicTree struct {
 	// Private members:
 	M_root int
 
-	M_nodes        []B2TreeNode
+	M_nodes        []TreeNode
 	M_nodeCount    int
 	M_nodeCapacity int
 
@@ -185,7 +185,7 @@ func MakeB2DynamicTree() B2DynamicTree {
 
 	tree.M_nodeCapacity = 16
 	tree.M_nodeCount = 0
-	tree.M_nodes = make([]B2TreeNode, tree.M_nodeCapacity)
+	tree.M_nodes = make([]TreeNode, tree.M_nodeCapacity)
 
 	// Build a linked list for the free list.
 	for i := 0; i < tree.M_nodeCapacity-1; i++ {
@@ -216,7 +216,7 @@ func (tree *B2DynamicTree) AllocateNode() int {
 		assert(tree.M_nodeCount == tree.M_nodeCapacity)
 
 		// The free list is empty. Rebuild a bigger pool.
-		tree.M_nodes = append(tree.M_nodes, make([]B2TreeNode, tree.M_nodeCapacity)...)
+		tree.M_nodes = append(tree.M_nodes, make([]TreeNode, tree.M_nodeCapacity)...)
 		tree.M_nodeCapacity *= 2
 
 		// Build a linked list for the free list. The parent

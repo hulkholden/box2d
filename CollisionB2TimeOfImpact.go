@@ -310,7 +310,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *B2TOIInput) {
 	// Prepare input for distance query.
 	cache := MakeSimplexCache()
 	cache.Count = 0
-	distanceInput := MakeB2DistanceInput()
+	distanceInput := MakeDistanceInput()
 	distanceInput.ProxyA = input.ProxyA
 	distanceInput.ProxyB = input.ProxyB
 	distanceInput.UseRadii = false

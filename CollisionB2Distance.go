@@ -35,7 +35,7 @@ func NewSimplexCache() *SimplexCache { return &SimplexCache{} }
 // Input for b2Distance.
 // You have to option to use the shape radii
 // in the computation. Even
-type B2DistanceInput struct {
+type DistanceInput struct {
 	ProxyA     DistanceProxy
 	ProxyB     DistanceProxy
 	TransformA Transform
@@ -43,8 +43,8 @@ type B2DistanceInput struct {
 	UseRadii   bool
 }
 
-func MakeB2DistanceInput() B2DistanceInput { return B2DistanceInput{} }
-func NewB2DistanceInput() *B2DistanceInput { return &B2DistanceInput{} }
+func MakeDistanceInput() DistanceInput { return DistanceInput{} }
+func NewDistanceInput() *DistanceInput { return &DistanceInput{} }
 
 // Output for b2Distance.
 type B2DistanceOutput struct {
@@ -474,7 +474,7 @@ func (simplex *B2Simplex) Solve3() {
 	simplex.M_count = 3
 }
 
-func B2Distance(output *B2DistanceOutput, cache *SimplexCache, input *B2DistanceInput) {
+func B2Distance(output *B2DistanceOutput, cache *SimplexCache, input *DistanceInput) {
 	b2_gjkCalls++
 
 	proxyA := &input.ProxyA

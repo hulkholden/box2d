@@ -46,7 +46,7 @@ type ContactSolver struct {
 	M_step                B2TimeStep
 	M_positions           []B2Position
 	M_velocities          []B2Velocity
-	M_positionConstraints []B2ContactPositionConstraint
+	M_positionConstraints []ContactPositionConstraint
 	M_velocityConstraints []ContactVelocityConstraint
 	M_contacts            []ContactInterface // has to be backed by pointers
 	M_count               int
@@ -65,7 +65,7 @@ const B2_DEBUG_SOLVER = 0
 
 var g_blockSolve = true
 
-type B2ContactPositionConstraint struct {
+type ContactPositionConstraint struct {
 	LocalPoints                [maxManifoldPoints]Vec2
 	LocalNormal                Vec2
 	LocalPoint                 Vec2
@@ -84,7 +84,7 @@ func MakeContactSolver(def *ContactSolverDef) ContactSolver {
 
 	solver.M_step = def.Step
 	solver.M_count = def.Count
-	solver.M_positionConstraints = make([]B2ContactPositionConstraint, solver.M_count)
+	solver.M_positionConstraints = make([]ContactPositionConstraint, solver.M_count)
 	solver.M_velocityConstraints = make([]ContactVelocityConstraint, solver.M_count)
 	solver.M_positions = def.Positions
 	solver.M_velocities = def.Velocities
@@ -685,7 +685,7 @@ func MakeB2PositionSolverManifold() B2PositionSolverManifold {
 	return B2PositionSolverManifold{}
 }
 
-func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPositionConstraint, xfA Transform, xfB Transform, index int) {
+func (solvermanifold *B2PositionSolverManifold) Initialize(pc *ContactPositionConstraint, xfA Transform, xfB Transform, index int) {
 	assert(pc.PointCount > 0)
 
 	switch pc.Type {

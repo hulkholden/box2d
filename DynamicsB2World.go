@@ -25,7 +25,7 @@ var B2World_Flags = struct {
 type B2World struct {
 	M_flags int
 
-	M_contactManager B2ContactManager
+	M_contactManager ContactManager
 
 	M_bodyList  *Body            // linked list
 	M_jointList B2JointInterface // has to be backed by pointer
@@ -102,7 +102,7 @@ func (world B2World) GetAutoClearForces() bool {
 	return (world.M_flags & B2World_Flags.E_clearForces) == B2World_Flags.E_clearForces
 }
 
-func (world B2World) GetContactManager() B2ContactManager {
+func (world B2World) GetContactManager() ContactManager {
 	return world.M_contactManager
 }
 
@@ -143,7 +143,7 @@ func MakeB2World(gravity Vec2) B2World {
 
 	world.M_inv_dt0 = 0.0
 
-	world.M_contactManager = MakeB2ContactManager()
+	world.M_contactManager = MakeContactManager()
 
 	return world
 }

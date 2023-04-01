@@ -1,6 +1,6 @@
 package box2d
 
-type B2ContactManager struct {
+type ContactManager struct {
 	M_broadPhase      BroadPhase
 	M_contactList     ContactInterface
 	M_contactCount    int
@@ -13,8 +13,8 @@ var (
 	b2_defaultListener B2ContactListenerInterface
 )
 
-func MakeB2ContactManager() B2ContactManager {
-	return B2ContactManager{
+func MakeContactManager() ContactManager {
+	return ContactManager{
 		M_broadPhase:      MakeBroadPhase(),
 		M_contactList:     nil,
 		M_contactCount:    0,
@@ -23,12 +23,12 @@ func MakeB2ContactManager() B2ContactManager {
 	}
 }
 
-func NewB2ContactManager() *B2ContactManager {
-	res := MakeB2ContactManager()
+func NewContactManager() *ContactManager {
+	res := MakeContactManager()
 	return &res
 }
 
-func (mgr *B2ContactManager) Destroy(c ContactInterface) {
+func (mgr *ContactManager) Destroy(c ContactInterface) {
 	fixtureA := c.GetFixtureA()
 	fixtureB := c.GetFixtureB()
 	bodyA := fixtureA.GetBody()
@@ -85,7 +85,7 @@ func (mgr *B2ContactManager) Destroy(c ContactInterface) {
 // This is the top level collision call for the time step. Here
 // all the narrow phase collision is processed for the world
 // contact list.
-func (mgr *B2ContactManager) Collide() {
+func (mgr *ContactManager) Collide() {
 	// Update awake contacts.
 	c := mgr.M_contactList
 
@@ -146,11 +146,11 @@ func (mgr *B2ContactManager) Collide() {
 	}
 }
 
-func (mgr *B2ContactManager) FindNewContacts() {
+func (mgr *ContactManager) FindNewContacts() {
 	mgr.M_broadPhase.UpdatePairs(mgr.AddPair)
 }
 
-func (mgr *B2ContactManager) AddPair(proxyUserDataA interface{}, proxyUserDataB interface{}) {
+func (mgr *ContactManager) AddPair(proxyUserDataA interface{}, proxyUserDataB interface{}) {
 	proxyA := proxyUserDataA.(*FixtureProxy)
 	proxyB := proxyUserDataB.(*FixtureProxy)
 

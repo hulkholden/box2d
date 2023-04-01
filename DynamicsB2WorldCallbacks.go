@@ -25,7 +25,7 @@ func MakeContactImpulse() ContactImpulse {
 	return ContactImpulse{}
 }
 
-type B2ContactListenerInterface interface {
+type ContactListenerInterface interface {
 	/// Called when two fixtures begin to touch.
 	BeginContact(contact ContactInterface) // contact has to be backed by a pointer
 

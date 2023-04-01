@@ -438,7 +438,7 @@ func MakeContact(fA *Fixture, indexA int, fB *Fixture, indexB int) Contact {
 
 // Update the contact manifold and touching status.
 // Note: do not assume the fixture AABBs are overlapping or are valid.
-func ContactUpdate(contact ContactInterface, listener B2ContactListenerInterface) {
+func ContactUpdate(contact ContactInterface, listener ContactListenerInterface) {
 	oldManifold := *contact.GetManifold()
 
 	// Re-enable this contact.

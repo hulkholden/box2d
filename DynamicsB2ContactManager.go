@@ -5,12 +5,12 @@ type ContactManager struct {
 	M_contactList     ContactInterface
 	M_contactCount    int
 	M_contactFilter   B2ContactFilterInterface
-	M_contactListener B2ContactListenerInterface
+	M_contactListener ContactListenerInterface
 }
 
 var (
 	b2_defaultFilter   = &B2ContactFilter{}
-	b2_defaultListener B2ContactListenerInterface
+	b2_defaultListener ContactListenerInterface
 )
 
 func MakeContactManager() ContactManager {

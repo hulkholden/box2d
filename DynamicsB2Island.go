@@ -6,7 +6,7 @@ import (
 
 // This is an internal class.
 type Island struct {
-	M_listener B2ContactListenerInterface
+	M_listener ContactListenerInterface
 
 	M_bodies   []*Body
 	M_contacts []ContactInterface // has to be backed by pointers
@@ -175,7 +175,7 @@ This might be faster than computing sin+cos.
 However, we can compute sin+cos of the same angle fast.
 */
 
-func MakeIsland(bodyCapacity int, contactCapacity int, jointCapacity int, listener B2ContactListenerInterface) Island {
+func MakeIsland(bodyCapacity int, contactCapacity int, jointCapacity int, listener ContactListenerInterface) Island {
 	island := Island{}
 
 	island.M_bodyCapacity = bodyCapacity

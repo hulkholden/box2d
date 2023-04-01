@@ -174,7 +174,7 @@ func (world *B2World) SetContactFilter(filter B2ContactFilterInterface) {
 	world.M_contactManager.M_contactFilter = filter
 }
 
-func (world *B2World) SetContactListener(listener B2ContactListenerInterface) {
+func (world *B2World) SetContactListener(listener ContactListenerInterface) {
 	world.M_contactManager.M_contactListener = listener
 }
 

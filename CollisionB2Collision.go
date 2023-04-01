@@ -129,7 +129,7 @@ var PointState = struct {
 }
 
 // Used for computing contact manifolds.
-type B2ClipVertex struct {
+type ClipVertex struct {
 	V  Vec2
 	Id B2ContactID
 }
@@ -408,7 +408,7 @@ func (bb AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
 }
 
 // Sutherland-Hodgman clipping.
-func ClipSegmentToLine(vOut []B2ClipVertex, vIn []B2ClipVertex, normal Vec2, offset float64, vertexIndexA int) int {
+func ClipSegmentToLine(vOut []ClipVertex, vIn []ClipVertex, normal Vec2, offset float64, vertexIndexA int) int {
 	// Start with no output points
 	numOut := 0
 

@@ -403,7 +403,7 @@ func (collider *B2EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA 
 		primaryAxis = edgeAxis
 	}
 
-	ie := make([]B2ClipVertex, 2)
+	ie := make([]ClipVertex, 2)
 	rf := MakeB2ReferenceFace()
 	if primaryAxis.Type == B2EPAxis_Type.E_edgeA {
 		manifold.Type = ManifoldType.FaceA
@@ -483,8 +483,8 @@ func (collider *B2EPCollider) Collide(manifold *Manifold, edgeA *EdgeShape, xfA 
 	rf.SideOffset2 = Vec2Dot(rf.SideNormal2, rf.V2)
 
 	// Clip incident edge against extruded edge1 side edges.
-	clipPoints1 := make([]B2ClipVertex, 2)
-	clipPoints2 := make([]B2ClipVertex, 2)
+	clipPoints1 := make([]ClipVertex, 2)
+	clipPoints2 := make([]ClipVertex, 2)
 	np := 0
 
 	// Clip to box side 1

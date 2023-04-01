@@ -36,7 +36,7 @@ func FindMaxSeparation(edgeIndex *int, poly1 *PolygonShape, xf1 Transform, poly2
 	return maxSeparation
 }
 
-func FindIncidentEdge(c []B2ClipVertex, poly1 *PolygonShape, xf1 Transform, edge1 int, poly2 *PolygonShape, xf2 Transform) {
+func FindIncidentEdge(c []ClipVertex, poly1 *PolygonShape, xf1 Transform, edge1 int, poly2 *PolygonShape, xf2 Transform) {
 	normals1 := poly1.M_normals
 
 	count2 := poly2.M_count
@@ -129,7 +129,7 @@ func CollidePolygons(manifold *Manifold, polyA *PolygonShape, xfA Transform, pol
 		flip = 0
 	}
 
-	incidentEdge := make([]B2ClipVertex, 2)
+	incidentEdge := make([]ClipVertex, 2)
 	FindIncidentEdge(incidentEdge, poly1, xf1, edge1, poly2, xf2)
 
 	count1 := poly1.M_count
@@ -164,8 +164,8 @@ func CollidePolygons(manifold *Manifold, polyA *PolygonShape, xfA Transform, pol
 	sideOffset2 := Vec2Dot(tangent, v12) + totalRadius
 
 	// Clip incident edge against extruded edge1 side edges.
-	clipPoints1 := make([]B2ClipVertex, 2)
-	clipPoints2 := make([]B2ClipVertex, 2)
+	clipPoints1 := make([]ClipVertex, 2)
+	clipPoints2 := make([]ClipVertex, 2)
 	np := 0
 
 	// Clip to box side 1

@@ -1,23 +1,23 @@
 package box2d
 
-type B2CircleContact struct {
+type CircleContact struct {
 	Contact
 }
 
-func B2CircleContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface {
+func CircleContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface {
 	assert(fixtureA.GetType() == B2Shape_Type.E_circle)
 	assert(fixtureB.GetType() == B2Shape_Type.E_circle)
-	res := &B2CircleContact{
+	res := &CircleContact{
 		Contact: MakeContact(fixtureA, 0, fixtureB, 0),
 	}
 
 	return res
 }
 
-func B2CircleContact_Destroy(contact ContactInterface) { // should be a pointer
+func CircleContact_Destroy(contact ContactInterface) { // should be a pointer
 }
 
-func (contact *B2CircleContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
+func (contact *CircleContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
 	B2CollideCircles(
 		manifold,
 		contact.GetFixtureA().GetShape().(*CircleShape), xfA,

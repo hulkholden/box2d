@@ -292,8 +292,8 @@ func JointCreate(def JointDefInterface) JointInterface { // def should be back b
 		assert(false)
 
 	case JointType.Weld:
-		if typeddef, ok := def.(*B2WeldJointDef); ok {
-			return MakeB2WeldJoint(typeddef)
+		if typeddef, ok := def.(*WeldJointDef); ok {
+			return MakeWeldJoint(typeddef)
 		}
 		assert(false)
 

@@ -8,7 +8,7 @@ import (
 // Weld joint definition. You need to specify local anchor points
 // where they are attached and the relative body angle. The position
 // of the anchor points is important for computing the reaction torque.
-type B2WeldJointDef struct {
+type WeldJointDef struct {
 	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
@@ -28,8 +28,8 @@ type B2WeldJointDef struct {
 	DampingRatio float64
 }
 
-func MakeB2WeldJointDef() B2WeldJointDef {
-	res := B2WeldJointDef{
+func MakeB2WeldJointDef() WeldJointDef {
+	res := WeldJointDef{
 		JointDef: MakeJointDef(),
 	}
 
@@ -45,7 +45,7 @@ func MakeB2WeldJointDef() B2WeldJointDef {
 
 // A weld joint essentially glues two bodies together. A weld joint may
 // distort somewhat because the island constraint solver is approximate.
-type B2WeldJoint struct {
+type WeldJoint struct {
 	*Joint
 
 	M_frequencyHz  float64
@@ -74,35 +74,35 @@ type B2WeldJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2WeldJoint) GetLocalAnchorA() Vec2 {
+func (joint WeldJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2WeldJoint) GetLocalAnchorB() Vec2 {
+func (joint WeldJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
 // Get the reference angle.
-func (joint B2WeldJoint) GetReferenceAngle() float64 {
+func (joint WeldJoint) GetReferenceAngle() float64 {
 	return joint.M_referenceAngle
 }
 
 // Set/get frequency in Hz.
-func (joint *B2WeldJoint) SetFrequency(hz float64) {
+func (joint *WeldJoint) SetFrequency(hz float64) {
 	joint.M_frequencyHz = hz
 }
 
-func (joint B2WeldJoint) GetFrequency() float64 {
+func (joint WeldJoint) GetFrequency() float64 {
 	return joint.M_frequencyHz
 }
 
 // Set/get damping ratio.
-func (joint *B2WeldJoint) SetDampingRatio(ratio float64) {
+func (joint *WeldJoint) SetDampingRatio(ratio float64) {
 	joint.M_dampingRatio = ratio
 }
 
-func (joint B2WeldJoint) GetDampingRatio() float64 {
+func (joint WeldJoint) GetDampingRatio() float64 {
 	return joint.M_dampingRatio
 }
 
@@ -120,7 +120,7 @@ func (joint B2WeldJoint) GetDampingRatio() float64 {
 /// J = [0 0 -1 0 0 1]
 /// K = invI1 + invI2
 
-func (def *B2WeldJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
+func (def *WeldJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
 	def.BodyA = bA
 	def.BodyB = bB
 	def.LocalAnchorA = def.BodyA.GetLocalPoint(anchor)
@@ -128,8 +128,8 @@ func (def *B2WeldJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
 	def.ReferenceAngle = def.BodyB.GetAngle() - def.BodyA.GetAngle()
 }
 
-func MakeB2WeldJoint(def *B2WeldJointDef) *B2WeldJoint {
-	res := B2WeldJoint{
+func MakeWeldJoint(def *WeldJointDef) *WeldJoint {
+	res := WeldJoint{
 		Joint: MakeJoint(def),
 	}
 
@@ -144,7 +144,7 @@ func MakeB2WeldJoint(def *B2WeldJointDef) *B2WeldJoint {
 	return &res
 }
 
-func (joint *B2WeldJoint) InitVelocityConstraints(data SolverData) {
+func (joint *WeldJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter
@@ -260,7 +260,7 @@ func (joint *B2WeldJoint) InitVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2WeldJoint) SolveVelocityConstraints(data SolverData) {
+func (joint *WeldJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -316,7 +316,7 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2WeldJoint) SolvePositionConstraints(data SolverData) bool {
+func (joint *WeldJoint) SolvePositionConstraints(data SolverData) bool {
 	cA := data.Positions[joint.M_indexA].C
 	aA := data.Positions[joint.M_indexA].A
 	cB := data.Positions[joint.M_indexB].C
@@ -394,24 +394,24 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data SolverData) bool {
 	return positionError <= linearSlop && angularError <= angularSlop
 }
 
-func (joint B2WeldJoint) GetAnchorA() Vec2 {
+func (joint WeldJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2WeldJoint) GetAnchorB() Vec2 {
+func (joint WeldJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2WeldJoint) GetReactionForce(inv_dt float64) Vec2 {
+func (joint WeldJoint) GetReactionForce(inv_dt float64) Vec2 {
 	P := MakeVec2(joint.M_impulse.X, joint.M_impulse.Y)
 	return Vec2MulScalar(inv_dt, P)
 }
 
-func (joint B2WeldJoint) GetReactionTorque(inv_dt float64) float64 {
+func (joint WeldJoint) GetReactionTorque(inv_dt float64) float64 {
 	return inv_dt * joint.M_impulse.Z
 }
 
-func (joint *B2WeldJoint) Dump() {
+func (joint *WeldJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 

@@ -33,11 +33,11 @@ type B2ContactFeature struct {
 
 func MakeB2ContactFeature() B2ContactFeature { return B2ContactFeature{} }
 
-type B2ContactID B2ContactFeature
+type ContactID B2ContactFeature
 
 // Contact ids to facilitate warm starting.
 // < Used to quickly compare contact ids.
-func (v B2ContactID) Key() uint32 {
+func (v ContactID) Key() uint32 {
 	var key uint32 = 0
 	key |= uint32(v.IndexA)
 	key |= uint32(v.IndexB) << 8
@@ -46,7 +46,7 @@ func (v B2ContactID) Key() uint32 {
 	return key
 }
 
-func (v *B2ContactID) SetKey(key uint32) {
+func (v *ContactID) SetKey(key uint32) {
 	(*v).IndexA = uint8(key & 0xFF)
 	(*v).IndexB = byte(key >> 8 & 0xFF)
 	(*v).TypeA = byte(key >> 16 & 0xFF)
@@ -64,10 +64,10 @@ func (v *B2ContactID) SetKey(key uint32) {
 // Note: the impulses are used for internal caching and may not
 // provide reliable contact forces, especially for high speed collisions.
 type B2ManifoldPoint struct {
-	LocalPoint     Vec2        ///< usage depends on manifold type
-	NormalImpulse  float64     ///< the non-penetration impulse
-	TangentImpulse float64     ///< the friction impulse
-	Id             B2ContactID ///< uniquely identifies a contact point between two shapes
+	LocalPoint     Vec2      ///< usage depends on manifold type
+	NormalImpulse  float64   ///< the non-penetration impulse
+	TangentImpulse float64   ///< the friction impulse
+	Id             ContactID ///< uniquely identifies a contact point between two shapes
 }
 
 /// A manifold for two touching convex shapes.
@@ -131,7 +131,7 @@ var PointState = struct {
 // Used for computing contact manifolds.
 type ClipVertex struct {
 	V  Vec2
-	Id B2ContactID
+	Id ContactID
 }
 
 // Ray-cast input data. The ray extends from p1 to p1 + maxFraction * (p2 - p1).

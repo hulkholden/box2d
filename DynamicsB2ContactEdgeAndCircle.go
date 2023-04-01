@@ -1,7 +1,7 @@
 package box2d
 
 type B2EdgeAndCircleContact struct {
-	B2Contact
+	Contact
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@ func B2EdgeAndCircleContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B2
 	assert(fixtureA.GetType() == B2Shape_Type.E_edge)
 	assert(fixtureB.GetType() == B2Shape_Type.E_circle)
 	res := &B2EdgeAndCircleContact{
-		B2Contact: MakeB2Contact(fixtureA, 0, fixtureB, 0),
+		Contact: MakeContact(fixtureA, 0, fixtureB, 0),
 	}
 
 	return res

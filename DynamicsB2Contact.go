@@ -130,7 +130,7 @@ type ContactInterface interface {
 	GetWorldManifold(worldManifold *B2WorldManifold)
 }
 
-type B2Contact struct {
+type Contact struct {
 	M_flags uint32
 
 	// World pool and list pointers.
@@ -156,135 +156,135 @@ type B2Contact struct {
 	M_tangentSpeed float64
 }
 
-func (contact B2Contact) GetFlags() uint32 {
+func (contact Contact) GetFlags() uint32 {
 	return contact.M_flags
 }
 
-func (contact *B2Contact) SetFlags(flags uint32) {
+func (contact *Contact) SetFlags(flags uint32) {
 	contact.M_flags = flags
 }
 
-func (contact B2Contact) GetPrev() ContactInterface {
+func (contact Contact) GetPrev() ContactInterface {
 	return contact.M_prev
 }
 
-func (contact *B2Contact) SetPrev(prev ContactInterface) {
+func (contact *Contact) SetPrev(prev ContactInterface) {
 	contact.M_prev = prev
 }
 
-func (contact B2Contact) GetNext() ContactInterface {
+func (contact Contact) GetNext() ContactInterface {
 	return contact.M_next
 }
 
-func (contact *B2Contact) SetNext(next ContactInterface) {
+func (contact *Contact) SetNext(next ContactInterface) {
 	contact.M_next = next
 }
 
-func (contact B2Contact) GetNodeA() *ContactEdge {
+func (contact Contact) GetNodeA() *ContactEdge {
 	return contact.M_nodeA
 }
 
-func (contact *B2Contact) SetNodeA(node *ContactEdge) {
+func (contact *Contact) SetNodeA(node *ContactEdge) {
 	contact.M_nodeA = node
 }
 
-func (contact B2Contact) GetNodeB() *ContactEdge {
+func (contact Contact) GetNodeB() *ContactEdge {
 	return contact.M_nodeB
 }
 
-func (contact *B2Contact) SetNodeB(node *ContactEdge) {
+func (contact *Contact) SetNodeB(node *ContactEdge) {
 	contact.M_nodeB = node
 }
 
-func (contact B2Contact) GetFixtureA() *B2Fixture {
+func (contact Contact) GetFixtureA() *B2Fixture {
 	return contact.M_fixtureA
 }
 
-func (contact *B2Contact) SetFixtureA(fixture *B2Fixture) {
+func (contact *Contact) SetFixtureA(fixture *B2Fixture) {
 	contact.M_fixtureA = fixture
 }
 
-func (contact B2Contact) GetFixtureB() *B2Fixture {
+func (contact Contact) GetFixtureB() *B2Fixture {
 	return contact.M_fixtureB
 }
 
-func (contact *B2Contact) SetFixtureB(fixture *B2Fixture) {
+func (contact *Contact) SetFixtureB(fixture *B2Fixture) {
 	contact.M_fixtureB = fixture
 }
 
-func (contact B2Contact) GetChildIndexA() int {
+func (contact Contact) GetChildIndexA() int {
 	return contact.M_indexA
 }
 
-func (contact *B2Contact) SetChildIndexA(index int) {
+func (contact *Contact) SetChildIndexA(index int) {
 	contact.M_indexA = index
 }
 
-func (contact B2Contact) GetChildIndexB() int {
+func (contact Contact) GetChildIndexB() int {
 	return contact.M_indexB
 }
 
-func (contact *B2Contact) SetChildIndexB(index int) {
+func (contact *Contact) SetChildIndexB(index int) {
 	contact.M_indexB = index
 }
 
-func (contact B2Contact) GetManifold() *B2Manifold {
+func (contact Contact) GetManifold() *B2Manifold {
 	return contact.M_manifold
 }
 
-func (contact *B2Contact) SetManifold(manifold *B2Manifold) {
+func (contact *Contact) SetManifold(manifold *B2Manifold) {
 	contact.M_manifold = manifold
 }
 
-func (contact B2Contact) GetTOICount() int {
+func (contact Contact) GetTOICount() int {
 	return contact.M_toiCount
 }
 
-func (contact *B2Contact) SetTOICount(toiCount int) {
+func (contact *Contact) SetTOICount(toiCount int) {
 	contact.M_toiCount = toiCount
 }
 
-func (contact B2Contact) GetTOI() float64 {
+func (contact Contact) GetTOI() float64 {
 	return contact.M_toi
 }
 
-func (contact *B2Contact) SetTOI(toi float64) {
+func (contact *Contact) SetTOI(toi float64) {
 	contact.M_toi = toi
 }
 
-func (contact B2Contact) GetFriction() float64 {
+func (contact Contact) GetFriction() float64 {
 	return contact.M_friction
 }
 
-func (contact *B2Contact) SetFriction(friction float64) {
+func (contact *Contact) SetFriction(friction float64) {
 	contact.M_friction = friction
 }
 
-func (contact *B2Contact) ResetFriction() {
+func (contact *Contact) ResetFriction() {
 	contact.M_friction = MixFriction(contact.M_fixtureA.M_friction, contact.M_fixtureB.M_friction)
 }
 
-func (contact B2Contact) GetRestitution() float64 {
+func (contact Contact) GetRestitution() float64 {
 	return contact.M_restitution
 }
 
-func (contact *B2Contact) SetRestitution(restitution float64) {
+func (contact *Contact) SetRestitution(restitution float64) {
 	contact.M_restitution = restitution
 }
 
-func (contact *B2Contact) ResetRestitution() {
+func (contact *Contact) ResetRestitution() {
 	contact.M_restitution = MixRestitution(contact.M_fixtureA.M_restitution, contact.M_fixtureB.M_restitution)
 }
 
-func (contact B2Contact) GetTangentSpeed() float64 {
+func (contact Contact) GetTangentSpeed() float64 {
 	return contact.M_tangentSpeed
 }
 
-func (contact *B2Contact) SetTangentSpeed(speed float64) {
+func (contact *Contact) SetTangentSpeed(speed float64) {
 	contact.M_tangentSpeed = speed
 }
 
-func (contact B2Contact) GetWorldManifold(worldManifold *B2WorldManifold) {
+func (contact Contact) GetWorldManifold(worldManifold *B2WorldManifold) {
 	bodyA := contact.M_fixtureA.GetBody()
 	bodyB := contact.M_fixtureB.GetBody()
 	shapeA := contact.M_fixtureA.GetShape()
@@ -293,7 +293,7 @@ func (contact B2Contact) GetWorldManifold(worldManifold *B2WorldManifold) {
 	worldManifold.Initialize(contact.M_manifold, bodyA.GetTransform(), shapeA.GetRadius(), bodyB.GetTransform(), shapeB.GetRadius())
 }
 
-func (contact *B2Contact) SetEnabled(flag bool) {
+func (contact *Contact) SetEnabled(flag bool) {
 	if flag {
 		contact.M_flags |= ContactFlags.Enabled
 	} else {
@@ -301,22 +301,22 @@ func (contact *B2Contact) SetEnabled(flag bool) {
 	}
 }
 
-func (contact B2Contact) IsEnabled() bool {
+func (contact Contact) IsEnabled() bool {
 	return (contact.M_flags & ContactFlags.Enabled) == ContactFlags.Enabled
 }
 
-func (contact B2Contact) IsTouching() bool {
+func (contact Contact) IsTouching() bool {
 	return (contact.M_flags & ContactFlags.Touching) == ContactFlags.Touching
 }
 
-func (contact *B2Contact) FlagForFiltering() {
+func (contact *Contact) FlagForFiltering() {
 	contact.M_flags |= ContactFlags.Filter
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-// B2Contact.cpp
+// Contact.cpp
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -397,8 +397,8 @@ func B2ContactDestroy(contact ContactInterface) {
 	destroyFcn(contact)
 }
 
-func MakeB2Contact(fA *B2Fixture, indexA int, fB *B2Fixture, indexB int) B2Contact {
-	contact := B2Contact{}
+func MakeContact(fA *B2Fixture, indexA int, fB *B2Fixture, indexB int) Contact {
+	contact := Contact{}
 	contact.M_flags = ContactFlags.Enabled
 
 	contact.M_fixtureA = fA
@@ -466,7 +466,7 @@ func B2ContactUpdate(contact ContactInterface, listener B2ContactListenerInterfa
 		// Sensors don't generate manifolds.
 		contact.GetManifold().PointCount = 0
 	} else {
-		// *B2Contact is extended by specialized contact structs and mentionned by ContactInterface but not implemented on specialized structs
+		// *Contact is extended by specialized contact structs and mentionned by ContactInterface but not implemented on specialized structs
 		// Thus when
 		// spew.Dump("AVANT", contact.GetManifold())
 		contact.Evaluate(contact.GetManifold(), xfA, xfB) // should be evaluated on specialisations of contact (like CircleContact)

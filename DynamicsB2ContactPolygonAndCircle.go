@@ -1,7 +1,7 @@
 package box2d
 
 type B2PolygonAndCircleContact struct {
-	B2Contact
+	Contact
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@ func B2PolygonAndCircleContact_Create(fixtureA *B2Fixture, indexA int, fixtureB 
 	assert(fixtureA.GetType() == B2Shape_Type.E_polygon)
 	assert(fixtureB.GetType() == B2Shape_Type.E_circle)
 	res := &B2PolygonAndCircleContact{
-		B2Contact: MakeB2Contact(fixtureA, 0, fixtureB, 0),
+		Contact: MakeContact(fixtureA, 0, fixtureB, 0),
 	}
 
 	return res

@@ -1,7 +1,7 @@
 package box2d
 
 type B2ChainAndPolygonContact struct {
-	B2Contact
+	Contact
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@ func B2ChainAndPolygonContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *
 	assert(fixtureA.GetType() == B2Shape_Type.E_chain)
 	assert(fixtureB.GetType() == B2Shape_Type.E_polygon)
 	res := &B2ChainAndPolygonContact{
-		B2Contact: MakeB2Contact(fixtureA, indexA, fixtureB, indexB),
+		Contact: MakeContact(fixtureA, indexA, fixtureB, indexB),
 	}
 
 	return res

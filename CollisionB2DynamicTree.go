@@ -6,7 +6,7 @@ import (
 
 type TreeQueryCallback func(nodeId int) bool
 
-type TreeRayCastCallback func(input B2RayCastInput, nodeId int) float64
+type TreeRayCastCallback func(input RayCastInput, nodeId int) float64
 
 const nullNode = -1
 
@@ -96,7 +96,7 @@ func (tree *DynamicTree) Query(queryCallback TreeQueryCallback, aabb AABB) {
 	}
 }
 
-func (tree DynamicTree) RayCast(rayCastCallback TreeRayCastCallback, input B2RayCastInput) {
+func (tree DynamicTree) RayCast(rayCastCallback TreeRayCastCallback, input RayCastInput) {
 	p1 := input.P1
 	p2 := input.P2
 	r := Vec2Sub(p2, p1)

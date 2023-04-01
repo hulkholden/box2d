@@ -70,7 +70,7 @@ type ShapeInterface interface {
 	/// @param input the ray-cast input parameters.
 	/// @param transform the transform to be applied to the shape.
 	/// @param childIndex the child shape index
-	RayCast(output *B2RayCastOutput, input B2RayCastInput, transform Transform, childIndex int) bool
+	RayCast(output *B2RayCastOutput, input RayCastInput, transform Transform, childIndex int) bool
 
 	/// Given a transform, compute the associated axis aligned bounding box for a child shape.
 	/// @param xf the world transform of the shape.

@@ -224,7 +224,7 @@ func (bp *BroadPhase) Query(callback TreeQueryCallback, aabb AABB) {
 	bp.M_tree.Query(callback, aabb)
 }
 
-func (bp *BroadPhase) RayCast(callback TreeRayCastCallback, input B2RayCastInput) {
+func (bp *BroadPhase) RayCast(callback TreeRayCastCallback, input RayCastInput) {
 	bp.M_tree.RayCast(callback, input)
 }
 

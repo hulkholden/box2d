@@ -135,12 +135,12 @@ type ClipVertex struct {
 }
 
 // Ray-cast input data. The ray extends from p1 to p1 + maxFraction * (p2 - p1).
-type B2RayCastInput struct {
+type RayCastInput struct {
 	P1, P2      Vec2
 	MaxFraction float64
 }
 
-func MakeB2RayCastInput() B2RayCastInput { return B2RayCastInput{} }
+func MakeB2RayCastInput() RayCastInput { return RayCastInput{} }
 
 // Ray-cast output data. The ray hits at p1 + fraction * (p2 - p1), where p1 and p2
 // come from b2RayCastInput.
@@ -350,7 +350,7 @@ func B2GetPointStates(state1 *[maxManifoldPoints]uint8, state2 *[maxManifoldPoin
 }
 
 // From Real-time Collision Detection, p179.
-func (bb AABB) RayCast(output *B2RayCastOutput, input B2RayCastInput) bool {
+func (bb AABB) RayCast(output *B2RayCastOutput, input RayCastInput) bool {
 	tmin := -maxFloat
 	tmax := maxFloat
 

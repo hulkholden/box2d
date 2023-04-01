@@ -168,7 +168,7 @@ func (fix Fixture) TestPoint(p Vec2) bool {
 	return fix.M_shape.TestPoint(fix.M_body.GetTransform(), p)
 }
 
-func (fix Fixture) RayCast(output *B2RayCastOutput, input B2RayCastInput, childIndex int) bool {
+func (fix Fixture) RayCast(output *B2RayCastOutput, input RayCastInput, childIndex int) bool {
 	return fix.M_shape.RayCast(output, input, fix.M_body.GetTransform(), childIndex)
 }
 

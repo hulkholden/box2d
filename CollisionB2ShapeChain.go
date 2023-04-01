@@ -153,7 +153,7 @@ func (chain ChainShape) TestPoint(xf Transform, p Vec2) bool {
 	return false
 }
 
-func (chain ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
+func (chain ChainShape) RayCast(output *B2RayCastOutput, input RayCastInput, xf Transform, childIndex int) bool {
 	assert(childIndex < chain.M_count)
 
 	edgeShape := MakeEdgeShape()

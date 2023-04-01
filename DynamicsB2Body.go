@@ -21,7 +21,7 @@ var B2BodyType = struct {
 
 // A body definition holds all the data needed to construct a rigid body.
 // You can safely re-use body definitions. Shapes are added to a body after construction.
-type B2BodyDef struct {
+type BodyDef struct {
 	/// The body type: static, kinematic, or dynamic.
 	/// Note: if a dynamic body would have zero mass, the mass is set to one.
 	Type uint8
@@ -78,8 +78,8 @@ type B2BodyDef struct {
 }
 
 // This constructor sets the body definition default values.
-func MakeB2BodyDef() B2BodyDef {
-	return B2BodyDef{
+func MakeBodyDef() BodyDef {
+	return BodyDef{
 		UserData:        nil,
 		Position:        MakeVec2(0, 0),
 		Angle:           0.0,
@@ -97,8 +97,8 @@ func MakeB2BodyDef() B2BodyDef {
 	}
 }
 
-func NewB2BodyDef() *B2BodyDef {
-	res := MakeB2BodyDef()
+func NewBodyDef() *BodyDef {
+	res := MakeBodyDef()
 	return &res
 }
 
@@ -479,7 +479,7 @@ func (body B2Body) GetWorld() *B2World {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func NewB2Body(bd *B2BodyDef, world *B2World) *B2Body {
+func NewB2Body(bd *BodyDef, world *B2World) *B2Body {
 	assert(bd.Position.IsValid())
 	assert(bd.LinearVelocity.IsValid())
 	assert(IsValid(bd.Angle))
@@ -926,7 +926,7 @@ func (body *B2Body) Dump() {
 	bodyIndex := body.M_islandIndex
 
 	fmt.Print("{\n")
-	fmt.Print("  b2BodyDef bd;\n")
+	fmt.Print("  BodyDef bd;\n")
 	fmt.Printf("  bd.type = b2BodyType(%d);\n", body.M_type)
 	fmt.Printf("  bd.position.Set(%.15f, %.15f);\n", body.M_xf.P.X, body.M_xf.P.Y)
 	fmt.Printf("  bd.angle = %.15f;\n", body.M_sweep.A)

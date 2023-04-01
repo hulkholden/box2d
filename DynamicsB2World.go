@@ -182,7 +182,7 @@ func (world *B2World) SetDebugDraw(debugDraw B2Draw) {
 	world.G_debugDraw = debugDraw
 }
 
-func (world *B2World) CreateBody(def *B2BodyDef) *B2Body {
+func (world *B2World) CreateBody(def *BodyDef) *B2Body {
 	assert(!world.IsLocked())
 
 	if world.IsLocked() {

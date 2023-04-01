@@ -21,7 +21,7 @@ func TestCPPCompliance(t *testing.T) {
 
 	// Ground body
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		ground := world.CreateBody(&bd)
 
 		shape := box2d.MakeB2EdgeShape()
@@ -34,7 +34,7 @@ func TestCPPCompliance(t *testing.T) {
 	// This shows the problematic case where a box shape can hit
 	// an internal vertex.
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		ground := world.CreateBody(&bd)
 
 		shape := box2d.MakeB2EdgeShape()
@@ -49,7 +49,7 @@ func TestCPPCompliance(t *testing.T) {
 
 	// Chain shape
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		bd.Angle = 0.25 * box2d.Pi
 		ground := world.CreateBody(&bd)
 
@@ -68,7 +68,7 @@ func TestCPPCompliance(t *testing.T) {
 	// have non-smooth  There is no solution
 	// to this problem.
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		ground := world.CreateBody(&bd)
 
 		shape := box2d.MakeB2PolygonShape()
@@ -83,7 +83,7 @@ func TestCPPCompliance(t *testing.T) {
 
 	// Square made from an edge loop. Collision should be smooth.
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		ground := world.CreateBody(&bd)
 
 		vs := make([]box2d.Vec2, 4)
@@ -99,7 +99,7 @@ func TestCPPCompliance(t *testing.T) {
 
 	// Edge loop. Collision should be smooth.
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		bd.Position.Set(-10.0, 4.0)
 		ground := world.CreateBody(&bd)
 
@@ -122,7 +122,7 @@ func TestCPPCompliance(t *testing.T) {
 
 	// Square character 1
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		bd.Position.Set(-3.0, 8.0)
 		bd.Type = box2d.B2BodyType.B2_dynamicBody
 		bd.FixedRotation = true
@@ -142,7 +142,7 @@ func TestCPPCompliance(t *testing.T) {
 
 	// Square character 2
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		bd.Position.Set(-5.0, 5.0)
 		bd.Type = box2d.B2BodyType.B2_dynamicBody
 		bd.FixedRotation = true
@@ -162,7 +162,7 @@ func TestCPPCompliance(t *testing.T) {
 
 	// Hexagon character
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		bd.Position.Set(-5.0, 8.0)
 		bd.Type = box2d.B2BodyType.B2_dynamicBody
 		bd.FixedRotation = true
@@ -190,7 +190,7 @@ func TestCPPCompliance(t *testing.T) {
 
 	// Circle character
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		bd.Position.Set(3.0, 5.0)
 		bd.Type = box2d.B2BodyType.B2_dynamicBody
 		bd.FixedRotation = true
@@ -210,7 +210,7 @@ func TestCPPCompliance(t *testing.T) {
 
 	// Circle character
 	{
-		bd := box2d.MakeB2BodyDef()
+		bd := box2d.MakeBodyDef()
 		bd.Position.Set(-7.0, 6.0)
 		bd.Type = box2d.B2BodyType.B2_dynamicBody
 		bd.AllowSleep = false

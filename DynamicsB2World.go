@@ -691,7 +691,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 				indexB := c.GetChildIndexB()
 
 				// Compute the time of impact in interval [0, minTOI]
-				input := MakeB2TOIInput()
+				input := MakeTOIInput()
 				input.ProxyA.Set(fA.GetShape(), indexA)
 				input.ProxyB.Set(fB.GetShape(), indexB)
 				input.SweepA = bA.M_sweep

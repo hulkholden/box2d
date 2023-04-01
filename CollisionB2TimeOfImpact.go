@@ -5,7 +5,7 @@ import (
 )
 
 // Input parameters for b2TimeOfImpact
-type B2TOIInput struct {
+type TOIInput struct {
 	ProxyA DistanceProxy
 	ProxyB DistanceProxy
 	SweepA Sweep
@@ -13,8 +13,8 @@ type B2TOIInput struct {
 	TMax   float64 // defines sweep interval [0, tMax]
 }
 
-func MakeB2TOIInput() B2TOIInput {
-	return B2TOIInput{}
+func MakeTOIInput() TOIInput {
+	return TOIInput{}
 }
 
 // Output parameters for b2TimeOfImpact.
@@ -277,7 +277,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 // Note: use Distance to compute the contact point and normal at the time of impact.
 // CCD via the local separating axis method. This seeks progression
 // by computing the largest time at which separation is maintained.
-func B2TimeOfImpact(output *B2TOIOutput, input *B2TOIInput) {
+func B2TimeOfImpact(output *B2TOIOutput, input *TOIInput) {
 	timer := MakeB2Timer()
 
 	B2_toiCalls++

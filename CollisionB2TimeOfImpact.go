@@ -76,7 +76,7 @@ type B2SeparationFunction struct {
 }
 
 // TODO_ERIN might not need to return the separation
-func (sepfunc *B2SeparationFunction) Initialize(cache *B2SimplexCache, proxyA *DistanceProxy, sweepA Sweep, proxyB *DistanceProxy, sweepB Sweep, t1 float64) float64 {
+func (sepfunc *B2SeparationFunction) Initialize(cache *SimplexCache, proxyA *DistanceProxy, sweepA Sweep, proxyB *DistanceProxy, sweepB Sweep, t1 float64) float64 {
 	sepfunc.M_proxyA = proxyA
 	sepfunc.M_proxyB = proxyB
 	count := cache.Count
@@ -308,7 +308,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *B2TOIInput) {
 	iter := 0
 
 	// Prepare input for distance query.
-	cache := MakeB2SimplexCache()
+	cache := MakeSimplexCache()
 	cache.Count = 0
 	distanceInput := MakeB2DistanceInput()
 	distanceInput.ProxyA = input.ProxyA

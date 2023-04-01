@@ -455,7 +455,7 @@ func B2TestOverlapShapes(shapeA ShapeInterface, indexA int, shapeB ShapeInterfac
 	input.TransformB = xfB
 	input.UseRadii = true
 
-	cache := MakeB2SimplexCache()
+	cache := MakeSimplexCache()
 	cache.Count = 0
 
 	output := MakeB2DistanceOutput()

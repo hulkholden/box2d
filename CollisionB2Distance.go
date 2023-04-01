@@ -22,15 +22,15 @@ func NewDistanceProxy() *DistanceProxy { return &DistanceProxy{} }
 
 // Used to warm start b2Distance.
 // Set count to zero on first call.
-type B2SimplexCache struct {
+type SimplexCache struct {
 	Metric float64 ///< length or area
 	Count  int
 	IndexA [3]int ///< vertices on shape A
 	IndexB [3]int ///< vertices on shape B
 }
 
-func MakeB2SimplexCache() B2SimplexCache { return B2SimplexCache{} }
-func NewB2SimplexCache() *B2SimplexCache { return &B2SimplexCache{} }
+func MakeSimplexCache() SimplexCache { return SimplexCache{} }
+func NewSimplexCache() *SimplexCache { return &SimplexCache{} }
 
 // Input for b2Distance.
 // You have to option to use the shape radii
@@ -167,7 +167,7 @@ type B2Simplex struct {
 func MakeB2Simplex() B2Simplex { return B2Simplex{} }
 func NewB2Simplex() *B2Simplex { return &B2Simplex{} }
 
-func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *DistanceProxy, transformA Transform, proxyB *DistanceProxy, transformB Transform) {
+func (simplex *B2Simplex) ReadCache(cache *SimplexCache, proxyA *DistanceProxy, transformA Transform, proxyB *DistanceProxy, transformB Transform) {
 	assert(cache.Count <= 3)
 
 	// Copy data from cache.
@@ -211,7 +211,7 @@ func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *DistanceProxy
 	}
 }
 
-func (simplex B2Simplex) WriteCache(cache *B2SimplexCache) {
+func (simplex B2Simplex) WriteCache(cache *SimplexCache) {
 	cache.Metric = simplex.GetMetric()
 	cache.Count = simplex.M_count
 	vertices := &simplex.M_vs
@@ -474,7 +474,7 @@ func (simplex *B2Simplex) Solve3() {
 	simplex.M_count = 3
 }
 
-func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2DistanceInput) {
+func B2Distance(output *B2DistanceOutput, cache *SimplexCache, input *B2DistanceInput) {
 	b2_gjkCalls++
 
 	proxyA := &input.ProxyA

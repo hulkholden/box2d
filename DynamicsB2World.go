@@ -699,7 +699,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 				input.TMax = 1.0
 
 				output := MakeTOIOutput()
-				B2TimeOfImpact(&output, &input)
+				TimeOfImpact(&output, &input)
 
 				// Beta is the fraction of the remaining portion of the .
 				beta := output.T

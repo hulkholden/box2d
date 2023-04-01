@@ -25,7 +25,7 @@ type (
 	ContactDestroyFcn func(contact B2ContactInterface)                                                          // contact should be a pointer
 )
 
-type B2ContactRegister struct {
+type ContactRegister struct {
 	CreateFcn  ContactCreateFcn
 	DestroyFcn ContactDestroyFcn
 	Primary    bool
@@ -67,7 +67,7 @@ var ContactFlags = struct {
 // AABB in the broad-phase (except if filtered). Therefore a contact object may exist
 // that has no contact points.
 var (
-	s_registers   [][]B2ContactRegister
+	s_registers   [][]ContactRegister
 	s_initialized = false
 )
 
@@ -322,9 +322,9 @@ func (contact *B2Contact) FlagForFiltering() {
 ///////////////////////////////////////////////////////////////////////////////
 
 func B2ContactInitializeRegisters() {
-	s_registers = make([][]B2ContactRegister, B2Shape_Type.E_typeCount)
+	s_registers = make([][]ContactRegister, B2Shape_Type.E_typeCount)
 	for i := 0; i < int(B2Shape_Type.E_typeCount); i++ {
-		s_registers[i] = make([]B2ContactRegister, B2Shape_Type.E_typeCount)
+		s_registers[i] = make([]ContactRegister, B2Shape_Type.E_typeCount)
 	}
 
 	AddType(B2CircleContact_Create, B2CircleContact_Destroy, B2Shape_Type.E_circle, B2Shape_Type.E_circle)

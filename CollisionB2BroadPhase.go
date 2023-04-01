@@ -220,11 +220,11 @@ func (bp *BroadPhase) QueryCallback(proxyId int) bool {
 	return true
 }
 
-func (bp *BroadPhase) Query(callback B2TreeQueryCallback, aabb AABB) {
+func (bp *BroadPhase) Query(callback TreeQueryCallback, aabb AABB) {
 	bp.M_tree.Query(callback, aabb)
 }
 
-func (bp *BroadPhase) RayCast(callback B2TreeRayCastCallback, input B2RayCastInput) {
+func (bp *BroadPhase) RayCast(callback TreeRayCastCallback, input B2RayCastInput) {
 	bp.M_tree.RayCast(callback, input)
 }
 

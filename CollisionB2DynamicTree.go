@@ -4,9 +4,9 @@ import (
 	"math"
 )
 
-type B2TreeQueryCallback func(nodeId int) bool
+type TreeQueryCallback func(nodeId int) bool
 
-type B2TreeRayCastCallback func(input B2RayCastInput, nodeId int) float64
+type TreeRayCastCallback func(input B2RayCastInput, nodeId int) float64
 
 const nullNode = -1
 
@@ -70,7 +70,7 @@ func (tree B2DynamicTree) GetFatAABB(proxyId int) AABB {
 	return tree.M_nodes[proxyId].Aabb
 }
 
-func (tree *B2DynamicTree) Query(queryCallback B2TreeQueryCallback, aabb AABB) {
+func (tree *B2DynamicTree) Query(queryCallback TreeQueryCallback, aabb AABB) {
 	stack := NewB2GrowableStack[int](256)
 	stack.Push(tree.M_root)
 
@@ -96,7 +96,7 @@ func (tree *B2DynamicTree) Query(queryCallback B2TreeQueryCallback, aabb AABB) {
 	}
 }
 
-func (tree B2DynamicTree) RayCast(rayCastCallback B2TreeRayCastCallback, input B2RayCastInput) {
+func (tree B2DynamicTree) RayCast(rayCastCallback TreeRayCastCallback, input B2RayCastInput) {
 	p1 := input.P1
 	p2 := input.P2
 	r := Vec2Sub(p2, p1)

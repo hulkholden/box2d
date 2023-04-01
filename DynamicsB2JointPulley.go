@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-const B2MinPulleyLength = 2.0
+const MinPulleyLength = 2.0
 
 // Pulley joint definition. This requires two ground anchors,
 // two dynamic body anchor points, and a pulley ratio.

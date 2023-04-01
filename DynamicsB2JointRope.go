@@ -24,7 +24,7 @@ type RopeJointDef struct {
 	MaxLength float64
 }
 
-func MakeB2RopeJointDef() RopeJointDef {
+func MakeRopeJointDef() RopeJointDef {
 	res := RopeJointDef{
 		JointDef: MakeJointDef(),
 	}

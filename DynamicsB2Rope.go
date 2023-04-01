@@ -41,7 +41,7 @@ func MakeRopeDef() RopeDef {
 	return res
 }
 
-type B2Rope struct {
+type Rope struct {
 	M_count int
 	M_ps    []Vec2
 	M_p0s   []Vec2
@@ -59,16 +59,16 @@ type B2Rope struct {
 	M_k3 float64
 }
 
-func (rope B2Rope) GetVertexCount() int {
+func (rope Rope) GetVertexCount() int {
 	return rope.M_count
 }
 
-func (rope B2Rope) GetVertices() []Vec2 {
+func (rope Rope) GetVertices() []Vec2 {
 	return rope.M_ps
 }
 
-func MakeB2Rope() B2Rope {
-	res := B2Rope{}
+func MakeRope() Rope {
+	res := Rope{}
 
 	res.M_count = 0
 	res.M_ps = nil
@@ -84,7 +84,7 @@ func MakeB2Rope() B2Rope {
 	return res
 }
 
-func (rope *B2Rope) Destroy() {
+func (rope *Rope) Destroy() {
 	rope.M_ps = nil
 	rope.M_p0s = nil
 	rope.M_vs = nil
@@ -93,7 +93,7 @@ func (rope *B2Rope) Destroy() {
 	rope.M_as = nil
 }
 
-func (rope *B2Rope) Initialize(def *RopeDef) {
+func (rope *Rope) Initialize(def *RopeDef) {
 	assert(def.Count >= 3)
 	rope.M_count = def.Count
 	rope.M_ps = make([]Vec2, rope.M_count)
@@ -145,7 +145,7 @@ func (rope *B2Rope) Initialize(def *RopeDef) {
 	rope.M_k3 = def.K3
 }
 
-func (rope *B2Rope) Step(h float64, iterations int) {
+func (rope *Rope) Step(h float64, iterations int) {
 	if h == 0.0 {
 		return
 	}
@@ -173,7 +173,7 @@ func (rope *B2Rope) Step(h float64, iterations int) {
 	}
 }
 
-func (rope *B2Rope) SolveC2() {
+func (rope *Rope) SolveC2() {
 	count2 := rope.M_count - 1
 
 	for i := 0; i < count2; i++ {
@@ -201,14 +201,14 @@ func (rope *B2Rope) SolveC2() {
 	}
 }
 
-func (rope *B2Rope) SetAngle(angle float64) {
+func (rope *Rope) SetAngle(angle float64) {
 	count3 := rope.M_count - 2
 	for i := 0; i < count3; i++ {
 		rope.M_as[i] = angle
 	}
 }
 
-func (rope *B2Rope) SolveC3() {
+func (rope *Rope) SolveC3() {
 	count3 := rope.M_count - 2
 
 	for i := 0; i < count3; i++ {

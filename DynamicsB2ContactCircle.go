@@ -4,7 +4,7 @@ type B2CircleContact struct {
 	B2Contact
 }
 
-func B2CircleContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) B2ContactInterface {
+func B2CircleContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) ContactInterface {
 	assert(fixtureA.GetType() == B2Shape_Type.E_circle)
 	assert(fixtureB.GetType() == B2Shape_Type.E_circle)
 	res := &B2CircleContact{
@@ -14,7 +14,7 @@ func B2CircleContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture
 	return res
 }
 
-func B2CircleContact_Destroy(contact B2ContactInterface) { // should be a pointer
+func B2CircleContact_Destroy(contact ContactInterface) { // should be a pointer
 }
 
 func (contact *B2CircleContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {

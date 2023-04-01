@@ -32,7 +32,7 @@ type B2ContactVelocityConstraint struct {
 
 type B2ContactSolverDef struct {
 	Step       B2TimeStep
-	Contacts   []B2ContactInterface // has to be backed by pointers
+	Contacts   []ContactInterface // has to be backed by pointers
 	Count      int
 	Positions  []B2Position
 	Velocities []B2Velocity
@@ -48,7 +48,7 @@ type B2ContactSolver struct {
 	M_velocities          []B2Velocity
 	M_positionConstraints []B2ContactPositionConstraint
 	M_velocityConstraints []B2ContactVelocityConstraint
-	M_contacts            []B2ContactInterface // has to be backed by pointers
+	M_contacts            []ContactInterface // has to be backed by pointers
 	M_count               int
 }
 

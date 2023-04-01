@@ -27,10 +27,10 @@ func MakeB2ContactImpulse() B2ContactImpulse {
 
 type B2ContactListenerInterface interface {
 	/// Called when two fixtures begin to touch.
-	BeginContact(contact B2ContactInterface) // contact has to be backed by a pointer
+	BeginContact(contact ContactInterface) // contact has to be backed by a pointer
 
 	/// Called when two fixtures cease to touch.
-	EndContact(contact B2ContactInterface) // contact has to be backed by a pointer
+	EndContact(contact ContactInterface) // contact has to be backed by a pointer
 
 	/// This is called after a contact is updated. This allows you to inspect a
 	/// contact before it goes to the solver. If you are careful, you can modify the
@@ -42,7 +42,7 @@ type B2ContactListenerInterface interface {
 	/// Note: if you set the number of contact points to zero, you will not
 	/// get an EndContact callback. However, you may get a BeginContact callback
 	/// the next step.
-	PreSolve(contact B2ContactInterface, oldManifold B2Manifold) // contact has to be backed by a pointer
+	PreSolve(contact ContactInterface, oldManifold B2Manifold) // contact has to be backed by a pointer
 
 	/// This lets you inspect a contact after the solver is finished. This is useful
 	/// for inspecting impulses.
@@ -50,7 +50,7 @@ type B2ContactListenerInterface interface {
 	/// arbitrarily large if the sub-step is small. Hence the impulse is provided explicitly
 	/// in a separate data structure.
 	/// Note: this is only called for contacts that are touching, solid, and awake.
-	PostSolve(contact B2ContactInterface, impulse *B2ContactImpulse) // contact has to be backed by a pointer
+	PostSolve(contact ContactInterface, impulse *B2ContactImpulse) // contact has to be backed by a pointer
 }
 
 ///////////////////////////////////////////////////////////////////////////////

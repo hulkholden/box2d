@@ -61,7 +61,7 @@ func (world B2World) GetJointList() B2JointInterface { // returns a pointer
 	return world.M_jointList
 }
 
-func (world B2World) GetContactList() B2ContactInterface { // returns a pointer
+func (world B2World) GetContactList() ContactInterface { // returns a pointer
 	return world.M_contactManager.M_contactList
 }
 
@@ -622,7 +622,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 	// Find TOI events and solve them.
 	for {
 		// Find the first TOI.
-		var minContact B2ContactInterface = nil // has to be a pointer
+		var minContact ContactInterface = nil // has to be a pointer
 		minAlpha := 1.0
 
 		for c := world.M_contactManager.M_contactList; c != nil; c = c.GetNext() {

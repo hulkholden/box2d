@@ -2,7 +2,7 @@ package box2d
 
 type B2ContactManager struct {
 	M_broadPhase      B2BroadPhase
-	M_contactList     B2ContactInterface
+	M_contactList     ContactInterface
 	M_contactCount    int
 	M_contactFilter   B2ContactFilterInterface
 	M_contactListener B2ContactListenerInterface
@@ -28,7 +28,7 @@ func NewB2ContactManager() *B2ContactManager {
 	return &res
 }
 
-func (mgr *B2ContactManager) Destroy(c B2ContactInterface) {
+func (mgr *B2ContactManager) Destroy(c ContactInterface) {
 	fixtureA := c.GetFixtureA()
 	fixtureB := c.GetFixtureB()
 	bodyA := fixtureA.GetBody()

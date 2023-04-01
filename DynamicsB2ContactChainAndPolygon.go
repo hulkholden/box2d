@@ -12,7 +12,7 @@ type B2ChainAndPolygonContact struct {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func B2ChainAndPolygonContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) B2ContactInterface {
+func B2ChainAndPolygonContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) ContactInterface {
 	assert(fixtureA.GetType() == B2Shape_Type.E_chain)
 	assert(fixtureB.GetType() == B2Shape_Type.E_polygon)
 	res := &B2ChainAndPolygonContact{
@@ -22,7 +22,7 @@ func B2ChainAndPolygonContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *
 	return res
 }
 
-func B2ChainAndPolygonContact_Destroy(contact B2ContactInterface) { // should be a pointer
+func B2ChainAndPolygonContact_Destroy(contact ContactInterface) { // should be a pointer
 }
 
 func (contact *B2ChainAndPolygonContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {

@@ -12,7 +12,7 @@ type B2ChainAndCircleContact struct {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func B2ChainAndCircleContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) B2ContactInterface {
+func B2ChainAndCircleContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) ContactInterface {
 	assert(fixtureA.GetType() == B2Shape_Type.E_chain)
 	assert(fixtureB.GetType() == B2Shape_Type.E_circle)
 	res := &B2ChainAndCircleContact{
@@ -22,7 +22,7 @@ func B2ChainAndCircleContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B
 	return res
 }
 
-func B2ChainAndCircleContact_Destroy(contact B2ContactInterface) { // should be a pointer
+func B2ChainAndCircleContact_Destroy(contact ContactInterface) { // should be a pointer
 }
 
 func (contact *B2ChainAndCircleContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {

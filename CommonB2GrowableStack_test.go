@@ -6,8 +6,8 @@ import (
 	"github.com/hulkholden/box2d"
 )
 
-func TestB2GrowableStack(t *testing.T) {
-	s := box2d.NewB2GrowableStack[int](4)
+func TestGrowableStack(t *testing.T) {
+	s := box2d.NewGrowableStack[int](4)
 	if got := s.GetCount(); got != 0 {
 		t.Errorf("GetCount() = %d, want 0", got)
 	}

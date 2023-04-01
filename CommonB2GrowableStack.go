@@ -1,28 +1,28 @@
 package box2d
 
-type B2GrowableStack[T any] struct {
+type GrowableStack[T any] struct {
 	data []T
 }
 
-func NewB2GrowableStack[T any](initialCap int) *B2GrowableStack[T] {
-	return &B2GrowableStack[T]{
+func NewGrowableStack[T any](initialCap int) *GrowableStack[T] {
+	return &GrowableStack[T]{
 		data: make([]T, 0, initialCap),
 	}
 }
 
 // Return the stack's length
-func (s B2GrowableStack[T]) GetCount() int {
+func (s GrowableStack[T]) GetCount() int {
 	return len(s.data)
 }
 
 // Push a new element onto the stack
-func (s *B2GrowableStack[T]) Push(value T) {
+func (s *GrowableStack[T]) Push(value T) {
 	s.data = append(s.data, value)
 }
 
 // Remove the top element from the stack and return it's value
 // If the stack is empty, return zero type.
-func (s *B2GrowableStack[T]) Pop() T {
+func (s *GrowableStack[T]) Pop() T {
 	if len(s.data) == 0 {
 		panic("stack is empty")
 	}

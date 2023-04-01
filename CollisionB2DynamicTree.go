@@ -71,7 +71,7 @@ func (tree DynamicTree) GetFatAABB(proxyId int) AABB {
 }
 
 func (tree *DynamicTree) Query(queryCallback TreeQueryCallback, aabb AABB) {
-	stack := NewB2GrowableStack[int](256)
+	stack := NewGrowableStack[int](256)
 	stack.Push(tree.M_root)
 
 	for stack.GetCount() > 0 {
@@ -119,7 +119,7 @@ func (tree DynamicTree) RayCast(rayCastCallback TreeRayCastCallback, input RayCa
 		segmentAABB = MakeAABB(Vec2Min(p1, t), Vec2Max(p1, t))
 	}
 
-	stack := NewB2GrowableStack[int](256)
+	stack := NewGrowableStack[int](256)
 	stack.Push(tree.M_root)
 
 	for stack.GetCount() > 0 {

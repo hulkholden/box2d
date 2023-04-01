@@ -265,7 +265,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2,
 	contactSolverDef.Positions = island.M_positions
 	contactSolverDef.Velocities = island.M_velocities
 
-	contactSolver := MakeB2ContactSolver(&contactSolverDef)
+	contactSolver := MakeContactSolver(&contactSolverDef)
 	contactSolver.InitializeVelocityConstraints()
 
 	if step.WarmStarting {
@@ -406,7 +406,7 @@ func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB in
 	contactSolverDef.Step = subStep
 	contactSolverDef.Positions = island.M_positions
 	contactSolverDef.Velocities = island.M_velocities
-	contactSolver := MakeB2ContactSolver(&contactSolverDef)
+	contactSolver := MakeContactSolver(&contactSolverDef)
 
 	// Solve position constraints.
 	for i := 0; i < subStep.PositionIterations; i++ {

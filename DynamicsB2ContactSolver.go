@@ -42,7 +42,7 @@ func MakeB2ContactSolverDef() B2ContactSolverDef {
 	return B2ContactSolverDef{}
 }
 
-type B2ContactSolver struct {
+type ContactSolver struct {
 	M_step                B2TimeStep
 	M_positions           []B2Position
 	M_velocities          []B2Velocity
@@ -79,8 +79,8 @@ type B2ContactPositionConstraint struct {
 	PointCount                 int
 }
 
-func MakeB2ContactSolver(def *B2ContactSolverDef) B2ContactSolver {
-	solver := B2ContactSolver{}
+func MakeContactSolver(def *B2ContactSolverDef) ContactSolver {
+	solver := ContactSolver{}
 
 	solver.M_step = def.Step
 	solver.M_count = def.Count
@@ -163,11 +163,11 @@ func MakeB2ContactSolver(def *B2ContactSolverDef) B2ContactSolver {
 	return solver
 }
 
-func (solver *B2ContactSolver) Destroy() {
+func (solver *ContactSolver) Destroy() {
 }
 
 // Initialize position dependent portions of the velocity constraints.
-func (solver *B2ContactSolver) InitializeVelocityConstraints() {
+func (solver *ContactSolver) InitializeVelocityConstraints() {
 	for i := 0; i < solver.M_count; i++ {
 		vc := &solver.M_velocityConstraints[i]
 		pc := &solver.M_positionConstraints[i]
@@ -290,7 +290,7 @@ func (solver *B2ContactSolver) InitializeVelocityConstraints() {
 	}
 }
 
-func (solver *B2ContactSolver) WarmStart() {
+func (solver *ContactSolver) WarmStart() {
 	// Warm start.
 	for i := 0; i < solver.M_count; i++ {
 		vc := &solver.M_velocityConstraints[i]
@@ -327,7 +327,7 @@ func (solver *B2ContactSolver) WarmStart() {
 	}
 }
 
-func (solver *B2ContactSolver) SolveVelocityConstraints() {
+func (solver *ContactSolver) SolveVelocityConstraints() {
 	for i := 0; i < solver.M_count; i++ {
 		vc := &solver.M_velocityConstraints[i]
 
@@ -663,7 +663,7 @@ func (solver *B2ContactSolver) SolveVelocityConstraints() {
 	}
 }
 
-func (solver *B2ContactSolver) StoreImpulses() {
+func (solver *ContactSolver) StoreImpulses() {
 	for i := 0; i < solver.M_count; i++ {
 		vc := &solver.M_velocityConstraints[i]
 		manifold := solver.M_contacts[vc.ContactIndex].GetManifold()
@@ -719,7 +719,7 @@ func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPosition
 }
 
 // Sequential solver.
-func (solver *B2ContactSolver) SolvePositionConstraints() bool {
+func (solver *ContactSolver) SolvePositionConstraints() bool {
 	minSeparation := 0.0
 
 	for i := 0; i < solver.M_count; i++ {
@@ -800,7 +800,7 @@ func (solver *B2ContactSolver) SolvePositionConstraints() bool {
 }
 
 // Sequential position solver for position constraints.
-func (solver *B2ContactSolver) SolveTOIPositionConstraints(toiIndexA int, toiIndexB int) bool {
+func (solver *ContactSolver) SolveTOIPositionConstraints(toiIndexA int, toiIndexB int) bool {
 	minSeparation := 0.0
 
 	for i := 0; i < solver.M_count; i++ {

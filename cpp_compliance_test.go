@@ -24,7 +24,7 @@ func TestCPPCompliance(t *testing.T) {
 		bd := box2d.MakeBodyDef()
 		ground := world.CreateBody(&bd)
 
-		shape := box2d.MakeB2EdgeShape()
+		shape := box2d.MakeEdgeShape()
 		shape.Set(box2d.MakeVec2(-20.0, 0.0), box2d.MakeVec2(20.0, 0.0))
 		ground.CreateFixture(&shape, 0.0)
 		characters["00_ground"] = ground
@@ -37,7 +37,7 @@ func TestCPPCompliance(t *testing.T) {
 		bd := box2d.MakeBodyDef()
 		ground := world.CreateBody(&bd)
 
-		shape := box2d.MakeB2EdgeShape()
+		shape := box2d.MakeEdgeShape()
 		shape.Set(box2d.MakeVec2(-8.0, 1.0), box2d.MakeVec2(-6.0, 1.0))
 		ground.CreateFixture(&shape, 0.0)
 		shape.Set(box2d.MakeVec2(-6.0, 1.0), box2d.MakeVec2(-4.0, 1.0))

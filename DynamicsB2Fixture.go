@@ -230,7 +230,7 @@ func (fix *Fixture) Destroy() {
 		s.Destroy()
 
 	case B2Shape_Type.E_edge:
-		s := fix.M_shape.(*B2EdgeShape)
+		s := fix.M_shape.(*EdgeShape)
 		s.Destroy()
 
 	case B2Shape_Type.E_polygon:
@@ -356,7 +356,7 @@ func (fix *Fixture) Dump(bodyIndex int) {
 		fmt.Printf("    shape.m_p.Set(%.15f, %.15f);\n", s.M_p.X, s.M_p.Y)
 
 	case B2Shape_Type.E_edge:
-		s := fix.M_shape.(*B2EdgeShape)
+		s := fix.M_shape.(*EdgeShape)
 		fmt.Printf("    b2EdgeShape shape;\n")
 		fmt.Printf("    shape.m_radius = %.15f;\n", s.M_radius)
 		fmt.Printf("    shape.m_vertex0.Set(%.15f, %.15f);\n", s.M_vertex0.X, s.M_vertex0.Y)

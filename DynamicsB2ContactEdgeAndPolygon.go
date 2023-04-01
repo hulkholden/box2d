@@ -28,7 +28,7 @@ func B2EdgeAndPolygonContact_Destroy(contact ContactInterface) { // should be a 
 func (contact *B2EdgeAndPolygonContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
 	B2CollideEdgeAndPolygon(
 		manifold,
-		contact.GetFixtureA().GetShape().(*B2EdgeShape), xfA,
+		contact.GetFixtureA().GetShape().(*EdgeShape), xfA,
 		contact.GetFixtureB().GetShape().(*B2PolygonShape), xfB,
 	)
 }

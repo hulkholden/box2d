@@ -3,7 +3,7 @@ package box2d
 // A line segment (edge) shape. These can be connected in chains or loops
 // to other edge shapes. The connectivity information is used to ensure
 // correct contact normals.
-type B2EdgeShape struct {
+type EdgeShape struct {
 	B2Shape
 	/// These are the edge vertices
 	M_vertex1, M_vertex2 Vec2
@@ -13,8 +13,8 @@ type B2EdgeShape struct {
 	M_hasVertex0, M_hasVertex3 bool
 }
 
-func MakeB2EdgeShape() B2EdgeShape {
-	return B2EdgeShape{
+func MakeEdgeShape() EdgeShape {
+	return EdgeShape{
 		B2Shape: B2Shape{
 			M_type:   B2Shape_Type.E_edge,
 			M_radius: polygonRadius,
@@ -26,28 +26,28 @@ func MakeB2EdgeShape() B2EdgeShape {
 	}
 }
 
-func NewB2EdgeShape() *B2EdgeShape {
-	res := MakeB2EdgeShape()
+func NewEdgeShape() *EdgeShape {
+	res := MakeEdgeShape()
 	return &res
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-// B2EdgeShape.cpp
+// EdgeShape.cpp
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (edge *B2EdgeShape) Set(v1 Vec2, v2 Vec2) {
+func (edge *EdgeShape) Set(v1 Vec2, v2 Vec2) {
 	edge.M_vertex1 = v1
 	edge.M_vertex2 = v2
 	edge.M_hasVertex0 = false
 	edge.M_hasVertex3 = false
 }
 
-func (edge B2EdgeShape) Clone() B2ShapeInterface {
-	clone := NewB2EdgeShape()
+func (edge EdgeShape) Clone() B2ShapeInterface {
+	clone := NewEdgeShape()
 	clone.M_vertex0 = edge.M_vertex0
 	clone.M_vertex1 = edge.M_vertex1
 	clone.M_vertex2 = edge.M_vertex2
@@ -58,13 +58,13 @@ func (edge B2EdgeShape) Clone() B2ShapeInterface {
 	return clone
 }
 
-func (edge *B2EdgeShape) Destroy() {}
+func (edge *EdgeShape) Destroy() {}
 
-func (edge B2EdgeShape) GetChildCount() int {
+func (edge EdgeShape) GetChildCount() int {
 	return 1
 }
 
-func (edge B2EdgeShape) TestPoint(xf Transform, p Vec2) bool {
+func (edge EdgeShape) TestPoint(xf Transform, p Vec2) bool {
 	return false
 }
 
@@ -72,7 +72,7 @@ func (edge B2EdgeShape) TestPoint(xf Transform, p Vec2) bool {
 // v = v1 + s * e
 // p1 + t * d = v1 + s * e
 // s * e - t * d = p1 - v1
-func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
+func (edge EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
 	// Put the ray into the edge's frame of reference.
 	p1 := RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
 	p2 := RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))
@@ -124,7 +124,7 @@ func (edge B2EdgeShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, x
 	return true
 }
 
-func (edge B2EdgeShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
+func (edge EdgeShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	v1 := TransformVec2Mul(xf, edge.M_vertex1)
 	v2 := TransformVec2Mul(xf, edge.M_vertex2)
 
@@ -137,7 +137,7 @@ func (edge B2EdgeShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	return MakeB2AABB(lowerBound, upperBound)
 }
 
-func (edge B2EdgeShape) ComputeMass(density float64) B2MassData {
+func (edge EdgeShape) ComputeMass(density float64) B2MassData {
 	massData := MakeMassData()
 	massData.Mass = 0.0
 	massData.Center = Vec2MulScalar(0.5, Vec2Add(edge.M_vertex1, edge.M_vertex2))

@@ -136,7 +136,7 @@ func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 		p.M_radius = chain.M_radius
 
 	case B2Shape_Type.E_edge:
-		edge := shape.(*B2EdgeShape)
+		edge := shape.(*EdgeShape)
 		p.M_vertices = []Vec2{edge.M_vertex1, edge.M_vertex2}
 		p.M_count = 2
 		p.M_radius = edge.M_radius

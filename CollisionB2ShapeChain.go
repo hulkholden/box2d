@@ -123,7 +123,7 @@ func (chain ChainShape) GetChildCount() int {
 	return chain.M_count - 1
 }
 
-func (chain ChainShape) GetChildEdge(edge *B2EdgeShape, index int) {
+func (chain ChainShape) GetChildEdge(edge *EdgeShape, index int) {
 	assert(0 <= index && index < chain.M_count-1)
 
 	edge.M_type = B2Shape_Type.E_edge
@@ -156,7 +156,7 @@ func (chain ChainShape) TestPoint(xf Transform, p Vec2) bool {
 func (chain ChainShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
 	assert(childIndex < chain.M_count)
 
-	edgeShape := MakeB2EdgeShape()
+	edgeShape := MakeEdgeShape()
 
 	i1 := childIndex
 	i2 := childIndex + 1

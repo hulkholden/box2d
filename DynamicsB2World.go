@@ -1008,7 +1008,7 @@ func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color B2Color) {
 		world.G_debugDraw.DrawSolidCircle(center, radius, axis, color)
 
 	case B2Shape_Type.E_edge:
-		edge := fixture.GetShape().(*B2EdgeShape)
+		edge := fixture.GetShape().(*EdgeShape)
 		v1 := TransformVec2Mul(xf, edge.M_vertex1)
 		v2 := TransformVec2Mul(xf, edge.M_vertex2)
 		world.G_debugDraw.DrawSegment(v1, v2, color)

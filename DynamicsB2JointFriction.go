@@ -21,7 +21,7 @@ type FrictionJointDef struct {
 	MaxTorque float64
 }
 
-func MakeB2FrictionJointDef() FrictionJointDef {
+func MakeFrictionJointDef() FrictionJointDef {
 	res := FrictionJointDef{
 		JointDef: MakeJointDef(),
 	}

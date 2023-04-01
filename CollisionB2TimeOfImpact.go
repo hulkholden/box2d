@@ -274,7 +274,7 @@ func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64)
 // a fraction between [0,tMax]. This uses a swept separating axis and may miss some intermediate,
 // non-tunneling collision. If you change the time interval, you should call this function
 // again.
-// Note: use b2Distance to compute the contact point and normal at the time of impact.
+// Note: use Distance to compute the contact point and normal at the time of impact.
 // CCD via the local separating axis method. This seeks progression
 // by computing the largest time at which separation is maintained.
 func B2TimeOfImpact(output *B2TOIOutput, input *B2TOIInput) {

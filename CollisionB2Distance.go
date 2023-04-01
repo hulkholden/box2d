@@ -20,7 +20,7 @@ type DistanceProxy struct {
 func MakeDistanceProxy() DistanceProxy { return DistanceProxy{} }
 func NewDistanceProxy() *DistanceProxy { return &DistanceProxy{} }
 
-// Used to warm start b2Distance.
+// Used to warm start Distance.
 // Set count to zero on first call.
 type SimplexCache struct {
 	Metric float64 ///< length or area
@@ -32,7 +32,7 @@ type SimplexCache struct {
 func MakeSimplexCache() SimplexCache { return SimplexCache{} }
 func NewSimplexCache() *SimplexCache { return &SimplexCache{} }
 
-// Input for b2Distance.
+// Input for Distance.
 // You have to option to use the shape radii
 // in the computation. Even
 type DistanceInput struct {
@@ -46,7 +46,7 @@ type DistanceInput struct {
 func MakeDistanceInput() DistanceInput { return DistanceInput{} }
 func NewDistanceInput() *DistanceInput { return &DistanceInput{} }
 
-// Output for b2Distance.
+// Output for Distance.
 type DistanceOutput struct {
 	PointA     Vec2 ///< closest point on shapeA
 	PointB     Vec2 ///< closest point on shapeB

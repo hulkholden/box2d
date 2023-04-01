@@ -338,7 +338,7 @@ func (joint DistanceJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 
-	fmt.Printf("  b2DistanceJointDef jd;\n")
+	fmt.Printf("  DistanceJointDef jd;\n")
 	fmt.Printf("  jd.bodyA = bodies[%d];\n", indexA)
 	fmt.Printf("  jd.bodyB = bodies[%d];\n", indexB)
 	fmt.Printf("  jd.collideConnected = bool(%v);\n", joint.M_collideConnected)

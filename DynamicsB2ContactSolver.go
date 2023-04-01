@@ -675,17 +675,17 @@ func (solver *ContactSolver) StoreImpulses() {
 	}
 }
 
-type B2PositionSolverManifold struct {
+type PositionSolverManifold struct {
 	Normal     Vec2
 	Point      Vec2
 	Separation float64
 }
 
-func MakeB2PositionSolverManifold() B2PositionSolverManifold {
-	return B2PositionSolverManifold{}
+func MakePositionSolverManifold() PositionSolverManifold {
+	return PositionSolverManifold{}
 }
 
-func (solvermanifold *B2PositionSolverManifold) Initialize(pc *ContactPositionConstraint, xfA Transform, xfB Transform, index int) {
+func (solvermanifold *PositionSolverManifold) Initialize(pc *ContactPositionConstraint, xfA Transform, xfB Transform, index int) {
 	assert(pc.PointCount > 0)
 
 	switch pc.Type {
@@ -751,7 +751,7 @@ func (solver *ContactSolver) SolvePositionConstraints() bool {
 			xfA.P = Vec2Sub(cA, RotVec2Mul(xfA.Q, localCenterA))
 			xfB.P = Vec2Sub(cB, RotVec2Mul(xfB.Q, localCenterB))
 
-			psm := MakeB2PositionSolverManifold()
+			psm := MakePositionSolverManifold()
 			psm.Initialize(pc, xfA, xfB, j)
 			normal := psm.Normal
 
@@ -842,7 +842,7 @@ func (solver *ContactSolver) SolveTOIPositionConstraints(toiIndexA int, toiIndex
 			xfB.P = Vec2Sub(cB, RotVec2Mul(xfB.Q, localCenterB))
 			xfA.P = Vec2Sub(cA, RotVec2Mul(xfA.Q, localCenterA))
 
-			psm := MakeB2PositionSolverManifold()
+			psm := MakePositionSolverManifold()
 			psm.Initialize(pc, xfA, xfB, j)
 			normal := psm.Normal
 

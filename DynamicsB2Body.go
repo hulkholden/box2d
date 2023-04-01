@@ -9,14 +9,14 @@ import (
 /// kinematic: zero mass, non-zero velocity set by user, moved by solver
 /// dynamic: positive mass, non-zero velocity determined by forces, moved by solver
 
-var B2BodyType = struct {
-	B2_staticBody    uint8
-	B2_kinematicBody uint8
-	B2_dynamicBody   uint8
+var BodyType = struct {
+	StaticBody    uint8
+	KinematicBody uint8
+	DynamicBody   uint8
 }{
-	B2_staticBody:    0,
-	B2_kinematicBody: 1,
-	B2_dynamicBody:   2,
+	StaticBody:    0,
+	KinematicBody: 1,
+	DynamicBody:   2,
 }
 
 // A body definition holds all the data needed to construct a rigid body.
@@ -91,7 +91,7 @@ func MakeBodyDef() BodyDef {
 		Awake:           true,
 		FixedRotation:   false,
 		Bullet:          false,
-		Type:            B2BodyType.B2_staticBody,
+		Type:            BodyType.StaticBody,
 		Active:          true,
 		GravityScale:    1.0,
 	}
@@ -185,7 +185,7 @@ func (body B2Body) GetLocalCenter() Vec2 {
 }
 
 func (body *B2Body) SetLinearVelocity(v Vec2) {
-	if body.M_type == B2BodyType.B2_staticBody {
+	if body.M_type == BodyType.StaticBody {
 		return
 	}
 
@@ -201,7 +201,7 @@ func (body B2Body) GetLinearVelocity() Vec2 {
 }
 
 func (body *B2Body) SetAngularVelocity(w float64) {
-	if body.M_type == B2BodyType.B2_staticBody {
+	if body.M_type == BodyType.StaticBody {
 		return
 	}
 
@@ -356,7 +356,7 @@ func (body B2Body) GetUserData() interface{} {
 }
 
 func (body *B2Body) ApplyForce(force Vec2, point Vec2, wake bool) {
-	if body.M_type != B2BodyType.B2_dynamicBody {
+	if body.M_type != BodyType.DynamicBody {
 		return
 	}
 
@@ -375,7 +375,7 @@ func (body *B2Body) ApplyForce(force Vec2, point Vec2, wake bool) {
 }
 
 func (body *B2Body) ApplyForceToCenter(force Vec2, wake bool) {
-	if body.M_type != B2BodyType.B2_dynamicBody {
+	if body.M_type != BodyType.DynamicBody {
 		return
 	}
 
@@ -390,7 +390,7 @@ func (body *B2Body) ApplyForceToCenter(force Vec2, wake bool) {
 }
 
 func (body *B2Body) ApplyTorque(torque float64, wake bool) {
-	if body.M_type != B2BodyType.B2_dynamicBody {
+	if body.M_type != BodyType.DynamicBody {
 		return
 	}
 
@@ -405,7 +405,7 @@ func (body *B2Body) ApplyTorque(torque float64, wake bool) {
 }
 
 func (body *B2Body) ApplyLinearImpulse(impulse Vec2, point Vec2, wake bool) {
-	if body.M_type != B2BodyType.B2_dynamicBody {
+	if body.M_type != BodyType.DynamicBody {
 		return
 	}
 
@@ -424,7 +424,7 @@ func (body *B2Body) ApplyLinearImpulse(impulse Vec2, point Vec2, wake bool) {
 }
 
 func (body *B2Body) ApplyLinearImpulseToCenter(impulse Vec2, wake bool) {
-	if body.M_type != B2BodyType.B2_dynamicBody {
+	if body.M_type != BodyType.DynamicBody {
 		return
 	}
 
@@ -439,7 +439,7 @@ func (body *B2Body) ApplyLinearImpulseToCenter(impulse Vec2, wake bool) {
 }
 
 func (body *B2Body) ApplyAngularImpulse(impulse float64, wake bool) {
-	if body.M_type != B2BodyType.B2_dynamicBody {
+	if body.M_type != BodyType.DynamicBody {
 		return
 	}
 
@@ -542,7 +542,7 @@ func NewB2Body(bd *BodyDef, world *B2World) *B2Body {
 
 	body.M_type = bd.Type
 
-	if body.M_type == B2BodyType.B2_dynamicBody {
+	if body.M_type == BodyType.DynamicBody {
 		body.M_mass = 1.0
 		body.M_invMass = 1.0
 	} else {
@@ -575,7 +575,7 @@ func (body *B2Body) SetType(bodytype uint8) {
 
 	body.ResetMassData()
 
-	if body.M_type == B2BodyType.B2_staticBody {
+	if body.M_type == BodyType.StaticBody {
 		body.M_linearVelocity.SetZero()
 		body.M_angularVelocity = 0.0
 		body.M_sweep.A0 = body.M_sweep.A
@@ -717,14 +717,14 @@ func (body *B2Body) ResetMassData() {
 	body.M_sweep.LocalCenter.SetZero()
 
 	// Static and kinematic bodies have zero mass.
-	if body.M_type == B2BodyType.B2_staticBody || body.M_type == B2BodyType.B2_kinematicBody {
+	if body.M_type == BodyType.StaticBody || body.M_type == BodyType.KinematicBody {
 		body.M_sweep.C0 = body.M_xf.P
 		body.M_sweep.C = body.M_xf.P
 		body.M_sweep.A0 = body.M_sweep.A
 		return
 	}
 
-	assert(body.M_type == B2BodyType.B2_dynamicBody)
+	assert(body.M_type == BodyType.DynamicBody)
 
 	// Accumulate mass over all fixtures.
 	localCenter := MakeVec2(0, 0)
@@ -779,7 +779,7 @@ func (body *B2Body) SetMassData(massData *B2MassData) {
 		return
 	}
 
-	if body.M_type != B2BodyType.B2_dynamicBody {
+	if body.M_type != BodyType.DynamicBody {
 		return
 	}
 
@@ -817,7 +817,7 @@ func (body *B2Body) SetMassData(massData *B2MassData) {
 
 func (body B2Body) ShouldCollide(other *B2Body) bool {
 	// At least one body should be dynamic.
-	if body.M_type != B2BodyType.B2_dynamicBody && other.M_type != B2BodyType.B2_dynamicBody {
+	if body.M_type != BodyType.DynamicBody && other.M_type != BodyType.DynamicBody {
 		return false
 	}
 

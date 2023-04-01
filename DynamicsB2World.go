@@ -465,7 +465,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 		}
 
 		// The seed can be dynamic or kinematic.
-		if seed.GetType() == B2BodyType.B2_staticBody {
+		if seed.GetType() == BodyType.StaticBody {
 			continue
 		}
 
@@ -489,7 +489,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 
 			// To keep islands as small as possible, we don't
 			// propagate islands across static bodies.
-			if b.GetType() == B2BodyType.B2_staticBody {
+			if b.GetType() == BodyType.StaticBody {
 				continue
 			}
 
@@ -569,7 +569,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 		for i := 0; i < island.M_bodyCount; i++ {
 			// Allow static bodies to participate in other islands.
 			b := island.M_bodies[i]
-			if b.GetType() == B2BodyType.B2_staticBody {
+			if b.GetType() == BodyType.StaticBody {
 				b.M_flags &= ^B2Body_Flags.E_islandFlag
 			}
 		}
@@ -587,7 +587,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 				continue
 			}
 
-			if b.GetType() == B2BodyType.B2_staticBody {
+			if b.GetType() == BodyType.StaticBody {
 				continue
 			}
 
@@ -655,18 +655,18 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 				typeA := bA.M_type
 				typeB := bB.M_type
-				assert(typeA == B2BodyType.B2_dynamicBody || typeB == B2BodyType.B2_dynamicBody)
+				assert(typeA == BodyType.DynamicBody || typeB == BodyType.DynamicBody)
 
-				activeA := bA.IsAwake() && typeA != B2BodyType.B2_staticBody
-				activeB := bB.IsAwake() && typeB != B2BodyType.B2_staticBody
+				activeA := bA.IsAwake() && typeA != BodyType.StaticBody
+				activeB := bB.IsAwake() && typeB != BodyType.StaticBody
 
 				// Is at least one body active (awake and dynamic or kinematic)?
 				if !activeA && !activeB {
 					continue
 				}
 
-				collideA := bA.IsBullet() || typeA != B2BodyType.B2_dynamicBody
-				collideB := bB.IsBullet() || typeB != B2BodyType.B2_dynamicBody
+				collideA := bA.IsBullet() || typeA != BodyType.DynamicBody
+				collideB := bB.IsBullet() || typeB != BodyType.DynamicBody
 
 				// Are these two non-bullet dynamic bodies?
 				if !collideA && !collideB {
@@ -772,7 +772,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 		for i := 0; i < 2; i++ {
 			body := bodies[i]
-			if body.M_type == B2BodyType.B2_dynamicBody {
+			if body.M_type == BodyType.DynamicBody {
 				for ce := body.M_contactList; ce != nil; ce = ce.Next {
 					if island.M_bodyCount == island.M_bodyCapacity {
 						break
@@ -791,7 +791,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 
 					// Only add static, kinematic, or bullet bodies.
 					other := ce.Other
-					if other.M_type == B2BodyType.B2_dynamicBody && !body.IsBullet() && !other.IsBullet() {
+					if other.M_type == BodyType.DynamicBody && !body.IsBullet() && !other.IsBullet() {
 						continue
 					}
 
@@ -837,7 +837,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 					// Add the other body to the island.
 					other.M_flags |= B2Body_Flags.E_islandFlag
 
-					if other.M_type != B2BodyType.B2_staticBody {
+					if other.M_type != BodyType.StaticBody {
 						other.SetAwake(true)
 					}
 
@@ -860,7 +860,7 @@ func (world *B2World) SolveTOI(step B2TimeStep) {
 			body := island.M_bodies[i]
 			body.M_flags &= ^B2Body_Flags.E_islandFlag
 
-			if body.M_type != B2BodyType.B2_dynamicBody {
+			if body.M_type != BodyType.DynamicBody {
 				continue
 			}
 
@@ -1114,9 +1114,9 @@ func (world *B2World) DrawDebugData() {
 			for f := b.GetFixtureList(); f != nil; f = f.GetNext() {
 				if !b.IsActive() {
 					world.DrawShape(f, xf, MakeB2ColorRGB(0.5, 0.5, 0.3))
-				} else if b.GetType() == B2BodyType.B2_staticBody {
+				} else if b.GetType() == BodyType.StaticBody {
 					world.DrawShape(f, xf, MakeB2ColorRGB(0.5, 0.9, 0.5))
-				} else if b.GetType() == B2BodyType.B2_kinematicBody {
+				} else if b.GetType() == BodyType.KinematicBody {
 					world.DrawShape(f, xf, MakeB2ColorRGB(0.5, 0.5, 0.9))
 				} else if !b.IsAwake() {
 					world.DrawShape(f, xf, MakeB2ColorRGB(0.6, 0.6, 0.6))

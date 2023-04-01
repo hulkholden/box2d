@@ -124,7 +124,7 @@ func TestCPPCompliance(t *testing.T) {
 	{
 		bd := box2d.MakeBodyDef()
 		bd.Position.Set(-3.0, 8.0)
-		bd.Type = box2d.B2BodyType.B2_dynamicBody
+		bd.Type = box2d.BodyType.DynamicBody
 		bd.FixedRotation = true
 		bd.AllowSleep = false
 
@@ -144,7 +144,7 @@ func TestCPPCompliance(t *testing.T) {
 	{
 		bd := box2d.MakeBodyDef()
 		bd.Position.Set(-5.0, 5.0)
-		bd.Type = box2d.B2BodyType.B2_dynamicBody
+		bd.Type = box2d.BodyType.DynamicBody
 		bd.FixedRotation = true
 		bd.AllowSleep = false
 
@@ -164,7 +164,7 @@ func TestCPPCompliance(t *testing.T) {
 	{
 		bd := box2d.MakeBodyDef()
 		bd.Position.Set(-5.0, 8.0)
-		bd.Type = box2d.B2BodyType.B2_dynamicBody
+		bd.Type = box2d.BodyType.DynamicBody
 		bd.FixedRotation = true
 		bd.AllowSleep = false
 
@@ -192,7 +192,7 @@ func TestCPPCompliance(t *testing.T) {
 	{
 		bd := box2d.MakeBodyDef()
 		bd.Position.Set(3.0, 5.0)
-		bd.Type = box2d.B2BodyType.B2_dynamicBody
+		bd.Type = box2d.BodyType.DynamicBody
 		bd.FixedRotation = true
 		bd.AllowSleep = false
 
@@ -212,7 +212,7 @@ func TestCPPCompliance(t *testing.T) {
 	{
 		bd := box2d.MakeBodyDef()
 		bd.Position.Set(-7.0, 6.0)
-		bd.Type = box2d.B2BodyType.B2_dynamicBody
+		bd.Type = box2d.BodyType.DynamicBody
 		bd.AllowSleep = false
 
 		body := world.CreateBody(&bd)

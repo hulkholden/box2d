@@ -218,7 +218,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2,
 		b.M_sweep.C0 = b.M_sweep.C
 		b.M_sweep.A0 = b.M_sweep.A
 
-		if b.M_type == B2BodyType.B2_dynamicBody {
+		if b.M_type == BodyType.DynamicBody {
 
 			// Integrate velocities.
 			v.OperatorPlusInplace(
@@ -364,7 +364,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2,
 
 		for i := 0; i < island.M_bodyCount; i++ {
 			b := island.M_bodies[i]
-			if b.GetType() == B2BodyType.B2_staticBody {
+			if b.GetType() == BodyType.StaticBody {
 				continue
 			}
 

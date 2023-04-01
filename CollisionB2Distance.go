@@ -115,7 +115,7 @@ func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 		p.M_radius = circle.M_radius
 
 	case B2Shape_Type.E_polygon:
-		polygon := shape.(*B2PolygonShape)
+		polygon := shape.(*PolygonShape)
 		p.M_vertices = polygon.M_vertices[:]
 		p.M_count = polygon.M_count
 		p.M_radius = polygon.M_radius

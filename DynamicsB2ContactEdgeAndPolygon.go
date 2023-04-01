@@ -29,6 +29,6 @@ func (contact *B2EdgeAndPolygonContact) Evaluate(manifold *B2Manifold, xfA Trans
 	B2CollideEdgeAndPolygon(
 		manifold,
 		contact.GetFixtureA().GetShape().(*EdgeShape), xfA,
-		contact.GetFixtureB().GetShape().(*B2PolygonShape), xfB,
+		contact.GetFixtureB().GetShape().(*PolygonShape), xfB,
 	)
 }

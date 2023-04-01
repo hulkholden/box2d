@@ -13,7 +13,7 @@ var result B2AABB
 func BenchmarkB2PolygonShape_ComputeAABB(b *testing.B) {
 	polys := make([]B2ShapeInterface, 1000)
 	for i := range polys {
-		p := NewB2PolygonShape()
+		p := NewPolygonShape()
 		p.SetAsBox(1, 1)
 		polys[i] = p
 	}

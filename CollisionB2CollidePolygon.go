@@ -1,7 +1,7 @@
 package box2d
 
 // Find the max separation between poly1 and poly2 using edge normals from poly1.
-func B2FindMaxSeparation(edgeIndex *int, poly1 *B2PolygonShape, xf1 Transform, poly2 *B2PolygonShape, xf2 Transform) float64 {
+func B2FindMaxSeparation(edgeIndex *int, poly1 *PolygonShape, xf1 Transform, poly2 *PolygonShape, xf2 Transform) float64 {
 	count1 := poly1.M_count
 	count2 := poly2.M_count
 	n1s := poly1.M_normals
@@ -36,7 +36,7 @@ func B2FindMaxSeparation(edgeIndex *int, poly1 *B2PolygonShape, xf1 Transform, p
 	return maxSeparation
 }
 
-func B2FindIncidentEdge(c []B2ClipVertex, poly1 *B2PolygonShape, xf1 Transform, edge1 int, poly2 *B2PolygonShape, xf2 Transform) {
+func B2FindIncidentEdge(c []B2ClipVertex, poly1 *PolygonShape, xf1 Transform, edge1 int, poly2 *PolygonShape, xf2 Transform) {
 	normals1 := poly1.M_normals
 
 	count2 := poly2.M_count
@@ -86,7 +86,7 @@ func B2FindIncidentEdge(c []B2ClipVertex, poly1 *B2PolygonShape, xf1 Transform, 
 // Clip
 
 // The normal points from 1 to 2
-func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA Transform, polyB *B2PolygonShape, xfB Transform) {
+func B2CollidePolygons(manifold *B2Manifold, polyA *PolygonShape, xfA Transform, polyB *PolygonShape, xfB Transform) {
 	manifold.PointCount = 0
 	totalRadius := polyA.M_radius + polyB.M_radius
 
@@ -102,8 +102,8 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA Transfor
 		return
 	}
 
-	var poly1 *B2PolygonShape // reference polygon
-	var poly2 *B2PolygonShape // incident polygon
+	var poly1 *PolygonShape // reference polygon
+	var poly2 *PolygonShape // incident polygon
 
 	var xf1, xf2 Transform
 

@@ -71,7 +71,7 @@ func TestCPPCompliance(t *testing.T) {
 		bd := box2d.MakeBodyDef()
 		ground := world.CreateBody(&bd)
 
-		shape := box2d.MakeB2PolygonShape()
+		shape := box2d.MakePolygonShape()
 		shape.SetAsBoxFromCenterAndAngle(1.0, 1.0, box2d.MakeVec2(4.0, 3.0), 0.0)
 		ground.CreateFixture(&shape, 0.0)
 		shape.SetAsBoxFromCenterAndAngle(1.0, 1.0, box2d.MakeVec2(6.0, 3.0), 0.0)
@@ -130,7 +130,7 @@ func TestCPPCompliance(t *testing.T) {
 
 		body := world.CreateBody(&bd)
 
-		shape := box2d.MakeB2PolygonShape()
+		shape := box2d.MakePolygonShape()
 		shape.SetAsBox(0.5, 0.5)
 
 		fd := box2d.MakeFixtureDef()
@@ -150,7 +150,7 @@ func TestCPPCompliance(t *testing.T) {
 
 		body := world.CreateBody(&bd)
 
-		shape := box2d.MakeB2PolygonShape()
+		shape := box2d.MakePolygonShape()
 		shape.SetAsBox(0.25, 0.25)
 
 		fd := box2d.MakeFixtureDef()
@@ -178,7 +178,7 @@ func TestCPPCompliance(t *testing.T) {
 			angle += delta
 		}
 
-		shape := box2d.MakeB2PolygonShape()
+		shape := box2d.MakePolygonShape()
 		shape.Set(vertices, 6)
 
 		fd := box2d.MakeFixtureDef()

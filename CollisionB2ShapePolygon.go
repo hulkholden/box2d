@@ -5,7 +5,7 @@ package box2d
 /// Polygons have a maximum number of vertices equal to b2_maxPolygonVertices.
 /// In most cases you should not need many vertices for a convex polygon.
 
-type B2PolygonShape struct {
+type PolygonShape struct {
 	B2Shape
 
 	M_centroid Vec2
@@ -14,8 +14,8 @@ type B2PolygonShape struct {
 	M_count    int
 }
 
-func MakeB2PolygonShape() B2PolygonShape {
-	return B2PolygonShape{
+func MakePolygonShape() PolygonShape {
+	return PolygonShape{
 		B2Shape: B2Shape{
 			M_type:   B2Shape_Type.E_polygon,
 			M_radius: polygonRadius,
@@ -25,12 +25,12 @@ func MakeB2PolygonShape() B2PolygonShape {
 	}
 }
 
-func NewB2PolygonShape() *B2PolygonShape {
-	res := MakeB2PolygonShape()
+func NewPolygonShape() *PolygonShape {
+	res := MakePolygonShape()
 	return &res
 }
 
-func (poly *B2PolygonShape) GetVertex(index int) *Vec2 {
+func (poly *PolygonShape) GetVertex(index int) *Vec2 {
 	assert(0 <= index && index < poly.M_count)
 	return &poly.M_vertices[index]
 }
@@ -38,13 +38,13 @@ func (poly *B2PolygonShape) GetVertex(index int) *Vec2 {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-// B2PolygonShape.cpp
+// PolygonShape.cpp
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (poly B2PolygonShape) Clone() B2ShapeInterface {
-	clone := NewB2PolygonShape()
+func (poly PolygonShape) Clone() B2ShapeInterface {
+	clone := NewPolygonShape()
 	clone.M_centroid = poly.M_centroid
 	clone.M_count = poly.M_count
 
@@ -55,9 +55,9 @@ func (poly B2PolygonShape) Clone() B2ShapeInterface {
 	return clone
 }
 
-func (edge *B2PolygonShape) Destroy() {}
+func (edge *PolygonShape) Destroy() {}
 
-func (poly *B2PolygonShape) SetAsBox(hx float64, hy float64) {
+func (poly *PolygonShape) SetAsBox(hx float64, hy float64) {
 	poly.M_count = 4
 	poly.M_vertices[0].Set(-hx, -hy)
 	poly.M_vertices[1].Set(hx, -hy)
@@ -70,7 +70,7 @@ func (poly *B2PolygonShape) SetAsBox(hx float64, hy float64) {
 	poly.M_centroid.SetZero()
 }
 
-func (poly *B2PolygonShape) SetAsBoxFromCenterAndAngle(hx float64, hy float64, center Vec2, angle float64) {
+func (poly *PolygonShape) SetAsBoxFromCenterAndAngle(hx float64, hy float64, center Vec2, angle float64) {
 	poly.M_count = 4
 	poly.M_vertices[0].Set(-hx, -hy)
 	poly.M_vertices[1].Set(hx, -hy)
@@ -93,7 +93,7 @@ func (poly *B2PolygonShape) SetAsBoxFromCenterAndAngle(hx float64, hy float64, c
 	}
 }
 
-func (poly B2PolygonShape) GetChildCount() int {
+func (poly PolygonShape) GetChildCount() int {
 	return 1
 }
 
@@ -144,7 +144,7 @@ func ComputeCentroid(vs []Vec2, count int) Vec2 {
 	return c
 }
 
-func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
+func (poly *PolygonShape) Set(vertices []Vec2, count int) {
 	assert(3 <= count && count <= maxPolygonVertices)
 	if count < 3 {
 		poly.SetAsBox(1.0, 1.0)
@@ -264,7 +264,7 @@ func (poly *B2PolygonShape) Set(vertices []Vec2, count int) {
 	poly.M_centroid = ComputeCentroid(poly.M_vertices[:], m)
 }
 
-func (poly B2PolygonShape) TestPoint(xf Transform, p Vec2) bool {
+func (poly PolygonShape) TestPoint(xf Transform, p Vec2) bool {
 	pLocal := RotVec2MulT(xf.Q, Vec2Sub(p, xf.P))
 
 	for i := 0; i < poly.M_count; i++ {
@@ -277,7 +277,7 @@ func (poly B2PolygonShape) TestPoint(xf Transform, p Vec2) bool {
 	return true
 }
 
-func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
+func (poly PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, xf Transform, childIndex int) bool {
 	// Put the ray into the polygon's frame of reference.
 	p1 := RotVec2MulT(xf.Q, Vec2Sub(input.P1, xf.P))
 	p2 := RotVec2MulT(xf.Q, Vec2Sub(input.P2, xf.P))
@@ -336,7 +336,7 @@ func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 	return false
 }
 
-func (poly B2PolygonShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
+func (poly PolygonShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	lower := TransformVec2Mul(xf, poly.M_vertices[0])
 	upper := lower
 
@@ -352,7 +352,7 @@ func (poly B2PolygonShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 	return MakeB2AABB(lowerBound, upperBound)
 }
 
-func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
+func (poly PolygonShape) ComputeMass(density float64) B2MassData {
 	// Polygon mass, centroid, and inertia.
 	// Let rho be the polygon density in mass per unit area.
 	// Then:
@@ -445,7 +445,7 @@ func (poly B2PolygonShape) ComputeMass(density float64) B2MassData {
 	return massData
 }
 
-func (poly B2PolygonShape) Validate() bool {
+func (poly PolygonShape) Validate() bool {
 	for i := 0; i < poly.M_count; i++ {
 		i1 := i
 		i2 := 0

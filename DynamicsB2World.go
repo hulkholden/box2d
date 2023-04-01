@@ -1043,7 +1043,7 @@ func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color B2Color) {
 		}
 
 	case B2Shape_Type.E_polygon:
-		poly := fixture.GetShape().(*B2PolygonShape)
+		poly := fixture.GetShape().(*PolygonShape)
 		vertexCount := poly.M_count
 		assert(vertexCount <= maxPolygonVertices)
 		var vertices [maxPolygonVertices]Vec2

@@ -234,7 +234,7 @@ func (fix *Fixture) Destroy() {
 		s.Destroy()
 
 	case B2Shape_Type.E_polygon:
-		s := fix.M_shape.(*B2PolygonShape)
+		s := fix.M_shape.(*PolygonShape)
 		s.Destroy()
 
 	case B2Shape_Type.E_chain:
@@ -367,7 +367,7 @@ func (fix *Fixture) Dump(bodyIndex int) {
 		fmt.Printf("    shape.m_hasVertex3 = bool(%v);\n", s.M_hasVertex3)
 
 	case B2Shape_Type.E_polygon:
-		s := fix.M_shape.(*B2PolygonShape)
+		s := fix.M_shape.(*PolygonShape)
 		fmt.Printf("    b2PolygonShape shape;\n")
 		fmt.Printf("    b2Vec2 vs[%d];\n", maxPolygonVertices)
 		for i := 0; i < s.M_count; i++ {

@@ -28,7 +28,7 @@ func B2PolygonAndCircleContact_Destroy(contact ContactInterface) { // should be 
 func (contact *B2PolygonAndCircleContact) Evaluate(manifold *B2Manifold, xfA Transform, xfB Transform) {
 	B2CollidePolygonAndCircle(
 		manifold,
-		contact.GetFixtureA().GetShape().(*B2PolygonShape), xfA,
+		contact.GetFixtureA().GetShape().(*PolygonShape), xfA,
 		contact.GetFixtureB().GetShape().(*CircleShape), xfB,
 	)
 }

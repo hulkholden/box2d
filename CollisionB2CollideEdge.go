@@ -215,7 +215,7 @@ func MakeB2EPCollider() B2EPCollider {
 // 6. Visit each separating axes, only accept axes within the range
 // 7. Return if _any_ axis indicates separation
 // 8. Clip
-func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform, polygonB *B2PolygonShape, xfB Transform) {
+func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform, polygonB *PolygonShape, xfB Transform) {
 	collider.M_xf = TransformMulT(xfA, xfB)
 
 	collider.M_centroidB = TransformVec2Mul(collider.M_xf, polygonB.M_centroid)
@@ -601,7 +601,7 @@ func (collider *B2EPCollider) ComputePolygonSeparation() B2EPAxis {
 	return axis
 }
 
-func B2CollideEdgeAndPolygon(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform, polygonB *B2PolygonShape, xfB Transform) {
+func B2CollideEdgeAndPolygon(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform, polygonB *PolygonShape, xfB Transform) {
 	collider := MakeB2EPCollider()
 	collider.Collide(manifold, edgeA, xfA, polygonB, xfB)
 }

@@ -999,7 +999,7 @@ func (world *B2World) RayCast(callback B2RaycastCallback, point1 Vec2, point2 Ve
 func (world *B2World) DrawShape(fixture *Fixture, xf Transform, color B2Color) {
 	switch fixture.GetType() {
 	case B2Shape_Type.E_circle:
-		circle := fixture.GetShape().(*B2CircleShape)
+		circle := fixture.GetShape().(*CircleShape)
 
 		center := TransformVec2Mul(xf, circle.M_p)
 		radius := circle.M_radius

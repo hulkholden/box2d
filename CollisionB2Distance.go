@@ -109,7 +109,7 @@ var b2_gjkCalls, b2_gjkIters, b2_gjkMaxIters int
 func (p *B2DistanceProxy) Set(shape B2ShapeInterface, index int) {
 	switch shape.GetType() {
 	case B2Shape_Type.E_circle:
-		circle := (shape).(*B2CircleShape)
+		circle := (shape).(*CircleShape)
 		p.M_vertices = []Vec2{circle.M_p}
 		p.M_count = 1
 		p.M_radius = circle.M_radius

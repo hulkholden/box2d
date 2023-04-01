@@ -29,6 +29,6 @@ func (contact *B2PolygonAndCircleContact) Evaluate(manifold *B2Manifold, xfA Tra
 	B2CollidePolygonAndCircle(
 		manifold,
 		contact.GetFixtureA().GetShape().(*B2PolygonShape), xfA,
-		contact.GetFixtureB().GetShape().(*B2CircleShape), xfB,
+		contact.GetFixtureB().GetShape().(*CircleShape), xfB,
 	)
 }

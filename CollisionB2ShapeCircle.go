@@ -5,14 +5,14 @@ import (
 )
 
 // A circle shape.
-type B2CircleShape struct {
+type CircleShape struct {
 	B2Shape
 	/// Position
 	M_p Vec2
 }
 
-func MakeB2CircleShape() B2CircleShape {
-	return B2CircleShape{
+func MakeCircleShape() CircleShape {
+	return CircleShape{
 		B2Shape: B2Shape{
 			M_type:   B2Shape_Type.E_circle,
 			M_radius: 0.0,
@@ -21,25 +21,25 @@ func MakeB2CircleShape() B2CircleShape {
 	}
 }
 
-func NewB2CircleShape() *B2CircleShape {
-	res := MakeB2CircleShape()
+func NewCircleShape() *CircleShape {
+	res := MakeCircleShape()
 	return &res
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-func (shape B2CircleShape) Clone() B2ShapeInterface {
-	clone := NewB2CircleShape()
+func (shape CircleShape) Clone() B2ShapeInterface {
+	clone := NewCircleShape()
 	clone.M_radius = shape.M_radius
 	clone.M_p = shape.M_p
 	return clone
 }
 
-func (shape B2CircleShape) GetChildCount() int {
+func (shape CircleShape) GetChildCount() int {
 	return 1
 }
 
-func (shape B2CircleShape) TestPoint(transform Transform, p Vec2) bool {
+func (shape CircleShape) TestPoint(transform Transform, p Vec2) bool {
 	center := Vec2Add(transform.P, RotVec2Mul(transform.Q, shape.M_p))
 	d := Vec2Sub(p, center)
 	return Vec2Dot(d, d) <= shape.M_radius*shape.M_radius
@@ -49,7 +49,7 @@ func (shape B2CircleShape) TestPoint(transform Transform, p Vec2) bool {
 // From Section 3.1.2
 // x = s + a * r
 // norm(x) = radius
-func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, transform Transform, childIndex int) bool {
+func (shape CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput, transform Transform, childIndex int) bool {
 	// B2_NOT_USED(childIndex);
 
 	position := Vec2Add(transform.P, RotVec2Mul(transform.Q, shape.M_p))
@@ -82,7 +82,7 @@ func (shape B2CircleShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 	return false
 }
 
-func (shape B2CircleShape) ComputeAABB(transform Transform, childIndex int) B2AABB {
+func (shape CircleShape) ComputeAABB(transform Transform, childIndex int) B2AABB {
 	// B2_NOT_USED(childIndex);
 
 	p := Vec2Add(transform.P, RotVec2Mul(transform.Q, shape.M_p))
@@ -91,7 +91,7 @@ func (shape B2CircleShape) ComputeAABB(transform Transform, childIndex int) B2AA
 	return MakeB2AABB(lowerBound, upperBound)
 }
 
-func (shape B2CircleShape) ComputeMass(density float64) B2MassData {
+func (shape CircleShape) ComputeMass(density float64) B2MassData {
 	massData := MakeMassData()
 	massData.Mass = density * Pi * shape.M_radius * shape.M_radius
 	massData.Center = shape.M_p
@@ -101,4 +101,4 @@ func (shape B2CircleShape) ComputeMass(density float64) B2MassData {
 	return massData
 }
 
-func (shape B2CircleShape) Destroy() {}
+func (shape CircleShape) Destroy() {}

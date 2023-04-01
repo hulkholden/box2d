@@ -226,7 +226,7 @@ func (fix *Fixture) Destroy() {
 	// Free the child shape.
 	switch fix.M_shape.GetType() {
 	case B2Shape_Type.E_circle:
-		s := fix.M_shape.(*B2CircleShape)
+		s := fix.M_shape.(*CircleShape)
 		s.Destroy()
 
 	case B2Shape_Type.E_edge:
@@ -350,7 +350,7 @@ func (fix *Fixture) Dump(bodyIndex int) {
 
 	switch fix.M_shape.GetType() {
 	case B2Shape_Type.E_circle:
-		s := fix.M_shape.(*B2CircleShape)
+		s := fix.M_shape.(*CircleShape)
 		fmt.Printf("    b2CircleShape shape;\n")
 		fmt.Printf("    shape.m_radius = %.15f;\n", s.M_radius)
 		fmt.Printf("    shape.m_p.Set(%.15f, %.15f);\n", s.M_p.X, s.M_p.Y)

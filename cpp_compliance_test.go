@@ -198,7 +198,7 @@ func TestCPPCompliance(t *testing.T) {
 
 		body := world.CreateBody(&bd)
 
-		shape := box2d.MakeB2CircleShape()
+		shape := box2d.MakeCircleShape()
 		shape.M_radius = 0.5
 
 		fd := box2d.MakeFixtureDef()
@@ -217,7 +217,7 @@ func TestCPPCompliance(t *testing.T) {
 
 		body := world.CreateBody(&bd)
 
-		shape := box2d.MakeB2CircleShape()
+		shape := box2d.MakeCircleShape()
 		shape.M_radius = 0.25
 
 		fd := box2d.MakeFixtureDef()

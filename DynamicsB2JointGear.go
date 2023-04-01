@@ -20,7 +20,7 @@ type GearJointDef struct {
 	Ratio float64
 }
 
-func MakeB2GearJointDef() GearJointDef {
+func MakeGearJointDef() GearJointDef {
 	res := GearJointDef{
 		JointDef: MakeJointDef(),
 	}

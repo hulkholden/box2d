@@ -18,7 +18,7 @@ func B2IsValid(x float64) bool {
 }
 
 // This is a approximate yet fast inverse square-root.
-func B2InvSqrt(x float64) float64 {
+func InvSqrt(x float64) float64 {
 	// https://groups.google.com/forum/#!topic/golang-nuts/8vaZ1ERYIQ0
 	// Faster with math.Sqrt
 	return 1.0 / math.Sqrt(x)

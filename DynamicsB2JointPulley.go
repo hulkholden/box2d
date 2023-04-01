@@ -161,8 +161,8 @@ func (joint *B2PulleyJoint) InitVelocityConstraints(data B2SolverData) {
 	vB := data.Velocities[joint.M_indexB].V
 	wB := data.Velocities[joint.M_indexB].W
 
-	qA := MakeB2RotFromAngle(aA)
-	qB := MakeB2RotFromAngle(aB)
+	qA := MakeRotFromAngle(aA)
+	qB := MakeRotFromAngle(aB)
 
 	joint.M_rA = RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
 	joint.M_rB = RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))
@@ -253,8 +253,8 @@ func (joint *B2PulleyJoint) SolvePositionConstraints(data B2SolverData) bool {
 	cB := data.Positions[joint.M_indexB].C
 	aB := data.Positions[joint.M_indexB].A
 
-	qA := MakeB2RotFromAngle(aA)
-	qB := MakeB2RotFromAngle(aB)
+	qA := MakeRotFromAngle(aA)
+	qB := MakeRotFromAngle(aB)
 
 	rA := RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
 	rB := RotVec2Mul(qB, Vec2Sub(joint.M_localAnchorB, joint.M_localCenterB))

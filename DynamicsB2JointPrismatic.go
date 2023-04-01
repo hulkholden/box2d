@@ -257,8 +257,8 @@ func (joint *B2PrismaticJoint) InitVelocityConstraints(data B2SolverData) {
 	vB := data.Velocities[joint.M_indexB].V
 	wB := data.Velocities[joint.M_indexB].W
 
-	qA := MakeB2RotFromAngle(aA)
-	qB := MakeB2RotFromAngle(aB)
+	qA := MakeRotFromAngle(aA)
+	qB := MakeRotFromAngle(aB)
 
 	// Compute the effective masses.
 	rA := RotVec2Mul(qA, Vec2Sub(joint.M_localAnchorA, joint.M_localCenterA))
@@ -462,8 +462,8 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	cB := data.Positions[joint.M_indexB].C
 	aB := data.Positions[joint.M_indexB].A
 
-	qA := MakeB2RotFromAngle(aA)
-	qB := MakeB2RotFromAngle(aB)
+	qA := MakeRotFromAngle(aA)
+	qB := MakeRotFromAngle(aB)
 
 	mA := joint.M_invMassA
 	mB := joint.M_invMassB

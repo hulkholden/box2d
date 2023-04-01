@@ -232,10 +232,10 @@ func (joint *B2GearJoint) InitVelocityConstraints(data B2SolverData) {
 	vD := data.Velocities[joint.M_indexD].V
 	wD := data.Velocities[joint.M_indexD].W
 
-	qA := MakeB2RotFromAngle(aA)
-	qB := MakeB2RotFromAngle(aB)
-	qC := MakeB2RotFromAngle(aC)
-	qD := MakeB2RotFromAngle(aD)
+	qA := MakeRotFromAngle(aA)
+	qB := MakeRotFromAngle(aB)
+	qC := MakeRotFromAngle(aC)
+	qD := MakeRotFromAngle(aD)
 
 	joint.M_mass = 0.0
 
@@ -344,10 +344,10 @@ func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
 	cD := data.Positions[joint.M_indexD].C
 	aD := data.Positions[joint.M_indexD].A
 
-	qA := MakeB2RotFromAngle(aA)
-	qB := MakeB2RotFromAngle(aB)
-	qC := MakeB2RotFromAngle(aC)
-	qD := MakeB2RotFromAngle(aD)
+	qA := MakeRotFromAngle(aA)
+	qB := MakeRotFromAngle(aB)
+	qC := MakeRotFromAngle(aC)
+	qD := MakeRotFromAngle(aD)
 
 	linearError := 0.0
 

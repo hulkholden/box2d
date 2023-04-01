@@ -4,7 +4,7 @@ type ContactManager struct {
 	M_broadPhase      BroadPhase
 	M_contactList     ContactInterface
 	M_contactCount    int
-	M_contactFilter   B2ContactFilterInterface
+	M_contactFilter   ContactFilterInterface
 	M_contactListener ContactListenerInterface
 }
 

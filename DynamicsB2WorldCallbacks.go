@@ -8,7 +8,7 @@ type B2DestructionListenerInterface interface {
 	SayGoodbyeToJoint(joint JointInterface) // backed by pointer
 }
 
-type B2ContactFilterInterface interface {
+type ContactFilterInterface interface {
 	ShouldCollide(fixtureA *Fixture, fixtureB *Fixture) bool
 }
 

@@ -170,7 +170,7 @@ func (world *B2World) SetDestructionListener(listener B2DestructionListenerInter
 	world.M_destructionListener = listener
 }
 
-func (world *B2World) SetContactFilter(filter B2ContactFilterInterface) {
+func (world *B2World) SetContactFilter(filter ContactFilterInterface) {
 	world.M_contactManager.M_contactFilter = filter
 }
 

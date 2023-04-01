@@ -138,43 +138,43 @@ func (v Vec2) Skew() Vec2 {
 	return MakeVec2(-v.Y, v.X)
 }
 
-// B2Vec3 is 2D column vector with 3 elements.
-type B2Vec3 struct {
+// Vec3 is 2D column vector with 3 elements.
+type Vec3 struct {
 	X, Y, Z float64
 }
 
-// MakeB2Vec3 constructs a B2Vec3 using the provided coordinates.
-func MakeB2Vec3(xIn, yIn, zIn float64) B2Vec3 {
-	return B2Vec3{
+// MakeVec3 constructs a Vec3 using the provided coordinates.
+func MakeVec3(xIn, yIn, zIn float64) Vec3 {
+	return Vec3{
 		X: xIn,
 		Y: yIn,
 		Z: zIn,
 	}
 }
 
-// NewB2Vec3 returns a reference to a B2Vec3 using the provided coordinates.
-func NewB2Vec3(xIn, yIn, zIn float64) *B2Vec3 {
-	res := MakeB2Vec3(xIn, yIn, zIn)
+// NewVec3 returns a reference to a Vec3 using the provided coordinates.
+func NewVec3(xIn, yIn, zIn float64) *Vec3 {
+	res := MakeVec3(xIn, yIn, zIn)
 	return &res
 }
 
 // SetZero sets this vector to all zeros.
-func (v *B2Vec3) SetZero() {
+func (v *Vec3) SetZero() {
 	v.X = 0.0
 	v.Y = 0.0
 	v.Z = 0.0
 }
 
 // Set sets this vector to some specified coordinates.
-func (v *B2Vec3) Set(x, y, z float64) {
+func (v *Vec3) Set(x, y, z float64) {
 	v.X = x
 	v.Y = y
 	v.Z = z
 }
 
 // OperatorNegate negates this vector.
-func (v B2Vec3) OperatorNegate() B2Vec3 {
-	return MakeB2Vec3(
+func (v Vec3) OperatorNegate() Vec3 {
+	return MakeVec3(
 		-v.X,
 		-v.Y,
 		-v.Z,
@@ -182,21 +182,21 @@ func (v B2Vec3) OperatorNegate() B2Vec3 {
 }
 
 // OperatorPlusInplace adds a vector to this vector.
-func (v *B2Vec3) OperatorPlusInplace(other B2Vec3) {
+func (v *Vec3) OperatorPlusInplace(other Vec3) {
 	v.X += other.X
 	v.Y += other.Y
 	v.Z += other.Z
 }
 
 // OperatorMinusInplace subtracts a vector from this vector.
-func (v *B2Vec3) OperatorMinusInplace(other B2Vec3) {
+func (v *Vec3) OperatorMinusInplace(other Vec3) {
 	v.X -= other.X
 	v.Y -= other.Y
 	v.Z -= other.Z
 }
 
 // OperatorScalarMultInplace multiplies this vector by a scalar.
-func (v *B2Vec3) OperatorScalarMultInplace(a float64) {
+func (v *Vec3) OperatorScalarMultInplace(a float64) {
 	v.X *= a
 	v.Y *= a
 	v.Z *= a
@@ -301,7 +301,7 @@ func (m B2Mat22) Solve(b Vec2) Vec2 {
 
 // B2Mat33 is a 3-by-3 matrix. Stored in column-major order.
 type B2Mat33 struct {
-	Ex, Ey, Ez B2Vec3
+	Ex, Ey, Ez Vec3
 }
 
 // The default constructor does nothing (for performance).
@@ -309,7 +309,7 @@ func MakeB2Mat33() B2Mat33 { return B2Mat33{} }
 func NewB2Mat33() *B2Mat33 { return &B2Mat33{} }
 
 // Construct this matrix using columns.
-func MakeB2Mat33FromColumns(c1, c2, c3 B2Vec3) B2Mat33 {
+func MakeB2Mat33FromColumns(c1, c2, c3 Vec3) B2Mat33 {
 	return B2Mat33{
 		Ex: c1,
 		Ey: c2,
@@ -317,7 +317,7 @@ func MakeB2Mat33FromColumns(c1, c2, c3 B2Vec3) B2Mat33 {
 	}
 }
 
-func NewB2Mat33FromColumns(c1, c2, c3 B2Vec3) *B2Mat33 {
+func NewB2Mat33FromColumns(c1, c2, c3 Vec3) *B2Mat33 {
 	res := MakeB2Mat33FromColumns(c1, c2, c3)
 	return &res
 }
@@ -506,28 +506,28 @@ func Vec2DistanceSquared(a, b Vec2) float64 {
 	return Vec2Dot(c, c)
 }
 
-func B2Vec3MultScalar(s float64, a B2Vec3) B2Vec3 {
-	return MakeB2Vec3(s*a.X, s*a.Y, s*a.Z)
+func Vec3MultScalar(s float64, a Vec3) Vec3 {
+	return MakeVec3(s*a.X, s*a.Y, s*a.Z)
 }
 
 // Add two vectors component-wise.
-func B2Vec3Add(a, b B2Vec3) B2Vec3 {
-	return MakeB2Vec3(a.X+b.X, a.Y+b.Y, a.Z+b.Z)
+func Vec3Add(a, b Vec3) Vec3 {
+	return MakeVec3(a.X+b.X, a.Y+b.Y, a.Z+b.Z)
 }
 
 // Subtract two vectors component-wise.
-func B2Vec3Sub(a, b B2Vec3) B2Vec3 {
-	return MakeB2Vec3(a.X-b.X, a.Y-b.Y, a.Z-b.Z)
+func Vec3Sub(a, b Vec3) Vec3 {
+	return MakeVec3(a.X-b.X, a.Y-b.Y, a.Z-b.Z)
 }
 
 // Perform the dot product on two vectors.
-func B2Vec3Dot(a, b B2Vec3) float64 {
+func Vec3Dot(a, b Vec3) float64 {
 	return a.X*b.X + a.Y*b.Y + a.Z*b.Z
 }
 
 // Perform the cross product on two vectors.
-func B2Vec3Cross(a, b B2Vec3) B2Vec3 {
-	return MakeB2Vec3(a.Y*b.Z-a.Z*b.Y, a.Z*b.X-a.X*b.Z, a.X*b.Y-a.Y*b.X)
+func Vec3Cross(a, b Vec3) Vec3 {
+	return MakeVec3(a.Y*b.Z-a.Z*b.Y, a.Z*b.X-a.X*b.Z, a.X*b.Y-a.Y*b.X)
 }
 
 func B2Mat22Add(A, B B2Mat22) B2Mat22 {
@@ -561,13 +561,13 @@ func B2Mat22MulT(A, B B2Mat22) B2Mat22 {
 }
 
 // Multiply a matrix times a vector.
-func B2Vec3Mat33Mul(A B2Mat33, v B2Vec3) B2Vec3 {
-	one := B2Vec3MultScalar(v.X, A.Ex)
-	two := B2Vec3MultScalar(v.Y, A.Ey)
-	three := B2Vec3MultScalar(v.Z, A.Ez)
+func Vec3Mat33Mul(A B2Mat33, v Vec3) Vec3 {
+	one := Vec3MultScalar(v.X, A.Ex)
+	two := Vec3MultScalar(v.Y, A.Ey)
+	three := Vec3MultScalar(v.Z, A.Ez)
 
-	return B2Vec3Add(
-		B2Vec3Add(
+	return Vec3Add(
+		Vec3Add(
 			one,
 			two,
 		),
@@ -764,23 +764,23 @@ func (sweep *B2Sweep) Normalize() {
 
 // Solve A * x = b, where b is a column vector. This is more efficient
 // than computing the inverse in one-shot cases.
-func (mat B2Mat33) Solve33(b B2Vec3) B2Vec3 {
-	det := B2Vec3Dot(mat.Ex, B2Vec3Cross(mat.Ey, mat.Ez))
+func (mat B2Mat33) Solve33(b Vec3) Vec3 {
+	det := Vec3Dot(mat.Ex, Vec3Cross(mat.Ey, mat.Ez))
 	if det != 0.0 {
 		det = 1.0 / det
 	}
 
-	// b2Vec3 x;
+	// Vec3 x;
 	// x.x = det * b2Dot(b, b2Cross(ey, ez));
 	// x.y = det * b2Dot(ex, b2Cross(b, ez));
 	// x.z = det * b2Dot(ex, b2Cross(ey, b));
 	// return x;
 
-	x := det * B2Vec3Dot(b, B2Vec3Cross(mat.Ey, mat.Ez))
-	y := det * B2Vec3Dot(mat.Ex, B2Vec3Cross(b, mat.Ez))
-	z := det * B2Vec3Dot(mat.Ex, B2Vec3Cross(mat.Ey, b))
+	x := det * Vec3Dot(b, Vec3Cross(mat.Ey, mat.Ez))
+	y := det * Vec3Dot(mat.Ex, Vec3Cross(b, mat.Ez))
+	z := det * Vec3Dot(mat.Ex, Vec3Cross(mat.Ey, b))
 
-	return MakeB2Vec3(x, y, z)
+	return MakeVec3(x, y, z)
 }
 
 // Solve A * x = b, where b is a column vector. This is more efficient
@@ -826,7 +826,7 @@ func (mat B2Mat33) GetInverse22(M *B2Mat33) {
 
 // Returns the zero matrix if singular.
 func (mat B2Mat33) GetSymInverse33(M *B2Mat33) {
-	det := B2Vec3Dot(mat.Ex, B2Vec3Cross(mat.Ey, mat.Ez))
+	det := Vec3Dot(mat.Ex, Vec3Cross(mat.Ey, mat.Ez))
 
 	if det != 0.0 {
 		det = 1.0 / det
@@ -868,7 +868,10 @@ func fastMax(a, b float64) float64 {
 
 // Legacy type names.
 // TODO: fully migrate to Vec2 and remove.
-type B2Vec2 = Vec2
+type (
+	B2Vec2 = Vec2
+	B2Vec3 = Vec3
+)
 
 var (
 	MakeB2Vec2 = MakeVec2
@@ -894,4 +897,14 @@ var (
 	B2Vec2Clamp             = Vec2Clamp
 
 	B2Vec2_zero = MakeVec2(0, 0)
+
+	MakeB2Vec3 = MakeVec3
+	NewB2Vec3  = NewVec3
+
+	B2Vec3MultScalar = Vec3MultScalar
+	B2Vec3Add        = Vec3Add
+	B2Vec3Sub        = Vec3Sub
+	B2Vec3Dot        = Vec3Dot
+	B2Vec3Cross      = Vec3Cross
+	B2Vec3Mat33Mul   = Vec3Mat33Mul
 )

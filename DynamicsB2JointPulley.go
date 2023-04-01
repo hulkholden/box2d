@@ -34,7 +34,7 @@ type PulleyJointDef struct {
 	Ratio float64
 }
 
-func MakeB2PulleyJointDef() PulleyJointDef {
+func MakePulleyJointDef() PulleyJointDef {
 	res := PulleyJointDef{
 		JointDef: MakeJointDef(),
 	}

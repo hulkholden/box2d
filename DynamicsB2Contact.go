@@ -21,13 +21,13 @@ func MixRestitution(restitution1, restitution2 float64) float64 {
 }
 
 type (
-	B2ContactCreateFcn  func(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) B2ContactInterface // returned contact should be a pointer
-	B2ContactDestroyFcn func(contact B2ContactInterface)                                                          // contact should be a pointer
+	ContactCreateFcn  func(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) B2ContactInterface // returned contact should be a pointer
+	ContactDestroyFcn func(contact B2ContactInterface)                                                          // contact should be a pointer
 )
 
 type B2ContactRegister struct {
-	CreateFcn  B2ContactCreateFcn
-	DestroyFcn B2ContactDestroyFcn
+	CreateFcn  ContactCreateFcn
+	DestroyFcn ContactDestroyFcn
 	Primary    bool
 }
 
@@ -336,7 +336,7 @@ func B2ContactInitializeRegisters() {
 	AddType(B2ChainAndPolygonContact_Create, B2ChainAndPolygonContact_Destroy, B2Shape_Type.E_chain, B2Shape_Type.E_polygon)
 }
 
-func AddType(createFcn B2ContactCreateFcn, destroyFcn B2ContactDestroyFcn, type1 uint8, type2 uint8) {
+func AddType(createFcn ContactCreateFcn, destroyFcn ContactDestroyFcn, type1 uint8, type2 uint8) {
 	assert(type1 < B2Shape_Type.E_typeCount)
 	assert(type2 < B2Shape_Type.E_typeCount)
 

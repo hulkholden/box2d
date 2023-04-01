@@ -66,7 +66,7 @@ var SeparationFunctionType = struct {
 	FaceB:  2,
 }
 
-type B2SeparationFunction struct {
+type SeparationFunction struct {
 	M_proxyA           *DistanceProxy
 	M_proxyB           *DistanceProxy
 	M_sweepA, M_sweepB Sweep
@@ -76,7 +76,7 @@ type B2SeparationFunction struct {
 }
 
 // TODO_ERIN might not need to return the separation
-func (sepfunc *B2SeparationFunction) Initialize(cache *SimplexCache, proxyA *DistanceProxy, sweepA Sweep, proxyB *DistanceProxy, sweepB Sweep, t1 float64) float64 {
+func (sepfunc *SeparationFunction) Initialize(cache *SimplexCache, proxyA *DistanceProxy, sweepA Sweep, proxyB *DistanceProxy, sweepB Sweep, t1 float64) float64 {
 	sepfunc.M_proxyA = proxyA
 	sepfunc.M_proxyB = proxyB
 	count := cache.Count
@@ -152,7 +152,7 @@ func (sepfunc *B2SeparationFunction) Initialize(cache *SimplexCache, proxyA *Dis
 	}
 }
 
-func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int, t float64) float64 {
+func (sepfunc *SeparationFunction) FindMinSeparation(indexA *int, indexB *int, t float64) float64 {
 	xfA := MakeTransform()
 	xfB := MakeTransform()
 
@@ -220,7 +220,7 @@ func (sepfunc *B2SeparationFunction) FindMinSeparation(indexA *int, indexB *int,
 	}
 }
 
-func (sepfunc *B2SeparationFunction) Evaluate(indexA int, indexB int, t float64) float64 {
+func (sepfunc *SeparationFunction) Evaluate(indexA int, indexB int, t float64) float64 {
 	xfA := MakeTransform()
 	xfB := MakeTransform()
 
@@ -348,7 +348,7 @@ func B2TimeOfImpact(output *TOIOutput, input *TOIInput) {
 		}
 
 		// Initialize the separating axis.
-		var fcn B2SeparationFunction
+		var fcn SeparationFunction
 		fcn.Initialize(&cache, proxyA, sweepA, proxyB, sweepB, t1)
 
 		// Compute the TOI on the separating axis. We do this by successively

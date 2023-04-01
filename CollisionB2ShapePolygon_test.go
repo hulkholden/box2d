@@ -6,11 +6,11 @@ import (
 
 var result B2AABB
 
-// BenchmarkB2PolygonShape_ComputeAABB-12         18483         64324 ns/op
+// BenchmarkPolygonShape_ComputeAABB-12         18483         64324 ns/op
 //
 // With hand-rolled min/max
-// BenchmarkB2PolygonShape_ComputeAABB-12         66439         18026 ns/op
-func BenchmarkB2PolygonShape_ComputeAABB(b *testing.B) {
+// BenchmarkPolygonShape_ComputeAABB-12         66439         18026 ns/op
+func BenchmarkPolygonShape_ComputeAABB(b *testing.B) {
 	polys := make([]B2ShapeInterface, 1000)
 	for i := range polys {
 		p := NewPolygonShape()

@@ -50,7 +50,7 @@ type B2World struct {
 
 	M_stepComplete bool
 
-	M_profile B2Profile
+	M_profile Profile
 }
 
 func (world B2World) GetBodyList() *Body {
@@ -106,7 +106,7 @@ func (world B2World) GetContactManager() ContactManager {
 	return world.M_contactManager
 }
 
-func (world B2World) GetProfile() B2Profile {
+func (world B2World) GetProfile() Profile {
 	return world.M_profile
 }
 
@@ -559,7 +559,7 @@ func (world *B2World) Solve(step TimeStep) {
 			}
 		}
 
-		profile := MakeB2Profile()
+		profile := MakeProfile()
 		island.Solve(&profile, step, world.M_gravity, world.M_allowSleep)
 		world.M_profile.SolveInit += profile.SolveInit
 		world.M_profile.SolveVelocity += profile.SolveVelocity

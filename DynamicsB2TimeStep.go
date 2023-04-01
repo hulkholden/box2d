@@ -1,7 +1,7 @@
 package box2d
 
 // Profiling data. Times are in milliseconds.
-type B2Profile struct {
+type Profile struct {
 	Step          float64
 	Collide       float64
 	Solve         float64
@@ -12,8 +12,8 @@ type B2Profile struct {
 	SolveTOI      float64
 }
 
-func MakeB2Profile() B2Profile {
-	return B2Profile{}
+func MakeProfile() Profile {
+	return Profile{}
 }
 
 // This is an internal structure.

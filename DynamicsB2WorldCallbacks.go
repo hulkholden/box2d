@@ -15,14 +15,14 @@ type B2ContactFilterInterface interface {
 // Contact impulses for reporting. Impulses are used instead of forces because
 // sub-step forces may approach infinity for rigid body collisions. These
 // match up one-to-one with the contact points in b2Manifold.
-type B2ContactImpulse struct {
+type ContactImpulse struct {
 	NormalImpulses  [maxManifoldPoints]float64
 	TangentImpulses [maxManifoldPoints]float64
 	Count           int
 }
 
-func MakeB2ContactImpulse() B2ContactImpulse {
-	return B2ContactImpulse{}
+func MakeContactImpulse() ContactImpulse {
+	return ContactImpulse{}
 }
 
 type B2ContactListenerInterface interface {
@@ -50,7 +50,7 @@ type B2ContactListenerInterface interface {
 	/// arbitrarily large if the sub-step is small. Hence the impulse is provided explicitly
 	/// in a separate data structure.
 	/// Note: this is only called for contacts that are touching, solid, and awake.
-	PostSolve(contact ContactInterface, impulse *B2ContactImpulse) // contact has to be backed by a pointer
+	PostSolve(contact ContactInterface, impulse *ContactImpulse) // contact has to be backed by a pointer
 }
 
 ///////////////////////////////////////////////////////////////////////////////

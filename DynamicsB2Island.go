@@ -487,7 +487,7 @@ func (island *Island) Report(constraints []ContactVelocityConstraint) {
 
 		vc := constraints[i]
 
-		impulse := MakeB2ContactImpulse()
+		impulse := MakeContactImpulse()
 		impulse.Count = vc.PointCount
 
 		for j := 0; j < vc.PointCount; j++ {

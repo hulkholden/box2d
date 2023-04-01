@@ -51,9 +51,9 @@ func MakeTOIOutput() TOIOutput {
 ///////////////////////////////////////////////////////////////////////////////
 
 var (
-	B2_toiTime, B2_toiMaxTime                float64
-	B2_toiCalls, B2_toiIters, B2_toiMaxIters int
-	B2_toiRootIters, B2_toiMaxRootIters      int
+	toiTime, toiMaxTime             float64
+	toiCalls, toiIters, toiMaxIters int
+	toiRootIters, toiMaxRootIters   int
 )
 
 var SeparationFunctionType = struct {
@@ -280,7 +280,7 @@ func (sepfunc *SeparationFunction) Evaluate(indexA int, indexB int, t float64) f
 func TimeOfImpact(output *TOIOutput, input *TOIInput) {
 	timer := MakeTimer()
 
-	B2_toiCalls++
+	toiCalls++
 
 	output.State = TOIOutputState.Unknown
 	output.T = input.TMax
@@ -416,7 +416,7 @@ func TimeOfImpact(output *TOIOutput, input *TOIInput) {
 				}
 
 				rootIterCount++
-				B2_toiRootIters++
+				toiRootIters++
 
 				s := fcn.Evaluate(indexA, indexB, t)
 
@@ -440,7 +440,7 @@ func TimeOfImpact(output *TOIOutput, input *TOIInput) {
 				}
 			}
 
-			B2_toiMaxRootIters = MaxInt(B2_toiMaxRootIters, rootIterCount)
+			toiMaxRootIters = MaxInt(toiMaxRootIters, rootIterCount)
 
 			pushBackIter++
 
@@ -450,7 +450,7 @@ func TimeOfImpact(output *TOIOutput, input *TOIInput) {
 		}
 
 		iter++
-		B2_toiIters++
+		toiIters++
 
 		if done {
 			break
@@ -464,9 +464,9 @@ func TimeOfImpact(output *TOIOutput, input *TOIInput) {
 		}
 	}
 
-	B2_toiMaxIters = MaxInt(B2_toiMaxIters, iter)
+	toiMaxIters = MaxInt(toiMaxIters, iter)
 
 	time := timer.GetMilliseconds()
-	B2_toiMaxTime = math.Max(B2_toiMaxTime, time)
-	B2_toiTime += time
+	toiMaxTime = math.Max(toiMaxTime, time)
+	toiTime += time
 }

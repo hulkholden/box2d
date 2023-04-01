@@ -146,7 +146,7 @@ func (p *DistanceProxy) Set(shape ShapeInterface, index int) {
 	}
 }
 
-type B2SimplexVertex struct {
+type SimplexVertex struct {
 	WA     Vec2    // support point in proxyA
 	WB     Vec2    // support point in proxyB
 	W      Vec2    // wB - wA
@@ -155,12 +155,12 @@ type B2SimplexVertex struct {
 	IndexB int     // wB index
 }
 
-func MakeB2SimplexVertex() B2SimplexVertex { return B2SimplexVertex{} }
-func NewB2SimplexVertex() *B2SimplexVertex { return &B2SimplexVertex{} }
+func MakeSimplexVertex() SimplexVertex { return SimplexVertex{} }
+func NewSimplexVertex() *SimplexVertex { return &SimplexVertex{} }
 
 type B2Simplex struct {
-	// M_v1, M_v2, M_v3 *B2SimplexVertex
-	M_vs    [3]B2SimplexVertex
+	// M_v1, M_v2, M_v3 *SimplexVertex
+	M_vs    [3]SimplexVertex
 	M_count int
 }
 

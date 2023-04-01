@@ -202,49 +202,49 @@ func (v *Vec3) OperatorScalarMultInplace(a float64) {
 	v.Z *= a
 }
 
-// B2Mat22 is a 2-by-2 matrix. Stored in column-major order.
-type B2Mat22 struct {
+// Mat22 is a 2-by-2 matrix. Stored in column-major order.
+type Mat22 struct {
 	Ex, Ey Vec2
 }
 
 // The default constructor does nothing
-func MakeB2Mat22() B2Mat22 { return B2Mat22{} }
-func NewB2Mat22() *B2Mat22 { return &B2Mat22{} }
+func MakeMat22() Mat22 { return Mat22{} }
+func NewMat22() *Mat22 { return &Mat22{} }
 
 // Construct this matrix using columns.
-func MakeB2Mat22FromColumns(c1, c2 Vec2) B2Mat22 {
-	return B2Mat22{
+func MakeMat22FromColumns(c1, c2 Vec2) Mat22 {
+	return Mat22{
 		Ex: c1,
 		Ey: c2,
 	}
 }
 
-func NewB2Mat22FromColumns(c1, c2 Vec2) *B2Mat22 {
-	res := MakeB2Mat22FromColumns(c1, c2)
+func NewMat22FromColumns(c1, c2 Vec2) *Mat22 {
+	res := MakeMat22FromColumns(c1, c2)
 	return &res
 }
 
 // Construct this matrix using scalars.
-func MakeB2Mat22FromScalars(a11, a12, a21, a22 float64) B2Mat22 {
-	return B2Mat22{
+func MakeMat22FromScalars(a11, a12, a21, a22 float64) Mat22 {
+	return Mat22{
 		Ex: MakeVec2(a11, a21),
 		Ey: MakeVec2(a12, a22),
 	}
 }
 
-func NewB2Mat22FromScalars(a11, a12, a21, a22 float64) *B2Mat22 {
-	res := MakeB2Mat22FromScalars(a11, a12, a21, a22)
+func NewMat22FromScalars(a11, a12, a21, a22 float64) *Mat22 {
+	res := MakeMat22FromScalars(a11, a12, a21, a22)
 	return &res
 }
 
 // Initialize this matrix using columns.
-func (m *B2Mat22) Set(c1 Vec2, c2 Vec2) {
+func (m *Mat22) Set(c1 Vec2, c2 Vec2) {
 	m.Ex = c1
 	m.Ey = c2
 }
 
 // Set this to the identity matrix.
-func (m *B2Mat22) SetIdentity() {
+func (m *Mat22) SetIdentity() {
 	m.Ex.X = 1.0
 	m.Ey.X = 0.0
 	m.Ex.Y = 0.0
@@ -252,20 +252,20 @@ func (m *B2Mat22) SetIdentity() {
 }
 
 // Set this matrix to all zeros.
-func (m *B2Mat22) SetZero() {
+func (m *Mat22) SetZero() {
 	m.Ex.X = 0.0
 	m.Ey.X = 0.0
 	m.Ex.Y = 0.0
 	m.Ey.Y = 0.0
 }
 
-func (m B2Mat22) GetInverse() B2Mat22 {
+func (m Mat22) GetInverse() Mat22 {
 	a := m.Ex.X
 	b := m.Ey.X
 	c := m.Ex.Y
 	d := m.Ey.Y
 
-	B := MakeB2Mat22()
+	B := MakeMat22()
 
 	det := a*d - b*c
 	if det != 0.0 {
@@ -282,7 +282,7 @@ func (m B2Mat22) GetInverse() B2Mat22 {
 
 // Solve A * x = b, where b is a column vector. This is more efficient
 // than computing the inverse in one-shot cases.
-func (m B2Mat22) Solve(b Vec2) Vec2 {
+func (m Mat22) Solve(b Vec2) Vec2 {
 	a11 := m.Ex.X
 	a12 := m.Ey.X
 	a21 := m.Ex.Y
@@ -299,31 +299,31 @@ func (m B2Mat22) Solve(b Vec2) Vec2 {
 	)
 }
 
-// B2Mat33 is a 3-by-3 matrix. Stored in column-major order.
-type B2Mat33 struct {
+// Mat33 is a 3-by-3 matrix. Stored in column-major order.
+type Mat33 struct {
 	Ex, Ey, Ez Vec3
 }
 
 // The default constructor does nothing (for performance).
-func MakeB2Mat33() B2Mat33 { return B2Mat33{} }
-func NewB2Mat33() *B2Mat33 { return &B2Mat33{} }
+func MakeMat33() Mat33 { return Mat33{} }
+func NewMat33() *Mat33 { return &Mat33{} }
 
 // Construct this matrix using columns.
-func MakeB2Mat33FromColumns(c1, c2, c3 Vec3) B2Mat33 {
-	return B2Mat33{
+func MakeMat33FromColumns(c1, c2, c3 Vec3) Mat33 {
+	return Mat33{
 		Ex: c1,
 		Ey: c2,
 		Ez: c3,
 	}
 }
 
-func NewB2Mat33FromColumns(c1, c2, c3 Vec3) *B2Mat33 {
-	res := MakeB2Mat33FromColumns(c1, c2, c3)
+func NewMat33FromColumns(c1, c2, c3 Vec3) *Mat33 {
+	res := MakeMat33FromColumns(c1, c2, c3)
 	return &res
 }
 
 // Set this matrix to all zeros.
-func (m *B2Mat33) SetZero() {
+func (m *Mat33) SetZero() {
 	m.Ex.SetZero()
 	m.Ey.SetZero()
 	m.Ez.SetZero()
@@ -465,13 +465,13 @@ func Vec2CrossScalarVector(s float64, a Vec2) Vec2 {
 
 // Multiply a matrix times a vector. If a rotation matrix is provided,
 // then this transforms the vector from one frame to another.
-func Vec2Mat22Mul(A B2Mat22, v Vec2) Vec2 {
+func Vec2Mat22Mul(A Mat22, v Vec2) Vec2 {
 	return MakeVec2(A.Ex.X*v.X+A.Ey.X*v.Y, A.Ex.Y*v.X+A.Ey.Y*v.Y)
 }
 
 // Multiply a matrix transpose times a vector. If a rotation matrix is provided,
 // then this transforms the vector from one frame to another (inverse transform).
-func Vec2Mat22MulT(A B2Mat22, v Vec2) Vec2 {
+func Vec2Mat22MulT(A Mat22, v Vec2) Vec2 {
 	return MakeVec2(Vec2Dot(v, A.Ex), Vec2Dot(v, A.Ey))
 }
 
@@ -530,23 +530,23 @@ func Vec3Cross(a, b Vec3) Vec3 {
 	return MakeVec3(a.Y*b.Z-a.Z*b.Y, a.Z*b.X-a.X*b.Z, a.X*b.Y-a.Y*b.X)
 }
 
-func B2Mat22Add(A, B B2Mat22) B2Mat22 {
-	return MakeB2Mat22FromColumns(
+func Mat22Add(A, B Mat22) Mat22 {
+	return MakeMat22FromColumns(
 		Vec2Add(A.Ex, B.Ex),
 		Vec2Add(A.Ey, B.Ey),
 	)
 }
 
 // A * B
-func B2Mat22Mul(A, B B2Mat22) B2Mat22 {
-	return MakeB2Mat22FromColumns(
+func Mat22Mul(A, B Mat22) Mat22 {
+	return MakeMat22FromColumns(
 		Vec2Mat22Mul(A, B.Ex),
 		Vec2Mat22Mul(A, B.Ey),
 	)
 }
 
 // A^T * B
-func B2Mat22MulT(A, B B2Mat22) B2Mat22 {
+func Mat22MulT(A, B Mat22) Mat22 {
 	c1 := MakeVec2(
 		Vec2Dot(A.Ex, B.Ex),
 		Vec2Dot(A.Ey, B.Ex),
@@ -557,11 +557,11 @@ func B2Mat22MulT(A, B B2Mat22) B2Mat22 {
 		Vec2Dot(A.Ey, B.Ey),
 	)
 
-	return MakeB2Mat22FromColumns(c1, c2)
+	return MakeMat22FromColumns(c1, c2)
 }
 
 // Multiply a matrix times a vector.
-func Vec3Mat33Mul(A B2Mat33, v Vec3) Vec3 {
+func Vec3Mat33Mul(A Mat33, v Vec3) Vec3 {
 	one := Vec3MultScalar(v.X, A.Ex)
 	two := Vec3MultScalar(v.Y, A.Ey)
 	three := Vec3MultScalar(v.Z, A.Ez)
@@ -576,7 +576,7 @@ func Vec3Mat33Mul(A B2Mat33, v Vec3) Vec3 {
 }
 
 // Multiply a matrix times a vector.
-func Vec2Mul22(A B2Mat33, v Vec2) Vec2 {
+func Vec2Mul22(A Mat33, v Vec2) Vec2 {
 	return MakeVec2(A.Ex.X*v.X+A.Ey.X*v.Y, A.Ex.Y*v.X+A.Ey.Y*v.Y)
 }
 
@@ -668,8 +668,8 @@ func Vec2Abs(a Vec2) Vec2 {
 	return MakeVec2(math.Abs(a.X), math.Abs(a.Y))
 }
 
-func B2Mat22Abs(A B2Mat22) B2Mat22 {
-	return MakeB2Mat22FromColumns(
+func Mat22Abs(A Mat22) Mat22 {
+	return MakeMat22FromColumns(
 		Vec2Abs(A.Ex),
 		Vec2Abs(A.Ey),
 	)
@@ -764,7 +764,7 @@ func (sweep *B2Sweep) Normalize() {
 
 // Solve A * x = b, where b is a column vector. This is more efficient
 // than computing the inverse in one-shot cases.
-func (mat B2Mat33) Solve33(b Vec3) Vec3 {
+func (mat Mat33) Solve33(b Vec3) Vec3 {
 	det := Vec3Dot(mat.Ex, Vec3Cross(mat.Ey, mat.Ez))
 	if det != 0.0 {
 		det = 1.0 / det
@@ -785,7 +785,7 @@ func (mat B2Mat33) Solve33(b Vec3) Vec3 {
 
 // Solve A * x = b, where b is a column vector. This is more efficient
 // than computing the inverse in one-shot cases.
-func (mat B2Mat33) Solve22(b Vec2) Vec2 {
+func (mat Mat33) Solve22(b Vec2) Vec2 {
 	a11 := mat.Ex.X
 	a12 := mat.Ey.X
 	a21 := mat.Ex.Y
@@ -802,7 +802,7 @@ func (mat B2Mat33) Solve22(b Vec2) Vec2 {
 	return MakeVec2(x, y)
 }
 
-func (mat B2Mat33) GetInverse22(M *B2Mat33) {
+func (mat Mat33) GetInverse22(M *Mat33) {
 	a := mat.Ex.X
 	b := mat.Ey.X
 	c := mat.Ex.Y
@@ -825,7 +825,7 @@ func (mat B2Mat33) GetInverse22(M *B2Mat33) {
 }
 
 // Returns the zero matrix if singular.
-func (mat B2Mat33) GetSymInverse33(M *B2Mat33) {
+func (mat Mat33) GetSymInverse33(M *Mat33) {
 	det := Vec3Dot(mat.Ex, Vec3Cross(mat.Ey, mat.Ez))
 
 	if det != 0.0 {
@@ -869,8 +869,10 @@ func fastMax(a, b float64) float64 {
 // Legacy type names.
 // TODO: fully migrate to Vec2 and remove.
 type (
-	B2Vec2 = Vec2
-	B2Vec3 = Vec3
+	B2Vec2  = Vec2
+	B2Vec3  = Vec3
+	B2Mat22 = Mat22
+	B2Mat33 = Mat33
 )
 
 var (
@@ -907,4 +909,21 @@ var (
 	B2Vec3Dot        = Vec3Dot
 	B2Vec3Cross      = Vec3Cross
 	B2Vec3Mat33Mul   = Vec3Mat33Mul
+
+	MakeB2Mat22            = MakeMat22
+	NewB2Mat22             = NewMat22
+	MakeB2Mat22FromColumns = MakeMat22FromColumns
+	NewB2Mat22FromColumns  = NewMat22FromColumns
+	MakeB2Mat22FromScalars = MakeMat22FromScalars
+	NewB2Mat22FromScalars  = NewMat22FromScalars
+
+	B2Mat22Add  = Mat22Add
+	B2Mat22Mul  = Mat22Mul
+	B2Mat22MulT = Mat22MulT
+	B2Mat22Abs  = Mat22Abs
+
+	MakeB2Mat33            = MakeMat33
+	NewB2Mat33             = NewMat33
+	MakeB2Mat33FromColumns = MakeMat33FromColumns
+	NewB2Mat33FromColumns  = NewMat33FromColumns
 )

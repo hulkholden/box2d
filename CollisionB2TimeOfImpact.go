@@ -278,7 +278,7 @@ func (sepfunc *SeparationFunction) Evaluate(indexA int, indexB int, t float64) f
 // CCD via the local separating axis method. This seeks progression
 // by computing the largest time at which separation is maintained.
 func TimeOfImpact(output *TOIOutput, input *TOIInput) {
-	timer := MakeB2Timer()
+	timer := MakeTimer()
 
 	B2_toiCalls++
 

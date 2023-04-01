@@ -578,7 +578,7 @@ func (world *World) Solve(step TimeStep) {
 	stack = nil
 
 	{
-		timer := MakeB2Timer()
+		timer := MakeTimer()
 
 		// Synchronize fixtures, check for out of range bodies.
 		for b := world.M_bodyList; b != nil; b = b.GetNext() {
@@ -884,7 +884,7 @@ func (world *World) SolveTOI(step TimeStep) {
 }
 
 func (world *World) Step(dt float64, velocityIterations int, positionIterations int) {
-	stepTimer := MakeB2Timer()
+	stepTimer := MakeTimer()
 
 	// If new fixtures were added, we need to find the new contacts.
 	if (world.M_flags & WorldFlags.NewFixture) != 0x0000 {
@@ -910,21 +910,21 @@ func (world *World) Step(dt float64, velocityIterations int, positionIterations 
 
 	// Update contacts. This is where some contacts are destroyed.
 	{
-		timer := MakeB2Timer()
+		timer := MakeTimer()
 		world.M_contactManager.Collide()
 		world.M_profile.Collide = timer.GetMilliseconds()
 	}
 
 	// Integrate velocities, solve velocity constraints, and integrate positions.
 	if world.M_stepComplete && step.Dt > 0.0 {
-		timer := MakeB2Timer()
+		timer := MakeTimer()
 		world.Solve(step)
 		world.M_profile.Solve = timer.GetMilliseconds()
 	}
 
 	// Handle TOI events.
 	if world.M_continuousPhysics && step.Dt > 0.0 {
-		timer := MakeB2Timer()
+		timer := MakeTimer()
 		world.SolveTOI(step)
 		world.M_profile.SolveTOI = timer.GetMilliseconds()
 	}

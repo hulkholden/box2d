@@ -201,7 +201,7 @@ func (island *Island) Destroy() {
 }
 
 func (island *Island) Solve(profile *Profile, step TimeStep, gravity Vec2, allowSleep bool) {
-	timer := MakeB2Timer()
+	timer := MakeTimer()
 
 	h := step.Dt
 

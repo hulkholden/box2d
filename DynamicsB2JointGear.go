@@ -6,7 +6,7 @@ import (
 
 // Gear joint definition. This definition requires two existing
 // revolute or prismatic joints (any combination will work).
-type B2GearJointDef struct {
+type GearJointDef struct {
 	JointDef
 
 	/// The first revolute/prismatic joint attached to the gear joint.
@@ -20,8 +20,8 @@ type B2GearJointDef struct {
 	Ratio float64
 }
 
-func MakeB2GearJointDef() B2GearJointDef {
-	res := B2GearJointDef{
+func MakeB2GearJointDef() GearJointDef {
+	res := GearJointDef{
 		JointDef: MakeJointDef(),
 	}
 
@@ -42,7 +42,7 @@ func MakeB2GearJointDef() B2GearJointDef {
 // of length or units of 1/length.
 // @warning You have to manually destroy the gear joint if joint1 or joint2
 // is destroyed.
-type B2GearJoint struct {
+type GearJoint struct {
 	*Joint
 
 	M_joint1 JointInterface // backed by pointer
@@ -84,12 +84,12 @@ type B2GearJoint struct {
 }
 
 // Get the first joint.
-func (joint B2GearJoint) GetJoint1() JointInterface { // returns a pointer
+func (joint GearJoint) GetJoint1() JointInterface { // returns a pointer
 	return joint.M_joint1
 }
 
 // Get the second joint.
-func (joint B2GearJoint) GetJoint2() JointInterface { // returns a pointer
+func (joint GearJoint) GetJoint2() JointInterface { // returns a pointer
 	return joint.M_joint2
 }
 
@@ -112,8 +112,8 @@ func (joint B2GearJoint) GetJoint2() JointInterface { // returns a pointer
 // J = [ug cross(r, ug)]
 // K = J * invM * JT = invMass + invI * cross(r, ug)^2
 
-func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
-	res := B2GearJoint{
+func MakeGearJoint(def *GearJointDef) *GearJoint {
+	res := GearJoint{
 		Joint: MakeJoint(def),
 	}
 
@@ -198,7 +198,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 	return &res
 }
 
-func (joint *B2GearJoint) InitVelocityConstraints(data SolverData) {
+func (joint *GearJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_indexC = joint.M_bodyC.M_islandIndex
@@ -299,7 +299,7 @@ func (joint *B2GearJoint) InitVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexD].W = wD
 }
 
-func (joint *B2GearJoint) SolveVelocityConstraints(data SolverData) {
+func (joint *GearJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -334,7 +334,7 @@ func (joint *B2GearJoint) SolveVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexD].W = wD
 }
 
-func (joint *B2GearJoint) SolvePositionConstraints(data SolverData) bool {
+func (joint *GearJoint) SolvePositionConstraints(data SolverData) bool {
 	cA := data.Positions[joint.M_indexA].C
 	aA := data.Positions[joint.M_indexA].A
 	cB := data.Positions[joint.M_indexB].C
@@ -430,34 +430,34 @@ func (joint *B2GearJoint) SolvePositionConstraints(data SolverData) bool {
 	return linearError < linearSlop
 }
 
-func (joint B2GearJoint) GetAnchorA() Vec2 {
+func (joint GearJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2GearJoint) GetAnchorB() Vec2 {
+func (joint GearJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2GearJoint) GetReactionForce(inv_dt float64) Vec2 {
+func (joint GearJoint) GetReactionForce(inv_dt float64) Vec2 {
 	P := Vec2MulScalar(joint.M_impulse, joint.M_JvAC)
 	return Vec2MulScalar(inv_dt, P)
 }
 
-func (joint B2GearJoint) GetReactionTorque(inv_dt float64) float64 {
+func (joint GearJoint) GetReactionTorque(inv_dt float64) float64 {
 	L := joint.M_impulse * joint.M_JwA
 	return inv_dt * L
 }
 
-func (joint *B2GearJoint) SetRatio(ratio float64) {
+func (joint *GearJoint) SetRatio(ratio float64) {
 	assert(IsValid(ratio))
 	joint.M_ratio = ratio
 }
 
-func (joint B2GearJoint) GetRatio() float64 {
+func (joint GearJoint) GetRatio() float64 {
 	return joint.M_ratio
 }
 
-func (joint *B2GearJoint) Dump() {
+func (joint *GearJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 

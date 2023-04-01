@@ -280,8 +280,8 @@ func JointCreate(def JointDefInterface) JointInterface { // def should be back b
 		assert(false)
 
 	case JointType.Gear:
-		if typeddef, ok := def.(*B2GearJointDef); ok {
-			return MakeB2GearJoint(typeddef)
+		if typeddef, ok := def.(*GearJointDef); ok {
+			return MakeGearJoint(typeddef)
 		}
 		assert(false)
 

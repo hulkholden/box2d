@@ -51,11 +51,11 @@ type Jacobian struct {
 // is an edge. A joint edge belongs to a doubly linked list
 // maintained in each attached body. Each joint has two joint
 // nodes, one for each attached body.
-type B2JointEdge struct {
+type JointEdge struct {
 	Other *Body            ///< provides quick access to the other body attached.
 	Joint B2JointInterface ///< the joint; backed by pointer
-	Prev  *B2JointEdge     ///< the previous joint edge in the body's joint list
-	Next  *B2JointEdge     ///< the next joint edge in the body's joint list
+	Prev  *JointEdge       ///< the previous joint edge in the body's joint list
+	Next  *JointEdge       ///< the next joint edge in the body's joint list
 }
 
 // Joint definitions are used to construct joints.
@@ -147,8 +147,8 @@ type B2Joint struct {
 	M_type             uint8
 	M_prev             B2JointInterface // has to be backed by pointer
 	M_next             B2JointInterface // has to be backed by pointer
-	M_edgeA            *B2JointEdge
-	M_edgeB            *B2JointEdge
+	M_edgeA            *JointEdge
+	M_edgeB            *JointEdge
 	M_bodyA            *Body
 	M_bodyB            *Body
 	M_index            int
@@ -226,22 +226,22 @@ func (j *B2Joint) SetCollideConnected(flag bool) {
 }
 
 // @goadd
-func (j B2Joint) GetEdgeA() *B2JointEdge {
+func (j B2Joint) GetEdgeA() *JointEdge {
 	return j.M_edgeA
 }
 
 // @goadd
-func (j *B2Joint) SetEdgeA(edge *B2JointEdge) {
+func (j *B2Joint) SetEdgeA(edge *JointEdge) {
 	j.M_edgeA = edge
 }
 
 // @goadd
-func (j B2Joint) GetEdgeB() *B2JointEdge {
+func (j B2Joint) GetEdgeB() *JointEdge {
 	return j.M_edgeB
 }
 
 // @goadd
-func (j *B2Joint) SetEdgeB(edge *B2JointEdge) {
+func (j *B2Joint) SetEdgeB(edge *JointEdge) {
 	j.M_edgeB = edge
 }
 
@@ -342,8 +342,8 @@ func MakeB2Joint(def B2JointDefInterface) *B2Joint { // def has to be backed by 
 	res.M_islandFlag = false
 	res.M_userData = def.GetUserData()
 
-	res.M_edgeA = &B2JointEdge{}
-	res.M_edgeB = &B2JointEdge{}
+	res.M_edgeA = &JointEdge{}
+	res.M_edgeB = &JointEdge{}
 
 	return &res
 }
@@ -406,11 +406,11 @@ type B2JointInterface interface {
 	GetPrev() B2JointInterface     // backed by pointer
 	SetPrev(prev B2JointInterface) // backed by pointer
 
-	GetEdgeA() *B2JointEdge
-	SetEdgeA(edge *B2JointEdge)
+	GetEdgeA() *JointEdge
+	SetEdgeA(edge *JointEdge)
 
-	GetEdgeB() *B2JointEdge
-	SetEdgeB(edge *B2JointEdge)
+	GetEdgeB() *JointEdge
+	SetEdgeB(edge *JointEdge)
 
 	GetUserData() interface{}
 	SetUserData(data interface{})

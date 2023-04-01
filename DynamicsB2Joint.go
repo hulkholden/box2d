@@ -268,8 +268,8 @@ func JointCreate(def JointDefInterface) JointInterface { // def should be back b
 		assert(false)
 
 	case JointType.Revolute:
-		if typeddef, ok := def.(*B2RevoluteJointDef); ok {
-			return MakeB2RevoluteJoint(typeddef)
+		if typeddef, ok := def.(*RevoluteJointDef); ok {
+			return MakeRevoluteJoint(typeddef)
 		}
 		assert(false)
 

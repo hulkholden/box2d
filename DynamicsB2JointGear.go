@@ -141,7 +141,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 	aC := res.M_bodyC.M_sweep.A
 
 	if res.M_typeA == JointType.Revolute {
-		revolute := def.Joint1.(*B2RevoluteJoint)
+		revolute := def.Joint1.(*RevoluteJoint)
 		res.M_localAnchorC = revolute.M_localAnchorA
 		res.M_localAnchorA = revolute.M_localAnchorB
 		res.M_referenceAngleA = revolute.M_referenceAngle
@@ -170,7 +170,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 	aD := res.M_bodyD.M_sweep.A
 
 	if res.M_typeB == JointType.Revolute {
-		revolute := def.Joint2.(*B2RevoluteJoint)
+		revolute := def.Joint2.(*RevoluteJoint)
 		res.M_localAnchorD = revolute.M_localAnchorA
 		res.M_localAnchorB = revolute.M_localAnchorB
 		res.M_referenceAngleB = revolute.M_referenceAngle

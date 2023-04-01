@@ -16,7 +16,7 @@ import (
 //  1. you might not know where the center of mass will be.
 //  2. if you add/remove shapes from a body and recompute the mass,
 //     the joints will be broken.
-type B2RevoluteJointDef struct {
+type RevoluteJointDef struct {
 	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
@@ -48,8 +48,8 @@ type B2RevoluteJointDef struct {
 	MaxMotorTorque float64
 }
 
-func MakeB2RevoluteJointDef() B2RevoluteJointDef {
-	res := B2RevoluteJointDef{
+func MakeB2RevoluteJointDef() RevoluteJointDef {
+	res := RevoluteJointDef{
 		JointDef: MakeJointDef(),
 	}
 
@@ -73,7 +73,7 @@ func MakeB2RevoluteJointDef() B2RevoluteJointDef {
 // a joint limit that specifies a lower and upper angle. You can use a motor
 // to drive the relative rotation about the shared point. A maximum motor torque
 // is provided so that infinite forces are not generated.
-type B2RevoluteJoint struct {
+type RevoluteJoint struct {
 	*Joint
 
 	// Solver shared
@@ -108,25 +108,25 @@ type B2RevoluteJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2RevoluteJoint) GetLocalAnchorA() Vec2 {
+func (joint RevoluteJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2RevoluteJoint) GetLocalAnchorB() Vec2 {
+func (joint RevoluteJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
 // Get the reference angle.
-func (joint B2RevoluteJoint) GetReferenceAngle() float64 {
+func (joint RevoluteJoint) GetReferenceAngle() float64 {
 	return joint.M_referenceAngle
 }
 
-func (joint B2RevoluteJoint) GetMaxMotorTorque() float64 {
+func (joint RevoluteJoint) GetMaxMotorTorque() float64 {
 	return joint.M_maxMotorTorque
 }
 
-func (joint B2RevoluteJoint) GetMotorSpeed() float64 {
+func (joint RevoluteJoint) GetMotorSpeed() float64 {
 	return joint.M_motorSpeed
 }
 
@@ -143,7 +143,7 @@ func (joint B2RevoluteJoint) GetMotorSpeed() float64 {
 // J = [0 0 -1 0 0 1]
 // K = invI1 + invI2
 
-func (def *B2RevoluteJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
+func (def *RevoluteJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
 	def.BodyA = bA
 	def.BodyB = bB
 	def.LocalAnchorA = def.BodyA.GetLocalPoint(anchor)
@@ -151,8 +151,8 @@ func (def *B2RevoluteJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
 	def.ReferenceAngle = def.BodyB.GetAngle() - def.BodyA.GetAngle()
 }
 
-func MakeB2RevoluteJoint(def *B2RevoluteJointDef) *B2RevoluteJoint {
-	res := B2RevoluteJoint{
+func MakeRevoluteJoint(def *RevoluteJointDef) *RevoluteJoint {
+	res := RevoluteJoint{
 		Joint: MakeJoint(def),
 	}
 
@@ -174,7 +174,7 @@ func MakeB2RevoluteJoint(def *B2RevoluteJointDef) *B2RevoluteJoint {
 	return &res
 }
 
-func (joint *B2RevoluteJoint) InitVelocityConstraints(data SolverData) {
+func (joint *RevoluteJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter
@@ -278,7 +278,7 @@ func (joint *B2RevoluteJoint) InitVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2RevoluteJoint) SolveVelocityConstraints(data SolverData) {
+func (joint *RevoluteJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -372,7 +372,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2RevoluteJoint) SolvePositionConstraints(data SolverData) bool {
+func (joint *RevoluteJoint) SolvePositionConstraints(data SolverData) bool {
 	cA := data.Positions[joint.M_indexA].C
 	aA := data.Positions[joint.M_indexA].A
 	cB := data.Positions[joint.M_indexB].C
@@ -454,40 +454,40 @@ func (joint *B2RevoluteJoint) SolvePositionConstraints(data SolverData) bool {
 	return positionError <= linearSlop && angularError <= angularSlop
 }
 
-func (joint B2RevoluteJoint) GetAnchorA() Vec2 {
+func (joint RevoluteJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2RevoluteJoint) GetAnchorB() Vec2 {
+func (joint RevoluteJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2RevoluteJoint) GetReactionForce(inv_dt float64) Vec2 {
+func (joint RevoluteJoint) GetReactionForce(inv_dt float64) Vec2 {
 	P := MakeVec2(joint.M_impulse.X, joint.M_impulse.Y)
 	return Vec2MulScalar(inv_dt, P)
 }
 
-func (joint B2RevoluteJoint) GetReactionTorque(inv_dt float64) float64 {
+func (joint RevoluteJoint) GetReactionTorque(inv_dt float64) float64 {
 	return inv_dt * joint.M_impulse.Z
 }
 
-func (joint B2RevoluteJoint) GetJointAngle() float64 {
+func (joint RevoluteJoint) GetJointAngle() float64 {
 	bA := joint.M_bodyA
 	bB := joint.M_bodyB
 	return bB.M_sweep.A - bA.M_sweep.A - joint.M_referenceAngle
 }
 
-func (joint *B2RevoluteJoint) GetJointSpeed() float64 {
+func (joint *RevoluteJoint) GetJointSpeed() float64 {
 	bA := joint.M_bodyA
 	bB := joint.M_bodyB
 	return bB.M_angularVelocity - bA.M_angularVelocity
 }
 
-func (joint B2RevoluteJoint) IsMotorEnabled() bool {
+func (joint RevoluteJoint) IsMotorEnabled() bool {
 	return joint.M_enableMotor
 }
 
-func (joint *B2RevoluteJoint) EnableMotor(flag bool) {
+func (joint *RevoluteJoint) EnableMotor(flag bool) {
 	if flag != joint.M_enableMotor {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -495,11 +495,11 @@ func (joint *B2RevoluteJoint) EnableMotor(flag bool) {
 	}
 }
 
-func (joint B2RevoluteJoint) GetMotorTorque(inv_dt float64) float64 {
+func (joint RevoluteJoint) GetMotorTorque(inv_dt float64) float64 {
 	return inv_dt * joint.M_motorImpulse
 }
 
-func (joint *B2RevoluteJoint) SetMotorSpeed(speed float64) {
+func (joint *RevoluteJoint) SetMotorSpeed(speed float64) {
 	if speed != joint.M_motorSpeed {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -507,7 +507,7 @@ func (joint *B2RevoluteJoint) SetMotorSpeed(speed float64) {
 	}
 }
 
-func (joint *B2RevoluteJoint) SetMaxMotorTorque(torque float64) {
+func (joint *RevoluteJoint) SetMaxMotorTorque(torque float64) {
 	if torque != joint.M_maxMotorTorque {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -515,11 +515,11 @@ func (joint *B2RevoluteJoint) SetMaxMotorTorque(torque float64) {
 	}
 }
 
-func (joint B2RevoluteJoint) IsLimitEnabled() bool {
+func (joint RevoluteJoint) IsLimitEnabled() bool {
 	return joint.M_enableLimit
 }
 
-func (joint *B2RevoluteJoint) EnableLimit(flag bool) {
+func (joint *RevoluteJoint) EnableLimit(flag bool) {
 	if flag != joint.M_enableLimit {
 		joint.M_bodyA.SetAwake(true)
 		joint.M_bodyB.SetAwake(true)
@@ -528,15 +528,15 @@ func (joint *B2RevoluteJoint) EnableLimit(flag bool) {
 	}
 }
 
-func (joint B2RevoluteJoint) GetLowerLimit() float64 {
+func (joint RevoluteJoint) GetLowerLimit() float64 {
 	return joint.M_lowerAngle
 }
 
-func (joint B2RevoluteJoint) GetUpperLimit() float64 {
+func (joint RevoluteJoint) GetUpperLimit() float64 {
 	return joint.M_upperAngle
 }
 
-func (joint *B2RevoluteJoint) SetLimits(lower float64, upper float64) {
+func (joint *RevoluteJoint) SetLimits(lower float64, upper float64) {
 	assert(lower <= upper)
 
 	if lower != joint.M_lowerAngle || upper != joint.M_upperAngle {
@@ -548,7 +548,7 @@ func (joint *B2RevoluteJoint) SetLimits(lower float64, upper float64) {
 	}
 }
 
-func (joint *B2RevoluteJoint) Dump() {
+func (joint *RevoluteJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 

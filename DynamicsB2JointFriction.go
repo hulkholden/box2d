@@ -5,7 +5,7 @@ import (
 )
 
 // Friction joint definition.
-type B2FrictionJointDef struct {
+type FrictionJointDef struct {
 	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
@@ -21,8 +21,8 @@ type B2FrictionJointDef struct {
 	MaxTorque float64
 }
 
-func MakeB2FrictionJointDef() B2FrictionJointDef {
-	res := B2FrictionJointDef{
+func MakeB2FrictionJointDef() FrictionJointDef {
+	res := FrictionJointDef{
 		JointDef: MakeJointDef(),
 	}
 
@@ -37,7 +37,7 @@ func MakeB2FrictionJointDef() B2FrictionJointDef {
 
 // Friction joint. This is used for top-down friction.
 // It provides 2D translational friction and angular friction.
-type B2FrictionJoint struct {
+type FrictionJoint struct {
 	*Joint
 
 	M_localAnchorA Vec2
@@ -65,12 +65,12 @@ type B2FrictionJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2FrictionJoint) GetLocalAnchorA() Vec2 {
+func (joint FrictionJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2FrictionJoint) GetLocalAnchorB() Vec2 {
+func (joint FrictionJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
@@ -86,15 +86,15 @@ func (joint B2FrictionJoint) GetLocalAnchorB() Vec2 {
 // J = [0 0 -1 0 0 1]
 // K = invI1 + invI2
 
-func (joint *B2FrictionJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
+func (joint *FrictionJointDef) Initialize(bA *Body, bB *Body, anchor Vec2) {
 	joint.BodyA = bA
 	joint.BodyB = bB
 	joint.LocalAnchorA = joint.BodyA.GetLocalPoint(anchor)
 	joint.LocalAnchorB = joint.BodyB.GetLocalPoint(anchor)
 }
 
-func MakeB2FrictionJoint(def *B2FrictionJointDef) *B2FrictionJoint {
-	res := B2FrictionJoint{
+func MakeFrictionJoint(def *FrictionJointDef) *FrictionJoint {
+	res := FrictionJoint{
 		Joint: MakeJoint(def),
 	}
 
@@ -110,7 +110,7 @@ func MakeB2FrictionJoint(def *B2FrictionJointDef) *B2FrictionJoint {
 	return &res
 }
 
-func (joint *B2FrictionJoint) InitVelocityConstraints(data SolverData) {
+func (joint *FrictionJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter
@@ -183,7 +183,7 @@ func (joint *B2FrictionJoint) InitVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2FrictionJoint) SolveVelocityConstraints(data SolverData) {
+func (joint *FrictionJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -240,45 +240,45 @@ func (joint *B2FrictionJoint) SolveVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2FrictionJoint) SolvePositionConstraints(data SolverData) bool {
+func (joint *FrictionJoint) SolvePositionConstraints(data SolverData) bool {
 	return true
 }
 
-func (joint B2FrictionJoint) GetAnchorA() Vec2 {
+func (joint FrictionJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2FrictionJoint) GetAnchorB() Vec2 {
+func (joint FrictionJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2FrictionJoint) GetReactionForce(inv_dt float64) Vec2 {
+func (joint FrictionJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar(inv_dt, joint.M_linearImpulse)
 }
 
-func (joint B2FrictionJoint) GetReactionTorque(inv_dt float64) float64 {
+func (joint FrictionJoint) GetReactionTorque(inv_dt float64) float64 {
 	return inv_dt * joint.M_angularImpulse
 }
 
-func (joint *B2FrictionJoint) SetMaxForce(force float64) {
+func (joint *FrictionJoint) SetMaxForce(force float64) {
 	assert(IsValid(force) && force >= 0.0)
 	joint.M_maxForce = force
 }
 
-func (joint B2FrictionJoint) GetMaxForce() float64 {
+func (joint FrictionJoint) GetMaxForce() float64 {
 	return joint.M_maxForce
 }
 
-func (joint *B2FrictionJoint) SetMaxTorque(torque float64) {
+func (joint *FrictionJoint) SetMaxTorque(torque float64) {
 	assert(IsValid(torque) && torque >= 0.0)
 	joint.M_maxTorque = torque
 }
 
-func (joint B2FrictionJoint) GetMaxTorque() float64 {
+func (joint FrictionJoint) GetMaxTorque() float64 {
 	return joint.M_maxTorque
 }
 
-func (joint *B2FrictionJoint) Dump() {
+func (joint *FrictionJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 

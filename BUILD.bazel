@@ -48,7 +48,7 @@ go_library(
         "DynamicsB2JointRope.go",
         "DynamicsB2JointWeld.go",
         "DynamicsB2JointWheel.go",
-        "DynamicsRope.go",
+        "DynamicsB2Rope.go",
         "DynamicsB2TimeStep.go",
         "DynamicsB2World.go",
         "DynamicsB2WorldCallbacks.go",

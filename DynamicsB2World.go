@@ -432,7 +432,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 	world.M_profile.SolvePosition = 0.0
 
 	// Size the island for the worst case.
-	island := MakeB2Island(
+	island := MakeIsland(
 		world.M_bodyCount,
 		world.M_contactManager.M_contactCount,
 		world.M_jointCount,
@@ -603,7 +603,7 @@ func (world *B2World) Solve(step B2TimeStep) {
 
 // Find TOI contacts and solve them.
 func (world *B2World) SolveTOI(step B2TimeStep) {
-	island := MakeB2Island(2*maxTOIContacts, maxTOIContacts, 0, world.M_contactManager.M_contactListener)
+	island := MakeIsland(2*maxTOIContacts, maxTOIContacts, 0, world.M_contactManager.M_contactListener)
 
 	if world.M_stepComplete {
 		for b := world.M_bodyList; b != nil; b = b.M_next {

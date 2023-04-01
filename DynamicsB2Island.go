@@ -5,7 +5,7 @@ import (
 )
 
 // This is an internal class.
-type B2Island struct {
+type Island struct {
 	M_listener B2ContactListenerInterface
 
 	M_bodies   []*Body
@@ -24,26 +24,26 @@ type B2Island struct {
 	M_jointCapacity   int
 }
 
-func (island *B2Island) Clear() {
+func (island *Island) Clear() {
 	island.M_bodyCount = 0
 	island.M_contactCount = 0
 	island.M_jointCount = 0
 }
 
-func (island *B2Island) AddBody(body *Body) {
+func (island *Island) AddBody(body *Body) {
 	assert(island.M_bodyCount < island.M_bodyCapacity)
 	body.M_islandIndex = island.M_bodyCount
 	island.M_bodies[island.M_bodyCount] = body
 	island.M_bodyCount++
 }
 
-func (island *B2Island) AddContact(contact ContactInterface) { // contact has to be a pointer
+func (island *Island) AddContact(contact ContactInterface) { // contact has to be a pointer
 	assert(island.M_contactCount < island.M_contactCapacity)
 	island.M_contacts[island.M_contactCount] = contact
 	island.M_contactCount++
 }
 
-func (island *B2Island) Add(joint B2JointInterface) { // joint has to be a pointer
+func (island *Island) Add(joint B2JointInterface) { // joint has to be a pointer
 	assert(island.M_jointCount < island.M_jointCapacity)
 	island.M_joints[island.M_jointCount] = joint
 	island.M_jointCount++
@@ -52,7 +52,7 @@ func (island *B2Island) Add(joint B2JointInterface) { // joint has to be a point
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-// B2Island.cpp
+// Island.cpp
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -175,8 +175,8 @@ This might be faster than computing sin+cos.
 However, we can compute sin+cos of the same angle fast.
 */
 
-func MakeB2Island(bodyCapacity int, contactCapacity int, jointCapacity int, listener B2ContactListenerInterface) B2Island {
-	island := B2Island{}
+func MakeIsland(bodyCapacity int, contactCapacity int, jointCapacity int, listener B2ContactListenerInterface) Island {
+	island := Island{}
 
 	island.M_bodyCapacity = bodyCapacity
 	island.M_contactCapacity = contactCapacity
@@ -197,10 +197,10 @@ func MakeB2Island(bodyCapacity int, contactCapacity int, jointCapacity int, list
 	return island
 }
 
-func (island *B2Island) Destroy() {
+func (island *Island) Destroy() {
 }
 
-func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2, allowSleep bool) {
+func (island *Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2, allowSleep bool) {
 	timer := MakeB2Timer()
 
 	h := step.Dt
@@ -386,7 +386,7 @@ func (island *B2Island) Solve(profile *B2Profile, step B2TimeStep, gravity Vec2,
 	}
 }
 
-func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB int) {
+func (island *Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB int) {
 	assert(toiIndexA < island.M_bodyCount)
 	assert(toiIndexB < island.M_bodyCount)
 
@@ -477,7 +477,7 @@ func (island *B2Island) SolveTOI(subStep B2TimeStep, toiIndexA int, toiIndexB in
 	island.Report(contactSolver.M_velocityConstraints)
 }
 
-func (island *B2Island) Report(constraints []ContactVelocityConstraint) {
+func (island *Island) Report(constraints []ContactVelocityConstraint) {
 	if island.M_listener == nil {
 		return
 	}

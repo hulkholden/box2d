@@ -13,7 +13,7 @@ type B2Pair struct {
 
 const E_nullProxy = -1
 
-type B2BroadPhase struct {
+type BroadPhase struct {
 	M_tree B2DynamicTree
 
 	M_proxyCount int
@@ -50,38 +50,38 @@ func B2PairLessThan(pair1 B2Pair, pair2 B2Pair) bool {
 	return false
 }
 
-func (bp B2BroadPhase) GetUserData(proxyId int) interface{} {
+func (bp BroadPhase) GetUserData(proxyId int) interface{} {
 	return bp.M_tree.GetUserData(proxyId)
 }
 
-func (bp B2BroadPhase) TestOverlap(proxyIdA int, proxyIdB int) bool {
+func (bp BroadPhase) TestOverlap(proxyIdA int, proxyIdB int) bool {
 	return B2TestOverlapBoundingBoxes(
 		bp.M_tree.GetFatAABB(proxyIdA),
 		bp.M_tree.GetFatAABB(proxyIdB),
 	)
 }
 
-func (bp B2BroadPhase) GetFatAABB(proxyId int) B2AABB {
+func (bp BroadPhase) GetFatAABB(proxyId int) B2AABB {
 	return bp.M_tree.GetFatAABB(proxyId)
 }
 
-func (bp B2BroadPhase) GetProxyCount() int {
+func (bp BroadPhase) GetProxyCount() int {
 	return bp.M_proxyCount
 }
 
-func (bp B2BroadPhase) GetTreeHeight() int {
+func (bp BroadPhase) GetTreeHeight() int {
 	return bp.M_tree.GetHeight()
 }
 
-func (bp B2BroadPhase) GetTreeBalance() int {
+func (bp BroadPhase) GetTreeBalance() int {
 	return bp.M_tree.GetMaxBalance()
 }
 
-func (bp B2BroadPhase) GetTreeQuality() float64 {
+func (bp BroadPhase) GetTreeQuality() float64 {
 	return bp.M_tree.GetAreaRatio()
 }
 
-func (bp *B2BroadPhase) UpdatePairs(addPairCallback B2BroadPhaseAddPairCallback) {
+func (bp *BroadPhase) UpdatePairs(addPairCallback B2BroadPhaseAddPairCallback) {
 	// Reset pair buffer
 	bp.M_pairCount = 0
 
@@ -138,13 +138,13 @@ func (bp *B2BroadPhase) UpdatePairs(addPairCallback B2BroadPhaseAddPairCallback)
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func MakeB2BroadPhase() B2BroadPhase {
+func MakeBroadPhase() BroadPhase {
 	pairCapacity := 16
 	moveCapacity := 16
 
 	tree := MakeB2DynamicTree()
 
-	return B2BroadPhase{
+	return BroadPhase{
 		M_tree:       tree,
 		M_proxyCount: 0,
 
@@ -158,31 +158,31 @@ func MakeB2BroadPhase() B2BroadPhase {
 	}
 }
 
-func (bp *B2BroadPhase) CreateProxy(aabb B2AABB, userData interface{}) int {
+func (bp *BroadPhase) CreateProxy(aabb B2AABB, userData interface{}) int {
 	proxyId := bp.M_tree.CreateProxy(aabb, userData)
 	bp.M_proxyCount++
 	bp.BufferMove(proxyId)
 	return proxyId
 }
 
-func (bp *B2BroadPhase) DestroyProxy(proxyId int) {
+func (bp *BroadPhase) DestroyProxy(proxyId int) {
 	bp.UnBufferMove(proxyId)
 	bp.M_proxyCount--
 	bp.M_tree.DestroyProxy(proxyId)
 }
 
-func (bp *B2BroadPhase) MoveProxy(proxyId int, aabb B2AABB, displacement Vec2) {
+func (bp *BroadPhase) MoveProxy(proxyId int, aabb B2AABB, displacement Vec2) {
 	buffer := bp.M_tree.MoveProxy(proxyId, aabb, displacement)
 	if buffer {
 		bp.BufferMove(proxyId)
 	}
 }
 
-func (bp *B2BroadPhase) TouchProxy(proxyId int) {
+func (bp *BroadPhase) TouchProxy(proxyId int) {
 	bp.BufferMove(proxyId)
 }
 
-func (bp *B2BroadPhase) BufferMove(proxyId int) {
+func (bp *BroadPhase) BufferMove(proxyId int) {
 	if bp.M_moveCount == bp.M_moveCapacity {
 		bp.M_moveBuffer = append(bp.M_moveBuffer, make([]int, bp.M_moveCapacity)...)
 		bp.M_moveCapacity *= 2
@@ -192,7 +192,7 @@ func (bp *B2BroadPhase) BufferMove(proxyId int) {
 	bp.M_moveCount++
 }
 
-func (bp *B2BroadPhase) UnBufferMove(proxyId int) {
+func (bp *BroadPhase) UnBufferMove(proxyId int) {
 	for i := 0; i < bp.M_moveCount; i++ {
 		if bp.M_moveBuffer[i] == proxyId {
 			bp.M_moveBuffer[i] = E_nullProxy
@@ -201,7 +201,7 @@ func (bp *B2BroadPhase) UnBufferMove(proxyId int) {
 }
 
 // This is called from b2DynamicTree::Query when we are gathering pairs.
-func (bp *B2BroadPhase) QueryCallback(proxyId int) bool {
+func (bp *BroadPhase) QueryCallback(proxyId int) bool {
 	// A proxy cannot form a pair with itself.
 	if proxyId == bp.M_queryProxyId {
 		return true
@@ -220,14 +220,14 @@ func (bp *B2BroadPhase) QueryCallback(proxyId int) bool {
 	return true
 }
 
-func (bp *B2BroadPhase) Query(callback B2TreeQueryCallback, aabb B2AABB) {
+func (bp *BroadPhase) Query(callback B2TreeQueryCallback, aabb B2AABB) {
 	bp.M_tree.Query(callback, aabb)
 }
 
-func (bp *B2BroadPhase) RayCast(callback B2TreeRayCastCallback, input B2RayCastInput) {
+func (bp *BroadPhase) RayCast(callback B2TreeRayCastCallback, input B2RayCastInput) {
 	bp.M_tree.RayCast(callback, input)
 }
 
-func (bp *B2BroadPhase) ShiftOrigin(newOrigin Vec2) {
+func (bp *BroadPhase) ShiftOrigin(newOrigin Vec2) {
 	bp.M_tree.ShiftOrigin(newOrigin)
 }

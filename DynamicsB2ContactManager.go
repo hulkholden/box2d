@@ -1,7 +1,7 @@
 package box2d
 
 type B2ContactManager struct {
-	M_broadPhase      B2BroadPhase
+	M_broadPhase      BroadPhase
 	M_contactList     ContactInterface
 	M_contactCount    int
 	M_contactFilter   B2ContactFilterInterface
@@ -15,7 +15,7 @@ var (
 
 func MakeB2ContactManager() B2ContactManager {
 	return B2ContactManager{
-		M_broadPhase:      MakeB2BroadPhase(),
+		M_broadPhase:      MakeBroadPhase(),
 		M_contactList:     nil,
 		M_contactCount:    0,
 		M_contactFilter:   b2_defaultFilter,

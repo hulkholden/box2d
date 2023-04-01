@@ -950,7 +950,7 @@ func (world *B2World) ClearForces() {
 }
 
 type B2WorldQueryWrapper struct {
-	BroadPhase *B2BroadPhase
+	BroadPhase *BroadPhase
 	Callback   B2BroadPhaseQueryCallback
 }
 

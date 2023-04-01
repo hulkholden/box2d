@@ -11,7 +11,7 @@ import (
 // so that the initial configuration can violate the constraint
 // slightly. This helps when saving and loading a game.
 // @warning Do not use a zero or short length.
-type B2DistanceJointDef struct {
+type DistanceJointDef struct {
 	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
@@ -31,8 +31,8 @@ type B2DistanceJointDef struct {
 	DampingRatio float64
 }
 
-func MakeB2DistanceJointDef() B2DistanceJointDef {
-	res := B2DistanceJointDef{
+func MakeDistanceJointDef() DistanceJointDef {
+	res := DistanceJointDef{
 		JointDef: MakeJointDef(),
 	}
 
@@ -49,7 +49,7 @@ func MakeB2DistanceJointDef() B2DistanceJointDef {
 // A distance joint constrains two points on two bodies
 // to remain at a fixed distance from each other. You can view
 // this as a massless, rigid rod.
-type B2DistanceJoint struct {
+type DistanceJoint struct {
 	*Joint
 
 	M_frequencyHz  float64
@@ -79,36 +79,36 @@ type B2DistanceJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2DistanceJoint) GetLocalAnchorA() Vec2 {
+func (joint DistanceJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2DistanceJoint) GetLocalAnchorB() Vec2 {
+func (joint DistanceJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
-func (joint *B2DistanceJoint) SetLength(length float64) {
+func (joint *DistanceJoint) SetLength(length float64) {
 	joint.M_length = length
 }
 
-func (joint B2DistanceJoint) GetLength() float64 {
+func (joint DistanceJoint) GetLength() float64 {
 	return joint.M_length
 }
 
-func (joint *B2DistanceJoint) SetFrequency(hz float64) {
+func (joint *DistanceJoint) SetFrequency(hz float64) {
 	joint.M_frequencyHz = hz
 }
 
-func (joint B2DistanceJoint) GetFrequency() float64 {
+func (joint DistanceJoint) GetFrequency() float64 {
 	return joint.M_frequencyHz
 }
 
-func (joint *B2DistanceJoint) SetDampingRatio(ratio float64) {
+func (joint *DistanceJoint) SetDampingRatio(ratio float64) {
 	joint.M_dampingRatio = ratio
 }
 
-func (joint B2DistanceJoint) GetDampingRatio() float64 {
+func (joint DistanceJoint) GetDampingRatio() float64 {
 	return joint.M_dampingRatio
 }
 
@@ -127,7 +127,7 @@ func (joint B2DistanceJoint) GetDampingRatio() float64 {
 // K = J * invM * JT
 //   = invMass1 + invI1 * cross(r1, u)^2 + invMass2 + invI2 * cross(r2, u)^2
 
-func (joint *B2DistanceJointDef) Initialize(b1 *Body, b2 *Body, anchor1 Vec2, anchor2 Vec2) {
+func (joint *DistanceJointDef) Initialize(b1 *Body, b2 *Body, anchor1 Vec2, anchor2 Vec2) {
 	joint.BodyA = b1
 	joint.BodyB = b2
 	joint.LocalAnchorA = joint.BodyA.GetLocalPoint(anchor1)
@@ -136,8 +136,8 @@ func (joint *B2DistanceJointDef) Initialize(b1 *Body, b2 *Body, anchor1 Vec2, an
 	joint.Length = d.Length()
 }
 
-func MakeB2DistanceJoint(def *B2DistanceJointDef) *B2DistanceJoint {
-	res := B2DistanceJoint{
+func MakeB2DistanceJoint(def *DistanceJointDef) *DistanceJoint {
+	res := DistanceJoint{
 		Joint: MakeJoint(def),
 	}
 
@@ -153,7 +153,7 @@ func MakeB2DistanceJoint(def *B2DistanceJointDef) *B2DistanceJoint {
 	return &res
 }
 
-func (joint *B2DistanceJoint) InitVelocityConstraints(data SolverData) {
+func (joint *DistanceJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter
@@ -252,7 +252,7 @@ func (joint *B2DistanceJoint) InitVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2DistanceJoint) SolveVelocityConstraints(data SolverData) {
+func (joint *DistanceJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -279,7 +279,7 @@ func (joint *B2DistanceJoint) SolveVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2DistanceJoint) SolvePositionConstraints(data SolverData) bool {
+func (joint *DistanceJoint) SolvePositionConstraints(data SolverData) bool {
 	if joint.M_frequencyHz > 0.0 {
 		// There is no position correction for soft distance constraints.
 		return true
@@ -318,23 +318,23 @@ func (joint *B2DistanceJoint) SolvePositionConstraints(data SolverData) bool {
 	return math.Abs(C) < linearSlop
 }
 
-func (joint B2DistanceJoint) GetAnchorA() Vec2 {
+func (joint DistanceJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2DistanceJoint) GetAnchorB() Vec2 {
+func (joint DistanceJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2DistanceJoint) GetReactionForce(inv_dt float64) Vec2 {
+func (joint DistanceJoint) GetReactionForce(inv_dt float64) Vec2 {
 	return Vec2MulScalar((inv_dt * joint.M_impulse), joint.M_u)
 }
 
-func (joint B2DistanceJoint) GetReactionTorque(inv_dt float64) float64 {
+func (joint DistanceJoint) GetReactionTorque(inv_dt float64) float64 {
 	return 0.0
 }
 
-func (joint B2DistanceJoint) Dump() {
+func (joint DistanceJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 

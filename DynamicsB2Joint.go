@@ -250,7 +250,7 @@ func JointCreate(def JointDefInterface) JointInterface { // def should be back b
 
 	switch def.GetType() {
 	case JointType.Distance:
-		if typeddef, ok := def.(*B2DistanceJointDef); ok {
+		if typeddef, ok := def.(*DistanceJointDef); ok {
 			return MakeB2DistanceJoint(typeddef)
 		}
 		assert(false)

@@ -1072,7 +1072,7 @@ func (world *B2World) DrawJoint(joint *Joint) {
 
 	switch joint.GetType() {
 	case JointType.Distance:
-		distance := joint.(*B2DistanceJoint)
+		distance := joint.(*DistanceJoint)
 		p1 := distance.GetAnchorA()
 		p2 := distance.GetAnchorB()
 

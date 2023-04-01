@@ -28,18 +28,18 @@ func (c *Color) SetRGBA(r, g, b, a float32) {
 	c.A = a
 }
 
-var B2Draw_Flags = struct {
-	E_shapeBit        uint32 //< draw shapes
-	E_jointBit        uint32 //< draw joint connections
-	E_aabbBit         uint32 //< draw axis aligned bounding boxes
-	E_pairBit         uint32 //< draw broad-phase pairs
-	E_centerOfMassBit uint32 //< draw center of mass frame
+var DrawFlags = struct {
+	Shape        uint32 //< draw shapes
+	Joint        uint32 //< draw joint connections
+	AABB         uint32 //< draw axis aligned bounding boxes
+	Pair         uint32 //< draw broad-phase pairs
+	CenterOfMass uint32 //< draw center of mass frame
 }{
-	E_shapeBit:        0x0001,
-	E_jointBit:        0x0002,
-	E_aabbBit:         0x0004,
-	E_pairBit:         0x0008,
-	E_centerOfMassBit: 0x0010,
+	Shape:        0x0001,
+	Joint:        0x0002,
+	AABB:         0x0004,
+	Pair:         0x0008,
+	CenterOfMass: 0x0010,
 }
 
 // Implement and register this class with a b2World to provide debug drawing of physics

@@ -1108,7 +1108,7 @@ func (world *B2World) DrawDebugData() {
 
 	flags := world.G_debugDraw.GetFlags()
 
-	if (flags & B2Draw_Flags.E_shapeBit) != 0 {
+	if (flags & DrawFlags.Shape) != 0 {
 		for b := world.M_bodyList; b != nil; b = b.GetNext() {
 			xf := b.GetTransform()
 			for f := b.GetFixtureList(); f != nil; f = f.GetNext() {
@@ -1127,13 +1127,13 @@ func (world *B2World) DrawDebugData() {
 		}
 	}
 
-	if (flags & B2Draw_Flags.E_jointBit) != 0 {
+	if (flags & DrawFlags.Joint) != 0 {
 		for j := world.M_jointList; j != nil; j = j.GetNext() {
 			// world.DrawJoint(j)
 		}
 	}
 
-	if (flags & B2Draw_Flags.E_pairBit) != 0 {
+	if (flags & DrawFlags.Pair) != 0 {
 		// color := MakeColorRGB(0.3, 0.9, 0.9)
 		for c := world.M_contactManager.M_contactList; c != nil; c = c.GetNext() {
 			// fixtureA := c.GetFixtureA()
@@ -1146,7 +1146,7 @@ func (world *B2World) DrawDebugData() {
 		}
 	}
 
-	if (flags & B2Draw_Flags.E_aabbBit) != 0 {
+	if (flags & DrawFlags.AABB) != 0 {
 		color := MakeColorRGB(0.9, 0.3, 0.9)
 		bp := &world.M_contactManager.M_broadPhase
 
@@ -1171,7 +1171,7 @@ func (world *B2World) DrawDebugData() {
 		}
 	}
 
-	if (flags & B2Draw_Flags.E_centerOfMassBit) != 0 {
+	if (flags & DrawFlags.CenterOfMass) != 0 {
 		for b := world.M_bodyList; b != nil; b = b.GetNext() {
 			xf := b.GetTransform()
 			xf.P = b.GetWorldCenter()

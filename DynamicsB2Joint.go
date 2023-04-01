@@ -304,8 +304,8 @@ func JointCreate(def JointDefInterface) JointInterface { // def should be back b
 		assert(false)
 
 	case JointType.Rope:
-		if typeddef, ok := def.(*B2RopeJointDef); ok {
-			return MakeB2RopeJoint(typeddef)
+		if typeddef, ok := def.(*RopeJointDef); ok {
+			return MakeRopeJoint(typeddef)
 		}
 		assert(false)
 

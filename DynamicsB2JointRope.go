@@ -9,7 +9,7 @@ import (
 // a maximum lengths.
 // Note: by default the connected objects will not collide.
 // see collideConnected in b2JointDef.
-type B2RopeJointDef struct {
+type RopeJointDef struct {
 	JointDef
 
 	/// The local anchor point relative to bodyA's origin.
@@ -24,8 +24,8 @@ type B2RopeJointDef struct {
 	MaxLength float64
 }
 
-func MakeB2RopeJointDef() B2RopeJointDef {
-	res := B2RopeJointDef{
+func MakeB2RopeJointDef() RopeJointDef {
+	res := RopeJointDef{
 		JointDef: MakeJointDef(),
 	}
 	res.Type = JointType.Rope
@@ -43,7 +43,7 @@ func MakeB2RopeJointDef() B2RopeJointDef {
 // would have some sponginess, so I chose not to implement it
 // that way. See b2DistanceJoint if you want to dynamically
 // control length.
-type B2RopeJoint struct {
+type RopeJoint struct {
 	*Joint
 
 	// Solver shared
@@ -70,17 +70,17 @@ type B2RopeJoint struct {
 }
 
 // The local anchor point relative to bodyA's origin.
-func (joint B2RopeJoint) GetLocalAnchorA() Vec2 {
+func (joint RopeJoint) GetLocalAnchorA() Vec2 {
 	return joint.M_localAnchorA
 }
 
 // The local anchor point relative to bodyB's origin.
-func (joint B2RopeJoint) GetLocalAnchorB() Vec2 {
+func (joint RopeJoint) GetLocalAnchorB() Vec2 {
 	return joint.M_localAnchorB
 }
 
 // Set/Get the maximum length of the rope.
-func (joint *B2RopeJoint) SetMaxLength(length float64) {
+func (joint *RopeJoint) SetMaxLength(length float64) {
 	joint.M_maxLength = length
 }
 
@@ -92,8 +92,8 @@ func (joint *B2RopeJoint) SetMaxLength(length float64) {
 /// K = J * invM * JT
 ///   = invMassA + invIA * cross(rA, u)^2 + invMassB + invIB * cross(rB, u)^2
 
-func MakeB2RopeJoint(def *B2RopeJointDef) *B2RopeJoint {
-	res := B2RopeJoint{
+func MakeRopeJoint(def *RopeJointDef) *RopeJoint {
+	res := RopeJoint{
 		Joint: MakeJoint(def),
 	}
 
@@ -110,7 +110,7 @@ func MakeB2RopeJoint(def *B2RopeJointDef) *B2RopeJoint {
 	return &res
 }
 
-func (joint *B2RopeJoint) InitVelocityConstraints(data SolverData) {
+func (joint *RopeJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter
@@ -185,7 +185,7 @@ func (joint *B2RopeJoint) InitVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2RopeJoint) SolveVelocityConstraints(data SolverData) {
+func (joint *RopeJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -219,7 +219,7 @@ func (joint *B2RopeJoint) SolveVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2RopeJoint) SolvePositionConstraints(data SolverData) bool {
+func (joint *RopeJoint) SolvePositionConstraints(data SolverData) bool {
 	cA := data.Positions[joint.M_indexA].C
 	aA := data.Positions[joint.M_indexA].A
 	cB := data.Positions[joint.M_indexB].C
@@ -253,32 +253,32 @@ func (joint *B2RopeJoint) SolvePositionConstraints(data SolverData) bool {
 	return length-joint.M_maxLength < linearSlop
 }
 
-func (joint B2RopeJoint) GetAnchorA() Vec2 {
+func (joint RopeJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2RopeJoint) GetAnchorB() Vec2 {
+func (joint RopeJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2RopeJoint) GetReactionForce(inv_dt float64) Vec2 {
+func (joint RopeJoint) GetReactionForce(inv_dt float64) Vec2 {
 	F := Vec2MulScalar((inv_dt * joint.M_impulse), joint.M_u)
 	return F
 }
 
-func (joint B2RopeJoint) GetReactionTorque(inv_dt float64) float64 {
+func (joint RopeJoint) GetReactionTorque(inv_dt float64) float64 {
 	return 0.0
 }
 
-func (joint B2RopeJoint) GetMaxLength() float64 {
+func (joint RopeJoint) GetMaxLength() float64 {
 	return joint.M_maxLength
 }
 
-func (joint B2RopeJoint) GetLimitState() uint8 {
+func (joint RopeJoint) GetLimitState() uint8 {
 	return joint.M_state
 }
 
-func (joint *B2RopeJoint) Dump() {
+func (joint *RopeJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 

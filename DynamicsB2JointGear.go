@@ -449,7 +449,7 @@ func (joint B2GearJoint) GetReactionTorque(inv_dt float64) float64 {
 }
 
 func (joint *B2GearJoint) SetRatio(ratio float64) {
-	B2Assert(B2IsValid(ratio))
+	B2Assert(IsValid(ratio))
 	joint.M_ratio = ratio
 }
 

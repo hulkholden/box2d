@@ -482,10 +482,10 @@ func (body B2Body) GetWorld() *B2World {
 func NewB2Body(bd *B2BodyDef, world *B2World) *B2Body {
 	B2Assert(bd.Position.IsValid())
 	B2Assert(bd.LinearVelocity.IsValid())
-	B2Assert(B2IsValid(bd.Angle))
-	B2Assert(B2IsValid(bd.AngularVelocity))
-	B2Assert(B2IsValid(bd.AngularDamping) && bd.AngularDamping >= 0.0)
-	B2Assert(B2IsValid(bd.LinearDamping) && bd.LinearDamping >= 0.0)
+	B2Assert(IsValid(bd.Angle))
+	B2Assert(IsValid(bd.AngularVelocity))
+	B2Assert(IsValid(bd.AngularDamping) && bd.AngularDamping >= 0.0)
+	B2Assert(IsValid(bd.LinearDamping) && bd.LinearDamping >= 0.0)
 
 	body := &B2Body{}
 

@@ -12,8 +12,8 @@ import (
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-// B2IsValid is used to ensure that a floating point number is not a NaN or infinity.
-func B2IsValid(x float64) bool {
+// IsValid is used to ensure that a floating point number is not a NaN or infinity.
+func IsValid(x float64) bool {
 	return !math.IsNaN(x) && !math.IsInf(x, 0)
 }
 
@@ -130,7 +130,7 @@ func (v *Vec2) Normalize() float64 {
 
 // IsValid returns whether this vector contain finite coordinates.
 func (v Vec2) IsValid() bool {
-	return B2IsValid(v.X) && B2IsValid(v.Y)
+	return IsValid(v.X) && IsValid(v.Y)
 }
 
 // Skew returns skew vector such that dot(skew_vec, other) == cross(vec, other)
@@ -698,12 +698,12 @@ func Vec2Clamp(a, low, high Vec2) Vec2 {
 
 func B2FloatClamp(a, low, high float64) float64 {
 	var b, c float64
-	if B2IsValid(high) {
+	if IsValid(high) {
 		b = math.Min(a, high)
 	} else {
 		b = a
 	}
-	if B2IsValid(low) {
+	if IsValid(low) {
 		c = math.Max(b, low)
 	} else {
 		c = b

@@ -90,9 +90,9 @@ func MakeB2MouseJoint(def *B2MouseJointDef) *B2MouseJoint {
 	}
 
 	B2Assert(def.Target.IsValid())
-	B2Assert(B2IsValid(def.MaxForce) && def.MaxForce >= 0.0)
-	B2Assert(B2IsValid(def.FrequencyHz) && def.FrequencyHz >= 0.0)
-	B2Assert(B2IsValid(def.DampingRatio) && def.DampingRatio >= 0.0)
+	B2Assert(IsValid(def.MaxForce) && def.MaxForce >= 0.0)
+	B2Assert(IsValid(def.FrequencyHz) && def.FrequencyHz >= 0.0)
+	B2Assert(IsValid(def.DampingRatio) && def.DampingRatio >= 0.0)
 
 	res.M_targetA = def.Target
 	res.M_localAnchorB = B2TransformVec2MulT(res.M_bodyB.GetTransform(), res.M_targetA)

@@ -140,7 +140,7 @@ func (fix B2Fixture) GetNext() *B2Fixture {
 }
 
 func (fix *B2Fixture) SetDensity(density float64) {
-	B2Assert(B2IsValid(density) && density >= 0.0)
+	B2Assert(IsValid(density) && density >= 0.0)
 	fix.M_density = density
 }
 

@@ -268,7 +268,7 @@ func (joint B2MotorJoint) GetReactionTorque(inv_dt float64) float64 {
 }
 
 func (joint *B2MotorJoint) SetMaxForce(force float64) {
-	B2Assert(B2IsValid(force) && force >= 0.0)
+	B2Assert(IsValid(force) && force >= 0.0)
 	joint.M_maxForce = force
 }
 
@@ -277,7 +277,7 @@ func (joint B2MotorJoint) GetMaxForce() float64 {
 }
 
 func (joint *B2MotorJoint) SetMaxTorque(torque float64) {
-	B2Assert(B2IsValid(torque) && torque >= 0.0)
+	B2Assert(IsValid(torque) && torque >= 0.0)
 	joint.M_maxTorque = torque
 }
 
@@ -286,7 +286,7 @@ func (joint B2MotorJoint) GetMaxTorque() float64 {
 }
 
 func (joint *B2MotorJoint) SetCorrectionFactor(factor float64) {
-	B2Assert(B2IsValid(factor) && 0.0 <= factor && factor <= 1.0)
+	B2Assert(IsValid(factor) && 0.0 <= factor && factor <= 1.0)
 	joint.M_correctionFactor = factor
 }
 

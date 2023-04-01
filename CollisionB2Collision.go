@@ -460,7 +460,7 @@ func B2TestOverlapShapes(shapeA ShapeInterface, indexA int, shapeB ShapeInterfac
 
 	output := MakeDistanceOutput()
 
-	B2Distance(&output, &cache, &input)
+	Distance(&output, &cache, &input)
 
 	return output.Distance < 10.0*epsilon
 }

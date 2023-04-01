@@ -330,7 +330,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *B2TOIInput) {
 		distanceInput.TransformA = xfA
 		distanceInput.TransformB = xfB
 		distanceOutput := MakeDistanceOutput()
-		B2Distance(&distanceOutput, &cache, &distanceInput)
+		Distance(&distanceOutput, &cache, &distanceInput)
 
 		// If the shapes are overlapped, we give up on continuous collision.
 		if distanceOutput.Distance <= 0.0 {

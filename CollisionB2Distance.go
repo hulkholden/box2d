@@ -474,7 +474,7 @@ func (simplex *Simplex) Solve3() {
 	simplex.M_count = 3
 }
 
-func B2Distance(output *DistanceOutput, cache *SimplexCache, input *DistanceInput) {
+func Distance(output *DistanceOutput, cache *SimplexCache, input *DistanceInput) {
 	b2_gjkCalls++
 
 	proxyA := &input.ProxyA

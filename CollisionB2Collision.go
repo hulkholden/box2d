@@ -215,7 +215,7 @@ func (bb AABB) IsValid() bool {
 	return valid
 }
 
-func B2TestOverlapBoundingBoxes(a, b AABB) bool {
+func TestOverlapBoundingBoxes(a, b AABB) bool {
 	d1 := Vec2Sub(b.LowerBound, a.UpperBound)
 	d2 := Vec2Sub(a.LowerBound, b.UpperBound)
 

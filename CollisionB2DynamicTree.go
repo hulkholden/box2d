@@ -82,7 +82,7 @@ func (tree *DynamicTree) Query(queryCallback TreeQueryCallback, aabb AABB) {
 
 		node := &tree.M_nodes[nodeId]
 
-		if B2TestOverlapBoundingBoxes(node.Aabb, aabb) {
+		if TestOverlapBoundingBoxes(node.Aabb, aabb) {
 			if node.IsLeaf() {
 				proceed := queryCallback(nodeId)
 				if !proceed {
@@ -130,7 +130,7 @@ func (tree DynamicTree) RayCast(rayCastCallback TreeRayCastCallback, input RayCa
 
 		node := &tree.M_nodes[nodeId]
 
-		if !B2TestOverlapBoundingBoxes(node.Aabb, segmentAABB) {
+		if !TestOverlapBoundingBoxes(node.Aabb, segmentAABB) {
 			continue
 		}
 

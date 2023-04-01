@@ -55,7 +55,7 @@ func (bp BroadPhase) GetUserData(proxyId int) interface{} {
 }
 
 func (bp BroadPhase) TestOverlap(proxyIdA int, proxyIdB int) bool {
-	return B2TestOverlapBoundingBoxes(
+	return TestOverlapBoundingBoxes(
 		bp.M_tree.GetFatAABB(proxyIdA),
 		bp.M_tree.GetFatAABB(proxyIdB),
 	)

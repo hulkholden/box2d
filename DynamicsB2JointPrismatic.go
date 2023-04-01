@@ -78,7 +78,7 @@ type B2PrismaticJoint struct {
 	M_localXAxisA      Vec2
 	M_localYAxisA      Vec2
 	M_referenceAngle   float64
-	M_impulse          B2Vec3
+	M_impulse          Vec3
 	M_motorImpulse     float64
 	M_lowerTranslation float64
 	M_upperTranslation float64
@@ -397,7 +397,7 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 		// Solve prismatic and limit constraint in block form.
 		Cdot2 := 0.0
 		Cdot2 = Vec2Dot(joint.M_axis, Vec2Sub(vB, vA)) + joint.M_a2*wB - joint.M_a1*wA
-		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
+		Cdot := MakeVec3(Cdot1.X, Cdot1.Y, Cdot2)
 
 		f1 := joint.M_impulse
 		df := joint.M_K.Solve33(Cdot.OperatorNegate())
@@ -415,7 +415,7 @@ func (joint *B2PrismaticJoint) SolveVelocityConstraints(data B2SolverData) {
 		joint.M_impulse.X = f2r.X
 		joint.M_impulse.Y = f2r.Y
 
-		df = B2Vec3Sub(joint.M_impulse, f1)
+		df = Vec3Sub(joint.M_impulse, f1)
 
 		P := Vec2Add(Vec2MulScalar(df.X, joint.M_perp), Vec2MulScalar(df.Z, joint.M_axis))
 		LA := df.X*joint.M_s1 + df.Y + df.Z*joint.M_a1
@@ -483,7 +483,7 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 	s1 := Vec2Cross(Vec2Add(d, rA), perp)
 	s2 := Vec2Cross(rB, perp)
 
-	impulse := MakeB2Vec3(0, 0, 0)
+	impulse := MakeVec3(0, 0, 0)
 	C1 := MakeVec2(0, 0)
 	C1.X = Vec2Dot(perp, d)
 	C1.Y = aB - aA - joint.M_referenceAngle
@@ -530,7 +530,7 @@ func (joint *B2PrismaticJoint) SolvePositionConstraints(data B2SolverData) bool 
 		K.Ey.Set(k12, k22, k23)
 		K.Ez.Set(k13, k23, k33)
 
-		C := MakeB2Vec3(0, 0, 0)
+		C := MakeVec3(0, 0, 0)
 		C.X = C1.X
 		C.Y = C1.Y
 		C.Z = C2

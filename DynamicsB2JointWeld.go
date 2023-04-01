@@ -57,7 +57,7 @@ type B2WeldJoint struct {
 	M_localAnchorB   Vec2
 	M_referenceAngle float64
 	M_gamma          float64
-	M_impulse        B2Vec3
+	M_impulse        Vec3
 
 	// Solver temp
 	M_indexA       int
@@ -296,9 +296,9 @@ func (joint *B2WeldJoint) SolveVelocityConstraints(data B2SolverData) {
 	} else {
 		Cdot1 := Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 		Cdot2 := wB - wA
-		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
+		Cdot := MakeVec3(Cdot1.X, Cdot1.Y, Cdot2)
 
-		impulse := B2Vec3Mat33Mul(joint.M_mass, Cdot).OperatorNegate()
+		impulse := Vec3Mat33Mul(joint.M_mass, Cdot).OperatorNegate()
 		joint.M_impulse.OperatorPlusInplace(impulse)
 
 		P := MakeVec2(impulse.X, impulse.Y)
@@ -367,9 +367,9 @@ func (joint *B2WeldJoint) SolvePositionConstraints(data B2SolverData) bool {
 		positionError = C1.Length()
 		angularError = math.Abs(C2)
 
-		C := MakeB2Vec3(C1.X, C1.Y, C2)
+		C := MakeVec3(C1.X, C1.Y, C2)
 
-		var impulse B2Vec3
+		var impulse Vec3
 		if K.Ez.Z > 0.0 {
 			impulse = K.Solve33(C).OperatorNegate()
 		} else {

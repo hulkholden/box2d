@@ -79,7 +79,7 @@ type B2RevoluteJoint struct {
 	// Solver shared
 	M_localAnchorA Vec2
 	M_localAnchorB Vec2
-	M_impulse      B2Vec3
+	M_impulse      Vec3
 	M_motorImpulse float64
 
 	M_enableMotor    bool
@@ -308,7 +308,7 @@ func (joint *B2RevoluteJoint) SolveVelocityConstraints(data B2SolverData) {
 	if joint.M_enableLimit && joint.M_limitState != B2LimitState.E_inactiveLimit && !fixedRotation {
 		Cdot1 := Vec2Sub(Vec2Sub(Vec2Add(vB, Vec2CrossScalarVector(wB, joint.M_rB)), vA), Vec2CrossScalarVector(wA, joint.M_rA))
 		Cdot2 := wB - wA
-		Cdot := MakeB2Vec3(Cdot1.X, Cdot1.Y, Cdot2)
+		Cdot := MakeVec3(Cdot1.X, Cdot1.Y, Cdot2)
 
 		impulse := joint.M_mass.Solve33(Cdot).OperatorNegate()
 

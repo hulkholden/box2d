@@ -3,13 +3,13 @@ package box2d
 type B2DestructionListenerInterface interface {
 	/// Called when any fixture is about to be destroyed due
 	/// to the destruction of its parent body.
-	SayGoodbyeToFixture(fixture *B2Fixture)
+	SayGoodbyeToFixture(fixture *Fixture)
 
 	SayGoodbyeToJoint(joint B2JointInterface) // backed by pointer
 }
 
 type B2ContactFilterInterface interface {
-	ShouldCollide(fixtureA *B2Fixture, fixtureB *B2Fixture) bool
+	ShouldCollide(fixtureA *Fixture, fixtureB *Fixture) bool
 }
 
 // Contact impulses for reporting. Impulses are used instead of forces because
@@ -61,13 +61,13 @@ type B2ContactListenerInterface interface {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-type B2BroadPhaseQueryCallback func(fixture *B2Fixture) bool
+type B2BroadPhaseQueryCallback func(fixture *Fixture) bool
 
 type B2ContactFilter struct{}
 
 // Return true if contact calculations should be performed between these two shapes.
 // If you implement your own collision filter you may want to build from this implementation.
-func (cf *B2ContactFilter) ShouldCollide(fixtureA *B2Fixture, fixtureB *B2Fixture) bool {
+func (cf *B2ContactFilter) ShouldCollide(fixtureA *Fixture, fixtureB *Fixture) bool {
 	filterA := fixtureA.GetFilterData()
 	filterB := fixtureB.GetFilterData()
 
@@ -90,4 +90,4 @@ func (cf *B2ContactFilter) ShouldCollide(fixtureA *B2Fixture, fixtureB *B2Fixtur
 // @param normal the normal vector at the point of intersection
 // @return -1 to filter, 0 to terminate, fraction to clip the ray for
 // closest hit, 1 to continue
-type B2RaycastCallback func(fixture *B2Fixture, point Vec2, normal Vec2, fraction float64) float64
+type B2RaycastCallback func(fixture *Fixture, point Vec2, normal Vec2, fraction float64) float64

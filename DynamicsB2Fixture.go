@@ -65,7 +65,7 @@ func MakeFixtureDef() FixtureDef {
 // This proxy is used internally to connect fixtures to the broad-phase.
 type FixtureProxy struct {
 	Aabb       B2AABB
-	Fixture    *B2Fixture
+	Fixture    *Fixture
 	ChildIndex int
 	ProxyId    int
 }
@@ -75,10 +75,10 @@ type FixtureProxy struct {
 // such as friction, collision filters, etc.
 // Fixtures are created via b2Body::CreateFixture.
 // @warning you cannot reuse fixtures.
-type B2Fixture struct {
+type Fixture struct {
 	M_density float64
 
-	M_next *B2Fixture
+	M_next *Fixture
 	M_body *Body
 
 	M_shape B2ShapeInterface
@@ -96,87 +96,87 @@ type B2Fixture struct {
 	M_userData interface{}
 }
 
-func MakeB2Fixture() B2Fixture {
-	return B2Fixture{
+func MakeFixture() Fixture {
+	return Fixture{
 		M_filter: MakeB2Filter(),
 	}
 }
 
-func NewB2Fixture() *B2Fixture {
-	res := MakeB2Fixture()
+func NewFixture() *Fixture {
+	res := MakeFixture()
 	return &res
 }
 
-func (fix B2Fixture) GetType() uint8 {
+func (fix Fixture) GetType() uint8 {
 	return fix.M_shape.GetType()
 }
 
-func (fix B2Fixture) GetShape() B2ShapeInterface {
+func (fix Fixture) GetShape() B2ShapeInterface {
 	return fix.M_shape
 }
 
-func (fix B2Fixture) IsSensor() bool {
+func (fix Fixture) IsSensor() bool {
 	return fix.M_isSensor
 }
 
-func (fix B2Fixture) GetFilterData() B2Filter {
+func (fix Fixture) GetFilterData() B2Filter {
 	return fix.M_filter
 }
 
-func (fix B2Fixture) GetUserData() interface{} {
+func (fix Fixture) GetUserData() interface{} {
 	return fix.M_userData
 }
 
-func (fix *B2Fixture) SetUserData(data interface{}) {
+func (fix *Fixture) SetUserData(data interface{}) {
 	fix.M_userData = data
 }
 
-func (fix B2Fixture) GetBody() *Body {
+func (fix Fixture) GetBody() *Body {
 	return fix.M_body
 }
 
-func (fix B2Fixture) GetNext() *B2Fixture {
+func (fix Fixture) GetNext() *Fixture {
 	return fix.M_next
 }
 
-func (fix *B2Fixture) SetDensity(density float64) {
+func (fix *Fixture) SetDensity(density float64) {
 	assert(IsValid(density) && density >= 0.0)
 	fix.M_density = density
 }
 
-func (fix B2Fixture) GetDensity() float64 {
+func (fix Fixture) GetDensity() float64 {
 	return fix.M_density
 }
 
-func (fix B2Fixture) GetFriction() float64 {
+func (fix Fixture) GetFriction() float64 {
 	return fix.M_friction
 }
 
-func (fix *B2Fixture) SetFriction(friction float64) {
+func (fix *Fixture) SetFriction(friction float64) {
 	fix.M_friction = friction
 }
 
-func (fix B2Fixture) GetRestitution() float64 {
+func (fix Fixture) GetRestitution() float64 {
 	return fix.M_restitution
 }
 
-func (fix *B2Fixture) SetRestitution(restitution float64) {
+func (fix *Fixture) SetRestitution(restitution float64) {
 	fix.M_restitution = restitution
 }
 
-func (fix B2Fixture) TestPoint(p Vec2) bool {
+func (fix Fixture) TestPoint(p Vec2) bool {
 	return fix.M_shape.TestPoint(fix.M_body.GetTransform(), p)
 }
 
-func (fix B2Fixture) RayCast(output *B2RayCastOutput, input B2RayCastInput, childIndex int) bool {
+func (fix Fixture) RayCast(output *B2RayCastOutput, input B2RayCastInput, childIndex int) bool {
 	return fix.M_shape.RayCast(output, input, fix.M_body.GetTransform(), childIndex)
 }
 
-func (fix B2Fixture) GetMassData() B2MassData {
+func (fix Fixture) GetMassData() B2MassData {
 	return fix.M_shape.ComputeMass(fix.M_density)
 }
 
-func (fix B2Fixture) GetAABB(childIndex int) B2AABB {
+func (fix Fixture) GetAABB(childIndex int) B2AABB {
 	assert(0 <= childIndex && childIndex < fix.M_proxyCount)
 	return fix.M_proxies[childIndex].Aabb
 }
@@ -184,12 +184,12 @@ func (fix B2Fixture) GetAABB(childIndex int) B2AABB {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-// B2Fixture.cpp
+// Fixture.cpp
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (fix *B2Fixture) Create(body *Body, def *FixtureDef) {
+func (fix *Fixture) Create(body *Body, def *FixtureDef) {
 	fix.M_userData = def.UserData
 	fix.M_friction = def.Friction
 	fix.M_restitution = def.Restitution
@@ -216,7 +216,7 @@ func (fix *B2Fixture) Create(body *Body, def *FixtureDef) {
 	fix.M_density = def.Density
 }
 
-func (fix *B2Fixture) Destroy() {
+func (fix *Fixture) Destroy() {
 	// The proxies must be destroyed before calling this.
 	assert(fix.M_proxyCount == 0)
 
@@ -248,7 +248,7 @@ func (fix *B2Fixture) Destroy() {
 	fix.M_shape = nil
 }
 
-func (fix *B2Fixture) CreateProxies(broadPhase *B2BroadPhase, xf Transform) {
+func (fix *Fixture) CreateProxies(broadPhase *B2BroadPhase, xf Transform) {
 	assert(fix.M_proxyCount == 0)
 
 	// Create proxies in the broad-phase.
@@ -263,7 +263,7 @@ func (fix *B2Fixture) CreateProxies(broadPhase *B2BroadPhase, xf Transform) {
 	}
 }
 
-func (fix *B2Fixture) DestroyProxies(broadPhase *B2BroadPhase) {
+func (fix *Fixture) DestroyProxies(broadPhase *B2BroadPhase) {
 	// Destroy proxies in the broad-phase.
 	for i := 0; i < fix.M_proxyCount; i++ {
 		proxy := &fix.M_proxies[i]
@@ -274,7 +274,7 @@ func (fix *B2Fixture) DestroyProxies(broadPhase *B2BroadPhase) {
 	fix.M_proxyCount = 0
 }
 
-func (fix *B2Fixture) Synchronize(broadPhase *B2BroadPhase, transform1 Transform, transform2 Transform) {
+func (fix *Fixture) Synchronize(broadPhase *B2BroadPhase, transform1 Transform, transform2 Transform) {
 	if fix.M_proxyCount == 0 {
 		return
 	}
@@ -295,12 +295,12 @@ func (fix *B2Fixture) Synchronize(broadPhase *B2BroadPhase, transform1 Transform
 	}
 }
 
-func (fix *B2Fixture) SetFilterData(filter B2Filter) {
+func (fix *Fixture) SetFilterData(filter B2Filter) {
 	fix.M_filter = filter
 	fix.Refilter()
 }
 
-func (fix *B2Fixture) Refilter() {
+func (fix *Fixture) Refilter() {
 	if fix.M_body == nil {
 		return
 	}
@@ -331,14 +331,14 @@ func (fix *B2Fixture) Refilter() {
 	}
 }
 
-func (fix *B2Fixture) SetSensor(sensor bool) {
+func (fix *Fixture) SetSensor(sensor bool) {
 	if sensor != fix.M_isSensor {
 		fix.M_body.SetAwake(true)
 		fix.M_isSensor = sensor
 	}
 }
 
-func (fix *B2Fixture) Dump(bodyIndex int) {
+func (fix *Fixture) Dump(bodyIndex int) {
 	fmt.Printf("    b2FixtureDef fd;\n")
 	fmt.Printf("    fd.friction = %.15f;\n", fix.M_friction)
 	fmt.Printf("    fd.restitution = %.15f;\n", fix.M_restitution)

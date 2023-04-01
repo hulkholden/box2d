@@ -140,7 +140,7 @@ type Body struct {
 	M_prev  *Body
 	M_next  *Body
 
-	M_fixtureList  *B2Fixture // linked list
+	M_fixtureList  *Fixture // linked list
 	M_fixtureCount int
 
 	M_jointList   *B2JointEdge // linked list
@@ -331,7 +331,7 @@ func (body Body) IsSleepingAllowed() bool {
 	return (body.M_flags & BodyFlags.AutoSleep) == BodyFlags.AutoSleep
 }
 
-func (body Body) GetFixtureList() *B2Fixture {
+func (body Body) GetFixtureList() *Fixture {
 	return body.M_fixtureList
 }
 
@@ -608,13 +608,13 @@ func (body *Body) SetType(bodytype uint8) {
 	}
 }
 
-func (body *Body) CreateFixtureFromDef(def *FixtureDef) *B2Fixture {
+func (body *Body) CreateFixtureFromDef(def *FixtureDef) *Fixture {
 	assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return nil
 	}
 
-	fixture := NewB2Fixture()
+	fixture := NewFixture()
 	fixture.Create(body, def)
 
 	if (body.M_flags & BodyFlags.Active) != 0x0000 {
@@ -640,7 +640,7 @@ func (body *Body) CreateFixtureFromDef(def *FixtureDef) *B2Fixture {
 	return fixture
 }
 
-func (body *Body) CreateFixture(shape B2ShapeInterface, density float64) *B2Fixture {
+func (body *Body) CreateFixture(shape B2ShapeInterface, density float64) *Fixture {
 	def := MakeFixtureDef()
 	def.Shape = shape
 	def.Density = density
@@ -648,7 +648,7 @@ func (body *Body) CreateFixture(shape B2ShapeInterface, density float64) *B2Fixt
 	return body.CreateFixtureFromDef(&def)
 }
 
-func (body *Body) DestroyFixture(fixture *B2Fixture) {
+func (body *Body) DestroyFixture(fixture *Fixture) {
 	if fixture == nil {
 		return
 	}

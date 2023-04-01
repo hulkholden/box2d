@@ -4,7 +4,7 @@ type B2CircleContact struct {
 	Contact
 }
 
-func B2CircleContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) ContactInterface {
+func B2CircleContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface {
 	assert(fixtureA.GetType() == B2Shape_Type.E_circle)
 	assert(fixtureB.GetType() == B2Shape_Type.E_circle)
 	res := &B2CircleContact{

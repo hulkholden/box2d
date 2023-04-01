@@ -12,7 +12,7 @@ type B2PolygonContact struct {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func B2PolygonContact_Create(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) ContactInterface {
+func B2PolygonContact_Create(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface {
 	assert(fixtureA.GetType() == B2Shape_Type.E_polygon)
 	assert(fixtureB.GetType() == B2Shape_Type.E_polygon)
 	res := &B2PolygonContact{

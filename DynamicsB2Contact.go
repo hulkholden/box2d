@@ -21,8 +21,8 @@ func MixRestitution(restitution1, restitution2 float64) float64 {
 }
 
 type (
-	ContactCreateFcn  func(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) ContactInterface // returned contact should be a pointer
-	ContactDestroyFcn func(contact ContactInterface)                                                          // contact should be a pointer
+	ContactCreateFcn  func(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface // returned contact should be a pointer
+	ContactDestroyFcn func(contact ContactInterface)                                                      // contact should be a pointer
 )
 
 type ContactRegister struct {
@@ -87,11 +87,11 @@ type ContactInterface interface {
 	GetNodeB() *ContactEdge
 	SetNodeB(node *ContactEdge)
 
-	GetFixtureA() *B2Fixture
-	SetFixtureA(fixture *B2Fixture)
+	GetFixtureA() *Fixture
+	SetFixtureA(fixture *Fixture)
 
-	GetFixtureB() *B2Fixture
-	SetFixtureB(fixture *B2Fixture)
+	GetFixtureB() *Fixture
+	SetFixtureB(fixture *Fixture)
 
 	GetChildIndexA() int
 	SetChildIndexA(index int)
@@ -141,8 +141,8 @@ type Contact struct {
 	M_nodeA *ContactEdge
 	M_nodeB *ContactEdge
 
-	M_fixtureA *B2Fixture
-	M_fixtureB *B2Fixture
+	M_fixtureA *Fixture
+	M_fixtureB *Fixture
 
 	M_indexA int
 	M_indexB int
@@ -196,19 +196,19 @@ func (contact *Contact) SetNodeB(node *ContactEdge) {
 	contact.M_nodeB = node
 }
 
-func (contact Contact) GetFixtureA() *B2Fixture {
+func (contact Contact) GetFixtureA() *Fixture {
 	return contact.M_fixtureA
 }
 
-func (contact *Contact) SetFixtureA(fixture *B2Fixture) {
+func (contact *Contact) SetFixtureA(fixture *Fixture) {
 	contact.M_fixtureA = fixture
 }
 
-func (contact Contact) GetFixtureB() *B2Fixture {
+func (contact Contact) GetFixtureB() *Fixture {
 	return contact.M_fixtureB
 }
 
-func (contact *Contact) SetFixtureB(fixture *B2Fixture) {
+func (contact *Contact) SetFixtureB(fixture *Fixture) {
 	contact.M_fixtureB = fixture
 }
 
@@ -351,7 +351,7 @@ func AddType(createFcn ContactCreateFcn, destroyFcn ContactDestroyFcn, type1 uin
 	}
 }
 
-func ContactFactory(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) ContactInterface { // returned contact should be a pointer
+func ContactFactory(fixtureA *Fixture, indexA int, fixtureB *Fixture, indexB int) ContactInterface { // returned contact should be a pointer
 	if !s_initialized {
 		ContactInitializeRegisters()
 		s_initialized = true
@@ -396,7 +396,7 @@ func ContactDestroy(contact ContactInterface) {
 	destroyFcn(contact)
 }
 
-func MakeContact(fA *B2Fixture, indexA int, fB *B2Fixture, indexB int) Contact {
+func MakeContact(fA *Fixture, indexA int, fB *Fixture, indexB int) Contact {
 	contact := Contact{}
 	contact.M_flags = ContactFlags.Enabled
 

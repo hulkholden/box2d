@@ -24,7 +24,7 @@ type MotorJointDef struct {
 	CorrectionFactor float64
 }
 
-func MakeB2MotorJointDef() MotorJointDef {
+func MakeMotorJointDef() MotorJointDef {
 	res := MotorJointDef{}
 	res.Type = JointType.Motor
 	res.LinearOffset.SetZero()

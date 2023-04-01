@@ -29,7 +29,7 @@ func MakeB2Filter() B2Filter {
 
 // A fixture definition is used to create a fixture. This class defines an
 // abstract fixture definition. You can reuse fixture definitions safely.
-type B2FixtureDef struct {
+type FixtureDef struct {
 	/// The shape, this must be set. The shape will be cloned, so you
 	/// can create the shape on the stack.
 	Shape B2ShapeInterface
@@ -55,8 +55,8 @@ type B2FixtureDef struct {
 }
 
 // The constructor sets the default fixture definition values.
-func MakeB2FixtureDef() B2FixtureDef {
-	return B2FixtureDef{
+func MakeFixtureDef() FixtureDef {
+	return FixtureDef{
 		Friction: 0.2,
 		Filter:   MakeB2Filter(),
 	}
@@ -189,7 +189,7 @@ func (fix B2Fixture) GetAABB(childIndex int) B2AABB {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func (fix *B2Fixture) Create(body *Body, def *B2FixtureDef) {
+func (fix *B2Fixture) Create(body *Body, def *FixtureDef) {
 	fix.M_userData = def.UserData
 	fix.M_friction = def.Friction
 	fix.M_restitution = def.Restitution

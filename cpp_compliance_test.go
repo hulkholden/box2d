@@ -133,7 +133,7 @@ func TestCPPCompliance(t *testing.T) {
 		shape := box2d.MakeB2PolygonShape()
 		shape.SetAsBox(0.5, 0.5)
 
-		fd := box2d.MakeB2FixtureDef()
+		fd := box2d.MakeFixtureDef()
 		fd.Shape = &shape
 		fd.Density = 20.0
 		body.CreateFixtureFromDef(&fd)
@@ -153,7 +153,7 @@ func TestCPPCompliance(t *testing.T) {
 		shape := box2d.MakeB2PolygonShape()
 		shape.SetAsBox(0.25, 0.25)
 
-		fd := box2d.MakeB2FixtureDef()
+		fd := box2d.MakeFixtureDef()
 		fd.Shape = &shape
 		fd.Density = 20.0
 		body.CreateFixtureFromDef(&fd)
@@ -181,7 +181,7 @@ func TestCPPCompliance(t *testing.T) {
 		shape := box2d.MakeB2PolygonShape()
 		shape.Set(vertices, 6)
 
-		fd := box2d.MakeB2FixtureDef()
+		fd := box2d.MakeFixtureDef()
 		fd.Shape = &shape
 		fd.Density = 20.0
 		body.CreateFixtureFromDef(&fd)
@@ -201,7 +201,7 @@ func TestCPPCompliance(t *testing.T) {
 		shape := box2d.MakeB2CircleShape()
 		shape.M_radius = 0.5
 
-		fd := box2d.MakeB2FixtureDef()
+		fd := box2d.MakeFixtureDef()
 		fd.Shape = &shape
 		fd.Density = 20.0
 		body.CreateFixtureFromDef(&fd)
@@ -220,7 +220,7 @@ func TestCPPCompliance(t *testing.T) {
 		shape := box2d.MakeB2CircleShape()
 		shape.M_radius = 0.25
 
-		fd := box2d.MakeB2FixtureDef()
+		fd := box2d.MakeFixtureDef()
 		fd.Shape = &shape
 		fd.Density = 20.0
 		fd.Friction = 1.0

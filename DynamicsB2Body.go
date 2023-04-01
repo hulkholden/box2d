@@ -608,7 +608,7 @@ func (body *Body) SetType(bodytype uint8) {
 	}
 }
 
-func (body *Body) CreateFixtureFromDef(def *B2FixtureDef) *B2Fixture {
+func (body *Body) CreateFixtureFromDef(def *FixtureDef) *B2Fixture {
 	assert(!body.M_world.IsLocked())
 	if body.M_world.IsLocked() {
 		return nil
@@ -641,7 +641,7 @@ func (body *Body) CreateFixtureFromDef(def *B2FixtureDef) *B2Fixture {
 }
 
 func (body *Body) CreateFixture(shape B2ShapeInterface, density float64) *B2Fixture {
-	def := MakeB2FixtureDef()
+	def := MakeFixtureDef()
 	def.Shape = shape
 	def.Density = density
 

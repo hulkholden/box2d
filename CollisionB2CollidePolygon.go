@@ -15,7 +15,7 @@ func B2FindMaxSeparation(edgeIndex *int, poly1 *B2PolygonShape, xf1 Transform, p
 	for i := 0; i < count1; i++ {
 		// Get poly1 normal in frame2.
 		n := RotVec2Mul(xf.Q, n1s[i])
-		v1 := B2TransformVec2Mul(xf, v1s[i])
+		v1 := TransformVec2Mul(xf, v1s[i])
 
 		// Find deepest point for normal i.
 		si := maxFloat
@@ -66,13 +66,13 @@ func B2FindIncidentEdge(c []B2ClipVertex, poly1 *B2PolygonShape, xf1 Transform, 
 		i2 = i1 + 1
 	}
 
-	c[0].V = B2TransformVec2Mul(xf2, vertices2[i1])
+	c[0].V = TransformVec2Mul(xf2, vertices2[i1])
 	c[0].Id.IndexA = uint8(edge1)
 	c[0].Id.IndexB = uint8(i1)
 	c[0].Id.TypeA = B2ContactFeature_Type.E_face
 	c[0].Id.TypeB = B2ContactFeature_Type.E_vertex
 
-	c[1].V = B2TransformVec2Mul(xf2, vertices2[i2])
+	c[1].V = TransformVec2Mul(xf2, vertices2[i2])
 	c[1].Id.IndexA = uint8(edge1)
 	c[1].Id.IndexB = uint8(i2)
 	c[1].Id.TypeA = B2ContactFeature_Type.E_face
@@ -153,8 +153,8 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *B2PolygonShape, xfA Transfor
 	tangent := RotVec2Mul(xf1.Q, localTangent)
 	normal := Vec2CrossVectorScalar(tangent, 1.0)
 
-	v11 = B2TransformVec2Mul(xf1, v11)
-	v12 = B2TransformVec2Mul(xf1, v12)
+	v11 = TransformVec2Mul(xf1, v11)
+	v12 = TransformVec2Mul(xf1, v12)
 
 	// Face offset.
 	frontOffset := Vec2Dot(normal, v11)

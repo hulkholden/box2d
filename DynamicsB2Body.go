@@ -233,7 +233,7 @@ func (body B2Body) GetMassData() B2MassData {
 }
 
 func (body B2Body) GetWorldPoint(localPoint Vec2) Vec2 {
-	return B2TransformVec2Mul(body.M_xf, localPoint)
+	return TransformVec2Mul(body.M_xf, localPoint)
 }
 
 func (body B2Body) GetWorldVector(localVector Vec2) Vec2 {
@@ -763,8 +763,8 @@ func (body *B2Body) ResetMassData() {
 	// Move center of mass.
 	oldCenter := body.M_sweep.C
 	body.M_sweep.LocalCenter = localCenter
-	body.M_sweep.C0 = B2TransformVec2Mul(body.M_xf, body.M_sweep.LocalCenter)
-	body.M_sweep.C = B2TransformVec2Mul(body.M_xf, body.M_sweep.LocalCenter)
+	body.M_sweep.C0 = TransformVec2Mul(body.M_xf, body.M_sweep.LocalCenter)
+	body.M_sweep.C = TransformVec2Mul(body.M_xf, body.M_sweep.LocalCenter)
 
 	// Update center of mass velocity.
 	body.M_linearVelocity.OperatorPlusInplace(Vec2CrossScalarVector(
@@ -803,8 +803,8 @@ func (body *B2Body) SetMassData(massData *B2MassData) {
 	// Move center of mass.
 	oldCenter := body.M_sweep.C
 	body.M_sweep.LocalCenter = massData.Center
-	body.M_sweep.C0 = B2TransformVec2Mul(body.M_xf, body.M_sweep.LocalCenter)
-	body.M_sweep.C = B2TransformVec2Mul(body.M_xf, body.M_sweep.LocalCenter)
+	body.M_sweep.C0 = TransformVec2Mul(body.M_xf, body.M_sweep.LocalCenter)
+	body.M_sweep.C = TransformVec2Mul(body.M_xf, body.M_sweep.LocalCenter)
 
 	// Update center of mass velocity.
 	body.M_linearVelocity.OperatorPlusInplace(
@@ -843,7 +843,7 @@ func (body *B2Body) SetTransform(position Vec2, angle float64) {
 	body.M_xf.Q.Set(angle)
 	body.M_xf.P = position
 
-	body.M_sweep.C = B2TransformVec2Mul(body.M_xf, body.M_sweep.LocalCenter)
+	body.M_sweep.C = TransformVec2Mul(body.M_xf, body.M_sweep.LocalCenter)
 	body.M_sweep.A = angle
 
 	body.M_sweep.C0 = body.M_sweep.C

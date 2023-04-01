@@ -88,7 +88,7 @@ func (poly *B2PolygonShape) SetAsBoxFromCenterAndAngle(hx float64, hy float64, c
 
 	// Transform vertices and normals.
 	for i := 0; i < poly.M_count; i++ {
-		poly.M_vertices[i] = B2TransformVec2Mul(xf, poly.M_vertices[i])
+		poly.M_vertices[i] = TransformVec2Mul(xf, poly.M_vertices[i])
 		poly.M_normals[i] = RotVec2Mul(xf.Q, poly.M_normals[i])
 	}
 }
@@ -337,11 +337,11 @@ func (poly B2PolygonShape) RayCast(output *B2RayCastOutput, input B2RayCastInput
 }
 
 func (poly B2PolygonShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
-	lower := B2TransformVec2Mul(xf, poly.M_vertices[0])
+	lower := TransformVec2Mul(xf, poly.M_vertices[0])
 	upper := lower
 
 	for i := 1; i < poly.M_count; i++ {
-		v := B2TransformVec2Mul(xf, poly.M_vertices[i])
+		v := TransformVec2Mul(xf, poly.M_vertices[i])
 		lower = Vec2Min(lower, v)
 		upper = Vec2Max(upper, v)
 	}

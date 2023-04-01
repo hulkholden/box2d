@@ -179,8 +179,8 @@ func (chain B2ChainShape) ComputeAABB(xf Transform, childIndex int) B2AABB {
 		i2 = 0
 	}
 
-	v1 := B2TransformVec2Mul(xf, chain.M_vertices[i1])
-	v2 := B2TransformVec2Mul(xf, chain.M_vertices[i2])
+	v1 := TransformVec2Mul(xf, chain.M_vertices[i1])
+	v2 := TransformVec2Mul(xf, chain.M_vertices[i2])
 
 	return MakeB2AABB(Vec2Min(v1, v2), Vec2Max(v1, v2))
 }

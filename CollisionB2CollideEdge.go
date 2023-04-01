@@ -10,7 +10,7 @@ func B2CollideEdgeAndCircle(manifold *B2Manifold, edgeA *B2EdgeShape, xfA Transf
 	manifold.PointCount = 0
 
 	// Compute circle in frame of edge
-	Q := B2TransformVec2MulT(xfA, B2TransformVec2Mul(xfB, circleB.M_p))
+	Q := B2TransformVec2MulT(xfA, TransformVec2Mul(xfB, circleB.M_p))
 
 	A := edgeA.M_vertex1
 	B := edgeA.M_vertex2
@@ -218,7 +218,7 @@ func MakeB2EPCollider() B2EPCollider {
 func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, xfA Transform, polygonB *B2PolygonShape, xfB Transform) {
 	collider.M_xf = B2TransformMulT(xfA, xfB)
 
-	collider.M_centroidB = B2TransformVec2Mul(collider.M_xf, polygonB.M_centroid)
+	collider.M_centroidB = TransformVec2Mul(collider.M_xf, polygonB.M_centroid)
 
 	collider.M_v0 = edgeA.M_vertex0
 	collider.M_v1 = edgeA.M_vertex1
@@ -366,7 +366,7 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *B2EdgeShape, 
 	// Get polygonB in frameA
 	collider.M_polygonB.Count = polygonB.M_count
 	for i := 0; i < polygonB.M_count; i++ {
-		collider.M_polygonB.Vertices[i] = B2TransformVec2Mul(collider.M_xf, polygonB.M_vertices[i])
+		collider.M_polygonB.Vertices[i] = TransformVec2Mul(collider.M_xf, polygonB.M_vertices[i])
 		collider.M_polygonB.Normals[i] = RotVec2Mul(collider.M_xf.Q, polygonB.M_normals[i])
 	}
 

@@ -3,8 +3,8 @@ package box2d
 func B2CollideCircles(manifold *B2Manifold, circleA *B2CircleShape, xfA Transform, circleB *B2CircleShape, xfB Transform) {
 	manifold.PointCount = 0
 
-	pA := B2TransformVec2Mul(xfA, circleA.M_p)
-	pB := B2TransformVec2Mul(xfB, circleB.M_p)
+	pA := TransformVec2Mul(xfA, circleA.M_p)
+	pB := TransformVec2Mul(xfB, circleB.M_p)
 
 	d := Vec2Sub(pB, pA)
 	distSqr := Vec2Dot(d, d)
@@ -28,7 +28,7 @@ func B2CollidePolygonAndCircle(manifold *B2Manifold, polygonA *B2PolygonShape, x
 	manifold.PointCount = 0
 
 	// Compute circle position in the frame of the polygon.
-	c := B2TransformVec2Mul(xfB, circleB.M_p)
+	c := TransformVec2Mul(xfB, circleB.M_p)
 	cLocal := B2TransformVec2MulT(xfA, c)
 
 	// Find the min separating edge.

@@ -690,8 +690,8 @@ func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPosition
 
 	switch pc.Type {
 	case B2Manifold_Type.E_circles:
-		pointA := B2TransformVec2Mul(xfA, pc.LocalPoint)
-		pointB := B2TransformVec2Mul(xfB, pc.LocalPoints[0])
+		pointA := TransformVec2Mul(xfA, pc.LocalPoint)
+		pointB := TransformVec2Mul(xfB, pc.LocalPoints[0])
 		solvermanifold.Normal = Vec2Sub(pointB, pointA)
 		solvermanifold.Normal.Normalize()
 		solvermanifold.Point = Vec2MulScalar(0.5, Vec2Add(pointA, pointB))
@@ -699,17 +699,17 @@ func (solvermanifold *B2PositionSolverManifold) Initialize(pc *B2ContactPosition
 
 	case B2Manifold_Type.E_faceA:
 		solvermanifold.Normal = RotVec2Mul(xfA.Q, pc.LocalNormal)
-		planePoint := B2TransformVec2Mul(xfA, pc.LocalPoint)
+		planePoint := TransformVec2Mul(xfA, pc.LocalPoint)
 
-		clipPoint := B2TransformVec2Mul(xfB, pc.LocalPoints[index])
+		clipPoint := TransformVec2Mul(xfB, pc.LocalPoints[index])
 		solvermanifold.Separation = Vec2Dot(Vec2Sub(clipPoint, planePoint), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
 		solvermanifold.Point = clipPoint
 
 	case B2Manifold_Type.E_faceB:
 		solvermanifold.Normal = RotVec2Mul(xfB.Q, pc.LocalNormal)
-		planePoint := B2TransformVec2Mul(xfB, pc.LocalPoint)
+		planePoint := TransformVec2Mul(xfB, pc.LocalPoint)
 
-		clipPoint := B2TransformVec2Mul(xfA, pc.LocalPoints[index])
+		clipPoint := TransformVec2Mul(xfA, pc.LocalPoints[index])
 		solvermanifold.Separation = Vec2Dot(Vec2Sub(clipPoint, planePoint), solvermanifold.Normal) - pc.RadiusA - pc.RadiusB
 		solvermanifold.Point = clipPoint
 

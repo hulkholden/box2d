@@ -1001,7 +1001,7 @@ func (world *B2World) DrawShape(fixture *B2Fixture, xf Transform, color B2Color)
 	case B2Shape_Type.E_circle:
 		circle := fixture.GetShape().(*B2CircleShape)
 
-		center := B2TransformVec2Mul(xf, circle.M_p)
+		center := TransformVec2Mul(xf, circle.M_p)
 		radius := circle.M_radius
 		axis := RotVec2Mul(xf.Q, MakeVec2(1.0, 0.0))
 
@@ -1009,8 +1009,8 @@ func (world *B2World) DrawShape(fixture *B2Fixture, xf Transform, color B2Color)
 
 	case B2Shape_Type.E_edge:
 		edge := fixture.GetShape().(*B2EdgeShape)
-		v1 := B2TransformVec2Mul(xf, edge.M_vertex1)
-		v2 := B2TransformVec2Mul(xf, edge.M_vertex2)
+		v1 := TransformVec2Mul(xf, edge.M_vertex1)
+		v2 := TransformVec2Mul(xf, edge.M_vertex2)
 		world.G_debugDraw.DrawSegment(v1, v2, color)
 
 	case B2Shape_Type.E_chain:
@@ -1020,24 +1020,24 @@ func (world *B2World) DrawShape(fixture *B2Fixture, xf Transform, color B2Color)
 
 		ghostColor := MakeB2ColorRGBA(0.75*color.R, 0.75*color.G, 0.75*color.B, color.A)
 
-		v1 := B2TransformVec2Mul(xf, vertices[0])
+		v1 := TransformVec2Mul(xf, vertices[0])
 		world.G_debugDraw.DrawPoint(v1, 4.0, color)
 
 		if chain.M_hasPrevVertex {
-			vp := B2TransformVec2Mul(xf, chain.M_prevVertex)
+			vp := TransformVec2Mul(xf, chain.M_prevVertex)
 			world.G_debugDraw.DrawSegment(vp, v1, ghostColor)
 			world.G_debugDraw.DrawCircle(vp, 0.1, ghostColor)
 		}
 
 		for i := 1; i < count; i++ {
-			v2 := B2TransformVec2Mul(xf, vertices[i])
+			v2 := TransformVec2Mul(xf, vertices[i])
 			world.G_debugDraw.DrawSegment(v1, v2, color)
 			world.G_debugDraw.DrawPoint(v2, 4.0, color)
 			v1 = v2
 		}
 
 		if chain.M_hasNextVertex {
-			vn := B2TransformVec2Mul(xf, chain.M_nextVertex)
+			vn := TransformVec2Mul(xf, chain.M_nextVertex)
 			world.G_debugDraw.DrawSegment(v1, vn, ghostColor)
 			world.G_debugDraw.DrawCircle(vn, 0.1, ghostColor)
 		}
@@ -1049,7 +1049,7 @@ func (world *B2World) DrawShape(fixture *B2Fixture, xf Transform, color B2Color)
 		var vertices [maxPolygonVertices]Vec2
 
 		for i := 0; i < vertexCount; i++ {
-			vertices[i] = B2TransformVec2Mul(xf, poly.M_vertices[i])
+			vertices[i] = TransformVec2Mul(xf, poly.M_vertices[i])
 		}
 
 		world.G_debugDraw.DrawSolidPolygon(vertices[:vertexCount], color)

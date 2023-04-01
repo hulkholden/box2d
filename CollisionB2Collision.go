@@ -247,8 +247,8 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA Transform, radiu
 	case B2Manifold_Type.E_circles:
 		{
 			wm.Normal.Set(1.0, 0.0)
-			pointA := B2TransformVec2Mul(xfA, manifold.LocalPoint)
-			pointB := B2TransformVec2Mul(xfB, manifold.Points[0].LocalPoint)
+			pointA := TransformVec2Mul(xfA, manifold.LocalPoint)
+			pointB := TransformVec2Mul(xfB, manifold.Points[0].LocalPoint)
 			if Vec2DistanceSquared(pointA, pointB) > epsilon*epsilon {
 				wm.Normal = Vec2Sub(pointB, pointA)
 				wm.Normal.Normalize()
@@ -264,10 +264,10 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA Transform, radiu
 	case B2Manifold_Type.E_faceA:
 		{
 			wm.Normal = RotVec2Mul(xfA.Q, manifold.LocalNormal)
-			planePoint := B2TransformVec2Mul(xfA, manifold.LocalPoint)
+			planePoint := TransformVec2Mul(xfA, manifold.LocalPoint)
 
 			for i := 0; i < manifold.PointCount; i++ {
-				clipPoint := B2TransformVec2Mul(xfB, manifold.Points[i].LocalPoint)
+				clipPoint := TransformVec2Mul(xfB, manifold.Points[i].LocalPoint)
 				cA := Vec2Add(
 					clipPoint,
 					Vec2MulScalar(
@@ -290,10 +290,10 @@ func (wm *B2WorldManifold) Initialize(manifold *B2Manifold, xfA Transform, radiu
 	case B2Manifold_Type.E_faceB:
 		{
 			wm.Normal = RotVec2Mul(xfB.Q, manifold.LocalNormal)
-			planePoint := B2TransformVec2Mul(xfB, manifold.LocalPoint)
+			planePoint := TransformVec2Mul(xfB, manifold.LocalPoint)
 
 			for i := 0; i < manifold.PointCount; i++ {
-				clipPoint := B2TransformVec2Mul(xfA, manifold.Points[i].LocalPoint)
+				clipPoint := TransformVec2Mul(xfA, manifold.Points[i].LocalPoint)
 				cB := Vec2Add(clipPoint, Vec2MulScalar(
 					radiusB-Vec2Dot(
 						Vec2Sub(clipPoint, planePoint),

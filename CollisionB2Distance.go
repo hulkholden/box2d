@@ -179,8 +179,8 @@ func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *B2DistancePro
 		v.IndexB = cache.IndexB[i]
 		wALocal := proxyA.GetVertex(v.IndexA)
 		wBLocal := proxyB.GetVertex(v.IndexB)
-		v.WA = B2TransformVec2Mul(transformA, wALocal)
-		v.WB = B2TransformVec2Mul(transformB, wBLocal)
+		v.WA = TransformVec2Mul(transformA, wALocal)
+		v.WB = TransformVec2Mul(transformB, wBLocal)
 		v.W = Vec2Sub(v.WB, v.WA)
 		v.A = 0.0
 	}
@@ -203,8 +203,8 @@ func (simplex *B2Simplex) ReadCache(cache *B2SimplexCache, proxyA *B2DistancePro
 		v.IndexB = 0
 		wALocal := proxyA.GetVertex(0)
 		wBLocal := proxyB.GetVertex(0)
-		v.WA = B2TransformVec2Mul(transformA, wALocal)
-		v.WB = B2TransformVec2Mul(transformB, wBLocal)
+		v.WA = TransformVec2Mul(transformA, wALocal)
+		v.WB = TransformVec2Mul(transformB, wBLocal)
 		v.W = Vec2Sub(v.WB, v.WA)
 		v.A = 1.0
 		simplex.M_count = 1
@@ -541,10 +541,10 @@ func B2Distance(output *B2DistanceOutput, cache *B2SimplexCache, input *B2Distan
 		vertex.IndexA = proxyA.GetSupport(
 			RotVec2MulT(transformA.Q, d.OperatorNegate()),
 		)
-		vertex.WA = B2TransformVec2Mul(transformA, proxyA.GetVertex(vertex.IndexA))
+		vertex.WA = TransformVec2Mul(transformA, proxyA.GetVertex(vertex.IndexA))
 		// b2Vec2 wBLocal;
 		vertex.IndexB = proxyB.GetSupport(RotVec2MulT(transformB.Q, d))
-		vertex.WB = B2TransformVec2Mul(transformB, proxyB.GetVertex(vertex.IndexB))
+		vertex.WB = TransformVec2Mul(transformB, proxyB.GetVertex(vertex.IndexB))
 		vertex.W = Vec2Sub(vertex.WB, vertex.WA)
 
 		// Iteration count is equated to the number of support point calls.

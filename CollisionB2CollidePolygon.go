@@ -36,7 +36,7 @@ func FindMaxSeparation(edgeIndex *int, poly1 *PolygonShape, xf1 Transform, poly2
 	return maxSeparation
 }
 
-func B2FindIncidentEdge(c []B2ClipVertex, poly1 *PolygonShape, xf1 Transform, edge1 int, poly2 *PolygonShape, xf2 Transform) {
+func FindIncidentEdge(c []B2ClipVertex, poly1 *PolygonShape, xf1 Transform, edge1 int, poly2 *PolygonShape, xf2 Transform) {
 	normals1 := poly1.M_normals
 
 	count2 := poly2.M_count
@@ -130,7 +130,7 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *PolygonShape, xfA Transform,
 	}
 
 	incidentEdge := make([]B2ClipVertex, 2)
-	B2FindIncidentEdge(incidentEdge, poly1, xf1, edge1, poly2, xf2)
+	FindIncidentEdge(incidentEdge, poly1, xf1, edge1, poly2, xf2)
 
 	count1 := poly1.M_count
 	vertices1 := poly1.M_vertices

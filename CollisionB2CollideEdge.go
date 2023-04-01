@@ -488,14 +488,14 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *EdgeShape, xf
 	np := 0
 
 	// Clip to box side 1
-	np = B2ClipSegmentToLine(clipPoints1, ie, rf.SideNormal1, rf.SideOffset1, rf.I1)
+	np = ClipSegmentToLine(clipPoints1, ie, rf.SideNormal1, rf.SideOffset1, rf.I1)
 
 	if np < maxManifoldPoints {
 		return
 	}
 
 	// Clip to negative box side 1
-	np = B2ClipSegmentToLine(clipPoints2, clipPoints1, rf.SideNormal2, rf.SideOffset2, rf.I2)
+	np = ClipSegmentToLine(clipPoints2, clipPoints1, rf.SideNormal2, rf.SideOffset2, rf.I2)
 
 	if np < maxManifoldPoints {
 		return

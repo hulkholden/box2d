@@ -169,14 +169,14 @@ func B2CollidePolygons(manifold *B2Manifold, polyA *PolygonShape, xfA Transform,
 	np := 0
 
 	// Clip to box side 1
-	np = B2ClipSegmentToLine(clipPoints1, incidentEdge, tangent.OperatorNegate(), sideOffset1, iv1)
+	np = ClipSegmentToLine(clipPoints1, incidentEdge, tangent.OperatorNegate(), sideOffset1, iv1)
 
 	if np < 2 {
 		return
 	}
 
 	// Clip to negative box side 1
-	np = B2ClipSegmentToLine(clipPoints2, clipPoints1, tangent, sideOffset2, iv2)
+	np = ClipSegmentToLine(clipPoints2, clipPoints1, tangent, sideOffset2, iv2)
 
 	if np < 2 {
 		return

@@ -4,7 +4,7 @@ import (
 	"sort"
 )
 
-type B2BroadPhaseAddPairCallback func(userDataA interface{}, userDataB interface{})
+type BroadPhaseAddPairCallback func(userDataA interface{}, userDataB interface{})
 
 type B2Pair struct {
 	ProxyIdA int
@@ -81,7 +81,7 @@ func (bp BroadPhase) GetTreeQuality() float64 {
 	return bp.M_tree.GetAreaRatio()
 }
 
-func (bp *BroadPhase) UpdatePairs(addPairCallback B2BroadPhaseAddPairCallback) {
+func (bp *BroadPhase) UpdatePairs(addPairCallback BroadPhaseAddPairCallback) {
 	// Reset pair buffer
 	bp.M_pairCount = 0
 

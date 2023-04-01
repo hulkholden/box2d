@@ -47,15 +47,15 @@ func MakeDistanceInput() DistanceInput { return DistanceInput{} }
 func NewDistanceInput() *DistanceInput { return &DistanceInput{} }
 
 // Output for b2Distance.
-type B2DistanceOutput struct {
+type DistanceOutput struct {
 	PointA     Vec2 ///< closest point on shapeA
 	PointB     Vec2 ///< closest point on shapeB
 	Distance   float64
 	Iterations int ///< number of GJK iterations used
 }
 
-func MakeB2DistanceOutput() B2DistanceOutput { return B2DistanceOutput{} }
-func NewB2DistanceOutput() *B2DistanceOutput { return &B2DistanceOutput{} }
+func MakeDistanceOutput() DistanceOutput { return DistanceOutput{} }
+func NewDistanceOutput() *DistanceOutput { return &DistanceOutput{} }
 
 func (p DistanceProxy) GetVertexCount() int {
 	return p.M_count
@@ -474,7 +474,7 @@ func (simplex *B2Simplex) Solve3() {
 	simplex.M_count = 3
 }
 
-func B2Distance(output *B2DistanceOutput, cache *SimplexCache, input *DistanceInput) {
+func B2Distance(output *DistanceOutput, cache *SimplexCache, input *DistanceInput) {
 	b2_gjkCalls++
 
 	proxyA := &input.ProxyA

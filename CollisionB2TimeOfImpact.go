@@ -329,7 +329,7 @@ func B2TimeOfImpact(output *B2TOIOutput, input *B2TOIInput) {
 		// to get a separating axis.
 		distanceInput.TransformA = xfA
 		distanceInput.TransformB = xfB
-		distanceOutput := MakeB2DistanceOutput()
+		distanceOutput := MakeDistanceOutput()
 		B2Distance(&distanceOutput, &cache, &distanceInput)
 
 		// If the shapes are overlapped, we give up on continuous collision.

@@ -43,12 +43,12 @@ type B2Velocity struct {
 }
 
 // Solver Data
-type B2SolverData struct {
+type SolverData struct {
 	Step       B2TimeStep
 	Positions  []B2Position
 	Velocities []B2Velocity
 }
 
-func MakeB2SolverData() B2SolverData {
-	return B2SolverData{}
+func MakeB2SolverData() SolverData {
+	return SolverData{}
 }

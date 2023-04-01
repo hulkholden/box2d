@@ -198,7 +198,7 @@ func MakeB2GearJoint(def *B2GearJointDef) *B2GearJoint {
 	return &res
 }
 
-func (joint *B2GearJoint) InitVelocityConstraints(data B2SolverData) {
+func (joint *B2GearJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_indexC = joint.M_bodyC.M_islandIndex
@@ -299,7 +299,7 @@ func (joint *B2GearJoint) InitVelocityConstraints(data B2SolverData) {
 	data.Velocities[joint.M_indexD].W = wD
 }
 
-func (joint *B2GearJoint) SolveVelocityConstraints(data B2SolverData) {
+func (joint *B2GearJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -334,7 +334,7 @@ func (joint *B2GearJoint) SolveVelocityConstraints(data B2SolverData) {
 	data.Velocities[joint.M_indexD].W = wD
 }
 
-func (joint *B2GearJoint) SolvePositionConstraints(data B2SolverData) bool {
+func (joint *B2GearJoint) SolvePositionConstraints(data SolverData) bool {
 	cA := data.Positions[joint.M_indexA].C
 	aA := data.Positions[joint.M_indexA].A
 	cB := data.Positions[joint.M_indexB].C

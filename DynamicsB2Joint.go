@@ -364,11 +364,11 @@ func (j *Joint) SetIndex(index int) {
 	j.M_index = index
 }
 
-func (j *Joint) InitVelocityConstraints(data B2SolverData) {}
+func (j *Joint) InitVelocityConstraints(data SolverData) {}
 
-func (j *Joint) SolveVelocityConstraints(data B2SolverData) {}
+func (j *Joint) SolveVelocityConstraints(data SolverData) {}
 
-func (j *Joint) SolvePositionConstraints(data B2SolverData) bool {
+func (j *Joint) SolvePositionConstraints(data SolverData) bool {
 	return false
 }
 
@@ -422,11 +422,11 @@ type JointInterface interface {
 	//@goadd
 	Destroy()
 
-	InitVelocityConstraints(data B2SolverData)
+	InitVelocityConstraints(data SolverData)
 
-	SolveVelocityConstraints(data B2SolverData)
+	SolveVelocityConstraints(data SolverData)
 
-	SolvePositionConstraints(data B2SolverData) bool
+	SolvePositionConstraints(data SolverData) bool
 
 	GetIslandFlag() bool
 	SetIslandFlag(flag bool)

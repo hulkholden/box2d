@@ -144,7 +144,7 @@ func (joint B2MouseJoint) GetDampingRatio() float64 {
 	return joint.M_dampingRatio
 }
 
-func (joint *B2MouseJoint) InitVelocityConstraints(data B2SolverData) {
+func (joint *B2MouseJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterB = joint.M_bodyB.M_sweep.LocalCenter
 	joint.M_invMassB = joint.M_bodyB.M_invMass
@@ -211,7 +211,7 @@ func (joint *B2MouseJoint) InitVelocityConstraints(data B2SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2MouseJoint) SolveVelocityConstraints(data B2SolverData) {
+func (joint *B2MouseJoint) SolveVelocityConstraints(data SolverData) {
 	vB := data.Velocities[joint.M_indexB].V
 	wB := data.Velocities[joint.M_indexB].W
 
@@ -234,7 +234,7 @@ func (joint *B2MouseJoint) SolveVelocityConstraints(data B2SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2MouseJoint) SolvePositionConstraints(data B2SolverData) bool {
+func (joint *B2MouseJoint) SolvePositionConstraints(data SolverData) bool {
 	return true
 }
 

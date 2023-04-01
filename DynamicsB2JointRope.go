@@ -110,7 +110,7 @@ func MakeB2RopeJoint(def *B2RopeJointDef) *B2RopeJoint {
 	return &res
 }
 
-func (joint *B2RopeJoint) InitVelocityConstraints(data B2SolverData) {
+func (joint *B2RopeJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter
@@ -185,7 +185,7 @@ func (joint *B2RopeJoint) InitVelocityConstraints(data B2SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2RopeJoint) SolveVelocityConstraints(data B2SolverData) {
+func (joint *B2RopeJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -219,7 +219,7 @@ func (joint *B2RopeJoint) SolveVelocityConstraints(data B2SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2RopeJoint) SolvePositionConstraints(data B2SolverData) bool {
+func (joint *B2RopeJoint) SolvePositionConstraints(data SolverData) bool {
 	cA := data.Positions[joint.M_indexA].C
 	aA := data.Positions[joint.M_indexA].A
 	cB := data.Positions[joint.M_indexB].C

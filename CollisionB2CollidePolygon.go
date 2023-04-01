@@ -69,14 +69,14 @@ func B2FindIncidentEdge(c []B2ClipVertex, poly1 *PolygonShape, xf1 Transform, ed
 	c[0].V = TransformVec2Mul(xf2, vertices2[i1])
 	c[0].Id.IndexA = uint8(edge1)
 	c[0].Id.IndexB = uint8(i1)
-	c[0].Id.TypeA = B2ContactFeature_Type.E_face
-	c[0].Id.TypeB = B2ContactFeature_Type.E_vertex
+	c[0].Id.TypeA = ContactFeatureType.Face
+	c[0].Id.TypeB = ContactFeatureType.Vertex
 
 	c[1].V = TransformVec2Mul(xf2, vertices2[i2])
 	c[1].Id.IndexA = uint8(edge1)
 	c[1].Id.IndexB = uint8(i2)
-	c[1].Id.TypeA = B2ContactFeature_Type.E_face
-	c[1].Id.TypeB = B2ContactFeature_Type.E_vertex
+	c[1].Id.TypeA = ContactFeatureType.Face
+	c[1].Id.TypeB = ContactFeatureType.Vertex
 }
 
 // Find edge normal of max separation on A - return if separating axis is found

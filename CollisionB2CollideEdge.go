@@ -24,7 +24,7 @@ func CollideEdgeAndCircle(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform,
 
 	cf := MakeB2ContactFeature()
 	cf.IndexB = 0
-	cf.TypeB = B2ContactFeature_Type.E_vertex
+	cf.TypeB = ContactFeatureType.Vertex
 
 	// Region A
 	if v <= 0.0 {
@@ -49,7 +49,7 @@ func CollideEdgeAndCircle(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform,
 		}
 
 		cf.IndexA = 0
-		cf.TypeA = B2ContactFeature_Type.E_vertex
+		cf.TypeA = ContactFeatureType.Vertex
 		manifold.PointCount = 1
 		manifold.Type = B2Manifold_Type.E_circles
 		manifold.LocalNormal.SetZero()
@@ -86,7 +86,7 @@ func CollideEdgeAndCircle(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform,
 		}
 
 		cf.IndexA = 1
-		cf.TypeA = B2ContactFeature_Type.E_vertex
+		cf.TypeA = ContactFeatureType.Vertex
 		manifold.PointCount = 1
 		manifold.Type = B2Manifold_Type.E_circles
 		manifold.LocalNormal.SetZero()
@@ -117,7 +117,7 @@ func CollideEdgeAndCircle(manifold *B2Manifold, edgeA *EdgeShape, xfA Transform,
 	n.Normalize()
 
 	cf.IndexA = 0
-	cf.TypeA = B2ContactFeature_Type.E_face
+	cf.TypeA = ContactFeatureType.Face
 	manifold.PointCount = 1
 	manifold.Type = B2Manifold_Type.E_faceA
 	manifold.LocalNormal = n
@@ -428,14 +428,14 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *EdgeShape, xf
 		ie[0].V = collider.M_polygonB.Vertices[i1]
 		ie[0].Id.IndexA = 0
 		ie[0].Id.IndexB = uint8(i1)
-		ie[0].Id.TypeA = B2ContactFeature_Type.E_face
-		ie[0].Id.TypeB = B2ContactFeature_Type.E_vertex
+		ie[0].Id.TypeA = ContactFeatureType.Face
+		ie[0].Id.TypeB = ContactFeatureType.Vertex
 
 		ie[1].V = collider.M_polygonB.Vertices[i2]
 		ie[1].Id.IndexA = 0
 		ie[1].Id.IndexB = uint8(i2)
-		ie[1].Id.TypeA = B2ContactFeature_Type.E_face
-		ie[1].Id.TypeB = B2ContactFeature_Type.E_vertex
+		ie[1].Id.TypeA = ContactFeatureType.Face
+		ie[1].Id.TypeB = ContactFeatureType.Vertex
 
 		if collider.M_front {
 			rf.I1 = 0
@@ -456,14 +456,14 @@ func (collider *B2EPCollider) Collide(manifold *B2Manifold, edgeA *EdgeShape, xf
 		ie[0].V = collider.M_v1
 		ie[0].Id.IndexA = 0
 		ie[0].Id.IndexB = uint8(primaryAxis.Index)
-		ie[0].Id.TypeA = B2ContactFeature_Type.E_vertex
-		ie[0].Id.TypeB = B2ContactFeature_Type.E_face
+		ie[0].Id.TypeA = ContactFeatureType.Vertex
+		ie[0].Id.TypeB = ContactFeatureType.Face
 
 		ie[1].V = collider.M_v2
 		ie[1].Id.IndexA = 0
 		ie[1].Id.IndexB = uint8(primaryAxis.Index)
-		ie[1].Id.TypeA = B2ContactFeature_Type.E_vertex
-		ie[1].Id.TypeB = B2ContactFeature_Type.E_face
+		ie[1].Id.TypeA = ContactFeatureType.Vertex
+		ie[1].Id.TypeB = ContactFeatureType.Face
 
 		rf.I1 = primaryAxis.Index
 		if rf.I1+1 < collider.M_polygonB.Count {

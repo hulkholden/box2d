@@ -14,12 +14,12 @@ import (
 
 const B2_nullFeature uint8 = math.MaxUint8
 
-var B2ContactFeature_Type = struct {
-	E_vertex uint8
-	E_face   uint8
+var ContactFeatureType = struct {
+	Vertex uint8
+	Face   uint8
 }{
-	E_vertex: 0,
-	E_face:   1,
+	Vertex: 0,
+	Face:   1,
 }
 
 // The features that intersect to form the contact point
@@ -439,8 +439,8 @@ func B2ClipSegmentToLine(vOut []B2ClipVertex, vIn []B2ClipVertex, normal Vec2, o
 		// VertexA is hitting edgeB.
 		vOut[numOut].Id.IndexA = uint8(vertexIndexA)
 		vOut[numOut].Id.IndexB = vIn[0].Id.IndexB
-		vOut[numOut].Id.TypeA = B2ContactFeature_Type.E_vertex
-		vOut[numOut].Id.TypeB = B2ContactFeature_Type.E_face
+		vOut[numOut].Id.TypeA = ContactFeatureType.Vertex
+		vOut[numOut].Id.TypeB = ContactFeatureType.Face
 		numOut++
 	}
 

@@ -321,7 +321,7 @@ func (contact *Contact) FlagForFiltering() {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-func B2ContactInitializeRegisters() {
+func ContactInitializeRegisters() {
 	s_registers = make([][]ContactRegister, B2Shape_Type.E_typeCount)
 	for i := 0; i < int(B2Shape_Type.E_typeCount); i++ {
 		s_registers[i] = make([]ContactRegister, B2Shape_Type.E_typeCount)
@@ -354,7 +354,7 @@ func AddType(createFcn ContactCreateFcn, destroyFcn ContactDestroyFcn, type1 uin
 func B2ContactFactory(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB int) ContactInterface { // returned contact should be a pointer
 
 	if !s_initialized {
-		B2ContactInitializeRegisters()
+		ContactInitializeRegisters()
 		s_initialized = true
 	}
 

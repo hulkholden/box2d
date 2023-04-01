@@ -375,7 +375,7 @@ func ContactFactory(fixtureA *B2Fixture, indexA int, fixtureB *B2Fixture, indexB
 	return nil
 }
 
-func B2ContactDestroy(contact ContactInterface) {
+func ContactDestroy(contact ContactInterface) {
 	assert(s_initialized)
 
 	fixtureA := contact.GetFixtureA()

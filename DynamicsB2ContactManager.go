@@ -78,7 +78,7 @@ func (mgr *B2ContactManager) Destroy(c ContactInterface) {
 	}
 
 	// Call the factory.
-	B2ContactDestroy(c)
+	ContactDestroy(c)
 	mgr.M_contactCount--
 }
 

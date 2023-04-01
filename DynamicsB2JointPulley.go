@@ -9,7 +9,7 @@ const B2MinPulleyLength = 2.0
 
 // Pulley joint definition. This requires two ground anchors,
 // two dynamic body anchor points, and a pulley ratio.
-type B2PulleyJointDef struct {
+type PulleyJointDef struct {
 	JointDef
 
 	/// The first ground anchor in world coordinates. This point never moves.
@@ -34,8 +34,8 @@ type B2PulleyJointDef struct {
 	Ratio float64
 }
 
-func MakeB2PulleyJointDef() B2PulleyJointDef {
-	res := B2PulleyJointDef{
+func MakeB2PulleyJointDef() PulleyJointDef {
+	res := PulleyJointDef{
 		JointDef: MakeJointDef(),
 	}
 
@@ -60,7 +60,7 @@ func MakeB2PulleyJointDef() B2PulleyJointDef {
 // work better when combined with prismatic joints. You should also cover the
 // the anchor points with static shapes to prevent one side from going to
 // zero length.
-type B2PulleyJoint struct {
+type PulleyJoint struct {
 	*Joint
 
 	M_groundAnchorA Vec2
@@ -103,7 +103,7 @@ type B2PulleyJoint struct {
 // K = J * invM * JT
 //   = invMass1 + invI1 * cross(r1, u1)^2 + ratio^2 * (invMass2 + invI2 * cross(r2, u2)^2)
 
-func (def *B2PulleyJointDef) Initialize(bA *Body, bB *Body, groundA Vec2, groundB Vec2, anchorA Vec2, anchorB Vec2, r float64) {
+func (def *PulleyJointDef) Initialize(bA *Body, bB *Body, groundA Vec2, groundB Vec2, anchorA Vec2, anchorB Vec2, r float64) {
 	def.BodyA = bA
 	def.BodyB = bB
 	def.GroundAnchorA = groundA
@@ -118,8 +118,8 @@ func (def *B2PulleyJointDef) Initialize(bA *Body, bB *Body, groundA Vec2, ground
 	assert(def.Ratio > epsilon)
 }
 
-func MakeB2PulleyJoint(def *B2PulleyJointDef) *B2PulleyJoint {
-	res := B2PulleyJoint{
+func MakePulleyJoint(def *PulleyJointDef) *PulleyJoint {
+	res := PulleyJoint{
 		Joint: MakeJoint(def),
 	}
 
@@ -141,7 +141,7 @@ func MakeB2PulleyJoint(def *B2PulleyJointDef) *B2PulleyJoint {
 	return &res
 }
 
-func (joint *B2PulleyJoint) InitVelocityConstraints(data SolverData) {
+func (joint *PulleyJoint) InitVelocityConstraints(data SolverData) {
 	joint.M_indexA = joint.M_bodyA.M_islandIndex
 	joint.M_indexB = joint.M_bodyB.M_islandIndex
 	joint.M_localCenterA = joint.M_bodyA.M_sweep.LocalCenter
@@ -221,7 +221,7 @@ func (joint *B2PulleyJoint) InitVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2PulleyJoint) SolveVelocityConstraints(data SolverData) {
+func (joint *PulleyJoint) SolveVelocityConstraints(data SolverData) {
 	vA := data.Velocities[joint.M_indexA].V
 	wA := data.Velocities[joint.M_indexA].W
 	vB := data.Velocities[joint.M_indexB].V
@@ -247,7 +247,7 @@ func (joint *B2PulleyJoint) SolveVelocityConstraints(data SolverData) {
 	data.Velocities[joint.M_indexB].W = wB
 }
 
-func (joint *B2PulleyJoint) SolvePositionConstraints(data SolverData) bool {
+func (joint *PulleyJoint) SolvePositionConstraints(data SolverData) bool {
 	cA := data.Positions[joint.M_indexA].C
 	aA := data.Positions[joint.M_indexA].A
 	cB := data.Positions[joint.M_indexB].C
@@ -312,58 +312,58 @@ func (joint *B2PulleyJoint) SolvePositionConstraints(data SolverData) bool {
 	return linearError < linearSlop
 }
 
-func (joint B2PulleyJoint) GetAnchorA() Vec2 {
+func (joint PulleyJoint) GetAnchorA() Vec2 {
 	return joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 }
 
-func (joint B2PulleyJoint) GetAnchorB() Vec2 {
+func (joint PulleyJoint) GetAnchorB() Vec2 {
 	return joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 }
 
-func (joint B2PulleyJoint) GetReactionForce(inv_dt float64) Vec2 {
+func (joint PulleyJoint) GetReactionForce(inv_dt float64) Vec2 {
 	P := Vec2MulScalar(joint.M_impulse, joint.M_uB)
 	return Vec2MulScalar(inv_dt, P)
 }
 
-func (joint B2PulleyJoint) GetReactionTorque(inv_dt float64) float64 {
+func (joint PulleyJoint) GetReactionTorque(inv_dt float64) float64 {
 	return 0.0
 }
 
-func (joint B2PulleyJoint) GetGroundAnchorA() Vec2 {
+func (joint PulleyJoint) GetGroundAnchorA() Vec2 {
 	return joint.M_groundAnchorA
 }
 
-func (joint B2PulleyJoint) GetGroundAnchorB() Vec2 {
+func (joint PulleyJoint) GetGroundAnchorB() Vec2 {
 	return joint.M_groundAnchorB
 }
 
-func (joint B2PulleyJoint) GetLengthA() float64 {
+func (joint PulleyJoint) GetLengthA() float64 {
 	return joint.M_lengthA
 }
 
-func (joint B2PulleyJoint) GetLengthB() float64 {
+func (joint PulleyJoint) GetLengthB() float64 {
 	return joint.M_lengthB
 }
 
-func (joint B2PulleyJoint) GetRatio() float64 {
+func (joint PulleyJoint) GetRatio() float64 {
 	return joint.M_ratio
 }
 
-func (joint B2PulleyJoint) GetCurrentLengthA() float64 {
+func (joint PulleyJoint) GetCurrentLengthA() float64 {
 	p := joint.M_bodyA.GetWorldPoint(joint.M_localAnchorA)
 	s := joint.M_groundAnchorA
 	d := Vec2Sub(p, s)
 	return d.Length()
 }
 
-func (joint B2PulleyJoint) GetCurrentLengthB() float64 {
+func (joint PulleyJoint) GetCurrentLengthB() float64 {
 	p := joint.M_bodyB.GetWorldPoint(joint.M_localAnchorB)
 	s := joint.M_groundAnchorB
 	d := Vec2Sub(p, s)
 	return d.Length()
 }
 
-func (joint *B2PulleyJoint) Dump() {
+func (joint *PulleyJoint) Dump() {
 	indexA := joint.M_bodyA.M_islandIndex
 	indexB := joint.M_bodyB.M_islandIndex
 
@@ -381,7 +381,7 @@ func (joint *B2PulleyJoint) Dump() {
 	fmt.Printf("  joints[%d] = m_world.CreateJoint(&jd);\n", joint.M_index)
 }
 
-func (joint *B2PulleyJoint) ShiftOrigin(newOrigin Vec2) {
+func (joint *PulleyJoint) ShiftOrigin(newOrigin Vec2) {
 	joint.M_groundAnchorA.OperatorMinusInplace(newOrigin)
 	joint.M_groundAnchorB.OperatorMinusInplace(newOrigin)
 }

@@ -1080,7 +1080,7 @@ func (world *B2World) DrawJoint(joint *Joint) {
 
 	case JointType.Pulley:
 
-		pulley := joint.(*B2PulleyJoint)
+		pulley := joint.(*PulleyJoint)
 		p1 := pulley.GetAnchorA()
 		p2 := pulley.GetAnchorB()
 

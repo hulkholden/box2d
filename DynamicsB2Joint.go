@@ -274,8 +274,8 @@ func JointCreate(def JointDefInterface) JointInterface { // def should be back b
 		assert(false)
 
 	case JointType.Pulley:
-		if typeddef, ok := def.(*B2PulleyJointDef); ok {
-			return MakeB2PulleyJoint(typeddef)
+		if typeddef, ok := def.(*PulleyJointDef); ok {
+			return MakePulleyJoint(typeddef)
 		}
 		assert(false)
 
